@@ -1,0 +1,123 @@
+.MorphBox {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  width: 100%;
+  font-size: 12px;
+  font-family: 'Roboto'
+}
+
+.MorphBox.Error {
+  background-color: darksalmon;
+}
+
+.MorphInput {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.MorphText {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 8px;
+  background-color: aqua;
+}
+
+.MorphText textarea {
+  height: 64px;
+  margin-bottom: 8px;
+}
+
+.TokenList {
+  display: flex;
+  padding: 8px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  background-color: lemonchiffon;
+}
+
+.Token {
+  cursor: default;
+  align-self: flex-start;
+  height: 1.8em;
+  border: 1px solid darkgray;
+  padding: 2px;
+  background-color: burlywood;
+  border-radius: 4px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  min-width: 8px;
+}
+
+.tkn-WhiteSpace {
+  background-color: aquamarine;
+}
+
+.tkn-PunctuationMark {
+  background-color: darkgray;
+}
+
+.tkn-LineBreak {
+  background-color: blueviolet;
+}
+
+.tkn-Other {
+  background-color: darksalmon;
+}
+
+.Token.selected {
+  filter: invert(100%);
+}
+
+.MorphOutput {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  background-color: mistyrose;
+}
+
+.MorphOutput>span {
+  border: 1px gray solid;
+  margin: 8px;
+  padding: 4px;
+  background-color: white;
+}
+
+.MorphOutputFlex {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.MorphOutputFlex>span {
+  padding: 8px;
+  text-align: left;
+}
+
+.MorphOutputFlex span div {
+  cursor: pointer;
+}
+
+.MorphOutputFlex>table {
+  border: none;
+  border-collapse: collapse;
+}
+
+.MorphOutputFlex th,td {
+  border: 1px gray solid;
+}
+
+.MorphOutputFlex td div {
+  cursor: pointer;
+}

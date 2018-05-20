@@ -1,0 +1,72 @@
+.SemanticsBox {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  width: 100%;
+  font-size: 12px;
+  font-family: 'Roboto';
+}
+
+.SemanticsBox.Error {
+  background-color: darksalmon;
+}
+
+.SemanticsInput {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.SemanticsText {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 8px;
+  background-color: greenyellow;
+}
+
+.SemanticsText textarea {
+  height: 64px;
+  margin-bottom: 8px;
+}
+
+svg {
+  display: block;
+  margin: auto;
+  padding-top: 16px;
+  font-family: 'Roboto';
+}
+
+svg rect.outerRect {
+  stroke: none;
+  fill: gray;
+}
+
+svg rect.phrase {
+  stroke: none;
+  fill: white;
+}
+
+svg rect.word {
+  stroke: none;
+  fill: aquamarine;
+}
+
+svg text {
+  fill: black;
+  font-size: 14px;
+}
+
+svg path {
+  fill: none;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+svg marker#arrow path {
+  fill: gray;
+}
