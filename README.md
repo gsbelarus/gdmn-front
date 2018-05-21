@@ -4,8 +4,10 @@
 [![All Contributors][all-contributors-badge]][all-contributors-url]
 [![PRs Welcome][prs-badge]][prs-url]
 [![Code of Conduct][coc-badge]][coc-url]
+[![styled with prettier][prettier-badge]][prettier-url]
 
 > not production-ready
+
 
 ## Getting Started
 
@@ -56,12 +58,14 @@ This project is released with a [Contributor Code of Conduct][code-of-conduct-ur
 
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
 [coc-url]: CODE_OF_CONDUCT.md
-[license-badge]: https://img.shields.io/badge/license-MIT-yellowgreen.svg?style=flat-square
+[license-badge]: https://img.shields.io/badge/license-MPL-yellowgreen.svg?style=flat-square
 [license-url]: LICENSE
-[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
+[prs-badge]: https://img.shields.io/badge/PRs-welcome-blue.svg?style=flat-square
 [prs-url]: http://makeapullrequest.com
 [all-contributors-url]: #maintainers
 [all-contributors-badge]: https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square
 [gs-url]: https://github.com/GoldenSoftwareLtd
 [contributing-url]: CONTRIBUTING.md
 [code-of-conduct-url]: CODE_OF_CONDUCT.md
+[prettier-badge]: https://img.shields.io/badge/styled_with-prettier-ff69b4.svg
+[prettier-url]: https://github.com/prettier/prettier
