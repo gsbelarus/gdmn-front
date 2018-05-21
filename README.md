@@ -56,14 +56,15 @@ This project is released with a [Contributor Code of Conduct][code-of-conduct-ur
 [MPL][license-url] © 2018 [Golden Software of Belarus, Ltd.][gs-url]
 
 
-[coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
+[coc-badge]: https://img.shields.io/badge/code%20of-conduct-yellow.svg
 [coc-url]: CODE_OF_CONDUCT.md
-[license-badge]: https://img.shields.io/badge/license-MPL-yellowgreen.svg?style=flat-square
+[license-badge]: https://img.shields.io/badge/license-MPL-yellowgreen.svg
 [license-url]: LICENSE
-[prs-badge]: https://img.shields.io/badge/PRs-welcome-blue.svg?style=flat-square
+[prs-badge]: https://img.shields.io/badge/PRs-welcome-lightgrey.svg
 [prs-url]: http://makeapullrequest.com
 [all-contributors-url]: #maintainers
-[all-contributors-badge]: https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square
+[all-contributors-badge]: https://img.shields.io/badge/all_contributors-2-blue.svg 
+<!-- https://img.shields.io/github/contributors/cdnjs/cdnjs.svg -->
 [gs-url]: https://github.com/GoldenSoftwareLtd
 [contributing-url]: CONTRIBUTING.md
 [code-of-conduct-url]: CODE_OF_CONDUCT.md

@@ -10,19 +10,17 @@ type Dispatch = ReduxDispatch<ERMAction>;
 
 export default connect(
   (state: State) => ({ ...state.ermodel }),
-  (dispatch: Dispatch) => (
-    {
-      onLoad: () => {
-        fetch('http://localhost:4000/er')
-        .then( res => {
+  (dispatch: Dispatch) => ({
+    onLoad: () => {
+      fetch('http://localhost:4000/er')
+        .then(res => {
           return res.text();
         })
-        .then( res => JSON.parse(res) )
-        .then( res => {
+        .then(res => JSON.parse(res))
+        .then(res => {
           return dispatch(actions.loadERModel(deserializeERModel(res as IERModel)));
-          })
-        .catch( err => dispatch(actions.loadERModelError(JSON.stringify(err))) );
-      }
+        })
+        .catch(err => dispatch(actions.loadERModelError(JSON.stringify(err))));
     }
-  )
+  })
 )(ERModelBox);

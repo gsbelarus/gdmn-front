@@ -2,11 +2,10 @@ import * as React from 'react';
 
 type ErrorBoundaryState = {
   hasError: boolean;
-  error: Error | null
+  error: Error | null;
 };
 
 export class ErrorBoundary extends React.Component<any, ErrorBoundaryState> {
-
   state: ErrorBoundaryState = {
     hasError: false,
     error: null

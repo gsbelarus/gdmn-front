@@ -5,7 +5,7 @@
   justify-content: center;
   width: 100%;
   font-size: 12px;
-  font-family: 'Roboto'
+  font-family: 'Roboto';
 }
 
 .MorphBox.Error {
@@ -87,7 +87,7 @@
   background-color: mistyrose;
 }
 
-.MorphOutput>span {
+.MorphOutput > span {
   border: 1px gray solid;
   margin: 8px;
   padding: 4px;
@@ -100,7 +100,7 @@
   justify-content: center;
 }
 
-.MorphOutputFlex>span {
+.MorphOutputFlex > span {
   padding: 8px;
   text-align: left;
 }
@@ -109,12 +109,13 @@
   cursor: pointer;
 }
 
-.MorphOutputFlex>table {
+.MorphOutputFlex > table {
   border: none;
   border-collapse: collapse;
 }
 
-.MorphOutputFlex th,td {
+.MorphOutputFlex th,
+td {
   border: 1px gray solid;
 }
 

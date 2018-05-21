@@ -1,3 +1,5 @@
+import 'styles/global.css';
+
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withStyles, StyleRulesCallback, WithStyles } from '@material-ui/core/styles';
@@ -9,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import withRoot from './withRoot';
 import { Link, Route, BrowserRouter, Switch } from 'react-router-dom';
-import { ErrorBoundary } from './components/errorBoundary';
+import { ErrorBoundary } from './components/errorBoundary/index';
 import MorphBoxContainer from './morphology/container';
 import SemanticsBoxContainer from './semantics/container';
 import ERModelContainer from './ermodel/container';
@@ -17,7 +19,7 @@ import ERModelContainer from './ermodel/container';
 const styles: StyleRulesCallback<'root' | 'button'> = theme => ({
   root: {
     textAlign: 'center',
-    paddingTop: theme.spacing.unit * 20,
+    paddingTop: theme.spacing.unit * 20
   },
   button: {
     margin: theme.spacing.unit,
@@ -33,16 +35,22 @@ class App extends React.Component<WithStyles<'root' | 'button'>, {}> {
         <div className={root}>
           <AppBar>
             <Toolbar>
-              <Link to="/morphology"><Button className={button}>Morphology</Button></Link>
-              <Link to="/semantics"><Button className={button}>Semantics</Button></Link>
-              <Link to="/ermodel"><Button className={button}>ERModel</Button></Link>
+              <Link to="/morphology">
+                <Button className={button}>Morphology</Button>
+              </Link>
+              <Link to="/semantics">
+                <Button className={button}>Semantics</Button>
+              </Link>
+              <Link to="/ermodel">
+                <Button className={button}>ERModel</Button>
+              </Link>
             </Toolbar>
           </AppBar>
           <ErrorBoundary>
             <Switch>
-              <Route exact={true} path="/morphology" render={() => (<MorphBoxContainer />)} />
-              <Route exact={true} path="/semantics" render={() => (<SemanticsBoxContainer />)} />
-              <Route exact={true} path="/ermodel" render={() => (<ERModelContainer />)} />
+              <Route exact={true} path="/morphology" render={() => <MorphBoxContainer />} />
+              <Route exact={true} path="/semantics" render={() => <SemanticsBoxContainer />} />
+              <Route exact={true} path="/ermodel" render={() => <ERModelContainer />} />
             </Switch>
           </ErrorBoundary>
         </div>

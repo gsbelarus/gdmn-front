@@ -1,5 +1,6 @@
+import 'styles/semanticsBox.css';
+
 import * as React from 'react';
-import './semanticsBox.css';
 import { Phrase, Word } from 'gdmn-nlp';
 import { graphlib, layout } from 'dagre';
 import { Rect } from './rect';
@@ -26,38 +27,32 @@ export class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
       g.setGraph({});
 
       // Default to assigning a new object as a label for each new edge.
-      g.setDefaultEdgeLabel(function() { return {}; });
+      g.setDefaultEdgeLabel(function() {
+        return {};
+      });
 
       const recurs = (phr: Word | Phrase) => {
         if (phr instanceof Phrase) {
           const label = phr.constructor.name;
-          g.setNode(
-            phr.id.toString(),
-            {
-              label,
-              width: label.length * 9 + 8,
-              height: 26,
-              className: 'phrase'
-            }
-          );
-          phr.items.forEach(
-          p => {
+          g.setNode(phr.id.toString(), {
+            label,
+            width: label.length * 9 + 8,
+            height: 26,
+            className: 'phrase'
+          });
+          phr.items.forEach(p => {
             g.setEdge(phr.id.toString(), p.id.toString());
             recurs(p);
-          }
-          );
+          });
         } else {
           const label = phr.getText();
-          g.setNode(
-            phr.id.toString(),
-            {
-              label,
-              width: label.length * 9 + 8,
-              height: 26,
-              className: 'word',
-              rank: 'min'
-            }
-          );
+          g.setNode(phr.id.toString(), {
+            label,
+            width: label.length * 9 + 8,
+            height: 26,
+            className: 'word',
+            rank: 'min'
+          });
         }
       };
 
@@ -74,15 +69,15 @@ export class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
       if (nd) {
         const x = nd.x - nd.width / 2;
         const y = nd.y - nd.height / 2;
-        return <Rect key={idx} x={x} y={y} width={nd.width} height={nd.height} text={nd.label} className={nd.className} />;
+        return (
+          <Rect key={idx} x={x} y={y} width={nd.width} height={nd.height} text={nd.label} className={nd.className} />
+        );
       } else {
         return null;
       }
     };
 
-    const makeEdge = (e: dagre.Edge, idx: number) => (
-      <Edge key={idx} points={g.edge(e).points} />
-    );
+    const makeEdge = (e: dagre.Edge, idx: number) => <Edge key={idx} points={g.edge(e).points} />;
 
     return (
       <div>
@@ -93,20 +88,14 @@ export class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onSetText(e.currentTarget.value)}
             />
             <div className="SemanticsTextButtons">
-              <button onClick={onClearText}>
-                Clear
-              </button>
-              <button onClick={() => onParse(text)}>
-                Parse
-              </button>
+              <button onClick={onClearText}>Clear</button>
+              <button onClick={() => onParse(text)}>Parse</button>
             </div>
           </div>
         </div>
-        <div className="SemanticsOutput">
-          {parsedText.map( (p, idx) => <div key={idx}>{p}</div> )}
-        </div>
+        <div className="SemanticsOutput">{parsedText.map((p, idx) => <div key={idx}>{p}</div>)}</div>
         <div>
-          {g.graph() ?
+          {g.graph() ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={g.graph().width}
@@ -125,7 +114,7 @@ export class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
                   markerHeight="6"
                   orient="auto"
                 >
-                  <path d="M 0 0 L 10 5 L 0 10 Z" style={{strokeWidth: '1'}} />
+                  <path d="M 0 0 L 10 5 L 0 10 Z" style={{ strokeWidth: '1' }} />
                 </marker>
               </defs>
               <g>
@@ -133,7 +122,7 @@ export class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
                 {g.edges().map((e, idx) => makeEdge(e, idx))}
               </g>
             </svg>
-            : null}
+          ) : null}
         </div>
       </div>
     );

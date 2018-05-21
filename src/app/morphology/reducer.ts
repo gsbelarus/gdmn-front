@@ -28,22 +28,19 @@ export default function reducer(state: State = initialState, action: MorphAction
       let selectedToken = state.selectedToken;
       if (selectedToken === -1 && tokens.length) {
         selectedToken = 0;
-      }
-      else if (selectedToken >= tokens.length) {
+      } else if (selectedToken >= tokens.length) {
         selectedToken = tokens.length - 1;
       }
       let words: Words = [];
       if (selectedToken > -1 && tokens[selectedToken].tokenType === RusWord) {
         words = morphAnalyzer(tokens[selectedToken].image);
       }
-      return (
-        {
-          text: action.payload,
-          tokens,
-          selectedToken,
-          words
-        }
-      );
+      return {
+        text: action.payload,
+        tokens,
+        selectedToken,
+        words
+      };
     }
 
     case getType(actions.setSelectedToken): {
@@ -55,13 +52,11 @@ export default function reducer(state: State = initialState, action: MorphAction
       if (selectedToken > -1 && state.tokens[selectedToken].tokenType === RusWord) {
         words = morphAnalyzer(state.tokens[selectedToken].image);
       }
-      return (
-        {
-          ...state,
-          selectedToken,
-          words
-        }
-      );
+      return {
+        ...state,
+        selectedToken,
+        words
+      };
     }
 
     default:

@@ -14,12 +14,8 @@ export class ERModelBox extends React.Component<ERModelBoxProps, {}> {
 
     return (
       <div>
-        <div>
-          {err}
-        </div>
-        <div>
-          {`загружено сущностей: ${Object.entries(erModel.entities).length}`}
-        </div>
+        <div>{err}</div>
+        <div>{`загружено сущностей: ${Object.entries(erModel.entities).length}`}</div>
         <Button onClick={onLoad}>Загрузить</Button>
       </div>
     );

@@ -1,10 +1,31 @@
+import 'styles/morphBox.css';
+
 import * as React from 'react';
-import './morphBox.css';
 import * as classNames from 'classnames';
-import { Word, Words, RusVerb, RusVerbLexeme, RusTense, RusGender, RusMood,
-  RusAspect, Involvement, RusCase, RusVerbMorphSigns, RusNounMorphSigns,
-  RusAdjectiveMorphSigns, RusNoun, RusNounLexeme, RusAdjective, RusAdjectiveLexeme,
-  RusPreposition, RusPronoun, RusPronounLexeme, RusConjunction, WhiteSpace } from 'gdmn-nlp';
+import {
+  Word,
+  Words,
+  RusVerb,
+  RusVerbLexeme,
+  RusTense,
+  RusGender,
+  RusMood,
+  RusAspect,
+  Involvement,
+  RusCase,
+  RusVerbMorphSigns,
+  RusNounMorphSigns,
+  RusAdjectiveMorphSigns,
+  RusNoun,
+  RusNounLexeme,
+  RusAdjective,
+  RusAdjectiveLexeme,
+  RusPreposition,
+  RusPronoun,
+  RusPronounLexeme,
+  RusConjunction,
+  WhiteSpace
+} from 'gdmn-nlp';
 import { IToken } from 'chevrotain';
 
 export interface MorphBoxProps {
@@ -25,12 +46,23 @@ export interface MorphBoxProps {
 
 export class MorphBox extends React.Component<MorphBoxProps, {}> {
   render() {
-    const { text, tokens, words, selectedToken, onSetText, onClearText,
-      onSetVerbs, onSetNouns, onSetAdjectives, onSetPrepositions,
-      onSetPronouns, onSetConjunctions } = this.props;
+    const {
+      text,
+      tokens,
+      words,
+      selectedToken,
+      onSetText,
+      onClearText,
+      onSetVerbs,
+      onSetNouns,
+      onSetAdjectives,
+      onSetPrepositions,
+      onSetPronouns,
+      onSetConjunctions
+    } = this.props;
 
     return (
-      <div className={'MorphBox' + (text === tokens.reduce( (p, c) => p + c.image, '') ? '' : ' Error')}>
+      <div className={'MorphBox' + (text === tokens.reduce((p, c) => p + c.image, '') ? '' : ' Error')}>
         <div className="MorphInput">
           <div className="MorphText">
             <textarea
@@ -38,55 +70,37 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onSetText(e.currentTarget.value)}
             />
             <div className="MorphTextButtons">
-              <button onClick={onClearText}>
-                Clear
-              </button>
-              <button onClick={onSetNouns}>
-                Nouns
-              </button>
-              <button onClick={onSetVerbs}>
-                Verbs
-              </button>
-              <button onClick={onSetAdjectives}>
-                Adjs
-              </button>
-              <button onClick={onSetPrepositions}>
-                Preps
-              </button>
-              <button onClick={onSetPronouns}>
-                Pron
-              </button>
-              <button onClick={onSetConjunctions}>
-                Conj
-              </button>
+              <button onClick={onClearText}>Clear</button>
+              <button onClick={onSetNouns}>Nouns</button>
+              <button onClick={onSetVerbs}>Verbs</button>
+              <button onClick={onSetAdjectives}>Adjs</button>
+              <button onClick={onSetPrepositions}>Preps</button>
+              <button onClick={onSetPronouns}>Pron</button>
+              <button onClick={onSetConjunctions}>Conj</button>
             </div>
           </div>
           <div className="TokenList">
-            {tokens.map( (t, idx) =>
+            {tokens.map((t, idx) => (
               <span
-                className={classNames('Token', 'tkn-' + t.tokenType!.tokenName, {selected: idx === selectedToken})}
+                className={classNames('Token', 'tkn-' + t.tokenType!.tokenName, { selected: idx === selectedToken })}
                 key={idx}
                 onClick={(e: React.MouseEvent<HTMLSpanElement>) => this.props.onClickToken(idx)}
               >
                 {t.tokenType === WhiteSpace ? t.image.replace(' ', String.fromCharCode(9251)) : t.image}
-              </span> )
-            }
+              </span>
+            ))}
           </div>
         </div>
         <div className="MorphOutput">
-          {words.map( (w, idx) =>
+          {words.map((w, idx) => (
             <span key={idx}>
               <div>
-                <div>
-                  {w.getDisplayText()}
-                </div>
-                <div>
-                  {w.getSignature()}
-                </div>
+                <div>{w.getDisplayText()}</div>
+                <div>{w.getSignature()}</div>
               </div>
               {this.formatWordForms(w, onSetText)}
-            </span> )
-          }
+            </span>
+          ))}
         </div>
       </div>
     );
@@ -131,27 +145,15 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
         if (l.hasShortForm()) {
           return (
             <tr>
-              <th colSpan={2}>
-                Кратк. форма
-              </th>
-              <td>
-                {f({ singular: true, gender: RusGender.Masc, short: true })}
-              </td>
-              <td>
-                {f({ singular: true, gender: RusGender.Neut, short: true })}
-              </td>
-              <td>
-                {f({ singular: true, gender: RusGender.Femn, short: true })}
-              </td>
-              <td>
-                {f({ singular: false, short: true })}
-              </td>
+              <th colSpan={2}>Кратк. форма</th>
+              <td>{f({ singular: true, gender: RusGender.Masc, short: true })}</td>
+              <td>{f({ singular: true, gender: RusGender.Neut, short: true })}</td>
+              <td>{f({ singular: true, gender: RusGender.Femn, short: true })}</td>
+              <td>{f({ singular: false, short: true })}</td>
             </tr>
           );
         } else {
-          return (
-            null
-          );
+          return null;
         }
       };
 
@@ -163,141 +165,63 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
                 <th rowSpan={2} colSpan={2}>
                   падеж
                 </th>
-                <th colSpan={3}>
-                  ед. ч.
-                </th>
-                <th rowSpan={2}>
-                  мн. ч.
-                </th>
+                <th colSpan={3}>ед. ч.</th>
+                <th rowSpan={2}>мн. ч.</th>
               </tr>
               <tr>
-                <th>
-                  муж.р.
-                </th>
-                <th>
-                  ср.р.
-                </th>
-                <th>
-                  жен.р.
-                </th>
+                <th>муж.р.</th>
+                <th>ср.р.</th>
+                <th>жен.р.</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th colSpan={2}>
-                  Им.
-                </th>
-                <td>
-                  {f({ c: RusCase.Nomn, singular: true, gender: RusGender.Masc })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Nomn, singular: true, gender: RusGender.Neut })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Nomn, singular: true, gender: RusGender.Femn })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Nomn, singular: false })}
-                </td>
+                <th colSpan={2}>Им.</th>
+                <td>{f({ c: RusCase.Nomn, singular: true, gender: RusGender.Masc })}</td>
+                <td>{f({ c: RusCase.Nomn, singular: true, gender: RusGender.Neut })}</td>
+                <td>{f({ c: RusCase.Nomn, singular: true, gender: RusGender.Femn })}</td>
+                <td>{f({ c: RusCase.Nomn, singular: false })}</td>
               </tr>
               <tr>
-                <th colSpan={2}>
-                  Рд.
-                </th>
-                <td>
-                  {f({ c: RusCase.Gent, singular: true, gender: RusGender.Masc })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Gent, singular: true, gender: RusGender.Neut })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Gent, singular: true, gender: RusGender.Femn })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Gent, singular: false })}
-                </td>
+                <th colSpan={2}>Рд.</th>
+                <td>{f({ c: RusCase.Gent, singular: true, gender: RusGender.Masc })}</td>
+                <td>{f({ c: RusCase.Gent, singular: true, gender: RusGender.Neut })}</td>
+                <td>{f({ c: RusCase.Gent, singular: true, gender: RusGender.Femn })}</td>
+                <td>{f({ c: RusCase.Gent, singular: false })}</td>
               </tr>
               <tr>
-                <th colSpan={2}>
-                  Дт.
-                </th>
-                <td>
-                  {f({ c: RusCase.Datv, singular: true, gender: RusGender.Masc })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Datv, singular: true, gender: RusGender.Neut })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Datv, singular: true, gender: RusGender.Femn })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Datv, singular: false })}
-                </td>
+                <th colSpan={2}>Дт.</th>
+                <td>{f({ c: RusCase.Datv, singular: true, gender: RusGender.Masc })}</td>
+                <td>{f({ c: RusCase.Datv, singular: true, gender: RusGender.Neut })}</td>
+                <td>{f({ c: RusCase.Datv, singular: true, gender: RusGender.Femn })}</td>
+                <td>{f({ c: RusCase.Datv, singular: false })}</td>
               </tr>
               <tr>
-                <th rowSpan={2}>
-                  Вн.
-                </th>
-                <th>
-                  одуш.
-                </th>
-                <td>
-                  {f({ c: RusCase.Accs, singular: true, gender: RusGender.Masc, animate: true })}
-                </td>
-                <td rowSpan={2}>
-                  {f({ c: RusCase.Accs, singular: true, gender: RusGender.Neut })}
-                </td>
-                <td rowSpan={2}>
-                  {f({ c: RusCase.Accs, singular: true, gender: RusGender.Femn })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Accs, singular: false, animate: true })}
-                </td>
+                <th rowSpan={2}>Вн.</th>
+                <th>одуш.</th>
+                <td>{f({ c: RusCase.Accs, singular: true, gender: RusGender.Masc, animate: true })}</td>
+                <td rowSpan={2}>{f({ c: RusCase.Accs, singular: true, gender: RusGender.Neut })}</td>
+                <td rowSpan={2}>{f({ c: RusCase.Accs, singular: true, gender: RusGender.Femn })}</td>
+                <td>{f({ c: RusCase.Accs, singular: false, animate: true })}</td>
               </tr>
               <tr>
-                <th>
-                  неодуш.
-                </th>
-                <td>
-                  {f({ c: RusCase.Accs, singular: true, gender: RusGender.Masc, animate: false })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Accs, singular: false, animate: false })}
-                </td>
+                <th>неодуш.</th>
+                <td>{f({ c: RusCase.Accs, singular: true, gender: RusGender.Masc, animate: false })}</td>
+                <td>{f({ c: RusCase.Accs, singular: false, animate: false })}</td>
               </tr>
               <tr>
-                <th colSpan={2}>
-                  Тв.
-                </th>
-                <td>
-                  {f({ c: RusCase.Ablt, singular: true, gender: RusGender.Masc })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Ablt, singular: true, gender: RusGender.Neut })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Ablt, singular: true, gender: RusGender.Femn })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Ablt, singular: false })}
-                </td>
+                <th colSpan={2}>Тв.</th>
+                <td>{f({ c: RusCase.Ablt, singular: true, gender: RusGender.Masc })}</td>
+                <td>{f({ c: RusCase.Ablt, singular: true, gender: RusGender.Neut })}</td>
+                <td>{f({ c: RusCase.Ablt, singular: true, gender: RusGender.Femn })}</td>
+                <td>{f({ c: RusCase.Ablt, singular: false })}</td>
               </tr>
               <tr>
-                <th colSpan={2}>
-                  Пр.
-                </th>
-                <td>
-                  {f({ c: RusCase.Loct, singular: true, gender: RusGender.Masc })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Loct, singular: true, gender: RusGender.Neut })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Loct, singular: true, gender: RusGender.Femn })}
-                </td>
-                <td>
-                  {f({ c: RusCase.Loct, singular: false })}
-                </td>
+                <th colSpan={2}>Пр.</th>
+                <td>{f({ c: RusCase.Loct, singular: true, gender: RusGender.Masc })}</td>
+                <td>{f({ c: RusCase.Loct, singular: true, gender: RusGender.Neut })}</td>
+                <td>{f({ c: RusCase.Loct, singular: true, gender: RusGender.Femn })}</td>
+                <td>{f({ c: RusCase.Loct, singular: false })}</td>
               </tr>
               {getShortForm()}
             </tbody>
@@ -329,9 +253,7 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
               <tbody>
                 <tr>
                   <th>Я</th>
-                  <td>
-                    {f({ tense: RusTense.Futr, singular: true, person: 1, mood: RusMood.Indc })}
-                  </td>
+                  <td>{f({ tense: RusTense.Futr, singular: true, person: 1, mood: RusMood.Indc })}</td>
                   <td>
                     {f({ tense: RusTense.Past, singular: true, gender: RusGender.Masc, mood: RusMood.Indc })}
                     {f({ tense: RusTense.Past, singular: true, gender: RusGender.Femn, mood: RusMood.Indc })}
@@ -350,7 +272,9 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
                   </td>
                 </tr>
                 <tr>
-                  <th>Он<br/>Она<br/>Оно</th>
+                  <th>
+                    Он<br />Она<br />Оно
+                  </th>
                   <td>{f({ tense: RusTense.Futr, singular: true, person: 3, mood: RusMood.Indc })}</td>
                   <td>
                     {f({ tense: RusTense.Past, singular: true, gender: RusGender.Masc, mood: RusMood.Indc })}
@@ -418,7 +342,9 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
                 </td>
               </tr>
               <tr>
-                <th>Он<br/>Она<br/>Оно</th>
+                <th>
+                  Он<br />Она<br />Оно
+                </th>
                 <td>{f({ tense: RusTense.Pres, singular: true, person: 3, mood: RusMood.Indc })}</td>
                 <td>
                   {f({ tense: RusTense.Past, singular: true, gender: RusGender.Masc, mood: RusMood.Indc })}
@@ -476,12 +402,12 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
               {f({ c: RusCase.Loct, singular: true })}
             </span>
             <span>
-              {f({ c: RusCase.Nomn, singular: false})}
-              {f({ c: RusCase.Gent, singular: false})}
-              {f({ c: RusCase.Datv, singular: false})}
-              {f({ c: RusCase.Accs, singular: false})}
-              {f({ c: RusCase.Ablt, singular: false})}
-              {f({ c: RusCase.Loct, singular: false})}
+              {f({ c: RusCase.Nomn, singular: false })}
+              {f({ c: RusCase.Gent, singular: false })}
+              {f({ c: RusCase.Datv, singular: false })}
+              {f({ c: RusCase.Accs, singular: false })}
+              {f({ c: RusCase.Ablt, singular: false })}
+              {f({ c: RusCase.Loct, singular: false })}
             </span>
           </div>
         );

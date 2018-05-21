@@ -19,6 +19,6 @@ export default connect(
     onClearText: () => dispatch(actions.setSemText('')),
     onParse: (text: string) => {
       dispatch(actions.setParsedText(parsePhrase(text)));
-    },
+    }
   })
 )(SemanticsBox);

@@ -21,22 +21,18 @@ export const initialState: State = {
 export default function reducer(state: State = initialState, action: SemAction): State {
   switch (action.type) {
     case getType(semActions.setSemText): {
-      return (
-        {
-          ...state,
-          text: action.payload,
-        }
-      );
+      return {
+        ...state,
+        text: action.payload
+      };
     }
 
     case getType(semActions.setParsedText): {
-      return (
-        {
-          ...state,
-          parsedText: action.payload.parsedText,
-          phrase: action.payload.phrase
-        }
-      );
+      return {
+        ...state,
+        parsedText: action.payload.parsedText,
+        phrase: action.payload.phrase
+      };
     }
 
     default:

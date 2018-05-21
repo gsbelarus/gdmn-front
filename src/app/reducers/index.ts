@@ -9,12 +9,10 @@ export type State = {
   ermodel: ERModelState;
 };
 
-const rootReducer = combineReducers<State>(
-  {
-    morphology,
-    semantics,
-    ermodel
-  }
-);
+const rootReducer = combineReducers<State>({
+  morphology,
+  semantics,
+  ermodel
+});
 
 export default rootReducer;
