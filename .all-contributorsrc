@@ -1,0 +1,27 @@
+{
+  "projectName": "gdmn-front",
+  "projectOwner": "gsbelarus",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "gsbelarus",
+      "name": "Andrej Kirejeŭ",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5175764?s=460&v=4",
+      "profile": "https://github.com/gsbelarus",
+      "contributions": [
+      ]
+    },
+    {
+       "login": "punkusha",
+       "name": "Marina Karpukhina",
+       "avatar_url": "https://avatars1.githubusercontent.com/u/1927489?s=460&v=4",
+       "profile": "https://github.com/punkusha",
+       "contributions": [
+       ]
+     }
+  ]
+}
