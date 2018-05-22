@@ -1,7 +1,7 @@
 import { Dispatch as ReduxDispatch } from 'redux';
 import { connect } from 'react-redux';
 import { State } from '../../rootReducer';
-import { ERModelBox } from './components/erModelBox';
+import { ERModelBox } from './component';
 import * as actions from './actions';
 import { ERMAction } from './reducer';
 import { deserializeERModel, IERModel } from 'gdmn-orm';
@@ -12,7 +12,7 @@ export default connect(
   (state: State) => ({ ...state.ermodel }),
   (dispatch: Dispatch) => ({
     onLoad: () => {
-      fetch('http://localhost:4000/er')
+      fetch('http://localhost:4000/er') // FIXME
         .then(res => {
           return res.text();
         })

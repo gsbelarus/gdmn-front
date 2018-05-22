@@ -19,7 +19,7 @@ function getConfiguration(outputFilename, outputChunkFilename) {
   return {
     entry: {
       app: [
-        //`webpack-dev-server/client?http://${'localhost'}:${9091}`,
+        //`webpack-dev-server/client?http://${'localhost'}:${9090}`,
         ENTRY_APP_TS
       ]
     },

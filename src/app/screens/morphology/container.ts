@@ -1,7 +1,7 @@
 import { Dispatch as ReduxDispatch } from 'redux';
 import { connect } from 'react-redux';
 import { State } from '../../rootReducer';
-import { MorphBox } from './components/morphBox';
+import { MorphBox } from './component';
 import * as actions from './actions';
 import {
   RusAdjectiveLexemes,

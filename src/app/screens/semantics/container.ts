@@ -1,7 +1,7 @@
 import { Dispatch as ReduxDispatch } from 'redux';
 import { connect } from 'react-redux';
 import { State } from '../../rootReducer';
-import { SemanticsBox } from './components/semanticsBox';
+import { SemanticsBox } from './component';
 import { parsePhrase } from 'gdmn-nlp';
 import { SemAction } from './reducer';
 import * as actions from './actions';

@@ -3,8 +3,8 @@ import 'styles/modules/semanticsBox.css';
 import * as React from 'react';
 import { Phrase, Word } from 'gdmn-nlp';
 import { graphlib, layout } from 'dagre';
-import { Rect } from './rect';
-import { Edge } from './edge';
+import { Rect } from './components/rect';
+import { Edge } from './components/edge';
 
 export interface SemanticsBoxProps {
   readonly text: string;

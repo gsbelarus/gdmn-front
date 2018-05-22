@@ -9,7 +9,7 @@ import { getRootRelativePath } from './utils';
 const OUTPUT_FILENAME = 'scripts/[name].bundle.js';
 const OUTPUT_CHUNK_FILENAME = 'scripts/[name].chunk.js';
 const DEV_SERVER_HOST = 'localhost';
-const DEV_SERVER_PORT = 9091;
+const DEV_SERVER_PORT = 9090;
 const STYLES_PATH = getRootRelativePath('src/styles');
 const MODULE_STYLES_PATH = getRootRelativePath('src');
 const TS_CONFIG_FILE = 'tsconfig-develop.json';

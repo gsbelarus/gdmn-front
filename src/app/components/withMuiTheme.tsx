@@ -10,8 +10,11 @@ const theme = createMuiTheme({
   }
 });
 
-function withRoot(Component: React.ComponentType) {
-  function WithRoot(props: object) {
+function withMuiTheme(Component: any) { // TODO type component
+
+  // FIXME displayName
+
+  function WithMuiTheme(props: object) {
     return (
       <MuiThemeProvider theme={theme}>
         <Component {...props} />
@@ -19,7 +22,7 @@ function withRoot(Component: React.ComponentType) {
     );
   }
 
-  return WithRoot;
+  return WithMuiTheme;
 }
 
-export default withRoot;
+export default withMuiTheme;

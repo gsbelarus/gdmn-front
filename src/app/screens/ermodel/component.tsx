@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ERModel } from 'gdmn-orm';
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 export interface ERModelBoxProps {
   readonly erModel: ERModel;
