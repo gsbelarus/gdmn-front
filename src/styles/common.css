@@ -1,0 +1,14 @@
+.clearfix::before,
+.clearfix::after {
+  content: " ";
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+.flex {
+  display: flex;
+  flex-flow: column wrap;
+}

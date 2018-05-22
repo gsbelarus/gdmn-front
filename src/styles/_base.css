@@ -1,0 +1,24 @@
+a,
+a:hover,
+a:visited,
+a:link {
+  color: inherit;
+  text-decoration: none;
+}
+
+b,
+strong {
+  font-weight: 700;
+}
+
+html,
+body,
+.react-root {
+  height: 100%; /*100vh*/
+}
+
+body {
+  font-size: 14px;
+  line-height: 20px;
+  text-rendering: optimizeLegibility;
+}

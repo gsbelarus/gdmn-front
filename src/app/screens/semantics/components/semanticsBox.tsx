@@ -1,4 +1,4 @@
-import 'styles/semanticsBox.css';
+import 'styles/modules/semanticsBox.css';
 
 import * as React from 'react';
 import { Phrase, Word } from 'gdmn-nlp';

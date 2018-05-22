@@ -1,4 +1,4 @@
-import 'styles/morphBox.css';
+import 'styles/modules/morphBox.css';
 
 import * as React from 'react';
 import * as classNames from 'classnames';
