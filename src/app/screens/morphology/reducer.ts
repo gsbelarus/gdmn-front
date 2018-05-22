@@ -1,5 +1,5 @@
 import * as actions from './actions';
-import { tokenize, Words, morphAnalyzer, RusWord } from 'gdmn-nlp';
+import { morphAnalyzer, RusWord, tokenize, Words } from 'gdmn-nlp';
 import { IToken } from 'chevrotain';
 import { ActionType, getType } from 'typesafe-actions';
 

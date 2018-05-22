@@ -3,28 +3,28 @@ import 'styles/morphBox.css';
 import * as React from 'react';
 import * as classNames from 'classnames';
 import {
-  Word,
-  Words,
-  RusVerb,
-  RusVerbLexeme,
-  RusTense,
-  RusGender,
-  RusMood,
-  RusAspect,
   Involvement,
-  RusCase,
-  RusVerbMorphSigns,
-  RusNounMorphSigns,
-  RusAdjectiveMorphSigns,
-  RusNoun,
-  RusNounLexeme,
   RusAdjective,
   RusAdjectiveLexeme,
+  RusAdjectiveMorphSigns,
+  RusAspect,
+  RusCase,
+  RusConjunction,
+  RusGender,
+  RusMood,
+  RusNoun,
+  RusNounLexeme,
+  RusNounMorphSigns,
   RusPreposition,
   RusPronoun,
   RusPronounLexeme,
-  RusConjunction,
-  WhiteSpace
+  RusTense,
+  RusVerb,
+  RusVerbLexeme,
+  RusVerbMorphSigns,
+  WhiteSpace,
+  Word,
+  Words
 } from 'gdmn-nlp';
 import { IToken } from 'chevrotain';
 

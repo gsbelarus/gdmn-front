@@ -1,21 +1,21 @@
 import { Dispatch as ReduxDispatch } from 'redux';
 import { connect } from 'react-redux';
-import { State } from '../reducers';
+import { State } from '../../rootReducer';
 import { MorphBox } from './components/morphBox';
 import * as actions from './actions';
 import {
-  RusVerbLexemes,
-  RusNounLexemes,
-  RusCase,
-  RusGender,
   RusAdjectiveLexemes,
+  RusCase,
+  RusConjunctionLexemes,
+  RusGender,
+  RusNounLexemes,
   rusPrepositions,
   RusPronounLexemes,
-  RusConjunctionLexemes
+  RusVerbLexemes
 } from 'gdmn-nlp';
 import { MorphAction } from './reducer';
 
-type Dispatch = ReduxDispatch<MorphAction>;
+type Dispatch = ReduxDispatch<MorphAction, State>; // TODO test THUNK <_, State>
 
 export default connect(
   (state: State) => ({

@@ -1,12 +1,12 @@
 import { Dispatch as ReduxDispatch } from 'redux';
 import { connect } from 'react-redux';
-import { State } from '../reducers';
+import { State } from '../../rootReducer';
 import { SemanticsBox } from './components/semanticsBox';
 import { parsePhrase } from 'gdmn-nlp';
 import { SemAction } from './reducer';
 import * as actions from './actions';
 
-type Dispatch = ReduxDispatch<SemAction>;
+type SemActionDispatch = ReduxDispatch<SemAction, State>; // TODO test THUNK <_, State>
 
 export default connect(
   (state: State) => ({
@@ -14,11 +14,9 @@ export default connect(
     parsedText: state.semantics.parsedText,
     phrase: state.semantics.phrase
   }),
-  (dispatch: Dispatch) => ({
+  (dispatch: SemActionDispatch) => ({
     onSetText: (text: string) => dispatch(actions.setSemText(text)),
     onClearText: () => dispatch(actions.setSemText('')),
-    onParse: (text: string) => {
-      dispatch(actions.setParsedText(parsePhrase(text)));
-    }
+    onParse: (text: string) => dispatch(actions.setParsedText(parsePhrase(text)))
   })
 )(SemanticsBox);

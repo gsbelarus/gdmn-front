@@ -1,12 +1,12 @@
 import { Dispatch as ReduxDispatch } from 'redux';
 import { connect } from 'react-redux';
-import { State } from '../reducers';
+import { State } from '../../rootReducer';
 import { ERModelBox } from './components/erModelBox';
 import * as actions from './actions';
 import { ERMAction } from './reducer';
 import { deserializeERModel, IERModel } from 'gdmn-orm';
 
-type Dispatch = ReduxDispatch<ERMAction>;
+type Dispatch = ReduxDispatch<ERMAction, State>; // TODO test THUNK <_, State>
 
 export default connect(
   (state: State) => ({ ...state.ermodel }),

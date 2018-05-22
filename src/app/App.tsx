@@ -2,19 +2,16 @@ import 'styles/global.css';
 
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { withStyles, StyleRulesCallback, WithStyles } from '@material-ui/core/styles';
+import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import withRoot from './withRoot';
-import { Link, Route, BrowserRouter, Switch } from 'react-router-dom';
-import { ErrorBoundary } from './components/errorBoundary/index';
-import MorphBoxContainer from './morphology/container';
-import SemanticsBoxContainer from './semantics/container';
-import ERModelContainer from './ermodel/container';
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { ErrorBoundary } from './components/errorBoundary';
+import MorphBoxContainer from './screens/morphology/container';
+import SemanticsBoxContainer from './screens/semantics/container';
+import ERModelContainer from './screens/ermodel/container';
 
 const styles: StyleRulesCallback<'root' | 'button'> = theme => ({
   root: {
