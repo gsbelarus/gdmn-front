@@ -12,6 +12,7 @@ const DEV_SERVER_HOST = 'localhost';
 const DEV_SERVER_PORT = 9091;
 const STYLES_PATH = getRootRelativePath('src/styles');
 const MODULE_STYLES_PATH = getRootRelativePath('src');
+const TS_CONFIG_FILE = 'tsconfig-develop.json';
 
 const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
   // entry: {
@@ -56,6 +57,25 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
   module: {
     rules: [
       {
+        test: /\.(ts|tsx)$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              babelrc: false,
+              // cacheDirectory: true,
+              plugins: ['react-hot-loader/babel']
+            }
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: TS_CONFIG_FILE
+            }
+          }
+        ]
+      },
+      {
         test: /\.css$/,
         include: STYLES_PATH,
         use: ['style-loader', { loader: 'css-loader', options: { sourceMap: true } }]
@@ -84,7 +104,7 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
       NODE_ENV: 'development'
     }),
     // TODO notifierPlugin
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(), // TODO test hot: true
     new webpack.NamedModulesPlugin()
   ]
 });

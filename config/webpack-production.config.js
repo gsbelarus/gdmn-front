@@ -11,10 +11,14 @@ const OUTPUT_CHUNK_FILENAME = 'scripts/[name].[chunkhash].chunk.js';
 const EXTRACT_CSS_FILENAME = 'styles/[name].[chunkhash].css';
 const STYLES_PATH = getRootRelativePath('src/styles');
 
-const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
+const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME, 'tsconfig-develop.json'), {
   devtool: 'source-map',
   module: {
     rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        use: ['ts-loader']
+      },
       {
         test: /\.css$/,
         include: STYLES_PATH,

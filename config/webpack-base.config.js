@@ -29,14 +29,6 @@ function getConfiguration(outputFilename, outputChunkFilename) {
       filename: outputFilename,
       chunkFilename: outputChunkFilename
     },
-    module: {
-      rules: [
-        {
-          test: /\.(ts|tsx)$/,
-          use: 'ts-loader'
-        }
-      ]
-    },
     plugins: [
       new HtmlWebpackPlugin({
         favicon: INDEX_HTML_FAVICON,

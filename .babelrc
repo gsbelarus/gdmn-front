@@ -1,5 +1,3 @@
 {
-  "presets": [
-    "@babel/preset-env"
-  ]
+  "extends": "./config/.webpack-babelrc"
 }

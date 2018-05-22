@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import withRoot from './withRoot';
+import { hot } from 'react-hot-loader';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import { ErrorBoundary } from './components/errorBoundary';
 import MorphBoxContainer from './screens/morphology/container';
@@ -56,4 +57,4 @@ class App extends React.Component<WithStyles<'root' | 'button'>, {}> {
   }
 }
 
-export default withRoot(withStyles(styles)<{}>(connect()(App)));
+export default hot(module)(withRoot(withStyles(styles)<{}>(connect()(App))));
