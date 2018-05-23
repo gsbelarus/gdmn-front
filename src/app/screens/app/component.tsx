@@ -1,20 +1,21 @@
 import 'styles/global.css';
 
 import * as React from 'react';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import { Redirect, NavLink, Route, Switch } from 'react-router-dom';
+import * as CSSModules from 'react-css-modules';
 
+const styles = require('./styles.css'); // TODO import styles from './styles.css';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import MorphBoxContainer from '../../screens/morphology/container';
 import SemanticsBoxContainer from '../../screens/semantics/container';
 import ERModelContainer from '../../screens/ermodel/container';
 
-const styles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme => ({
+const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme => ({
   main: {
-    textAlign: 'center',
     padding: theme.spacing.unit * 4
   },
   navItem: {
@@ -25,11 +26,14 @@ const styles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme
   }
 });
 
-export interface AppProps extends WithStyles<'main' | 'navItem' | 'navItemSelected'> {
+export interface AppProps
+  extends WithStyles<'main' | 'navItem' | 'navItemSelected'>,
+    CSSModules.InjectedCSSModuleProps {
   // TODO types
   readonly match: any;
 }
 
+@CSSModules(styles)
 class _App extends React.Component<AppProps, {}> {
   render() {
     const { match, classes } = this.props;
@@ -55,7 +59,7 @@ class _App extends React.Component<AppProps, {}> {
             </NavLink>
           </Toolbar>
         </AppBar>
-        <main className={main}>
+        <main styleName="main" className={main}>
           <ErrorBoundary>
             <Switch>
               <Route exact={true} path={`${match.path}/`} render={() => <div>Welcome to Home, homie!</div>} />
@@ -73,4 +77,4 @@ class _App extends React.Component<AppProps, {}> {
 
 // TODO switch -> children -> container
 
-export const App = withStyles(styles)(_App);
+export const App = withStyles(muiStyles)(_App);
