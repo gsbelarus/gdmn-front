@@ -1,24 +1,66 @@
 import * as React from 'react';
 
-type ErrorBoundaryState = {
-  hasError: boolean;
-  error: Error | null;
+type DeaultErrorBoundaryComponentProps = {
+  error: Error;
+  stack: string;
 };
 
-export class ErrorBoundary extends React.Component<any, ErrorBoundaryState> {
-  state: ErrorBoundaryState = {
-    hasError: false,
-    error: null
+// TODO isDevMode
+const DeaultErrorBoundaryComponent = ({ error, stack }: DeaultErrorBoundaryComponentProps) => (
+  <h1>
+    Something went wrong!
+    <br />
+    <br />
+    ERORR
+    <br />
+    {error.toString()}
+    <br />
+    <br />
+    LOCATION
+    <br />
+    {stack}
+  </h1>
+);
+
+type ErrorBoundaryProps = {
+  children?: any;
+  renderComponent?: any; // FIXME React.Component<any, any>
+  onError?: (error: Error, info: React.ErrorInfo) => void;
+};
+
+type ErrorBoundaryState = {
+  error: Error | null;
+  info: React.ErrorInfo | null;
+};
+
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  static defaultProps = {
+    renderComponent: DeaultErrorBoundaryComponent
   };
 
-  componentDidCatch(error: Error | null, info: object) {
-    this.setState({ hasError: true, error });
+  state: ErrorBoundaryState = {
+    error: null,
+    info: null
+  };
+
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    const { onError } = this.props;
+
+    if (onError) {
+      try {
+        onError(error, info);
+      } catch (err) {
+        /**/
+      }
+    }
+
+    this.setState({ error, info });
   }
 
   render() {
-    if (this.state.hasError) {
-      return <h1>{this.state.error}</h1>;
-    }
-    return this.props.children;
+    const { children, renderComponent: Component } = this.props;
+    const { error, info } = this.state;
+
+    return error ? <Component error={error} stack={info ? info.componentStack : ''} /> : children;
   }
 }
