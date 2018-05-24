@@ -16,7 +16,8 @@ import SemanticsBoxContainer from '../../screens/semantics/container';
 
 const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme => ({
   main: {
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing.unit * 4,
+    textAlign: 'center'
   },
   navItem: {
     margin: theme.spacing.unit
@@ -33,7 +34,7 @@ export interface AppProps
   readonly match: any;
 }
 
-// @CSSModules(styles) // TODO prod config extract modules
+// @CSSModules(styles) // FIXME prod config extract modules
 class _App extends React.Component<AppProps, {}> {
   public render() {
     const { match, classes } = this.props;
@@ -59,7 +60,7 @@ class _App extends React.Component<AppProps, {}> {
             </NavLink>
           </Toolbar>
         </AppBar>
-        <main styleName="main" className={main}>
+        <main className={main}>
           <ErrorBoundary>
             <Switch>
               <Route exact={true} path={`${match.path}/`} render={() => <div>Welcome to Home, homie!</div>} />
