@@ -11,7 +11,6 @@ const OUTPUT_FILENAME = 'scripts/[name].[hash].bundle.js';
 const OUTPUT_CHUNK_FILENAME = 'scripts/[name].[chunkhash].chunk.js';
 const EXTRACT_CSS_FILENAME = 'styles/[name].[chunkhash].css';
 const STYLES_PATH = getRootRelativePath('src/styles');
-const DIST_PATH = getRootRelativePath('dist');
 
 const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
   devtool: 'source-map',
@@ -43,7 +42,9 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
     hints: false
   },
   plugins: [
-    new CleanWebpackPlugin([DIST_PATH]),
+    new CleanWebpackPlugin(['dist'], {
+      root: getRootRelativePath()
+    }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'
     }),
