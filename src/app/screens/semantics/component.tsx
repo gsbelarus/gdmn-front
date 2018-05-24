@@ -1,10 +1,10 @@
 import 'styles/modules/semanticsBox.css';
 
-import * as React from 'react';
-import { Phrase, Word } from 'gdmn-nlp';
 import { graphlib, layout } from 'dagre';
-import { Rect } from './components/rect';
+import { Phrase, Word } from 'gdmn-nlp';
+import * as React from 'react';
 import { Edge } from './components/edge';
+import { Rect } from './components/rect';
 
 export interface SemanticsBoxProps {
   readonly text: string;
@@ -16,18 +16,18 @@ export interface SemanticsBoxProps {
 }
 
 export class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
-  render() {
+  public render() {
     const { text, parsedText, onSetText, onClearText, onParse, phrase } = this.props;
 
     // Create a new directed graph
-    let g = new graphlib.Graph();
+    const g = new graphlib.Graph();
 
     if (phrase instanceof Phrase) {
       // Set an object for the graph label
       g.setGraph({});
 
       // Default to assigning a new object as a label for each new edge.
-      g.setDefaultEdgeLabel(function() {
+      g.setDefaultEdgeLabel(() => {
         return {};
       });
 

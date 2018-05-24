@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
+import purple from '@material-ui/core/colors/purple';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import * as React from 'react';
 
 const theme = createMuiTheme({
   palette: {
@@ -10,7 +10,8 @@ const theme = createMuiTheme({
   }
 });
 
-function withMuiTheme(Component: any) { // TODO type component
+function withMuiTheme(Component: any) {
+  // TODO type component
 
   // FIXME displayName
 

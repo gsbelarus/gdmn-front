@@ -40,9 +40,6 @@ function getConfiguration(outputFilename, outputChunkFilename) {
         description: INDEX_HTML_DESCRIPTION,
         mobile: true
       }),
-      new webpack.DefinePlugin({
-        __VERSION__: JSON.stringify(pkg.version)
-      }),
       new webpack.NoEmitOnErrorsPlugin()
     ],
     resolve: {

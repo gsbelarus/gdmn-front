@@ -2,6 +2,7 @@ import webpack from 'webpack';
 import merge from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
 
 import getBaseConfiguration from './webpack-base.config';
 import { getRootRelativePath } from './utils';
@@ -10,8 +11,9 @@ const OUTPUT_FILENAME = 'scripts/[name].[hash].bundle.js';
 const OUTPUT_CHUNK_FILENAME = 'scripts/[name].[chunkhash].chunk.js';
 const EXTRACT_CSS_FILENAME = 'styles/[name].[chunkhash].css';
 const STYLES_PATH = getRootRelativePath('src/styles');
+const DIST_PATH = getRootRelativePath('dist');
 
-const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME, 'tsconfig-develop.json'), {
+const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
   devtool: 'source-map',
   module: {
     rules: [
@@ -41,6 +43,7 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
     hints: false
   },
   plugins: [
+    new CleanWebpackPlugin([DIST_PATH]),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'
     }),

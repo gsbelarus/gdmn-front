@@ -4,11 +4,11 @@ import * as semActions from './actions';
 
 export type SemAction = ActionType<typeof semActions>;
 
-export type State = {
+export interface State {
   readonly text: string;
   readonly parsedText: string[];
   readonly phrase: Phrase | undefined;
-};
+}
 
 const initialText = 'покажи всех клиентов из минска';
 

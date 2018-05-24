@@ -1,18 +1,18 @@
 import 'styles/global.css';
 
-import * as React from 'react';
-import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
-import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 
-const styles = require('./styles.css'); // TODO import styles from './styles.css';
-import { ErrorBoundary } from '../../components/ErrorBoundary';
+// const styles = require('./styles.css'); // TODO import styles from './styles.css';
+import { ErrorBoundary } from 'components/ErrorBoundary';
+import ERModelContainer from '../../screens/ermodel/container';
 import MorphBoxContainer from '../../screens/morphology/container';
 import SemanticsBoxContainer from '../../screens/semantics/container';
-import ERModelContainer from '../../screens/ermodel/container';
 
 const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme => ({
   main: {
@@ -33,9 +33,9 @@ export interface AppProps
   readonly match: any;
 }
 
-@CSSModules(styles)
+// @CSSModules(styles) // TODO prod config extract modules
 class _App extends React.Component<AppProps, {}> {
-  render() {
+  public render() {
     const { match, classes } = this.props;
     const { main, navItem, navItemSelected } = classes;
     return (

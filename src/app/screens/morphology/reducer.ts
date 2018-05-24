@@ -1,16 +1,16 @@
-import * as actions from './actions';
-import { morphAnalyzer, RusWord, tokenize, Words } from 'gdmn-nlp';
 import { IToken } from 'chevrotain';
+import { morphAnalyzer, RusWord, tokenize, Words } from 'gdmn-nlp';
 import { ActionType, getType } from 'typesafe-actions';
+import * as actions from './actions';
 
 export type MorphAction = ActionType<typeof actions>;
 
-export type State = {
+export interface State {
   readonly text: string;
   readonly tokens: IToken[];
   readonly selectedToken: number;
   readonly words: Words;
-};
+}
 
 const initialText = '';
 

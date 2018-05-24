@@ -9,7 +9,7 @@ interface RootProps {
 }
 
 class Root extends React.Component<RootProps, {}> {
-  render() {
+  public render() {
     const { store, routes } = this.props;
     // TODO const history = browserHistory; // syncHistoryWithStore(browserHistory, store)
 

@@ -1,6 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 // import persistState from 'redux-localstorage';
 
 // https://github.com/zalmoxisus/redux-devtools-extension

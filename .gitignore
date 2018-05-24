@@ -1,6 +1,7 @@
 # Build
 /build
 /dist
+packages/*/dist*
 
 # Logs
 logs
@@ -38,3 +39,5 @@ ehthumbs.db
 .env.development.local
 .env.test.local
 .env.production.local
+
+coverage

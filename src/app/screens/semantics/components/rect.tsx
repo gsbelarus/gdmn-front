@@ -10,7 +10,7 @@ export interface RectProps {
 }
 
 export class Rect extends React.Component<RectProps, {}> {
-  render() {
+  public render() {
     const { x, y, width, height, text, className } = this.props;
     const cx = x + width / 2;
     const cy = y + height / 2;

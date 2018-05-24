@@ -39,6 +39,7 @@
     "@types/redux-logger": "^3.0.6",
     "all-contributors-cli": "^4.11.1",
     "babel-loader": "^8.0.0-beta.3",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.11",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.0",
@@ -50,6 +51,7 @@
     "style-loader": "^0.21.0",
     "ts-loader": "^4.3.0",
     "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
     "tslint-react": "^3.6.0",
     "typescript": "^2.8.3",
     "uglifyjs-webpack-plugin": "^1.2.5",
@@ -67,14 +69,20 @@
   "private": true,
   "repository": "git@github.com:gsbelarus/gdmn-front.git",
   "scripts": {
-    "build": "webpack --progress --display-modules",
-    "check-contributors": "all-contributors check",
-    "clean": "bash -c 'rm -rf dist'",
-    "clear-cache": "bash -c 'rm -rf node_modules/.cache'",
-    "prebuild": "npm run clean",
     "start": "webpack-dev-server",
+    "build": "webpack --progress --display-modules",
     "test": "jest",
-    "update-readme": "all-contributors generate"
+    "contributors:build": "all-contributors generate",
+    "contributors:lint": "all-contributors check",
+    "fix:ts": "npm run tslint:fix && npm run prettier:fix",
+    "lint:ts": "npm run tslint:lint && npm run prettier:lint",
+    "prettier:cli": "prettier \"**/*.@(ts|tsx|js|jsx)\"",
+    "prettier:fix": "npm run prettier:cli -- --write",
+    "prettier:lint": "npm run prettier:cli -- -l",
+    "tslint:fix": "npm run tslint:cli -- --fix",
+    "tslint:lint": "npm run tslint:cli",
+    "tslint:cli": "tslint --project tsconfig.json",
+    "tslint:check": "tslint-config-prettier-check ./tslint.json || true"
   },
   "version": "1.0.0-alpha.1"
 }

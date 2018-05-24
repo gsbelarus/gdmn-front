@@ -1,8 +1,3 @@
-import { Dispatch as ReduxDispatch } from 'redux';
-import { connect } from 'react-redux';
-import { State } from '../../rootReducer';
-import { MorphBox } from './component';
-import * as actions from './actions';
 import {
   RusAdjectiveLexemes,
   RusCase,
@@ -13,6 +8,11 @@ import {
   RusPronounLexemes,
   RusVerbLexemes
 } from 'gdmn-nlp';
+import { connect } from 'react-redux';
+import { Dispatch as ReduxDispatch } from 'redux';
+import { State } from '../../rootReducer';
+import * as actions from './actions';
+import { MorphBox } from './component';
 import { MorphAction } from './reducer';
 
 type Dispatch = ReduxDispatch<MorphAction, State>; // TODO test THUNK <_, State>

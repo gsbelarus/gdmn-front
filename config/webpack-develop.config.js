@@ -12,12 +12,8 @@ const DEV_SERVER_HOST = 'localhost';
 const DEV_SERVER_PORT = 9090;
 const STYLES_PATH = getRootRelativePath('src/styles');
 const MODULE_STYLES_PATH = getRootRelativePath('src');
-const TS_CONFIG_FILE = 'tsconfig-develop.json';
 
 const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
-  // entry: {
-  //   app: [`webpack-dev-server/client?http://${DEV_SERVER_HOST}:${DEV_SERVER_PORT}`]
-  // },
   devtool: 'cheap-module-source-map',
   mode: 'development',
   devServer: {
@@ -68,10 +64,7 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
             }
           },
           {
-            loader: 'ts-loader',
-            options: {
-              configFile: TS_CONFIG_FILE
-            }
+            loader: 'ts-loader'
           }
         ]
       },

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { ERModel } from 'gdmn-orm';
 import Button from '@material-ui/core/Button';
+import { ERModel } from 'gdmn-orm';
+import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 
 export interface ERModelBoxProps extends CSSModules.InjectedCSSModuleProps {
@@ -10,7 +10,7 @@ export interface ERModelBoxProps extends CSSModules.InjectedCSSModuleProps {
 }
 
 export class ERModelBox extends React.Component<ERModelBoxProps, {}> {
-  render() {
+  public render() {
     const { erModel, err, onLoad } = this.props;
 
     return (

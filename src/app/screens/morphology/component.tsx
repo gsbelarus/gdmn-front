@@ -1,6 +1,6 @@
 import 'styles/modules/morphBox.css';
 
-import * as React from 'react';
+import { IToken } from 'chevrotain';
 import * as classNames from 'classnames';
 import {
   Involvement,
@@ -26,7 +26,7 @@ import {
   Word,
   Words
 } from 'gdmn-nlp';
-import { IToken } from 'chevrotain';
+import * as React from 'react';
 
 export interface MorphBoxProps {
   readonly text: string;
@@ -45,7 +45,7 @@ export interface MorphBoxProps {
 }
 
 export class MorphBox extends React.Component<MorphBoxProps, {}> {
-  render() {
+  public render() {
     const {
       text,
       tokens,

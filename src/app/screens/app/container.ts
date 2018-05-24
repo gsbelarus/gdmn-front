@@ -1,7 +1,7 @@
 import 'styles/global.css';
 
-import { connect } from 'react-redux';
 import { hot } from 'react-hot-loader';
+import { connect } from 'react-redux';
 
 import withMuiTheme from '../../components/withMuiTheme';
 import { App } from './component';

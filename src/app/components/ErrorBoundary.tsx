@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-type DeaultErrorBoundaryComponentProps = {
+interface DeaultErrorBoundaryComponentProps {
   error: Error;
   stack: string;
-};
+}
 
 // TODO isDevMode
 const DeaultErrorBoundaryComponent = ({ error, stack }: DeaultErrorBoundaryComponentProps) => (
@@ -22,28 +22,28 @@ const DeaultErrorBoundaryComponent = ({ error, stack }: DeaultErrorBoundaryCompo
   </h1>
 );
 
-type ErrorBoundaryProps = {
+interface ErrorBoundaryProps {
   children?: any;
   renderComponent?: any; // FIXME React.Component<any, any>
   onError?: (error: Error, info: React.ErrorInfo) => void;
-};
+}
 
-type ErrorBoundaryState = {
+interface ErrorBoundaryState {
   error: Error | null;
   info: React.ErrorInfo | null;
-};
+}
 
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  static defaultProps = {
+  public static defaultProps = {
     renderComponent: DeaultErrorBoundaryComponent
   };
 
-  state: ErrorBoundaryState = {
+  public state: ErrorBoundaryState = {
     error: null,
     info: null
   };
 
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
+  public componentDidCatch(error: Error, info: React.ErrorInfo) {
     const { onError } = this.props;
 
     if (onError) {
@@ -57,7 +57,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     this.setState({ error, info });
   }
 
-  render() {
+  public render() {
     const { children, renderComponent: Component } = this.props;
     const { error, info } = this.state;
 
