@@ -20,10 +20,8 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
     // contentBase: './dist', // TODO ?
     host: DEV_SERVER_HOST,
     port: DEV_SERVER_PORT,
-    // inject: true,
     historyApiFallback: true,
     hot: true, //HMR
-    // hotOnly: true,
     inline: true, //HMR
     open: true,
     publicPath: '/', // TODO test

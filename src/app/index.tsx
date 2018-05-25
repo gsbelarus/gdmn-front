@@ -28,18 +28,3 @@ function render(RootComponent: any) {
 }
 
 render(Root);
-
-/* FIXME
-
-// webpack HMR with react-hot-loader
-if ((module as any).hot) {
-  (module as any).hot.accept('./components/Root', () => {
-    const NextRoot = require('./components/Root');
-    render(NextRoot);
-
-    // TODO harmony modules ({modules:false})
-    // TODO render(Root);
-  });
-}
-
-*/

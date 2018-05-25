@@ -18,10 +18,7 @@ const COMPONENTS_DIR = getRootRelativePath('src/app/components');
 function getConfiguration(outputFilename, outputChunkFilename) {
   return {
     entry: {
-      app: [
-        //`webpack-dev-server/client?http://${'localhost'}:${9090}`,
-        ENTRY_APP_TS
-      ]
+      app: [ENTRY_APP_TS]
     },
     output: {
       path: OUTPUT_PATH,

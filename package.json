@@ -15,6 +15,7 @@
     "@types/classnames": "^2.2.3",
     "@types/dagre": "^0.7.40",
     "@types/react": "^16.3.14",
+    "@types/react-content-loader": "^3.1.0",
     "@types/react-dom": "^16.0.5",
     "@types/react-redux": "^6.0.0",
     "@types/react-router-dom": "^4.2.6",
@@ -24,19 +25,18 @@
     "gdmn-nlp": "git+https://github.com/gsbelarus/gdmn-nlp.git",
     "gdmn-orm": "git+https://github.com/gsbelarus/gdmn-orm.git",
     "react": "^16.3.2",
+    "react-content-loader": "^3.1.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
-    "typesafe-actions": "^2.0.3",
-    "react-content-loader": "^3.1.2"
+    "typesafe-actions": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.46",
     "@babel/preset-env": "^7.0.0-beta.46",
     "@babel/register": "^7.0.0-beta.46",
-    "@types/react-content-loader": "^3.1.0",
     "@types/react-css-modules": "^4.6.1",
     "@types/redux-logger": "^3.0.6",
     "all-contributors-cli": "^4.11.1",
@@ -75,16 +75,16 @@
     "build": "webpack --progress --display-modules",
     "test": "jest",
     "contributors:build": "all-contributors generate",
-    "contributors:lint": "all-contributors check",
     "fix:ts": "npm run tslint:fix && npm run prettier:fix",
     "lint:ts": "npm run tslint:lint && npm run prettier:lint",
     "prettier:cli": "prettier \"**/*.@(ts|tsx|js|jsx)\"",
     "prettier:fix": "npm run prettier:cli -- --write",
     "prettier:lint": "npm run prettier:cli -- -l",
-    "tslint:fix": "npm run tslint:cli -- --fix",
-    "tslint:lint": "npm run tslint:cli",
+    "reinstall": "bash -c 'rm -rf  package-lock.json node_modules' && npm i",
+    "tslint:check": "tslint-config-prettier-check ./tslint.json",
     "tslint:cli": "tslint --project tsconfig.json",
-    "tslint:check": "tslint-config-prettier-check ./tslint.json || true"
+    "tslint:fix": "npm run tslint:cli -- --fix",
+    "tslint:lint": "npm run tslint:cli"
   },
   "version": "1.0.0-alpha.1"
 }
