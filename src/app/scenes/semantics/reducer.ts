@@ -1,5 +1,6 @@
 import { Phrase } from 'gdmn-nlp';
 import { ActionType, getType } from 'typesafe-actions';
+
 import * as semActions from './actions';
 
 export type SemAction = ActionType<typeof semActions>;

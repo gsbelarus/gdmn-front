@@ -1,18 +1,18 @@
 import 'styles/global.css';
 
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import * as React from 'react';
-import * as CSSModules from 'react-css-modules';
+import CSSModules from 'react-css-modules';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 
 // const styles = require('./styles.css'); // TODO import styles from './styles.css';
 import { ErrorBoundary } from 'components/ErrorBoundary';
-import ERModelContainer from '../../screens/ermodel/container';
-import MorphBoxContainer from '../../screens/morphology/container';
-import SemanticsBoxContainer from '../../screens/semantics/container';
+import ERModelContainer from '../../scenes/ermodel/container';
+import MorphBoxContainer from '../../scenes/morphology/container';
+import SemanticsBoxContainer from '../../scenes/semantics/container';
 
 const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme => ({
   main: {

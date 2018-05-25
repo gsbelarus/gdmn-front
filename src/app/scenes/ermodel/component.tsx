@@ -1,7 +1,7 @@
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import { ERModel } from 'gdmn-orm';
-import * as React from 'react';
-import * as CSSModules from 'react-css-modules';
+import CSSModules from 'react-css-modules';
 
 export interface ERModelBoxProps extends CSSModules.InjectedCSSModuleProps {
   readonly erModel: ERModel;

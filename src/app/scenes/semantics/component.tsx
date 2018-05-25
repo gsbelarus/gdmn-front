@@ -1,8 +1,9 @@
 import 'styles/modules/semanticsBox.css';
 
+import React from 'react';
 import { graphlib, layout } from 'dagre';
 import { Phrase, Word } from 'gdmn-nlp';
-import * as React from 'react';
+
 import { Edge } from './components/edge';
 import { Rect } from './components/rect';
 

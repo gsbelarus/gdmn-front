@@ -1,5 +1,6 @@
 import { ERModel } from 'gdmn-orm';
 import { ActionType, getType } from 'typesafe-actions';
+
 import * as actions from './actions';
 
 export type ERMAction = ActionType<typeof actions>;

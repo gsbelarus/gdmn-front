@@ -10,6 +10,7 @@ import {
 } from 'gdmn-nlp';
 import { connect } from 'react-redux';
 import { Dispatch as ReduxDispatch } from 'redux';
+
 import { State } from '../../rootReducer';
 import * as actions from './actions';
 import { MorphBox } from './component';

@@ -1,7 +1,8 @@
 import 'styles/modules/morphBox.css';
 
+import React from 'react';
 import { IToken } from 'chevrotain';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import {
   Involvement,
   RusAdjective,
@@ -26,7 +27,6 @@ import {
   Word,
   Words
 } from 'gdmn-nlp';
-import * as React from 'react';
 
 export interface MorphBoxProps {
   readonly text: string;
