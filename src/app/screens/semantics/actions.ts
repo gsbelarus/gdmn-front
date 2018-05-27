@@ -1,4 +1,4 @@
-import { SetParsedText } from 'gdmn-nlp';
+import { ParsedText } from 'gdmn-nlp';
 import { createAction } from 'typesafe-actions';
 
 export const setSemText = createAction('SET_SEM_TEXT', resolve => {
@@ -6,5 +6,5 @@ export const setSemText = createAction('SET_SEM_TEXT', resolve => {
 });
 
 export const setParsedText = createAction('SET_SEM_PARSED_TEXT', resolve => {
-  return (parsedText: SetParsedText) => resolve(parsedText);
+  return (parsedText: ParsedText) => resolve(parsedText);
 });

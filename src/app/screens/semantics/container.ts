@@ -11,12 +11,15 @@ type SemActionDispatch = ReduxDispatch<SemAction, State>; // TODO test THUNK <_,
 export default connect(
   (state: State) => ({
     text: state.semantics.text,
-    parsedText: state.semantics.parsedText,
+    parsedText: state.semantics.wordsSignatures,
     phrase: state.semantics.phrase
   }),
   (dispatch: SemActionDispatch) => ({
     onSetText: (text: string) => dispatch(actions.setSemText(text)),
     onClearText: () => dispatch(actions.setSemText('')),
-    onParse: (text: string) => dispatch(actions.setParsedText(parsePhrase(text)))
+    onParse: (text: string) => {
+      const parsedText = parsePhrase(text);
+      dispatch(actions.setParsedText(parsedText));
+    }
   })
 )(SemanticsBox);
