@@ -1,11 +1,13 @@
 import { ERModel } from 'gdmn-orm';
 import { ActionType, getType } from 'typesafe-actions';
 import * as actions from './actions';
+import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
 export type ERMAction = ActionType<typeof actions>;
 
 export interface State {
   readonly erModel: ERModel;
+  readonly erTranslatorRU?: ERTranslatorRU;
   readonly err: string;
 }
 
@@ -17,7 +19,11 @@ export const initialState: State = {
 export default function reducer(state: State = initialState, action: ERMAction): State {
   switch (action.type) {
     case getType(actions.loadERModel): {
-      return { erModel: action.payload, err: '' };
+      return {
+        erModel: action.payload,
+        erTranslatorRU: new ERTranslatorRU(action.payload),
+        err: ''
+      };
     }
 
     case getType(actions.loadERModelError): {
