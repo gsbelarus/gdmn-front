@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+// import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 import config from '../config/config';
 import pkg from '../package.json';
@@ -12,13 +13,15 @@ const INDEX_HTML_FAVICON = getRootRelativePath('src/favicon.ico');
 const INDEX_HTML_TITLE = 'GDMN'; // TODO pkg.title
 const INDEX_HTML_DESCRIPTION = pkg.description;
 const CONFIG_FILE = getRootRelativePath('config/config.json');
-const STYLES_DIR = getRootRelativePath('src/styles');
-const COMPONENTS_DIR = getRootRelativePath('src/app/components');
+const SRC_DIR = getRootRelativePath('src');
 
 function getConfiguration(outputFilename, outputChunkFilename) {
   return {
     entry: {
-      app: [ENTRY_APP_TS]
+      app: [
+        // TODO 'react-hot-loader/patch',
+        ENTRY_APP_TS
+      ]
     },
     output: {
       path: OUTPUT_PATH,
@@ -28,6 +31,7 @@ function getConfiguration(outputFilename, outputChunkFilename) {
     },
     plugins: [
       new HtmlWebpackPlugin({
+        // TODO minify: { collapseWhitespace: true }
         favicon: INDEX_HTML_FAVICON,
         inject: false,
         template: INDEX_HTML_TEMPLATE,
@@ -41,11 +45,10 @@ function getConfiguration(outputFilename, outputChunkFilename) {
     ],
     resolve: {
       alias: {
-        configFile: CONFIG_FILE,
-        styles: STYLES_DIR,
-        components: COMPONENTS_DIR
+        '@src': SRC_DIR,
+        configFile: CONFIG_FILE
       },
-      extensions: ['.tsx', '.ts', '.js', '.jsx']
+      extensions: ['.tsx', '.ts', '.js', '.jsx', '.json']
     }
   };
 }

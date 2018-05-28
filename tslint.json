@@ -6,12 +6,12 @@
     "class-name": false,
     "interface-name": false,
     "member-ordering": false,
+    "no-console": false,
     "no-implicit-dependencies": false,
-    "no-submodule-imports": [true, "styles", "components", "@material-ui/core", "@material-ui/icons"],
+    "no-submodule-imports": [true, "@src", "@material-ui/core", "@material-ui/icons"],
     "no-var-requires": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "jsx-no-lambda": false,
-    "no-console": false
+    "jsx-no-lambda": false
   }
 }

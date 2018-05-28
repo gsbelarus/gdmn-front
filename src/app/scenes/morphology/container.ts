@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { Dispatch as ReduxDispatch } from 'redux';
 
-import { State } from '../../rootReducer';
+import { State } from '@src/app/rootReducer';
 import * as actions from './actions';
 import { MorphBox } from './component';
 import { MorphAction } from './reducer';

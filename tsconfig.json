@@ -10,8 +10,9 @@
     "moduleResolution": "node",
     "outDir": "./build",
     "paths": {
-      "styles/*": ["./src/app/styles/*"],
-      "components/*": ["./src/app/components/*"]
+      "@src/*": [
+        "src/*"
+      ]
     },
     "rootDir": "src",
     "sourceMap": true,

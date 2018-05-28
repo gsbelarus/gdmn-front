@@ -1,5 +1,3 @@
-import 'styles/global.css';
-
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -9,10 +7,10 @@ import CSSModules from 'react-css-modules';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 
 const styles = require('./styles.css'); // TODO import styles from './styles.css';
-import { ErrorBoundary } from 'components/ErrorBoundary';
-import ERModelContainer from '../../scenes/ermodel/container';
-import MorphBoxContainer from '../../scenes/morphology/container';
-import SemanticsBoxContainer from '../../scenes/semantics/container';
+import { ErrorBoundary } from '@src/app/components/ErrorBoundary';
+import ERModelContainer from '@src/app/scenes/ermodel/container';
+import MorphBoxContainer from '@src/app/scenes/morphology/container';
+import SemanticsBoxContainer from '@src/app/scenes/semantics/container';
 
 const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme => ({
   main: {

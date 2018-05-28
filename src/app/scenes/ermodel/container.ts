@@ -2,7 +2,7 @@ import { deserializeERModel, IERModel } from 'gdmn-orm';
 import { connect } from 'react-redux';
 import { Dispatch as ReduxDispatch } from 'redux';
 
-import { State } from '../../rootReducer';
+import { State } from '@src/app/rootReducer';
 import * as actions from './actions';
 import { ERModelBox } from './component';
 import { ERMAction } from './reducer';
