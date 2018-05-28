@@ -10,10 +10,12 @@ import { ERMAction } from './reducer';
 type Dispatch = ReduxDispatch<ERMAction, State>; // TODO test THUNK <_, State>
 
 export default connect(
-  (state: State) => ({ ...state.ermodel }),
+  (state: State) => ({
+    ...state.ermodel
+  }),
   (dispatch: Dispatch) => ({
     onLoad: () => {
-      fetch('http://localhost:4000/er') // FIXME
+      fetch('http://localhost:4000/er') // TODO
         .then(res => {
           return res.text();
         })

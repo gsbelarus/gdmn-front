@@ -1,25 +1,31 @@
 import React, { Component, Key, ReactType } from 'react';
 
+interface TableRowData {
+  id: Key;
+  [t: string]: any;
+}
+
 interface TableColumn {
   id: Key;
-  widthPx?: number;
-  align?: string;
+  widthPx?: number | null;
+  align?: string | null;
+  [t: string]: any;
 }
 
 interface TableLayoutProps {
-  bodyRows?: any[];
-  columns: TableColumn[];
-  footRows?: any[];
-  headRows?: any[];
-  minColumnWidthPx: number;
+  bodyRows?: TableRowData[];
+  columns?: TableColumn[];
+  footRows?: TableRowData[];
+  headRows?: TableRowData[];
+  minColumnWidthPx?: number;
   renderBody: ReactType;
   renderBodyCell: ReactType;
   renderColGroup: ReactType; // 'colgroup',
   renderColGroupCol: ReactType; // 'col'
-  renderFoot: ReactType;
-  renderFootCell: ReactType;
-  renderHead: ReactType;
-  renderHeadCell: ReactType;
+  renderFoot?: ReactType;
+  renderFootCell?: ReactType;
+  renderHead?: ReactType;
+  renderHeadCell?: ReactType;
   renderRow: ReactType;
   renderTable: ReactType;
   [t: string]: any;
@@ -30,6 +36,7 @@ interface TableLayoutProps {
 
 class TableLayout extends Component<TableLayoutProps, any> {
   public static defaultProps = {
+    columns: [],
     bodyRows: [],
     footRows: [],
     headRows: []
@@ -49,7 +56,7 @@ class TableLayout extends Component<TableLayoutProps, any> {
 
   public render(): JSX.Element {
     const {
-      columns,
+      columns = [],
       headRows,
       bodyRows,
       footRows,
@@ -79,7 +86,7 @@ class TableLayout extends Component<TableLayoutProps, any> {
             {!!headRows &&
               headRows.map(row => (
                 <Row key={row.id}>
-                  {columns.map(column => <HeadCell key={column.id} column={column} rowData={row} />)}
+                  {HeadCell && columns.map(column => <HeadCell key={column.id} column={column} rowData={row} />)}
                 </Row>
               ))}
           </Head>
@@ -97,7 +104,7 @@ class TableLayout extends Component<TableLayoutProps, any> {
             {!!footRows &&
               footRows.map(row => (
                 <Row key={row.id}>
-                  {columns.map(column => <FootCell key={column.id} column={column} rowData={row} />)}
+                  {FootCell && columns.map(column => <FootCell key={column.id} column={column} rowData={row} />)}
                 </Row>
               ))}
           </Foot>
@@ -107,4 +114,4 @@ class TableLayout extends Component<TableLayoutProps, any> {
   }
 }
 
-export { TableLayout, TableLayoutProps, TableColumn };
+export { TableLayout, TableLayoutProps, TableColumn, TableRowData };

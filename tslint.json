@@ -12,15 +12,6 @@
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "jsx-no-lambda": false,
-    "no-console": [
-      false,
-      "log",
-      "error",
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ]
+    "no-console": false
   }
 }

@@ -113,8 +113,7 @@
   border-collapse: collapse;
 }
 
-.MorphOutputFlex th,
-td {
+.MorphOutputFlex th, .MorphOutputFlex td {
   border: 1px gray solid;
 }
 
