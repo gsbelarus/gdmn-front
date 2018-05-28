@@ -45,7 +45,9 @@ export class ERModelBox extends React.Component<ERModelBoxProps, {}> {
       <div>
         <div>{err}</div>
         <div>{`загружено сущностей: ${Object.entries(erModel.entities).length}`}</div>
-        <Button style={{ margin: 60 }} onClick={onLoad}>Загрузить</Button>
+        <Button style={{ margin: 60 }} onClick={onLoad}>
+          Загрузить
+        </Button>
         {/* TODO <DataGrid />  */}
         <TableLayout
           renderContainer={Paper}

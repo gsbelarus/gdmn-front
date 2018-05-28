@@ -1,5 +1,3 @@
-import 'styles/modules/morphBox.css';
-
 import React from 'react';
 import { IToken } from 'chevrotain';
 import classNames from 'classnames';
@@ -27,8 +25,11 @@ import {
   Word,
   Words
 } from 'gdmn-nlp';
+import CSSModules from 'react-css-modules';
 
-export interface MorphBoxProps {
+const styles = require('./styles.css');
+
+interface MorphBoxProps extends CSSModules.InjectedCSSModuleProps {
   readonly text: string;
   readonly tokens: IToken[];
   readonly selectedToken: number;
@@ -44,7 +45,8 @@ export interface MorphBoxProps {
   readonly onSetConjunctions: () => any;
 }
 
-export class MorphBox extends React.Component<MorphBoxProps, {}> {
+@CSSModules(styles, { allowMultiple: true })
+class MorphBox extends React.Component<MorphBoxProps, {}> {
   public render() {
     const {
       text,
@@ -62,14 +64,14 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
     } = this.props;
 
     return (
-      <div className={'MorphBox' + (text === tokens.reduce((p, c) => p + c.image, '') ? '' : ' Error')}>
-        <div className="MorphInput">
-          <div className="MorphText">
+      <div styleName={'MorphBox' + (text === tokens.reduce((p, c) => p + c.image, '') ? '' : ' Error')}>
+        <div styleName="MorphInput">
+          <div styleName="MorphText">
             <textarea
               value={text}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onSetText(e.currentTarget.value)}
             />
-            <div className="MorphTextButtons">
+            <div styleName="MorphTextButtons">
               <button onClick={onClearText}>Clear</button>
               <button onClick={onSetNouns}>Nouns</button>
               <button onClick={onSetVerbs}>Verbs</button>
@@ -79,7 +81,7 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
               <button onClick={onSetConjunctions}>Conj</button>
             </div>
           </div>
-          <div className="TokenList">
+          <div styleName="TokenList">
             {tokens.map((t, idx) => (
               <span
                 className={classNames('Token', 'tkn-' + t.tokenType!.tokenName, { selected: idx === selectedToken })}
@@ -91,7 +93,7 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
             ))}
           </div>
         </div>
-        <div className="MorphOutput">
+        <div styleName="MorphOutput">
           {words.map((w, idx) => (
             <span key={idx}>
               <div>
@@ -116,7 +118,7 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
       );
 
       return (
-        <div className="MorphOutputFlex">
+        <div styleName="MorphOutputFlex">
           <span>
             {f(RusCase.Nomn)}
             {f(RusCase.Gent)}
@@ -158,7 +160,7 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
       };
 
       return (
-        <div className="MorphOutputFlex">
+        <div styleName="MorphOutputFlex">
           <table>
             <thead>
               <tr>
@@ -240,7 +242,7 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
 
       if (l.aspect === RusAspect.Perf) {
         return (
-          <div className="MorphOutputFlex">
+          <div styleName="MorphOutputFlex">
             <table>
               <thead>
                 <tr>
@@ -310,7 +312,7 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
       }
 
       return (
-        <div className="MorphOutputFlex">
+        <div styleName="MorphOutputFlex">
           <table>
             <thead>
               <tr>
@@ -392,7 +394,7 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
 
       if (l.hasPlural()) {
         return (
-          <div className="MorphOutputFlex">
+          <div styleName="MorphOutputFlex">
             <span>
               {f({ c: RusCase.Nomn, singular: true })}
               {f({ c: RusCase.Gent, singular: true })}
@@ -413,7 +415,7 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
         );
       } else {
         return (
-          <div className="MorphOutputFlex">
+          <div styleName="MorphOutputFlex">
             <span>
               {f({ c: RusCase.Nomn, singular: true })}
               {f({ c: RusCase.Gent, singular: true })}
@@ -428,6 +430,8 @@ export class MorphBox extends React.Component<MorphBoxProps, {}> {
     }
   }
 }
+
+export { MorphBox, MorphBoxProps };
 
 /*
 

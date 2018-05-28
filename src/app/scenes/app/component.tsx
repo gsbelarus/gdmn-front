@@ -7,7 +7,8 @@ import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/st
 import Toolbar from '@material-ui/core/Toolbar';
 import CSSModules from 'react-css-modules';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
-// const styles = require('./styles.css'); // TODO import styles from './styles.css';
+
+const styles = require('./styles.css'); // TODO import styles from './styles.css';
 import { ErrorBoundary } from 'components/ErrorBoundary';
 import ERModelContainer from '../../scenes/ermodel/container';
 import MorphBoxContainer from '../../scenes/morphology/container';
@@ -15,8 +16,7 @@ import SemanticsBoxContainer from '../../scenes/semantics/container';
 
 const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme => ({
   main: {
-    padding: theme.spacing.unit * 4,
-    textAlign: 'center'
+    padding: theme.spacing.unit * 4
   },
   navItem: {
     margin: theme.spacing.unit
@@ -33,7 +33,7 @@ export interface AppProps
   readonly match: any;
 }
 
-// @CSSModules(styles) // FIXME prod config extract modules
+@CSSModules(styles)
 class _App extends React.Component<AppProps, {}> {
   public render() {
     const { match, classes } = this.props;
@@ -59,7 +59,7 @@ class _App extends React.Component<AppProps, {}> {
             </NavLink>
           </Toolbar>
         </AppBar>
-        <main className={main}>
+        <main styleName={'main'} className={main}>
           <ErrorBoundary>
             <Switch>
               <Route exact={true} path={`${match.path}/`} render={() => <div>Welcome to Home, homie!</div>} />

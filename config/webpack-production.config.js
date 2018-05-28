@@ -11,6 +11,7 @@ const OUTPUT_FILENAME = 'scripts/[name].[hash].bundle.js';
 const OUTPUT_CHUNK_FILENAME = 'scripts/[name].[chunkhash].chunk.js';
 const EXTRACT_CSS_FILENAME = 'styles/[name].[chunkhash].css';
 const STYLES_PATH = getRootRelativePath('src/styles');
+const MODULE_STYLES_PATH = getRootRelativePath('src');
 
 const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
   devtool: 'source-map',
@@ -23,7 +24,33 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
       {
         test: /\.css$/,
         include: STYLES_PATH,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        include: MODULE_STYLES_PATH,
+        exclude: STYLES_PATH,
+        use: [
+          'style-loader',
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              sourceMap: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
+            }
+          }
+        ]
       }
     ]
   },

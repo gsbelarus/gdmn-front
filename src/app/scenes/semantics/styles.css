@@ -44,12 +44,12 @@ svg rect.outerRect {
   fill: gray;
 }
 
-svg rect.phrase {
+svg rect:global.phrase {
   stroke: none;
   fill: white;
 }
 
-svg rect.word {
+svg rect:global.word {
   stroke: none;
   fill: aquamarine;
 }
@@ -67,4 +67,12 @@ svg path {
 
 svg marker#arrow path {
   fill: gray;
+}
+
+.SemanticsTextButtons {
+
+}
+
+.SemanticsOutput {
+
 }

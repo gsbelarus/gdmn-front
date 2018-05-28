@@ -95,7 +95,9 @@ export default function reducer(state: State = initialState, action: ERMAction):
     case getType(actions.loadERModel): {
       return {
         erTranslatorRU: new ERTranslatorRU(action.payload),
-        erModel: action.payload, err: '' };
+        erModel: action.payload,
+        err: ''
+      };
     }
 
     case getType(actions.loadERModelError): {

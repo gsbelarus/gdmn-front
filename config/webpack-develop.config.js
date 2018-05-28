@@ -37,7 +37,6 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
     },
     // see https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/config/webpackDevServer.config.js
     before(app) {
-      // FIXME
       // This lets us open files from the runtime error overlay.
       app.use(errorOverlayMiddleware());
       // This service worker file is effectively a 'no-op' that will reset any
@@ -94,7 +93,6 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development'
     }),
-    // TODO notifierPlugin
     new webpack.HotModuleReplacementPlugin(), // TODO test hot: true
     new webpack.NamedModulesPlugin()
   ]

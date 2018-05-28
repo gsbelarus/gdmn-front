@@ -5,9 +5,16 @@ import { applyMiddleware, compose, createStore } from 'redux';
 
 function configureStore(rootReducer: any, middlewares?: any, initialState?: any | {}) {
   // TODO types
-  return createStore(rootReducer, initialState, compose(applyMiddleware(
-    // thunkMiddleware,
-    ...middlewares)));
+  return createStore(
+    rootReducer,
+    initialState,
+    compose(
+      applyMiddleware(
+        // thunkMiddleware,
+        ...middlewares
+      )
+    )
+  );
 }
 
 export default configureStore;

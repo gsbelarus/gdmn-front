@@ -1,13 +1,13 @@
-import 'styles/modules/semanticsBox.css';
-
 import React from 'react';
 import { graphlib, layout } from 'dagre';
 import { Phrase, Word } from 'gdmn-nlp';
+import CSSModules from 'react-css-modules';
 
+const styles = require('./styles.css');
 import { Edge } from './components/edge';
 import { Rect } from './components/rect';
 
-export interface SemanticsBoxProps {
+interface SemanticsBoxProps {
   readonly text: string;
   readonly parsedText: string[];
   readonly phrase: Phrase;
@@ -16,7 +16,8 @@ export interface SemanticsBoxProps {
   readonly onParse: (text: string) => any;
 }
 
-export class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
+@CSSModules(styles)
+class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
   public render() {
     const { text, parsedText, onSetText, onClearText, onParse, phrase } = this.props;
 
@@ -81,20 +82,20 @@ export class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
     const makeEdge = (e: dagre.Edge, idx: number) => <Edge key={idx} points={g.edge(e).points} />;
 
     return (
-      <div>
-        <div className="SemanticsInput">
-          <div className="SemanticsText">
+      <React.Fragment>
+        <div styleName="SemanticsInput">
+          <div styleName="SemanticsText">
             <textarea
               value={text}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onSetText(e.currentTarget.value)}
             />
-            <div className="SemanticsTextButtons">
+            <div styleName="SemanticsTextButtons">
               <button onClick={onClearText}>Clear</button>
               <button onClick={() => onParse(text)}>Parse</button>
             </div>
           </div>
         </div>
-        <div className="SemanticsOutput">{parsedText.map((p, idx) => <div key={idx}>{p}</div>)}</div>
+        <div styleName="SemanticsOutput">{parsedText.map((p, idx) => <div key={idx}>{p}</div>)}</div>
         <div>
           {g.graph() ? (
             <svg
@@ -125,7 +126,9 @@ export class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
             </svg>
           ) : null}
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
+
+export { SemanticsBox, SemanticsBoxProps };

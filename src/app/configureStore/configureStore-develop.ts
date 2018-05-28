@@ -17,9 +17,13 @@ function configureStore(rootReducer: any, middlewares?: any, initialState?: any 
   const store = createStore(
     rootReducer,
     initialState,
-    devCompose(applyMiddleware(
-      // thunkMiddleware,
-      ...middlewares, ...devMiddlewares))
+    devCompose(
+      applyMiddleware(
+        // thunkMiddleware,
+        ...middlewares,
+        ...devMiddlewares
+      )
+    )
   );
 
   // webpack HMR for reducers

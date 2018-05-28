@@ -44,7 +44,7 @@
   background-color: lemonchiffon;
 }
 
-.Token {
+:global .Token {
   cursor: default;
   align-self: flex-start;
   height: 1.8em;
@@ -57,23 +57,23 @@
   min-width: 8px;
 }
 
-.tkn-WhiteSpace {
+:global .tkn-WhiteSpace {
   background-color: aquamarine;
 }
 
-.tkn-PunctuationMark {
+:global .tkn-PunctuationMark {
   background-color: darkgray;
 }
 
-.tkn-LineBreak {
+:global .tkn-LineBreak {
   background-color: blueviolet;
 }
 
-.tkn-Other {
+:global .tkn-Other {
   background-color: darksalmon;
 }
 
-.Token.selected {
+:global .Token.selected {
   filter: invert(100%);
 }
 
@@ -119,4 +119,8 @@
 
 .MorphOutputFlex td div {
   cursor: pointer;
+}
+
+.MorphTextButtons {
+
 }
