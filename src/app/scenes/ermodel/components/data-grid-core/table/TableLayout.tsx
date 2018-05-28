@@ -3,7 +3,7 @@ import React, { Component, Key, ReactType } from 'react';
 interface TableColumn {
   id: Key;
   widthPx?: number;
-  // align: string
+  align?: string;
 }
 
 interface TableLayoutProps {
@@ -22,6 +22,7 @@ interface TableLayoutProps {
   renderHeadCell: ReactType;
   renderRow: ReactType;
   renderTable: ReactType;
+  [t: string]: any;
 }
 
 // TODO arrow -> renderItem

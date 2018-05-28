@@ -6,7 +6,6 @@ import { TableHead as CoreTableHead, TableHeadProps as CoreTableHeadProps } from
 type TableHeadProps = CoreTableHeadProps & MuiTableHeadProps;
 
 class TableHead extends React.Component<TableHeadProps, any> {
-
   public render(): JSX.Element {
     const { children, ...muiTableHeadProps } = this.props;
 

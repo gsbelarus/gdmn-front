@@ -6,7 +6,6 @@ import { TableRow as CoreTableRow, TableRowProps as CoreTableRowProps } from '..
 type TableRowProps = CoreTableRowProps & MuiTableRowProps;
 
 class TableRow extends React.Component<TableRowProps, any> {
-
   public render(): JSX.Element {
     const { children, ...muiTableRowProps } = this.props; //  props.row
 

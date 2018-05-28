@@ -6,7 +6,6 @@ import { TableFoot as CoreTableFoot, TableFootProps as CoreTableFootProps } from
 type TableFootProps = CoreTableFootProps & MuiTableFootProps;
 
 class TableFoot extends React.Component<TableFootProps, any> {
-
   public render(): JSX.Element {
     const { children, ...muiTableFootProps } = this.props;
 

@@ -6,7 +6,6 @@ import { TableBody as CoreTableBody, TableBodyProps as CoreTableBodyProps } from
 type TableBodyProps = CoreTableBodyProps & MuiTableBodyProps;
 
 class TableBody extends React.Component<TableBodyProps, any> {
-
   public render(): JSX.Element {
     const { children, ...muiTableBodyProps } = this.props;
 

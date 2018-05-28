@@ -7,7 +7,6 @@ import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/st
 import Toolbar from '@material-ui/core/Toolbar';
 import CSSModules from 'react-css-modules';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
-
 // const styles = require('./styles.css'); // TODO import styles from './styles.css';
 import { ErrorBoundary } from 'components/ErrorBoundary';
 import ERModelContainer from '../../scenes/ermodel/container';

@@ -3,6 +3,7 @@ import React, { ReactChild, ReactType } from 'react';
 interface TableProps {
   children?: ReactChild | ReactChild[];
   renderComponent: ReactType; // TODO | ReactElement<any> | ReactNode;
+  [t: string]: any;
 }
 
 class Table extends React.Component<TableProps, any> {

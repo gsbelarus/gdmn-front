@@ -6,6 +6,7 @@ interface TableCellProps {
   renderComponent: ReactType; // 'td' // TODO func({key, rowData, column})
   renderContent: ReactType;
   renderContentSkeleton?: ReactType;
+  [t: string]: any;
   // ...componentProps:
   // tabIndex: number, // browser-focusable
   // onDoubleClick: ()=>void
