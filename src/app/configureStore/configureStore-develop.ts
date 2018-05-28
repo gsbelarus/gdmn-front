@@ -1,6 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
+// import thunkMiddleware from 'redux-thunk';
 // import persistState from 'redux-localstorage';
 
 // https://github.com/zalmoxisus/redux-devtools-extension
@@ -17,7 +17,9 @@ function configureStore(rootReducer: any, middlewares?: any, initialState?: any 
   const store = createStore(
     rootReducer,
     initialState,
-    devCompose(applyMiddleware(thunkMiddleware, ...middlewares, ...devMiddlewares))
+    devCompose(applyMiddleware(
+      // thunkMiddleware,
+      ...middlewares, ...devMiddlewares))
   );
 
   // webpack HMR for reducers

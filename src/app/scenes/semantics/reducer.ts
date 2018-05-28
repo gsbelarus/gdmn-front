@@ -2,21 +2,22 @@ import { Phrase } from 'gdmn-nlp';
 import { ActionType, getType } from 'typesafe-actions';
 
 import * as semActions from './actions';
+import { Command } from 'gdmn-nlp-agent';
 
 export type SemAction = ActionType<typeof semActions>;
 
 export interface State {
   readonly text: string;
-  readonly parsedText: string[];
-  readonly phrase: Phrase | undefined;
+  readonly wordsSignatures: string[];
+  readonly phrase?: Phrase;
+  readonly command?: Command;
 }
 
-const initialText = 'покажи всех клиентов из минска';
+const initialText = 'покажи все организации из минска';
 
 export const initialState: State = {
   text: initialText,
-  parsedText: [],
-  phrase: undefined
+  wordsSignatures: []
 };
 
 export default function reducer(state: State = initialState, action: SemAction): State {
@@ -31,7 +32,7 @@ export default function reducer(state: State = initialState, action: SemAction):
     case getType(semActions.setParsedText): {
       return {
         ...state,
-        parsedText: action.payload.parsedText,
+        wordsSignatures: action.payload.wordsSignatures,
         phrase: action.payload.phrase
       };
     }

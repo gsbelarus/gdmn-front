@@ -16,7 +16,7 @@ import * as actions from './actions';
 import { MorphBox } from './component';
 import { MorphAction } from './reducer';
 
-type Dispatch = ReduxDispatch<MorphAction, State>; // TODO test THUNK <_, State>
+type Dispatch = ReduxDispatch<MorphAction>; // TODO test THUNK <_, State>
 
 export default connect(
   (state: State) => ({

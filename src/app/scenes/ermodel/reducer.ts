@@ -1,5 +1,6 @@
 import { ERModel } from 'gdmn-orm';
 import { ActionType, getType } from 'typesafe-actions';
+import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
 import * as actions from './actions';
 import { TableColumn, TableRowData } from './components/data-grid-core';
@@ -10,6 +11,7 @@ export type ERMAction = ActionType<typeof actions>;
 export interface State {
   readonly erModel: ERModel;
   readonly err: string;
+  readonly erTranslatorRU?: ERTranslatorRU;
 
   readonly columns?: TableColumn[];
   readonly headRows?: TableRowData[];
@@ -91,7 +93,9 @@ export const initialState: State = {
 export default function reducer(state: State = initialState, action: ERMAction): State {
   switch (action.type) {
     case getType(actions.loadERModel): {
-      return { erModel: action.payload, err: '' };
+      return {
+        erTranslatorRU: new ERTranslatorRU(action.payload),
+        erModel: action.payload, err: '' };
     }
 
     case getType(actions.loadERModelError): {
