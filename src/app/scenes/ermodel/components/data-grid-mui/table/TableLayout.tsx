@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactType } from 'react';
 import classNames from 'classnames';
 import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
@@ -36,7 +36,7 @@ const styles: StyleRulesCallback<TableLayoutClassKey> = (theme: Theme) => ({
 
 type BaseTableLayoutProps = CoreTableLayoutProps;
 interface TableLayoutProps extends BaseTableLayoutProps {
-  renderContainer: any; // FIXME ReactType; // TODO -> core
+  renderContainer: ReactType; // FIXME ReactType; // TODO -> core
   maxTableHeight?: string;
   headSticky?: boolean;
   footSticky?: boolean;
@@ -48,7 +48,7 @@ class _TableLayout extends React.Component<TableLayoutProps & WithStyles<TableLa
     footSticky: true,
     renderContainer: 'div',
     minColumnWidthPx: 120, // CoreTableLayout
-    maxTableHeight: '80vh' // todo
+    maxTableHeight: '60vh' // todo
   };
 
   public render(): JSX.Element {
