@@ -7,14 +7,15 @@ import { Table, TableBody, TableCell, TableLayout, TableRow } from './components
 import { TableColumn, TableRowData } from './components/data-grid-core';
 
 export interface ERModelBoxProps {
-  readonly erModel: ERModel;
-  readonly err: string;
-  readonly onLoad: () => any;
+  erModel: ERModel;
+  err?: string | null;
+  // demo
+  columns: TableColumn[];
+  headRows: TableRowData[];
+  bodyRows: TableRowData[];
+  footRows: TableRowData[];
 
-  readonly columns?: TableColumn[];
-  readonly headRows?: TableRowData[];
-  readonly bodyRows?: TableRowData[];
-  readonly footRows?: TableRowData[];
+  onLoad: () => any;
 }
 
 export class ERModelBox extends React.Component<ERModelBoxProps, {}> {

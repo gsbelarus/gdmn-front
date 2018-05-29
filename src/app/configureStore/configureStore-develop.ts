@@ -1,7 +1,8 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 // import thunkMiddleware from 'redux-thunk';
-// import persistState from 'redux-localstorage';
+
+import { IRootState, RootReducer } from '@src/app/redux/rootReducer';
 
 // https://github.com/zalmoxisus/redux-devtools-extension
 const devCompose =
@@ -11,12 +12,10 @@ const devCompose =
 
 const devMiddlewares = [createLogger()];
 
-function configureStore(rootReducer: any, middlewares?: any, initialState?: any | {}) {
-  // TODO types
-
+function configureStore(rootReducer: RootReducer, middlewares?: any, initialState?: IRootState) {
   const store = createStore(
     rootReducer,
-    initialState,
+    initialState!,
     devCompose(
       applyMiddleware(
         // thunkMiddleware,
@@ -28,7 +27,7 @@ function configureStore(rootReducer: any, middlewares?: any, initialState?: any 
 
   // webpack HMR for reducers
   if ((module as any).hot) {
-    (module as any).hot.accept('../rootReducer', () => {
+    (module as any).hot.accept('../redux/rootReducer', () => {
       store.replaceReducer(rootReducer);
     });
   }

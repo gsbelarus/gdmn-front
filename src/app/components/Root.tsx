@@ -1,24 +1,19 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React, { ReactNode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { Store } from 'redux';
 
-interface RootProps {
-  // TODO types
-  readonly store: any;
-  readonly routes: any;
+interface IRootProps {
+  readonly store: Store;
+  readonly routes: ReactNode;
 }
 
-class Root extends React.Component<RootProps, {}> {
-  public render() {
-    const { store, routes } = this.props;
-    // TODO const history = browserHistory; // syncHistoryWithStore(browserHistory, store)
+// TODO const history = browserHistory; // syncHistoryWithStore(browserHistory, store)
 
-    return (
-      <Provider store={store}>
-        <BrowserRouter>{routes}</BrowserRouter>
-      </Provider>
-    );
-  }
-}
+const Root: React.SFC<IRootProps> = ({ store, routes }) => (
+  <Provider store={store}>
+    <BrowserRouter>{routes}</BrowserRouter>
+  </Provider>
+);
 
-export default Root;
+export { Root, IRootProps };

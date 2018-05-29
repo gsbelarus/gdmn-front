@@ -1,10 +1,8 @@
 import { Phrase } from 'gdmn-nlp';
-import { ActionType, getType } from 'typesafe-actions';
-
-import * as semActions from './actions';
+import { getType } from 'typesafe-actions';
 import { Command } from 'gdmn-nlp-agent';
 
-export type SemAction = ActionType<typeof semActions>;
+import { actions, Actions } from './actions';
 
 export interface State {
   readonly text: string;
@@ -20,16 +18,16 @@ export const initialState: State = {
   wordsSignatures: []
 };
 
-export default function reducer(state: State = initialState, action: SemAction): State {
+export default function reducer(state: State = initialState, action: Actions): State {
   switch (action.type) {
-    case getType(semActions.setSemText): {
+    case getType(actions.setSemText): {
       return {
         ...state,
         text: action.payload
       };
     }
 
-    case getType(semActions.setParsedText): {
+    case getType(actions.setParsedText): {
       return {
         ...state,
         wordsSignatures: action.payload.wordsSignatures,

@@ -1,13 +1,12 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 // import thunkMiddleware from 'redux-thunk';
 
-// import persistState from 'redux-localstorage';
+import { IRootState, RootReducer } from '@src/app/redux/rootReducer';
 
-function configureStore(rootReducer: any, middlewares?: any, initialState?: any | {}) {
-  // TODO types
+function configureStore(rootReducer: RootReducer, middlewares?: any, initialState?: IRootState) {
   return createStore(
     rootReducer,
-    initialState,
+    initialState!,
     compose(
       applyMiddleware(
         // thunkMiddleware,

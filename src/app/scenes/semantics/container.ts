@@ -2,18 +2,18 @@ import { parsePhrase } from 'gdmn-nlp';
 import { connect } from 'react-redux';
 import { Dispatch as ReduxDispatch } from 'redux';
 
-import { State } from '@src/app/rootReducer';
-import * as actions from './actions';
+import { IRootState } from '@src/app/redux/rootReducer';
+import { selectSemantics } from '@src/app/redux/selectors';
+import { actions, Actions } from './actions';
 import { SemanticsBox } from './component';
-import { SemAction } from './reducer';
 
-type SemActionDispatch = ReduxDispatch<SemAction>; // TODO test THUNK <_, State>
+type SemActionDispatch = ReduxDispatch<Actions>;
 
 export default connect(
-  (state: State) => ({
-    text: state.semantics.text,
-    parsedText: state.semantics.wordsSignatures,
-    phrase: state.semantics.phrase
+  (state: IRootState) => ({
+    text: selectSemantics(state).text,
+    parsedText: selectSemantics(state).wordsSignatures,
+    phrase: selectSemantics(state).phrase
   }),
   (dispatch: SemActionDispatch) => ({
     onSetText: (text: string) => dispatch(actions.setSemText(text)),

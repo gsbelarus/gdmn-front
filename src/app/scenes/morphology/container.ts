@@ -11,19 +11,16 @@ import {
 import { connect } from 'react-redux';
 import { Dispatch as ReduxDispatch } from 'redux';
 
-import { State } from '@src/app/rootReducer';
-import * as actions from './actions';
+import { IRootState } from '@src/app/redux/rootReducer';
+import { selectMorphology } from '@src/app/redux/selectors';
+import { actions, Actions } from './actions';
 import { MorphBox } from './component';
-import { MorphAction } from './reducer';
 
-type Dispatch = ReduxDispatch<MorphAction>; // TODO test THUNK <_, State>
+type Dispatch = ReduxDispatch<Actions>;
 
 export default connect(
-  (state: State) => ({
-    text: state.morphology.text,
-    tokens: state.morphology.tokens,
-    selectedToken: state.morphology.selectedToken,
-    words: state.morphology.words
+  (state: IRootState) => ({
+    ...selectMorphology(state)
   }),
   (dispatch: Dispatch) => ({
     onSetText: (text: string) => dispatch(actions.setMorphText(text)),

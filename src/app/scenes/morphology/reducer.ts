@@ -1,10 +1,8 @@
 import { IToken } from 'chevrotain';
 import { morphAnalyzer, RusWord, tokenize, Words } from 'gdmn-nlp';
-import { ActionType, getType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
-import * as actions from './actions';
-
-export type MorphAction = ActionType<typeof actions>;
+import { actions, Actions } from './actions';
 
 export interface State {
   readonly text: string;
@@ -22,7 +20,7 @@ export const initialState: State = {
   words: []
 };
 
-export default function reducer(state: State = initialState, action: MorphAction): State {
+export default function reducer(state: State = initialState, action: Actions): State {
   switch (action.type) {
     case getType(actions.setMorphText): {
       const tokens = tokenize(action.payload);

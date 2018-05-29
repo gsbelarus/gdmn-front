@@ -1,10 +1,13 @@
 import { ParsedText } from 'gdmn-nlp';
-import { createAction } from 'typesafe-actions';
+import { ActionType, createAction } from 'typesafe-actions';
 
-export const setSemText = createAction('SET_SEM_TEXT', resolve => {
-  return (text: string) => resolve(text);
-});
+export const actions = {
+  setSemText: createAction('SET_SEM_TEXT', resolve => {
+    return (text: string) => resolve(text);
+  }),
+  setParsedText: createAction('SET_SEM_PARSED_TEXT', resolve => {
+    return (parsedText: ParsedText) => resolve(parsedText);
+  })
+};
 
-export const setParsedText = createAction('SET_SEM_PARSED_TEXT', resolve => {
-  return (parsedText: ParsedText) => resolve(parsedText);
-});
+export type Actions = ActionType<typeof actions>;

@@ -1,10 +1,20 @@
 import { ERModel } from 'gdmn-orm';
-import { createAction } from 'typesafe-actions';
 
-export const loadERModel = createAction('LOAD_ERMODEL', resolve => {
-  return (erModel: ERModel) => resolve(erModel);
-});
+export enum ActionTypes {
+  LOAD_ERMODEL_OK = 'app/ermodel/LOAD_ERMODEL_OK',
+  LOAD_ERMODEL_ERROR = 'app/ermodel/LOAD_ERMODEL_ERROR'
+  // todo LOAD_ERRMODEL_REQUEST
+}
 
-export const loadERModelError = createAction('LOAD_ERMODEL_ERROR', resolve => {
-  return (err: string) => resolve(err);
-});
+export interface ILoadErModelOkAction {
+  payload: ERModel;
+  type: ActionTypes.LOAD_ERMODEL_OK;
+}
+
+export interface ILoadErModelErrorAction {
+  error: true;
+  payload: string; // TODO  toString
+  type: ActionTypes.LOAD_ERMODEL_ERROR;
+}
+
+export type Actions = ILoadErModelOkAction | ILoadErModelErrorAction;

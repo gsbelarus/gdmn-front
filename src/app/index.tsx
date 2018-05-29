@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import Root from './components/Root';
+import { Root } from './components/Root';
 import configureStore from './configureStore';
-import rootReducer from './rootReducer';
+import rootReducer from './redux/rootReducer';
 import App from './scenes/app/container';
 
 const config = require('configFile'); // FIXME import config from 'configFile';
