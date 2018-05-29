@@ -35,6 +35,13 @@ export default function reducer(state: IState = initialState, action: TActions):
       };
     }
 
+    case getType(actions.setCommand): {
+      return {
+        ...state,
+        command: action.payload
+      }
+    }
+
     default:
       return state;
   }
