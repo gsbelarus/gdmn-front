@@ -9,7 +9,7 @@ import { Rect } from './components/rect';
 
 interface SemanticsBoxProps {
   readonly text: string;
-  readonly parsedText: string[];
+  readonly wordsSignatures: string[];
   readonly phrase: Phrase;
   readonly onSetText: (text: string) => any;
   readonly onClearText: () => any;
@@ -19,7 +19,7 @@ interface SemanticsBoxProps {
 @CSSModules(styles)
 class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
   public render() {
-    const { text, parsedText, onSetText, onClearText, onParse, phrase } = this.props;
+    const { text, wordsSignatures, onSetText, onClearText, onParse, phrase } = this.props;
 
     // Create a new directed graph
     const g = new graphlib.Graph();
@@ -95,7 +95,7 @@ class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
             </div>
           </div>
         </div>
-        <div styleName="SemanticsOutput">{parsedText.map((p, idx) => <div key={idx}>{p}</div>)}</div>
+        <div styleName="SemanticsOutput">{wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}</div>
         <div>
           {g.graph() ? (
             <svg

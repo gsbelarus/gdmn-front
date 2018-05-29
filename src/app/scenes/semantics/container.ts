@@ -12,7 +12,7 @@ type SemActionDispatch = ReduxDispatch<Actions>;
 export default connect(
   (state: IRootState) => ({
     text: selectSemantics(state).text,
-    parsedText: selectSemantics(state).wordsSignatures,
+    wordsSignatures: selectSemantics(state).wordsSignatures,
     phrase: selectSemantics(state).phrase
   }),
   (dispatch: SemActionDispatch) => ({
