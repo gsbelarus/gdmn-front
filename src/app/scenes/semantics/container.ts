@@ -13,7 +13,8 @@ export default connect(
   (state: IRootState) => ({
     text: selectSemantics(state).text,
     wordsSignatures: selectSemantics(state).wordsSignatures,
-    phrase: selectSemantics(state).phrase
+    phrase: selectSemantics(state).phrase,
+    command: selectSemantics(state).command
   }),
   (dispatch: SemActionDispatch) => ({
     onSetText: (text: string) => dispatch(actions.setSemText(text)),

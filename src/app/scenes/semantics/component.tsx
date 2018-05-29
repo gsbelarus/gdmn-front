@@ -6,6 +6,7 @@ import CSSModules from 'react-css-modules';
 const styles = require('./styles.css');
 import { Edge } from './components/edge';
 import { Rect } from './components/rect';
+import { Command } from 'gdmn-nlp-agent';
 
 interface SemanticsBoxProps {
   readonly text: string;
@@ -14,12 +15,13 @@ interface SemanticsBoxProps {
   readonly onSetText: (text: string) => any;
   readonly onClearText: () => any;
   readonly onParse: (text: string) => any;
+  readonly command?: Command;
 }
 
 @CSSModules(styles)
 class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
   public render() {
-    const { text, wordsSignatures, onSetText, onClearText, onParse, phrase } = this.props;
+    const { text, wordsSignatures, onSetText, onClearText, onParse, phrase, command } = this.props;
 
     // Create a new directed graph
     const g = new graphlib.Graph();
@@ -96,6 +98,7 @@ class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
           </div>
         </div>
         <div styleName="SemanticsOutput">{wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}</div>
+        <div>{JSON.stringify(command, undefined, 2)}</div>
         <div>
           {g.graph() ? (
             <svg
