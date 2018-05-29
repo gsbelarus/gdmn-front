@@ -11,7 +11,7 @@ type SemActionDispatch = ReduxDispatch<SemAction, State>; // TODO test THUNK <_,
 export default connect(
   (state: State) => ({
     text: state.semantics.text,
-    parsedText: state.semantics.wordsSignatures,
+    wordsSignatures: state.semantics.wordsSignatures,
     phrase: state.semantics.phrase
   }),
   (dispatch: SemActionDispatch) => ({
