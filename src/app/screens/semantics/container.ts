@@ -6,7 +6,7 @@ import * as actions from './actions';
 import { SemanticsBox } from './component';
 import { SemAction } from './reducer';
 
-type SemActionDispatch = ReduxDispatch<SemAction, State>; // TODO test THUNK <_, State>
+type SemActionDispatch = ReduxDispatch<SemAction>;
 
 export default connect(
   (state: State) => ({

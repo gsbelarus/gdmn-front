@@ -6,7 +6,7 @@ import * as actions from './actions';
 import { ERModelBox } from './component';
 import { ERMAction } from './reducer';
 
-type Dispatch = ReduxDispatch<ERMAction, State>; // TODO test THUNK <_, State>
+type Dispatch = ReduxDispatch<ERMAction>;
 
 export default connect(
   (state: State) => ({ ...state.ermodel }),
