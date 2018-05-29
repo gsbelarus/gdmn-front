@@ -1,13 +1,15 @@
 import React, { ReactType } from 'react';
 import classNames from 'classnames';
 import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { WithStyles } from '@material-ui/core/styles';
 
-import { TableLayout as CoreTableLayout, TableLayoutProps as CoreTableLayoutProps } from '../../data-grid-core';
+import {
+  TableLayout as CoreTableLayout,
+  ITableLayoutProps as ICoreTableLayoutProps
+} from '@src/app/scenes/ermodel/components/data-grid-core';
 
-type TableLayoutClassKey = 'container' | 'headCell' | 'footCell';
-const styles: StyleRulesCallback<TableLayoutClassKey> = (theme: Theme) => ({
+type TTableLayoutClassKey = 'container' | 'headCell' | 'footCell';
+const styles: StyleRulesCallback<TTableLayoutClassKey> = theme => ({
   container: {
     overflowX: 'auto'
     // WebkitOverflowScrolling: 'touch'
@@ -34,15 +36,15 @@ const styles: StyleRulesCallback<TableLayoutClassKey> = (theme: Theme) => ({
   }
 });
 
-type BaseTableLayoutProps = CoreTableLayoutProps;
-interface TableLayoutProps extends BaseTableLayoutProps {
+type TBaseTableLayoutProps = ICoreTableLayoutProps;
+interface ITableLayoutProps extends TBaseTableLayoutProps {
   renderContainer: ReactType; // FIXME ReactType; // TODO -> core
   maxTableHeight?: string;
   headSticky?: boolean;
   footSticky?: boolean;
 }
 
-class _TableLayout extends React.Component<TableLayoutProps & WithStyles<TableLayoutClassKey>, any> {
+class _TableLayout extends React.Component<ITableLayoutProps & WithStyles<TTableLayoutClassKey>, any> {
   public static defaultProps = {
     headSticky: true,
     footSticky: true,
@@ -77,6 +79,6 @@ class _TableLayout extends React.Component<TableLayoutProps & WithStyles<TableLa
 
 // TODO maxTableHeight -> table, minWidth
 
-const TableLayout = withStyles(styles, { name: 'TableLayout' })<TableLayoutProps>(_TableLayout);
+const TableLayout = withStyles(styles, { name: 'TableLayout' })<ITableLayoutProps>(_TableLayout);
 
-export { TableLayout, TableLayoutProps };
+export { TableLayout, ITableLayoutProps };

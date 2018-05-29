@@ -1,17 +1,29 @@
 {
   "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
+  "rulesDirectory": ["tslint-consistent-codestyle"],
   "rules": {
     "ban": false,
     "ban-types": false,
     "class-name": false,
-    "interface-name": false,
+    "curly": [true, "ignore-same-line"],
     "member-ordering": false,
+    "no-angle-bracket-type-assertion": false,
     "no-console": false,
     "no-implicit-dependencies": false,
     "no-submodule-imports": [true, "@src", "@material-ui/core", "@material-ui/icons"],
+    "no-unused-expression": true,
     "no-var-requires": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "jsx-no-lambda": false
+
+    "jsx-no-lambda": false,
+
+    "early-exit": true,
+    "naming-convention": [true],
+    "no-as-type-assertion": true,
+    "no-collapsible-if": true,
+    "no-return-undefined": true,
+    "no-static-this": true,
+    "prefer-const-enum": true
   }
 }

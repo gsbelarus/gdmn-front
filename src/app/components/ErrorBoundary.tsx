@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface DeaultErrorBoundaryComponentProps {
+interface IDeaultErrorBoundaryComponentProps {
   error: Error;
   stack: string;
 }
 
 // TODO isDevMode
-const DeaultErrorBoundaryComponent = ({ error, stack }: DeaultErrorBoundaryComponentProps) => (
+const DeaultErrorBoundaryComponent = ({ error, stack }: IDeaultErrorBoundaryComponentProps) => (
   <h1>
     Something went wrong!
     <br />
@@ -22,23 +22,23 @@ const DeaultErrorBoundaryComponent = ({ error, stack }: DeaultErrorBoundaryCompo
   </h1>
 );
 
-interface ErrorBoundaryProps {
+interface IErrorBoundaryProps {
   children?: any;
   renderComponent?: any; // FIXME React.Component<any, any>
   onError?: (error: Error, info: React.ErrorInfo) => void;
 }
 
-interface ErrorBoundaryState {
+interface IErrorBoundaryState {
   error: Error | null;
   info: React.ErrorInfo | null;
 }
 
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryState> {
   public static defaultProps = {
     renderComponent: DeaultErrorBoundaryComponent
   };
 
-  public state: ErrorBoundaryState = {
+  public state: IErrorBoundaryState = {
     error: null,
     info: null
   };

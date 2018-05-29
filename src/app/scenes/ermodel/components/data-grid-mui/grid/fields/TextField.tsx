@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface TextFieldProps {
+interface ITextFieldProps {
   style?: object;
   data: object | string;
   getValue: (data: object | string) => string;
 }
 
-class TextField extends React.Component<TextFieldProps, any> {
+class TextField extends React.Component<ITextFieldProps, any> {
   // TODO pure
 
   public defaultProps = {
@@ -23,4 +23,4 @@ class TextField extends React.Component<TextFieldProps, any> {
   } // todo React.Fragment
 }
 
-export { TextField, TextFieldProps };
+export { TextField, ITextFieldProps };

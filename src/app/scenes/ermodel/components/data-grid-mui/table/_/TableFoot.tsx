@@ -1,11 +1,14 @@
 import React from 'react';
 import MuiTableFoot, { TableFooterProps as MuiTableFootProps } from '@material-ui/core/TableFooter';
 
-import { TableFoot as CoreTableFoot, TableFootProps as CoreTableFootProps } from '../../../data-grid-core';
+import {
+  TableFoot as CoreTableFoot,
+  ITableFootProps as ICoreTableFootProps
+} from '@src/app/scenes/ermodel/components/data-grid-core';
 
-type TableFootProps = CoreTableFootProps & MuiTableFootProps;
+type TTableFootProps = ICoreTableFootProps & MuiTableFootProps;
 
-class TableFoot extends React.Component<TableFootProps, any> {
+class TableFoot extends React.Component<TTableFootProps, any> {
   public render(): JSX.Element {
     const { children, ...muiTableFootProps } = this.props;
 
@@ -17,4 +20,4 @@ class TableFoot extends React.Component<TableFootProps, any> {
   }
 }
 
-export { TableFoot, TableFootProps };
+export { TableFoot, TTableFootProps };

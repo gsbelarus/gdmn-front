@@ -1,22 +1,22 @@
 import React, { Component, Key, ReactType } from 'react';
 
-interface TableRowData {
+interface ITableRowData {
   id: Key;
   [t: string]: any;
 }
 
-interface TableColumn {
+interface ITableColumn {
   id: Key;
   widthPx?: number | null;
   align?: string | null;
   [t: string]: any;
 }
 
-interface TableLayoutProps {
-  bodyRows?: TableRowData[];
-  columns?: TableColumn[];
-  footRows?: TableRowData[];
-  headRows?: TableRowData[];
+interface ITableLayoutProps {
+  bodyRows?: ITableRowData[];
+  columns?: ITableColumn[];
+  footRows?: ITableRowData[];
+  headRows?: ITableRowData[];
   minColumnWidthPx?: number;
   renderBody: ReactType;
   renderBodyCell: ReactType;
@@ -34,7 +34,7 @@ interface TableLayoutProps {
 // TODO arrow -> renderItem
 // TODO col, cell types
 
-class TableLayout extends Component<TableLayoutProps, any> {
+class TableLayout extends Component<ITableLayoutProps, any> {
   public static defaultProps = {
     columns: [],
     bodyRows: [],
@@ -42,13 +42,13 @@ class TableLayout extends Component<TableLayoutProps, any> {
     headRows: []
   };
 
-  constructor(props: TableLayoutProps) {
+  constructor(props: ITableLayoutProps) {
     super(props);
 
     this.getMinWidth = this.getMinWidth.bind(this);
   }
 
-  private getMinWidth(columns: TableColumn[]): number {
+  private getMinWidth(columns: ITableColumn[]): number {
     const { minColumnWidthPx } = this.props;
 
     return columns.map(column => column.widthPx || minColumnWidthPx || 0).reduce((acc, width) => acc + width, 0) || 0;
@@ -114,4 +114,4 @@ class TableLayout extends Component<TableLayoutProps, any> {
   }
 }
 
-export { TableLayout, TableLayoutProps, TableColumn, TableRowData };
+export { TableLayout, ITableLayoutProps, ITableColumn, ITableRowData };

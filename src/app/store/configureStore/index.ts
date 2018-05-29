@@ -1,4 +1,4 @@
-import { isDevMode } from '../utils';
+import { isDevMode } from '@src/app/utils';
 import configureStoreDev from './configureStore-develop';
 import configureStoreProd from './configureStore-production';
 

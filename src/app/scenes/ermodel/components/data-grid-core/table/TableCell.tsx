@@ -1,6 +1,6 @@
 import React, { ReactChild, ReactType } from 'react';
 
-interface TableCellProps {
+interface ITableCellProps {
   children?: ReactChild | ReactChild[];
   loading?: boolean; // content = fixed-height skeleton
   renderComponent: ReactType; // 'td' // TODO func({key, rowData, column})
@@ -12,7 +12,7 @@ interface TableCellProps {
   // onDoubleClick: ()=>void
 }
 
-class TableCell extends React.Component<TableCellProps, any> {
+class TableCell extends React.Component<ITableCellProps, any> {
   public static defaultProps = {
     loading: false
   };
@@ -30,4 +30,4 @@ class TableCell extends React.Component<TableCellProps, any> {
   }
 }
 
-export { TableCell, TableCellProps };
+export { TableCell, ITableCellProps };

@@ -2,9 +2,9 @@ import { Phrase } from 'gdmn-nlp';
 import { getType } from 'typesafe-actions';
 import { Command } from 'gdmn-nlp-agent';
 
-import { actions, Actions } from './actions';
+import { actions, TActions } from './actions';
 
-export interface State {
+export interface IState {
   readonly text: string;
   readonly wordsSignatures: string[];
   readonly phrase?: Phrase;
@@ -13,12 +13,12 @@ export interface State {
 
 const initialText = 'покажи все организации из минска';
 
-export const initialState: State = {
+export const initialState: IState = {
   text: initialText,
   wordsSignatures: []
 };
 
-export default function reducer(state: State = initialState, action: Actions): State {
+export default function reducer(state: IState = initialState, action: TActions): IState {
   switch (action.type) {
     case getType(actions.setSemText): {
       return {

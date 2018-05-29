@@ -3,13 +3,11 @@ import ReactDOM from 'react-dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { Root } from './components/Root';
-import configureStore from './configureStore';
-import rootReducer from './redux/rootReducer';
 import App from './scenes/app/container';
+import store from './store/store';
 
 const config = require('configFile'); // FIXME import config from 'configFile';
 
-const store = configureStore(rootReducer, []); // TODO middlewares
 const domContainerNode = config.webpack.appMountNodeId;
 
 const NotFoundView = () => <h2>404!</h2>;

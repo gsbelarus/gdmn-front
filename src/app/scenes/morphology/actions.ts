@@ -9,4 +9,4 @@ export const actions = {
   })
 };
 
-export type Actions = ActionType<typeof actions>;
+export type TActions = ActionType<typeof actions>;

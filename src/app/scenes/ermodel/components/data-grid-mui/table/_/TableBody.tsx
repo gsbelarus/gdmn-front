@@ -1,11 +1,14 @@
 import React from 'react';
 import MuiTableBody, { TableBodyProps as MuiTableBodyProps } from '@material-ui/core/TableBody';
 
-import { TableBody as CoreTableBody, TableBodyProps as CoreTableBodyProps } from '../../../data-grid-core';
+import {
+  TableBody as CoreTableBody,
+  ITableBodyProps as ICoreTableBodyProps
+} from '@src/app/scenes/ermodel/components/data-grid-core';
 
-type TableBodyProps = CoreTableBodyProps & MuiTableBodyProps;
+type TTableBodyProps = ICoreTableBodyProps & MuiTableBodyProps;
 
-class TableBody extends React.Component<TableBodyProps, any> {
+class TableBody extends React.Component<TTableBodyProps, any> {
   public render(): JSX.Element {
     const { children, ...muiTableBodyProps } = this.props;
 
@@ -17,4 +20,4 @@ class TableBody extends React.Component<TableBodyProps, any> {
   }
 }
 
-export { TableBody, TableBodyProps };
+export { TableBody, TTableBodyProps };

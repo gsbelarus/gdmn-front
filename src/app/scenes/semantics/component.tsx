@@ -7,7 +7,7 @@ const styles = require('./styles.css');
 import { Edge } from './components/edge';
 import { Rect } from './components/rect';
 
-interface SemanticsBoxProps {
+interface ISemanticsBoxProps {
   readonly text: string;
   readonly wordsSignatures: string[];
   readonly phrase: Phrase;
@@ -17,7 +17,7 @@ interface SemanticsBoxProps {
 }
 
 @CSSModules(styles)
-class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
+class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
   public render() {
     const { text, wordsSignatures, onSetText, onClearText, onParse, phrase } = this.props;
 
@@ -68,15 +68,13 @@ class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
 
     const makeRect = (n: string, idx: number) => {
       const nd = g.node(n);
-      if (nd) {
-        const x = nd.x - nd.width / 2;
-        const y = nd.y - nd.height / 2;
-        return (
-          <Rect key={idx} x={x} y={y} width={nd.width} height={nd.height} text={nd.label} className={nd.className} />
-        );
-      } else {
-        return null;
-      }
+      if (!nd) return null;
+
+      const x = nd.x - nd.width / 2;
+      const y = nd.y - nd.height / 2;
+      return (
+        <Rect key={idx} x={x} y={y} width={nd.width} height={nd.height} text={nd.label} className={nd.className} />
+      );
     };
 
     const makeEdge = (e: dagre.Edge, idx: number) => <Edge key={idx} points={g.edge(e).points} />;
@@ -131,4 +129,4 @@ class SemanticsBox extends React.Component<SemanticsBoxProps, {}> {
   }
 }
 
-export { SemanticsBox, SemanticsBoxProps };
+export { SemanticsBox, ISemanticsBoxProps };

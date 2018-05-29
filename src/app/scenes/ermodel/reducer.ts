@@ -2,27 +2,27 @@ import { Key } from 'react';
 import { ERModel } from 'gdmn-orm';
 import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
-import { ActionTypes, Actions } from './actions';
-import { TableColumn, TableRowData } from './components/data-grid-core';
+import { ActionTypes, TActions } from './actions';
+import { ITableColumn, ITableRowData } from './components/data-grid-core';
 
 export interface IState {
   readonly erModel: ERModel;
   readonly err?: string | null; // todo .toString()
   // er model table
-  readonly columns: TableColumn[];
-  readonly headRows?: TableRowData[];
-  readonly bodyRows?: TableRowData[];
-  readonly footRows?: TableRowData[];
+  readonly columns: ITableColumn[];
+  readonly headRows?: ITableRowData[];
+  readonly bodyRows?: ITableRowData[];
+  readonly footRows?: ITableRowData[];
   // entity data table
-  readonly dataTableColumns?: TableColumn[];
-  readonly dataTableHeadRows?: TableRowData[];
-  readonly dataTableBodyRows?: TableRowData[];
-  readonly dataTableFootRows?: TableRowData[];
+  readonly dataTableColumns?: ITableColumn[];
+  readonly dataTableHeadRows?: ITableRowData[];
+  readonly dataTableBodyRows?: ITableRowData[];
+  readonly dataTableFootRows?: ITableRowData[];
   // internal
   readonly erTranslatorRU?: ERTranslatorRU;
 }
 
-function createTableColumn(key: Key, widthPx?: number | null, align?: string | null): TableColumn {
+function createTableColumn(key: Key, widthPx?: number | null, align?: string | null): ITableColumn {
   return { id: key, widthPx, align };
 }
 
@@ -35,7 +35,7 @@ const initialState: IState = {
 
 // todo combineReducers<IState, RootAction>
 
-export function reducer(state: IState = initialState, action: Actions): IState {
+export function reducer(state: IState = initialState, action: TActions): IState {
   switch (action.type) {
     case ActionTypes.LOAD_ERMODEL_OK: {
       return {
@@ -59,7 +59,7 @@ export function reducer(state: IState = initialState, action: Actions): IState {
 
 // demo data
 let id = 0;
-function createDemoRowData(name: any, calories: any, fat: any, carbs: any, protein: any): TableRowData {
+function createDemoRowData(name: any, calories: any, fat: any, carbs: any, protein: any): ITableRowData {
   id += 1;
   return {
     id,

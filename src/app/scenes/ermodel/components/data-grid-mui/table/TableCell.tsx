@@ -2,14 +2,17 @@ import React from 'react';
 import classNames from 'classnames';
 import MuiTableCell, { TableCellProps as MuiTableCellProps } from '@material-ui/core/TableCell';
 import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { WithStyles } from '@material-ui/core/styles';
 
-import { TableCell as CoreTableCell, TableCellProps as CoreTableCellProps, TableColumn } from '../../data-grid-core';
-import TextSkeleton from '../../TextSkeleton';
+import {
+  TableCell as CoreTableCell,
+  ITableCellProps as ICoreTableCellProps,
+  ITableColumn
+} from '@src/app/scenes/ermodel/components/data-grid-core';
+import TextSkeleton from '@src/app/scenes/ermodel/components/TextSkeleton';
 
-type TableCellClassKey = 'cell' | 'cellRightAlign' | 'cellCenterAlign' | 'cellNoWrap';
-const styles: StyleRulesCallback<TableCellClassKey> = (theme: Theme) => ({
+type TTableCellClassKey = 'cell' | 'cellRightAlign' | 'cellCenterAlign' | 'cellNoWrap';
+const styles: StyleRulesCallback<TTableCellClassKey> = theme => ({
   cell: {
     paddingRight: theme.spacing.unit,
     paddingLeft: theme.spacing.unit,
@@ -30,12 +33,12 @@ const styles: StyleRulesCallback<TableCellClassKey> = (theme: Theme) => ({
   }
 });
 
-type BaseTableCellProps = CoreTableCellProps & MuiTableCellProps & WithStyles<TableCellClassKey>;
-interface TableCellProps extends BaseTableCellProps {
-  column: TableColumn;
+type TBaseTableCellProps = ICoreTableCellProps & MuiTableCellProps & WithStyles<TTableCellClassKey>;
+interface ITableCellProps extends TBaseTableCellProps {
+  column: ITableColumn;
 }
 
-class _TableCell extends React.Component<TableCellProps, any> {
+class _TableCell extends React.Component<ITableCellProps, any> {
   public static defaultProps = {
     renderContentSkeleton: TextSkeleton // TODO from column
   };
@@ -74,4 +77,4 @@ class _TableCell extends React.Component<TableCellProps, any> {
 
 const TableCell = withStyles(styles, { name: 'TableCell' })(_TableCell);
 
-export { TableCell, TableCellProps };
+export { TableCell, ITableCellProps };

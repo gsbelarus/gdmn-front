@@ -1,11 +1,14 @@
 import React from 'react';
 import MuiTableHead, { TableHeadProps as MuiTableHeadProps } from '@material-ui/core/TableHead';
 
-import { TableHead as CoreTableHead, TableHeadProps as CoreTableHeadProps } from '../../../data-grid-core';
+import {
+  TableHead as CoreTableHead,
+  ITableHeadProps as ICoreTableHeadProps
+} from '@src/app/scenes/ermodel/components/data-grid-core';
 
-type TableHeadProps = CoreTableHeadProps & MuiTableHeadProps;
+type TTableHeadProps = ICoreTableHeadProps & MuiTableHeadProps;
 
-class TableHead extends React.Component<TableHeadProps, any> {
+class TableHead extends React.Component<TTableHeadProps, any> {
   public render(): JSX.Element {
     const { children, ...muiTableHeadProps } = this.props;
 
@@ -17,4 +20,4 @@ class TableHead extends React.Component<TableHeadProps, any> {
   }
 }
 
-export { TableHead, TableHeadProps };
+export { TableHead, TTableHeadProps };

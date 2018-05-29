@@ -2,20 +2,18 @@ class Api {
   private static QUERY_API_URL = 'http://192.168.0.78:4000/data'; // TODO config
 
   private static checkStatus(response: any) {
-    if (response.status >= 200 && response.status < 300) {
-      return response;
-    } else {
-      return response.json().catch((error: any) => {
-        if (error instanceof SyntaxError) {
-          console.log('SyntaxError');
-          return {};
-        }
-        throw error;
-      });
-      // .then( (responseBody) => {
-      //   throw createHttpError(response.status, responseBody);
-      // });
-    }
+    if (response.status >= 200 && response.status < 300) return response;
+
+    return response.json().catch((error: any) => {
+      if (error instanceof SyntaxError) {
+        console.log('SyntaxError');
+        return {};
+      }
+      throw error;
+    });
+    // .then( (responseBody) => {
+    //   throw createHttpError(response.status, responseBody);
+    // });
   }
 
   public static request(uri: string, options: { method?: string; headers?: any; [t: string]: any }) {
@@ -37,7 +35,7 @@ class Api {
   }
 
   public static queryFetch(query: any): Promise<any> {
-    return Api.request(this.QUERY_API_URL, { method: 'POST', body: JSON.stringify(query) });
+    return Api.request(Api.QUERY_API_URL, { method: 'POST', body: JSON.stringify(query) });
   }
 }
 

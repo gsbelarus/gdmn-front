@@ -1,11 +1,11 @@
 import React, { ReactChild, ReactType } from 'react';
 
-interface TableBodyProps {
+interface ITableBodyProps {
   children?: ReactChild | ReactChild[];
   renderComponent: ReactType;
 }
 
-class TableBody extends React.Component<TableBodyProps, any> {
+class TableBody extends React.Component<ITableBodyProps, any> {
   public render(): JSX.Element {
     const { renderComponent: Component, children, ...componentProps } = this.props;
 
@@ -13,4 +13,4 @@ class TableBody extends React.Component<TableBodyProps, any> {
   }
 }
 
-export { TableBody, TableBodyProps };
+export { TableBody, ITableBodyProps };

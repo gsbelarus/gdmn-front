@@ -4,31 +4,31 @@ import { ERModel } from 'gdmn-orm';
 import Paper from '@material-ui/core/Paper/Paper';
 
 import { Table, TableBody, TableCell, TableHead, TableLayout, TableRow } from './components/data-grid-mui';
-import { TableColumn, TableRowData } from './components/data-grid-core';
+import { ITableColumn, ITableRowData } from './components/data-grid-core';
 // import CSSModules from 'react-css-modules';
 
 // const commonStyle = require('../../../styles/common.css'); // todo fix extract modules style dir
 
-export interface ERModelBoxProps {
+export interface IERModelBoxProps {
   erModel: ERModel;
   err?: string | null;
   // entities table
-  columns: TableColumn[];
-  headRows: TableRowData[];
-  bodyRows: TableRowData[];
-  footRows: TableRowData[];
+  columns: ITableColumn[];
+  headRows: ITableRowData[];
+  bodyRows: ITableRowData[];
+  footRows: ITableRowData[];
   // entity data table
-  dataTableColumns?: TableColumn[];
-  dataTableHeadRows?: TableRowData[];
-  dataTableBodyRows?: TableRowData[];
-  dataTableFootRows?: TableRowData[];
+  dataTableColumns?: ITableColumn[];
+  dataTableHeadRows?: ITableRowData[];
+  dataTableBodyRows?: ITableRowData[];
+  dataTableFootRows?: ITableRowData[];
   // actions
   loadErModel: () => any;
   loadEntityData: () => any;
 }
 
 // @CSSModules(commonStyle)
-export class ERModelBox extends React.Component<ERModelBoxProps, {}> {
+export class ERModelBox extends React.Component<IERModelBoxProps, {}> {
   private static renderBodyCellContent: React.SFC<any> = ({ column, rowData }) => {
     // TODO types
     return <React.Fragment>{rowData[column.id]}</React.Fragment>;
@@ -47,13 +47,13 @@ export class ERModelBox extends React.Component<ERModelBoxProps, {}> {
 
     return (
       <div>
-        <div>{err}</div>
+        <div>{err && `ERROR: ${err}`}</div>
         <div>{`загружено сущностей: ${Object.entries(erModel.entities).length}`}</div>
         <Button style={{ margin: 60 }} onClick={loadErModel}>
           Load ER-Model
         </Button>
         <Button style={{ margin: 60 }} onClick={loadEntityData}>
-          Load Entity Data
+          Load Entity-Data
         </Button>
         {/* TODO <DataGrid />  */}
 

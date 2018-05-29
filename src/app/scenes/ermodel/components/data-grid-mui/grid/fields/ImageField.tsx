@@ -11,14 +11,14 @@ const styles = {
   }
 };
 
-interface ImageFieldProps {
+interface IImageFieldProps {
   style?: object;
   data: object | string | string[];
   getSrc: (data: object | string) => string | string[];
   getTitle: (data: object | string) => string;
 }
 
-class ImageField extends React.Component<ImageFieldProps, any> {
+class ImageField extends React.Component<IImageFieldProps, any> {
   // TODO pure
 
   public static defaultProps = {
@@ -31,9 +31,7 @@ class ImageField extends React.Component<ImageFieldProps, any> {
     const { getSrc, getTitle, data, style } = this.props;
 
     const srcValue = getSrc(data);
-    if (!srcValue) {
-      return <div />;
-    }
+    if (!srcValue) return <div />;
 
     if (Array.isArray(srcValue)) {
       return (
@@ -66,4 +64,4 @@ class ImageField extends React.Component<ImageFieldProps, any> {
   } // todo React.Fragment
 }
 
-export { ImageField, ImageFieldProps };
+export { ImageField, IImageFieldProps };

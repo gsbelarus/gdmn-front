@@ -29,7 +29,7 @@ import CSSModules from 'react-css-modules';
 
 const styles = require('./styles.css');
 
-interface MorphBoxProps extends CSSModules.InjectedCSSModuleProps {
+interface IMorphBoxProps extends CSSModules.InjectedCSSModuleProps {
   readonly text: string;
   readonly tokens: IToken[];
   readonly selectedToken: number;
@@ -46,7 +46,7 @@ interface MorphBoxProps extends CSSModules.InjectedCSSModuleProps {
 }
 
 @CSSModules(styles, { allowMultiple: true })
-class MorphBox extends React.Component<MorphBoxProps, {}> {
+class MorphBox extends React.Component<IMorphBoxProps, {}> {
   public render() {
     const {
       text,
@@ -130,12 +130,10 @@ class MorphBox extends React.Component<MorphBoxProps, {}> {
         </div>
       );
     }
-    if (w instanceof RusConjunction) {
-      return <div />;
-    }
-    if (w instanceof RusPreposition) {
-      return <div />;
-    }
+    if (w instanceof RusConjunction) return <div />;
+
+    if (w instanceof RusPreposition) return <div />;
+
     if (w instanceof RusAdjective) {
       const l = (w as RusAdjective).lexeme as RusAdjectiveLexeme;
       const f = (morphSigns: RusAdjectiveMorphSigns) => (
@@ -144,19 +142,17 @@ class MorphBox extends React.Component<MorphBoxProps, {}> {
         </div>
       );
       const getShortForm = () => {
-        if (l.hasShortForm()) {
-          return (
-            <tr>
-              <th colSpan={2}>Кратк. форма</th>
-              <td>{f({ singular: true, gender: RusGender.Masc, short: true })}</td>
-              <td>{f({ singular: true, gender: RusGender.Neut, short: true })}</td>
-              <td>{f({ singular: true, gender: RusGender.Femn, short: true })}</td>
-              <td>{f({ singular: false, short: true })}</td>
-            </tr>
-          );
-        } else {
-          return null;
-        }
+        if (!l.hasShortForm()) return null;
+
+        return (
+          <tr>
+            <th colSpan={2}>Кратк. форма</th>
+            <td>{f({ singular: true, gender: RusGender.Masc, short: true })}</td>
+            <td>{f({ singular: true, gender: RusGender.Neut, short: true })}</td>
+            <td>{f({ singular: true, gender: RusGender.Femn, short: true })}</td>
+            <td>{f({ singular: false, short: true })}</td>
+          </tr>
+        );
       };
 
       return (
@@ -431,7 +427,7 @@ class MorphBox extends React.Component<MorphBoxProps, {}> {
   }
 }
 
-export { MorphBox, MorphBoxProps };
+export { MorphBox, IMorphBoxProps };
 
 /*
 

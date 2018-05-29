@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface RectProps {
+export interface IRectProps {
   readonly text: string;
   readonly x: number;
   readonly y: number;
@@ -9,7 +9,7 @@ export interface RectProps {
   readonly className: string;
 }
 
-export class Rect extends React.Component<RectProps, {}> {
+export class Rect extends React.Component<IRectProps, {}> {
   public render() {
     const { x, y, width, height, text, className } = this.props;
     const cx = x + width / 2;

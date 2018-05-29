@@ -1,11 +1,14 @@
 import React from 'react';
 import MuiTableRow, { TableRowProps as MuiTableRowProps } from '@material-ui/core/TableRow';
 
-import { TableRow as CoreTableRow, TableRowProps as CoreTableRowProps } from '../../../data-grid-core';
+import {
+  TableRow as CoreTableRow,
+  ITableRowProps as ICoreTableRowProps
+} from '@src/app/scenes/ermodel/components/data-grid-core';
 
-type TableRowProps = CoreTableRowProps & MuiTableRowProps;
+type TTableRowProps = ICoreTableRowProps & MuiTableRowProps;
 
-class TableRow extends React.Component<TableRowProps, any> {
+class TableRow extends React.Component<TTableRowProps, any> {
   public render(): JSX.Element {
     const { children, ...muiTableRowProps } = this.props; //  props.row
 
@@ -17,4 +20,4 @@ class TableRow extends React.Component<TableRowProps, any> {
   }
 }
 
-export { TableRow, TableRowProps };
+export { TableRow, TTableRowProps };

@@ -2,13 +2,13 @@ import React from 'react';
 import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
 
-interface BooleanFieldProps {
+interface IBooleanFieldProps {
   style?: object;
   data: object | boolean;
   getValue: (data: object | boolean) => boolean;
 }
 
-class BooleanField extends React.Component<BooleanFieldProps, any> {
+class BooleanField extends React.Component<IBooleanFieldProps, any> {
   // TODO pure
 
   public static defaultProps = {
@@ -29,4 +29,4 @@ class BooleanField extends React.Component<BooleanFieldProps, any> {
   } // todo React.Fragment
 }
 
-export { BooleanField, BooleanFieldProps };
+export { BooleanField, IBooleanFieldProps };

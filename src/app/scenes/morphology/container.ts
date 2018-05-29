@@ -11,18 +11,18 @@ import {
 import { connect } from 'react-redux';
 import { Dispatch as ReduxDispatch } from 'redux';
 
-import { IRootState } from '@src/app/redux/rootReducer';
-import { selectMorphology } from '@src/app/redux/selectors';
-import { actions, Actions } from './actions';
+import { IRootState } from '@src/app/store/rootReducer';
+import { selectMorphology } from '@src/app/store/selectors';
+import { actions, TActions } from './actions';
 import { MorphBox } from './component';
 
-type Dispatch = ReduxDispatch<Actions>;
+type TDispatch = ReduxDispatch<TActions>;
 
 export default connect(
   (state: IRootState) => ({
     ...selectMorphology(state)
   }),
-  (dispatch: Dispatch) => ({
+  (dispatch: TDispatch) => ({
     onSetText: (text: string) => dispatch(actions.setMorphText(text)),
     onClickToken: (selectedToken: number) => dispatch(actions.setSelectedToken(selectedToken)),
     onClearText: () => dispatch(actions.setMorphText('')),

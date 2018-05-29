@@ -24,7 +24,7 @@ const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = th
   }
 });
 
-export interface AppProps
+export interface IAppProps
   extends WithStyles<'main' | 'navItem' | 'navItemSelected'>,
     CSSModules.InjectedCSSModuleProps {
   // TODO types
@@ -32,7 +32,7 @@ export interface AppProps
 }
 
 @CSSModules(styles)
-class _App extends React.Component<AppProps, {}> {
+class _App extends React.Component<IAppProps, {}> {
   public render() {
     const { match, classes } = this.props;
     const { main, navItem, navItemSelected } = classes;

@@ -1,9 +1,9 @@
 import { applyMiddleware, compose, createStore } from 'redux';
-// import thunkMiddleware from 'redux-thunk';
+// import thunkMiddleware from 'store-thunk';
 
-import { IRootState, RootReducer } from '@src/app/redux/rootReducer';
+import { IRootState, TRootReducer } from '@src/app/store/rootReducer';
 
-function configureStore(rootReducer: RootReducer, middlewares?: any, initialState?: IRootState) {
+function configureStore(rootReducer: TRootReducer, middlewares?: any, initialState?: IRootState) {
   return createStore(
     rootReducer,
     initialState!,

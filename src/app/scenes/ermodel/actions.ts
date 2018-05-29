@@ -17,4 +17,4 @@ export interface ILoadErModelErrorAction {
   type: ActionTypes.LOAD_ERMODEL_ERROR;
 }
 
-export type Actions = ILoadErModelOkAction | ILoadErModelErrorAction;
+export type TActions = ILoadErModelOkAction | ILoadErModelErrorAction;
