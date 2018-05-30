@@ -50,7 +50,7 @@ function createBodyRows(erModel: ERModel): ITableRowData[] {
 export default connect(
   (state: IRootState, ownProps: IERModelBoxProps) => ({
     ...selectErmodelState(state),
-    bodyRows: createBodyRows(selectErmodelState(state).erModel)
+    //bodyRows: createBodyRows(selectErmodelState(state).erModel)
     // dataTableBodyRows: createBodyRows(selectErmodelState(state).erModel)
   }),
   (dispatch: TDispatch) => ({

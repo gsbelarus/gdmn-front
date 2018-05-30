@@ -16,12 +16,13 @@ interface ISemanticsBoxProps {
   readonly onClearText: () => any;
   readonly onParse: (text: string) => any;
   readonly command?: Command;
+  readonly err?: string;
 }
 
 @CSSModules(styles)
 class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
   public render() {
-    const { text, wordsSignatures, onSetText, onClearText, onParse, phrase, command } = this.props;
+    const { text, wordsSignatures, onSetText, onClearText, onParse, phrase, command, err } = this.props;
 
     // Create a new directed graph
     const g = new graphlib.Graph();
@@ -81,6 +82,14 @@ class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
 
     const makeEdge = (e: dagre.Edge, idx: number) => <Edge key={idx} points={g.edge(e).points} />;
 
+    const displayCommand = () => {
+      return (
+        <div>
+          Show
+        </div>
+      );
+    };
+
     return (
       <React.Fragment>
         <div styleName="SemanticsInput">
@@ -96,7 +105,7 @@ class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
           </div>
         </div>
         <div styleName="SemanticsOutput">{wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}</div>
-        <div>{JSON.stringify(command, undefined, 2)}</div>
+        <div>{err || displayCommand()}</div>
         <div>
           {g.graph() ? (
             <svg

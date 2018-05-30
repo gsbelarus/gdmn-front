@@ -1,7 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
-// import thunkMiddleware from 'store-thunk';
-
 import { IRootState, TRootReducer } from '@src/app/store/rootReducer';
 
 // https://github.com/zalmoxisus/redux-devtools-extension
@@ -18,7 +16,6 @@ function configureStore(rootReducer: TRootReducer, middlewares?: any, initialSta
     initialState!,
     devCompose(
       applyMiddleware(
-        // thunkMiddleware,
         ...middlewares,
         ...devMiddlewares
       )
