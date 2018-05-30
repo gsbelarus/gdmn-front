@@ -55,18 +55,14 @@ export default connect(
   }),
   (dispatch: TDispatch) => ({
     loadErModel: () => {
-      fetch('http://localhost:4000/er') // TODO config
-        .then(res => {
-          return res.text();
-        })
-        .then(res => JSON.parse(res))
+      Api.fetchEr()
         .then(res => {
           return dispatch(loadERModelOk(deserializeERModel(<IERModel>res)));
         })
-        .catch(err => dispatch(loadERModelError(JSON.stringify(err))));
+        .catch((err:Error) => dispatch(loadERModelError(err.message)));
     },
     loadEntityData: () => {
-      Api.queryFetch({
+      Api.fetchQuery({
         link: {
           entity: 'GD_USER',
           alias: 'U',
@@ -100,8 +96,8 @@ export default connect(
           }
         }
       })
-        .then((res: any) => JSON.parse(res))
-        .then((res: any) => console.log(res));
+        .then(res => console.log(res))
+        .catch((err: Error) => dispatch(loadERModelError(err.message))); // todo custom action
     }
   })
 )(ERModelBox);

@@ -1,22 +1,31 @@
+const config = require('configFile');
+
+// TODO types
 class Api {
-  private static QUERY_API_URL = 'http://192.168.0.78:4000/data'; // TODO config
+
+  private static API_URL =`${config.server.http.host}:${config.server.http.port}${config.server.apiPath}`;
+  private static ER_URL = `${config.server.http.host}:${config.server.http.port}${config.server.erPath}`;
 
   private static checkStatus(response: any) {
     if (response.status >= 200 && response.status < 300) return response;
 
-    return response.json().catch((error: any) => {
-      if (error instanceof SyntaxError) {
-        console.log('SyntaxError');
-        return {};
-      }
-      throw error;
-    });
-    // .then( (responseBody) => {
-    //   throw createHttpError(response.status, responseBody);
-    // });
+    return response
+      .json()
+      .catch((error: Error) => {
+        if (error instanceof SyntaxError) {
+          console.log('[GDMN] SyntaxError');
+          return {};
+        }
+        throw error;
+      })
+      .then((responseBody: object) => {
+        console.log(`[GDMN] HTTP Error (${response.status.toString()}): ${responseBody}`);
+        throw Error(`[GDMN] HTTP Error (${response.status.toString()}): ${responseBody}`);
+      });
   }
 
-  public static request(uri: string, options: { method?: string; headers?: any; [t: string]: any }) {
+  public static fetch(uri: string, options?: { method?: string; headers?: any; [t: string]: any }) {
+    if (!options) options = {};
     options.method = options.method || 'GET';
     options.headers = options.headers || {};
     options.headers.Accept = options.headers.Accept || 'application/json';
@@ -25,18 +34,29 @@ class Api {
     // options.credentials = 'same-origin';
 
     return fetch(uri, options)
-      .catch(fetchError => {
-        throw new Error('Network request to server failed: ' + fetchError.toString());
+      .catch((err: Error) => {
+        console.log('[GDMN] Network request to server failed: ' + err.message); // fixme fetch err to string
+        throw new Error('[GDMN] Network request to server failed: ' + err.message);
       })
       .then(Api.checkStatus)
-      .then(response => {
-        return response.text();
-      });
+      .then(response => response.text());
   }
 
-  public static queryFetch(query: any): Promise<any> {
-    return Api.request(Api.QUERY_API_URL, { method: 'POST', body: JSON.stringify(query) });
+  public static fetchQuery(query: any): Promise<object> {
+    return Api
+      .fetch(Api.API_URL, {
+        method: 'POST',
+        body: JSON.stringify(query)
+      })
+      .then((responseBody: string) => JSON.parse(responseBody));
   }
+
+  public static fetchEr(): Promise<object> {
+    return Api
+      .fetch(Api.ER_URL)
+      .then((responseBody: string) => JSON.parse(responseBody));
+  }
+
 }
 
 export default Api;
