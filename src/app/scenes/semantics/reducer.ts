@@ -1,6 +1,6 @@
 import { Phrase } from 'gdmn-nlp';
 import { getType } from 'typesafe-actions';
-import { Command } from 'gdmn-nlp-agent';
+import { ICommand } from 'gdmn-nlp-agent';
 
 import { actions, TActions } from './actions';
 
@@ -8,7 +8,7 @@ export interface IState {
   readonly text: string;
   readonly wordsSignatures: string[];
   readonly phrase?: Phrase;
-  readonly command?: Command;
+  readonly command?: ICommand;
   readonly err?: string;
 }
 

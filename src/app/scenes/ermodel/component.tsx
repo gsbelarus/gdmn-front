@@ -5,7 +5,8 @@ import Paper from '@material-ui/core/Paper/Paper';
 
 import { Table, TableBody, TableCell, TableHead, TableLayout, TableRow } from './components/data-grid-mui';
 import { ITableColumn, ITableRowData } from './components/data-grid-core';
-// import CSSModules from 'react-css-modules';
+import CSSModules from 'react-css-modules';
+const styles = require('./styles.css');
 
 // const commonStyle = require('../../../styles/common.css'); // todo fix extract modules style dir
 
@@ -28,6 +29,7 @@ export interface IERModelBoxProps {
 }
 
 // @CSSModules(commonStyle)
+@CSSModules(styles)
 export class ERModelBox extends React.Component<IERModelBoxProps, {}> {
   private static renderBodyCellContent: React.SFC<any> = ({ column, rowData }) => {
     // TODO types
@@ -57,6 +59,30 @@ export class ERModelBox extends React.Component<IERModelBoxProps, {}> {
         </Button>
         {/* TODO <DataGrid />  */}
 
+        <table styleName="EntitiesTable">
+          <thead>
+            <tr>
+              <th>Entity</th><th>Наименование</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              Object.entries(erModel.entities).map(
+                (e, idx) => (
+                  <tr>
+                    <td>{e[1].name}</td><td>{e[1].lName.ru!.name}</td>
+                  </tr>
+                )
+              )
+            }
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+/*
         <div className="row-flex">
           <TableLayout
             headRows={headRows}
@@ -114,10 +140,8 @@ export class ERModelBox extends React.Component<IERModelBoxProps, {}> {
             renderColGroupCol="col"
           />
         </div>
-      </div>
-    );
-  }
-}
+
+*/
 
 // TODO
 

@@ -6,7 +6,7 @@ import CSSModules from 'react-css-modules';
 const styles = require('./styles.css');
 import { Edge } from './components/edge';
 import { Rect } from './components/rect';
-import { Command } from 'gdmn-nlp-agent';
+import { ICommand } from 'gdmn-nlp-agent';
 
 interface ISemanticsBoxProps {
   readonly text: string;
@@ -15,7 +15,7 @@ interface ISemanticsBoxProps {
   readonly onSetText: (text: string) => any;
   readonly onClearText: () => any;
   readonly onParse: (text: string) => any;
-  readonly command?: Command;
+  readonly command?: ICommand;
   readonly err?: string;
 }
 
@@ -83,10 +83,26 @@ class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
     const makeEdge = (e: dagre.Edge, idx: number) => <Edge key={idx} points={g.edge(e).points} />;
 
     const displayCommand = () => {
-      return (
-        <div>
-          Show
-        </div>
+
+      const formatObj = (obj: any) => (
+        `
+              {
+                Determiner: All,
+                Entity: ${obj.entity.name},
+                Conditions: []
+              }`
+      );
+
+      return (command &&
+        <pre>
+          {
+            `
+            Action: Show,
+            Objects: [${command.objects && command.objects.map( obj => formatObj(obj) )}
+            ]
+            `
+          }
+        </pre>
       );
     };
 
@@ -104,37 +120,41 @@ class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
             </div>
           </div>
         </div>
-        <div styleName="SemanticsOutput">{wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}</div>
-        <div>{err || displayCommand()}</div>
-        <div>
-          {g.graph() ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={g.graph().width}
-              height={g.graph().height}
-              viewBox={'0 0 ' + g.graph().width + ' ' + g.graph().height}
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <defs>
-                <marker
-                  id="arrow"
-                  viewBox="0 0 10 10"
-                  refX="9"
-                  refY="5"
-                  markerUnits="strokeWidth"
-                  markerWidth="8"
-                  markerHeight="6"
-                  orient="auto"
-                >
-                  <path d="M 0 0 L 10 5 L 0 10 Z" style={{ strokeWidth: '1' }} />
-                </marker>
-              </defs>
-              <g>
-                {g.nodes().map((n, idx) => makeRect(n, idx))}
-                {g.edges().map((e, idx) => makeEdge(e, idx))}
-              </g>
-            </svg>
-          ) : null}
+        <div styleName="SemanticsOutput">
+          {wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}
+        </div>
+        <div styleName="CommandAndGraph">
+          {err || displayCommand()}
+          <div>
+            {g.graph() ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={g.graph().width}
+                height={g.graph().height}
+                viewBox={'0 0 ' + g.graph().width + ' ' + g.graph().height}
+                preserveAspectRatio="xMidYMid meet"
+              >
+                <defs>
+                  <marker
+                    id="arrow"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerUnits="strokeWidth"
+                    markerWidth="8"
+                    markerHeight="6"
+                    orient="auto"
+                  >
+                    <path d="M 0 0 L 10 5 L 0 10 Z" style={{ strokeWidth: '1' }} />
+                  </marker>
+                </defs>
+                <g>
+                  {g.nodes().map((n, idx) => makeRect(n, idx))}
+                  {g.edges().map((e, idx) => makeEdge(e, idx))}
+                </g>
+              </svg>
+            ) : null}
+          </div>
         </div>
       </React.Fragment>
     );

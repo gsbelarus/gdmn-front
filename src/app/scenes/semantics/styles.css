@@ -69,10 +69,32 @@ svg marker#arrow path {
   fill: gray;
 }
 
-.SemanticsTextButtons {
+.CommandAndGraph pre {
+  text-align: left;
+  border: 1px lightgray solid;
+}
 
+div.CommandAndGraph {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.SemanticsTextButtons {
+  color: inherit;
 }
 
 .SemanticsOutput {
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 
+.SemanticsOutput div {
+  border: 1px gray solid;
+  margin-right: 8px;
+  padding: 2px 4px 2px 4px;
+  border-radius: 4px;
+  background-color: lightblue;
 }
