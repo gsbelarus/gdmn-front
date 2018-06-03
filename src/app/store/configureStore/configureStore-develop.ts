@@ -1,4 +1,4 @@
-import { applyMiddleware, compose, createStore } from 'redux';
+import { applyMiddleware, compose, createStore, Middleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import { IRootState, TRootReducer } from '@src/app/store/rootReducer';
 
@@ -8,7 +8,7 @@ const devCompose =
     ? (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const devMiddlewares = [createLogger()];
+const devMiddlewares: Middleware[] = []; // [createLogger()];
 
 function configureStore(rootReducer: TRootReducer, middlewares?: any, initialState?: IRootState) {
   const store = createStore(

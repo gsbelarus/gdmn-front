@@ -69,7 +69,7 @@ export class ERModelBox extends React.Component<IERModelBoxProps, {}> {
             {
               Object.entries(erModel.entities).map(
                 (e, idx) => (
-                  <tr>
+                  <tr key={idx}>
                     <td>{e[1].name}</td><td>{e[1].lName.ru!.name}</td>
                   </tr>
                 )

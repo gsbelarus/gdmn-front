@@ -30,14 +30,14 @@ export default connect(
       const parsedText = parsePhrase(text);
       events.dispatch(actions.setParsedText(parsedText));
       const erTranslatorRU = state.erTranslatorRU;
-      if (erTranslatorRU && parsedText.phrase) {
-        try {
-          const command = erTranslatorRU.process(parsedText.phrase);
-          console.log(command);
-          events.dispatch(actions.setCommand(command));
-        }
-        catch (err) {
-          events.dispatch(actions.setError(JSON.stringify(err)));
+      if (!erTranslatorRU || !parsedText.phrase) return;
+      try {
+        const command = erTranslatorRU.process(parsedText.phrase);
+        events.dispatch(actions.setCommand(command));
+      }
+      catch (err) {
+        if (err instanceof Error) {
+          events.dispatch(actions.setError(err.message));
         }
       }
     }
