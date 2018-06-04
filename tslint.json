@@ -9,6 +9,7 @@
     "member-ordering": false,
     "no-angle-bracket-type-assertion": false,
     "no-console": false,
+    "no-default-export": true,
     "no-implicit-dependencies": false,
     "no-submodule-imports": [true, "@src", "@material-ui/core", "@material-ui/icons"],
     "no-unused-expression": true,

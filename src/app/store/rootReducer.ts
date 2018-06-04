@@ -1,8 +1,8 @@
-import { Reducer as ReduxReducer, combineReducers } from 'redux';
+import { combineReducers, Reducer as ReduxReducer } from 'redux';
 
-import { reducer as ermodelReducer, IState as IErmodelState } from '@src/app/scenes/ermodel/reducer';
-import morphology, { IState as IMorphologyState } from '@src/app/scenes/morphology/reducer';
-import semantics, { IState as ISemanticState } from '@src/app/scenes/semantics/reducer';
+import { IState as IErmodelState, reducer as ermodelReducer } from '@src/app/scenes/ermodel/reducer';
+import { reducer as morphologyReducer, IState as IMorphologyState } from '@src/app/scenes/morphology/reducer';
+import { reducer as semanticsReducer, IState as ISemanticState } from '@src/app/scenes/semantics/reducer';
 
 interface IRootState {
   readonly morphology: IMorphologyState;
@@ -12,12 +12,13 @@ interface IRootState {
 
 const rootReducer = combineReducers<IRootState>({
   // TODO combineReducers<IRootState, RootActions>
-  morphology,
-  semantics,
+  morphology: morphologyReducer,
+  semantics: semanticsReducer,
   ermodelState: ermodelReducer
 });
 
 type TRootReducer = ReduxReducer<IRootState>; // TODO ReduxReducer<IRootState, RootActions>
 
-export default rootReducer;
+// tslint:disable-next-line no-default-export
+export default rootReducer; // TODO test hmr require without default
 export { TRootReducer, IRootState };

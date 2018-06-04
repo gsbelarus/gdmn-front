@@ -4,7 +4,7 @@ import { getType } from 'typesafe-actions';
 
 import { actions, TActions } from './actions';
 
-export interface IState {
+interface IState {
   readonly text: string;
   readonly tokens: IToken[];
   readonly selectedToken: number;
@@ -13,14 +13,14 @@ export interface IState {
 
 const initialText = '';
 
-export const initialState: IState = {
+const initialState: IState = {
   text: initialText,
   tokens: tokenize(initialText),
   selectedToken: -1,
   words: []
 };
 
-export default function reducer(state: IState = initialState, action: TActions): IState {
+function reducer(state: IState = initialState, action: TActions): IState {
   switch (action.type) {
     case getType(actions.setMorphText): {
       const tokens = tokenize(action.payload);
@@ -60,3 +60,5 @@ export default function reducer(state: IState = initialState, action: TActions):
       return state;
   }
 }
+
+export { reducer, IState, initialState };

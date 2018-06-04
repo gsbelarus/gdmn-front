@@ -17,7 +17,6 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
   devtool: 'cheap-module-source-map',
   mode: 'development',
   devServer: {
-    // contentBase: './dist', // TODO ?
     host: DEV_SERVER_HOST,
     port: DEV_SERVER_PORT,
     historyApiFallback: true,

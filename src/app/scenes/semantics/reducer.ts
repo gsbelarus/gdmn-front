@@ -1,24 +1,24 @@
 import { Phrase } from 'gdmn-nlp';
 import { getType } from 'typesafe-actions';
-import { Command } from 'gdmn-nlp-agent';
+import { ICommand } from 'gdmn-nlp-agent';
 
 import { actions, TActions } from './actions';
 
-export interface IState {
+interface IState {
   readonly text: string;
   readonly wordsSignatures: string[];
   readonly phrase?: Phrase;
-  readonly command?: Command;
+  readonly command?: ICommand;
 }
 
 const initialText = 'покажи все организации из минска';
 
-export const initialState: IState = {
+const initialState: IState = {
   text: initialText,
   wordsSignatures: []
 };
 
-export default function reducer(state: IState = initialState, action: TActions): IState {
+function reducer(state: IState = initialState, action: TActions): IState {
   switch (action.type) {
     case getType(actions.setSemText): {
       return {
@@ -39,10 +39,12 @@ export default function reducer(state: IState = initialState, action: TActions):
       return {
         ...state,
         command: action.payload
-      }
+      };
     }
 
     default:
       return state;
   }
 }
+
+export { reducer, IState, initialState };

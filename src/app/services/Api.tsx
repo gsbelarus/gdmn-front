@@ -2,8 +2,7 @@ const config = require('configFile');
 
 // TODO types
 class Api {
-
-  private static API_URL =`${config.server.http.host}:${config.server.http.port}${config.server.apiPath}`;
+  private static API_URL = `${config.server.http.host}:${config.server.http.port}${config.server.apiPath}`;
   private static ER_URL = `${config.server.http.host}:${config.server.http.port}${config.server.erPath}`;
 
   private static checkStatus(response: any) {
@@ -42,21 +41,16 @@ class Api {
       .then(response => response.text());
   }
 
-  public static fetchQuery(query: any): Promise<object> {
-    return Api
-      .fetch(Api.API_URL, {
-        method: 'POST',
-        body: JSON.stringify(query)
-      })
-      .then((responseBody: string) => JSON.parse(responseBody));
+  public static fetchQuery(query: string): Promise<object> {
+    return Api.fetch(Api.API_URL, {
+      method: 'POST',
+      body: query
+    }).then((responseBody: string) => JSON.parse(responseBody));
   }
 
   public static fetchEr(): Promise<object> {
-    return Api
-      .fetch(Api.ER_URL)
-      .then((responseBody: string) => JSON.parse(responseBody));
+    return Api.fetch(Api.ER_URL).then((responseBody: string) => JSON.parse(responseBody));
   }
-
 }
 
-export default Api;
+export { Api };

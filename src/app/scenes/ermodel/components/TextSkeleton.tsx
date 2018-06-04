@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentLoader, { ContentLoaderProps } from 'react-content-loader';
 
-class TextSkeleton extends React.Component<ContentLoaderProps, any> {
+export class TextSkeleton extends React.Component<ContentLoaderProps, any> {
   // TODO types
   private static genWidth() {
     const width = 75 - Math.floor(Math.random() * 11) * 5;
@@ -20,5 +20,3 @@ class TextSkeleton extends React.Component<ContentLoaderProps, any> {
     );
   }
 }
-
-export default TextSkeleton;

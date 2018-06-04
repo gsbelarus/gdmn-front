@@ -2,11 +2,12 @@ import React from 'react';
 import { graphlib, layout } from 'dagre';
 import { Phrase, Word } from 'gdmn-nlp';
 import CSSModules from 'react-css-modules';
+import { ICommand } from 'gdmn-nlp-agent';
 
-const styles = require('./styles.css');
 import { Edge } from './components/edge';
 import { Rect } from './components/rect';
-import { Command } from 'gdmn-nlp-agent';
+
+const styles = require('./styles.css');
 
 interface ISemanticsBoxProps {
   readonly text: string;
@@ -15,7 +16,7 @@ interface ISemanticsBoxProps {
   readonly onSetText: (text: string) => any;
   readonly onClearText: () => any;
   readonly onParse: (text: string) => any;
-  readonly command?: Command;
+  readonly command?: ICommand;
 }
 
 @CSSModules(styles)

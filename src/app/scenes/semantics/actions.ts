@@ -1,8 +1,8 @@
 import { ParsedText } from 'gdmn-nlp';
 import { ActionType, createAction } from 'typesafe-actions';
-import { Command } from 'gdmn-nlp-agent';
+import { ICommand } from 'gdmn-nlp-agent';
 
-export const actions = {
+const actions = {
   setSemText: createAction('SET_SEM_TEXT', resolve => {
     return (text: string) => resolve(text);
   }),
@@ -10,8 +10,10 @@ export const actions = {
     return (parsedText: ParsedText) => resolve(parsedText);
   }),
   setCommand: createAction('SET_SEM_COMMAND', resolve => {
-    return (command: Command) => resolve(command)
+    return (command: ICommand) => resolve(command);
   })
 };
 
-export type TActions = ActionType<typeof actions>;
+type TActions = ActionType<typeof actions>;
+
+export { actions, TActions };

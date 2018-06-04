@@ -5,11 +5,11 @@ import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withSty
 import { WithStyles } from '@material-ui/core/styles';
 
 import {
-  TableCell as CoreTableCell,
   ITableCellProps as ICoreTableCellProps,
-  ITableColumn
+  ITableColumn,
+  TableCell as CoreTableCell
 } from '@src/app/scenes/ermodel/components/data-grid-core';
-import TextSkeleton from '@src/app/scenes/ermodel/components/TextSkeleton';
+import { TextSkeleton } from '@src/app/scenes/ermodel/components/TextSkeleton';
 
 type TTableCellClassKey = 'cell' | 'cellRightAlign' | 'cellCenterAlign' | 'cellNoWrap';
 const styles: StyleRulesCallback<TTableCellClassKey> = theme => ({

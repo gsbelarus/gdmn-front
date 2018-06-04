@@ -4,7 +4,7 @@ import MuiTable, { TableProps as MuiTableProps } from '@material-ui/core/Table';
 import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import { WithStyles } from '@material-ui/core/styles';
 
-import { Table as CoreTable, ITableProps as ICoreTableProps } from '@src/app/scenes/ermodel/components/data-grid-core';
+import { ITableProps as ICoreTableProps, Table as CoreTable } from '@src/app/scenes/ermodel/components/data-grid-core';
 
 type TTableClassKey = 'table';
 const styles: StyleRulesCallback<TTableClassKey> = theme => ({

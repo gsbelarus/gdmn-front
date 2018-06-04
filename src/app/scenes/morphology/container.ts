@@ -18,7 +18,7 @@ import { MorphBox } from './component';
 
 type TDispatch = ReduxDispatch<TActions>;
 
-export default connect(
+const MorphBoxContainer = connect(
   (state: IRootState) => ({
     ...selectMorphology(state)
   }),
@@ -54,3 +54,5 @@ export default connect(
       dispatch(actions.setMorphText(RusConjunctionLexemes.reduce((p, l) => p + l.stem + ',', '')))
   })
 )(MorphBox);
+
+export { MorphBoxContainer };

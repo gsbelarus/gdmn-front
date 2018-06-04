@@ -1,20 +1,53 @@
 import { ERModel } from 'gdmn-orm';
 
-export enum ActionTypes {
-  LOAD_ERMODEL_OK = 'app/ermodel/LOAD_ERMODEL_OK',
-  LOAD_ERMODEL_ERROR = 'app/ermodel/LOAD_ERMODEL_ERROR'
+enum ActionTypes {
+  SELECT_ENTITY = 'app/ermodel/SELECT_ENTITY',
+  SELECT_FIELDS = 'app/ermodel/SELECT_FIELDS',
   // todo LOAD_ERRMODEL_REQUEST
+  LOAD_ERMODEL_OK = 'app/ermodel/LOAD_ERMODEL_OK',
+  LOAD_ENTITY_DATA_OK = 'app/ermodel/LOAD_ENTITY_DATA_OK',
+  LOAD_ERROR = 'app/ermodel/LOAD_ERROR'
 }
 
-export interface ILoadErModelOkAction {
+interface ISelectEntityAction {
+  payload: string;
+  type: ActionTypes.SELECT_ENTITY;
+}
+
+interface ISelectFieldsAction {
+  payload: string[];
+  type: ActionTypes.SELECT_FIELDS;
+}
+
+interface ILoadErModelOkAction {
   payload: ERModel;
   type: ActionTypes.LOAD_ERMODEL_OK;
 }
 
-export interface ILoadErModelErrorAction {
-  error: true;
-  payload: string; // TODO  toString
-  type: ActionTypes.LOAD_ERMODEL_ERROR;
+interface ILoadEntityDataOkAction {
+  payload: object;
+  type: ActionTypes.LOAD_ENTITY_DATA_OK;
 }
 
-export type TActions = ILoadErModelOkAction | ILoadErModelErrorAction;
+interface ILoadErrorAction {
+  error: true;
+  payload: string;
+  type: ActionTypes.LOAD_ERROR;
+}
+
+type TActions =
+  | ISelectFieldsAction
+  | ISelectEntityAction
+  | ILoadErModelOkAction
+  | ILoadEntityDataOkAction
+  | ILoadErrorAction;
+
+export {
+  ActionTypes,
+  ISelectEntityAction,
+  ISelectFieldsAction,
+  ILoadErModelOkAction,
+  ILoadEntityDataOkAction,
+  ILoadErrorAction,
+  TActions
+};

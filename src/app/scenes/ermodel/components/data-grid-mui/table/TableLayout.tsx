@@ -4,8 +4,8 @@ import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withSty
 import { WithStyles } from '@material-ui/core/styles';
 
 import {
-  TableLayout as CoreTableLayout,
-  ITableLayoutProps as ICoreTableLayoutProps
+  ITableLayoutProps as ICoreTableLayoutProps,
+  TableLayout as CoreTableLayout
 } from '@src/app/scenes/ermodel/components/data-grid-core';
 
 type TTableLayoutClassKey = 'container' | 'headCell' | 'footCell';

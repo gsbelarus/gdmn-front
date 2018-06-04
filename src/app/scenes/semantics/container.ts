@@ -9,7 +9,7 @@ import { SemanticsBox } from './component';
 
 type TDispatch = ReduxDispatch<TActions>;
 
-export default connect(
+const SemanticsBoxContainer = connect(
   (state: IRootState) => ({
     text: selectSemantics(state).text,
     wordsSignatures: selectSemantics(state).wordsSignatures,
@@ -25,3 +25,5 @@ export default connect(
     }
   })
 )(SemanticsBox);
+
+export { SemanticsBoxContainer };

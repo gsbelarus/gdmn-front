@@ -13,7 +13,7 @@
   flex-flow: column wrap;
 }
 
-.row-flex {
+:global .row-flex {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;

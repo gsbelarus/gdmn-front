@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { ReactType } from 'react';
 import ReactDOM from 'react-dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import green from '@material-ui/core/colors/green';
+import purple from '@material-ui/core/colors/purple';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import { Root } from './components/Root';
-import App from './scenes/app/container';
-import store from './store/store';
+import { App } from './scenes/app/container';
+import { store } from './store/store';
 
 const config = require('configFile'); // FIXME import config from 'configFile';
 
-const domContainerNode = config.webpack.appMountNodeId;
+const theme = createMuiTheme({
+  palette: {
+    primary: purple,
+    secondary: green
+  }
+});
 
 const NotFoundView = () => <h2>404!</h2>;
 const rootRoutes = (
@@ -19,8 +27,14 @@ const rootRoutes = (
   </Switch>
 );
 
-function render(RootComponent: any) {
-  const rootComponent = <RootComponent store={store} routes={rootRoutes} />;
+const domContainerNode = config.webpack.appMountNodeId;
+
+function render(RootComponent: ReactType) {
+  const rootComponent = (
+    <MuiThemeProvider theme={theme}>
+      <RootComponent store={store} routes={rootRoutes} />
+    </MuiThemeProvider>
+  );
 
   ReactDOM.render(rootComponent, document.getElementById(domContainerNode));
 }

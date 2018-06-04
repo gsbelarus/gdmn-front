@@ -1,6 +1,6 @@
 import { ActionType, createAction } from 'typesafe-actions';
 
-export const actions = {
+const actions = {
   setMorphText: createAction('SET_MORPH_TEXT', resolve => {
     return (text: string) => resolve(text);
   }),
@@ -9,4 +9,6 @@ export const actions = {
   })
 };
 
-export type TActions = ActionType<typeof actions>;
+type TActions = ActionType<typeof actions>;
+
+export { actions, TActions };

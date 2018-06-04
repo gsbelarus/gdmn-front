@@ -1,6 +1,6 @@
-@import "_reset.css";
-
-/* TYPOGRAPHY */
+/*************************************************
+ * TYPOGRAPHY
+ *************************************************/
 
 /*@import url("https://fonts.googleapis.com/css?family=Open+Sans");*/
 
@@ -9,8 +9,15 @@
 /* Material UI: Material Icons */
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
+/*************************************************
+ * RESET
+ *************************************************/
 
-/* BASE */
+@import "_reset.css";
+
+/*************************************************
+ * BASE
+ *************************************************/
 
 a,
 a:hover,
@@ -37,16 +44,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-
-/* LAYOUT */
+/*************************************************
+ * LAYOUT
+ *************************************************/
 
 body {
   display: flex;
   flex-direction: column;
   font-family: Roboto, sans-serif;
 }
-
-
-/* FIXME tmp*/
-
-@import "common.css";
