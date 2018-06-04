@@ -79,6 +79,7 @@ class _TableLayout extends React.Component<ITableLayoutProps & WithStyles<TTable
 
 // TODO maxTableHeight -> table, minWidth
 
-const TableLayout = withStyles(styles, { name: 'TableLayout' })<ITableLayoutProps>(_TableLayout);
+const TableLayout = _TableLayout;
+//const TableLayout = withStyles(styles, { name: 'TableLayout' })<ITableLayoutProps>(_TableLayout);
 
 export { TableLayout, ITableLayoutProps };

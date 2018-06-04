@@ -36,6 +36,7 @@ class _Table extends React.Component<TTableProps, any> {
   }
 }
 
-const Table = withStyles(styles, { name: 'Table' })(_Table);
+const Table = _Table;
+// const Table = withStyles(styles, { name: 'Table' })(_Table);
 
 export { Table, TTableProps };
