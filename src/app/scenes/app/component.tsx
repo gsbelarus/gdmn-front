@@ -5,7 +5,6 @@ import { StyledComponentProps, StyleRulesCallback, Theme, withStyles, WithStyles
 import Toolbar from '@material-ui/core/Toolbar';
 import CSSModules from 'react-css-modules';
 import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-// import { compose } from 'recompose';
 
 const styles = require('./styles.css');
 

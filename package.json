@@ -23,6 +23,7 @@
     "classnames": "^2.2.5",
     "dagre": "^0.8.2",
     "gdmn-nlp-agent": "git://github.com/gsbelarus/gdmn-nlp-agent.git",
+    "hoist-non-react-statics": "^2.5.0",
     "react": "^16.3.2",
     "react-content-loader": "^3.1.2",
     "react-dom": "^16.3.2",
