@@ -30,12 +30,11 @@ export default function reducer(state: IState = initialState, action: TActions):
     }
 
     case getType(actions.setParsedText): {
-
-
       return {
         ...state,
         wordsSignatures: action.payload.wordsSignatures,
         phrase: action.payload.phrase,
+        command: undefined,
         err: undefined
       };
     }
@@ -51,6 +50,9 @@ export default function reducer(state: IState = initialState, action: TActions):
     case getType(actions.setError) : {
       return {
         ...state,
+        wordsSignatures: [],
+        phrase: undefined,
+        command: undefined,
         err: action.payload
       }
     }

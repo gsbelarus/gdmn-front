@@ -83,26 +83,26 @@ class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
     const makeEdge = (e: dagre.Edge, idx: number) => <Edge key={idx} points={g.edge(e).points} />;
 
     const displayCommand = () => {
-
-      const formatObj = (obj: any) => (
-        `
-              {
-                Determiner: All,
-                Entity: ${obj.entity.name},
-                Conditions: []
-              }`
-      );
-
       return (command &&
-        <pre>
+        <div styleName="command">
+          <div styleName={`action${command.action}`} />
           {
-            `
-            Action: Show,
-            Objects: [${command.objects && command.objects.map( obj => formatObj(obj) )}
-            ]
-            `
+            command.objects && command.objects.map( (co, idx) =>
+              <div styleName="commandObject" key={idx}>
+                <div styleName="entityName">{co.entity.name}</div>
+                {
+                  co.conditions && co.conditions.map( (cond, idx) =>
+                    <div styleName="condition" key={idx}>
+                      <div styleName="attr">{cond.attr.name}</div>
+                      <div styleName={`op${cond.op}`} />
+                      <div styleName="value">{cond.value}</div>
+                    </div>
+                  )
+                }
+              </div>
+            )
           }
-        </pre>
+        </div>
       );
     };
 
