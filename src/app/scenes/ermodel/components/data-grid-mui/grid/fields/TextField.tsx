@@ -9,7 +9,7 @@ interface ITextFieldProps {
 class TextField extends React.Component<ITextFieldProps, any> {
   // TODO pure
 
-  public defaultProps = {
+  public static defaultProps = {
     getValue: (data: object | string) => (typeof data === 'object' ? JSON.stringify(data) : data)
   };
 

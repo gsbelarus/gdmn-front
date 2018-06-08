@@ -1,20 +1,25 @@
-import React, { ReactType } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import { WithStyles } from '@material-ui/core/styles';
+import { Paper } from '@material-ui/core';
 
 import {
   ITableLayoutProps as ICoreTableLayoutProps,
   TableLayout as CoreTableLayout
 } from '@src/app/scenes/ermodel/components/data-grid-core';
+import {
+  TableCell,
+  TableBody,
+  TableFoot,
+  TableHead,
+  TableRow,
+  Table
+} from '@src/app/scenes/ermodel/components/data-grid-mui';
 
-type TTableLayoutClassKey = 'container' | 'headCell' | 'footCell';
+type TTableLayoutClassKey = 'stickyHeadCell' | 'stickyFootCell';
 const styles: StyleRulesCallback<TTableLayoutClassKey> = theme => ({
-  container: {
-    overflowX: 'auto'
-    // WebkitOverflowScrolling: 'touch'
-  },
-  headCell: {
+  stickyHeadCell: {
     position: 'sticky',
     top: 0,
     zIndex: 1,
@@ -24,7 +29,7 @@ const styles: StyleRulesCallback<TTableLayoutClassKey> = theme => ({
       position: '-webkit-sticky'
     }
   },
-  footCell: {
+  stickyFootCell: {
     position: 'sticky',
     bottom: 0,
     zIndex: 1,
@@ -36,10 +41,7 @@ const styles: StyleRulesCallback<TTableLayoutClassKey> = theme => ({
   }
 });
 
-type TBaseTableLayoutProps = ICoreTableLayoutProps;
-interface ITableLayoutProps extends TBaseTableLayoutProps {
-  renderContainer: ReactType; // FIXME ReactType; // TODO -> core
-  maxTableHeight?: string;
+interface ITableLayoutProps extends ICoreTableLayoutProps {
   headSticky?: boolean;
   footSticky?: boolean;
 }
@@ -48,37 +50,43 @@ class _TableLayout extends React.Component<ITableLayoutProps & WithStyles<TTable
   public static defaultProps = {
     headSticky: true,
     footSticky: true,
-    renderContainer: 'div',
-    minColumnWidthPx: 120, // CoreTableLayout
-    maxTableHeight: '60vh' // todo
+    // CoreTableLayout:
+    minColumnWidthPx: 120, // todo
+    renderBody: TableBody,
+    renderBodyCell: TableCell,
+    renderColGroup: 'colgroup',
+    renderColGroupCol: 'col',
+    renderFoot: TableFoot,
+    renderFootCell: TableCell,
+    renderHead: TableHead,
+    renderHeadCell: TableCell,
+    renderRow: TableRow,
+    renderScrollContainer: Paper,
+    renderTable: Table,
+    tableHeight: '60vh' // todo
   };
 
   public render(): JSX.Element {
-    const {
-      headSticky,
-      footSticky,
-      maxTableHeight,
-      renderContainer: Container,
-      classes,
-      ...coreTableLayoutProps
-    } = this.props;
+    const { headSticky, footSticky, classes, ...coreTableLayoutProps } = this.props;
 
     return (
-      <Container className={classes.container} style={{ maxHeight: maxTableHeight }}>
-        <CoreTableLayout
-          className={classNames({
-            [classes.headCell]: headSticky,
-            [classes.footCell]: footSticky
-          })}
-          {...coreTableLayoutProps}
-        />
-      </Container>
+      <CoreTableLayout
+        className={classNames({
+          [classes.stickyHeadCell]: headSticky,
+          [classes.stickyFootCell]: footSticky
+        })}
+        {...coreTableLayoutProps}
+      />
     );
   }
 }
 
-// TODO maxTableHeight -> table, minWidth
+// TODO minWidth
+// TODO headCellStyle (headSticky)
 
 const TableLayout = withStyles(styles, { name: 'TableLayout' })<ITableLayoutProps>(_TableLayout);
 
 export { TableLayout, ITableLayoutProps };
+
+// NoDataCell = TableNoDataCell;
+// NoDataRow = TableRow;
