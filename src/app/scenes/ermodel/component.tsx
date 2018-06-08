@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import Button from '@material-ui/core/Button';
 import { ERModel } from 'gdmn-orm';
 import Paper from '@material-ui/core/Paper/Paper';
@@ -7,7 +7,7 @@ import CSSModules from 'react-css-modules';
 const commonStyle = require('@src/styles/common.css');
 
 import { Table, TableBody, TableCell, TableHead, TableLayout, TableRow } from './components/data-grid-mui';
-import { ITableColumn, ITableRowData } from './components/data-grid-core';
+import { ITableColumn, ITableRow } from './components/data-grid-core';
 
 interface IERModelBoxProps {
   selectedFields?: string[];
@@ -16,19 +16,19 @@ interface IERModelBoxProps {
   err?: string | null;
   // er model table
   columns: ITableColumn[];
-  headRows?: ITableRowData[];
-  bodyRows?: ITableRowData[];
-  footRows?: ITableRowData[];
+  headRows?: ITableRow[];
+  bodyRows?: ITableRow[];
+  footRows?: ITableRow[];
   // entity fields table
   fieldsTableColumns?: ITableColumn[];
-  fieldsTableHeadRows?: ITableRowData[];
-  fieldsTableBodyRows?: ITableRowData[];
-  fieldsTableFootRows?: ITableRowData[];
+  fieldsTableHeadRows?: ITableRow[];
+  fieldsTableBodyRows?: ITableRow[];
+  fieldsTableFootRows?: ITableRow[];
   // entity data table
   dataTableColumns?: ITableColumn[];
-  dataTableHeadRows?: ITableRowData[];
-  dataTableBodyRows?: ITableRowData[];
-  dataTableFootRows?: ITableRowData[];
+  dataTableHeadRows?: ITableRow[];
+  dataTableBodyRows?: ITableRow[];
+  dataTableFootRows?: ITableRow[];
   // actions
   selectEntity: (name: string) => any;
   selectFields: (fieldNames: string[], entityName: string, erModel: ERModel) => any;
@@ -84,11 +84,11 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
 
         <div className="row-flex">
           <TableLayout
+            tableHeightPx={200}
             headRows={headRows}
             columns={columns}
             bodyRows={bodyRows}
-            renderContainer={({ style, ...props }) => <Paper style={{ flex: 1, ...style }} {...props} />}
-            renderHead={TableHead}
+            renderScrollContainer={({ style, ...props }) => <Paper style={{ flex: 1, ...style }} {...props} />}
             renderHeadCell={({ column, rowData, ...props }) => (
               <TableCell
                 renderContent={contentProps => <HeadCellContent column={column} rowData={rowData} {...contentProps} />}
@@ -96,7 +96,6 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
                 {...props}
               />
             )}
-            renderBody={TableBody}
             renderBodyCell={({ column, rowData, ...props }) => (
               <TableCell
                 renderContent={contentProps => <BodyCellContent column={column} rowData={rowData} {...contentProps} />}
@@ -104,19 +103,15 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
                 {...props}
               />
             )}
-            renderRow={TableRow}
-            renderTable={Table}
-            renderColGroup="colgroup"
-            renderColGroupCol="col"
           />
           <TableLayout
+            tableHeightPx={200}
             headRows={fieldsTableHeadRows}
             columns={fieldsTableColumns}
             bodyRows={fieldsTableBodyRows}
-            renderContainer={({ style, ...props }) => (
+            renderScrollContainer={({ style, ...props }) => (
               <Paper style={{ marginLeft: 16, flex: 1, ...style }} {...props} />
             )}
-            renderHead={TableHead}
             renderHeadCell={({ column, rowData, ...props }) => (
               <TableCell
                 renderContent={contentProps => <HeadCellContent column={column} rowData={rowData} {...contentProps} />}
@@ -124,7 +119,6 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
                 {...props}
               />
             )}
-            renderBody={TableBody}
             renderBodyCell={({ column, rowData, ...props }) => (
               <TableCell
                 renderContent={contentProps => <BodyCellContent column={column} rowData={rowData} {...contentProps} />}
@@ -132,19 +126,15 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
                 {...props}
               />
             )}
-            renderRow={TableRow}
-            renderTable={Table}
-            renderColGroup="colgroup"
-            renderColGroupCol="col"
           />
           <TableLayout
+            tableHeightPx={200}
             headRows={dataTableHeadRows}
             columns={dataTableColumns}
             bodyRows={dataTableBodyRows}
-            renderContainer={({ style, ...props }) => (
+            renderScrollContainer={({ style, ...props }) => (
               <Paper style={{ marginLeft: 16, flex: 2, ...style }} {...props} />
             )}
-            renderHead={TableHead}
             renderHeadCell={({ column, rowData, ...props }) => (
               <TableCell
                 renderContent={contentProps => <HeadCellContent column={column} rowData={rowData} {...contentProps} />}
@@ -152,7 +142,6 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
                 {...props}
               />
             )}
-            renderBody={TableBody}
             renderBodyCell={({ column, rowData, ...props }) => (
               <TableCell
                 renderContent={contentProps => <BodyCellContent column={column} rowData={rowData} {...contentProps} />}
@@ -160,10 +149,6 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
                 {...props}
               />
             )}
-            renderRow={TableRow}
-            renderTable={Table}
-            renderColGroup="colgroup"
-            renderColGroupCol="col"
           />
         </div>
       </React.Fragment>

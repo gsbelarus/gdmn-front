@@ -14,7 +14,7 @@ import {
 } from '@src/app/scenes/ermodel/actionCreators';
 import { TActions } from './actions';
 import { ERModelBox } from './component';
-import { ITableColumn, ITableRowData } from '@src/app/scenes/ermodel/components/data-grid-core';
+import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
 import { Api } from '@src/app/services/Api';
 
 type TDispatch = ReduxDispatch<TActions>;
@@ -43,7 +43,7 @@ function arraySort(sort: ISort, flatData: any[]) {
   });
 }
 
-function createBodyRows(erModel: ERModel): ITableRowData[] {
+function createBodyRows(erModel: ERModel): ITableRow[] {
   if (!erModel) return [];
 
   const bodyRows = Object.keys(erModel.entities).map(
@@ -92,19 +92,19 @@ interface IOwnProps {
   err?: string | null;
   // er model table
   columns: ITableColumn[];
-  headRows?: ITableRowData[];
-  bodyRows?: ITableRowData[];
-  footRows?: ITableRowData[];
+  headRows?: ITableRow[];
+  bodyRows?: ITableRow[];
+  footRows?: ITableRow[];
   // entity fields table
   fieldsTableColumns?: ITableColumn[];
-  fieldsTableHeadRows?: ITableRowData[];
-  fieldsTableBodyRows?: ITableRowData[];
-  fieldsTableFootRows?: ITableRowData[];
+  fieldsTableHeadRows?: ITableRow[];
+  fieldsTableBodyRows?: ITableRow[];
+  fieldsTableFootRows?: ITableRow[];
   // entity data table
   dataTableColumns?: ITableColumn[];
-  dataTableHeadRows?: ITableRowData[];
-  dataTableBodyRows?: ITableRowData[];
-  dataTableFootRows?: ITableRowData[];
+  dataTableHeadRows?: ITableRow[];
+  dataTableBodyRows?: ITableRow[];
+  dataTableFootRows?: ITableRow[];
 }
 
 interface IStateToProps extends IOwnProps {

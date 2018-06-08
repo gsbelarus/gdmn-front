@@ -21,17 +21,17 @@ interface ITableLayoutProps {
   tableHeightPx: number; // todo maxTableHeight
   tableHeight?: string;
   minColumnWidthPx?: number;
-  renderBody: ReactType;
-  renderBodyCell: ReactType;
-  renderColGroup: ReactType; // 'colgroup',
-  renderColGroupCol: ReactType; // 'col'
-  renderScrollContainer: ReactType;
+  renderBody?: ReactType;
+  renderBodyCell?: ReactType;
+  renderColGroup?: ReactType; // 'colgroup',
+  renderColGroupCol?: ReactType; // 'col'
+  renderScrollContainer?: ReactType;
   renderFoot?: ReactType;
   renderFootCell?: ReactType;
   renderHead?: ReactType;
   renderHeadCell?: ReactType;
-  renderRow: ReactType;
-  renderTable: ReactType;
+  renderRow?: ReactType;
+  renderTable?: ReactType;
   [t: string]: any;
 }
 
@@ -89,7 +89,7 @@ class TableLayout extends Component<ITableLayoutProps, any> {
 
     const minWidth = this.getMinWidth(columns);
 
-    return (
+    return ScrollContainer && Table && Col && Row && Body && BodyCell ? (
       <ScrollContainer style={{ maxHeight: tableHeight || tableHeightPx, overflowX: 'auto' }}>
         <Table style={{ minWidth: `${minWidth}px` }}>
           {ColGroup && (
@@ -127,6 +127,8 @@ class TableLayout extends Component<ITableLayoutProps, any> {
           )}
         </Table>
       </ScrollContainer>
+    ) : (
+      <React.Fragment />
     );
   }
 }

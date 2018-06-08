@@ -3,7 +3,7 @@ import { ERModel } from 'gdmn-orm';
 import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
 import { ActionTypes, TActions } from './actions';
-import { ITableColumn, ITableRowData } from './components/data-grid-core';
+import { ITableColumn, ITableRow } from './components/data-grid-core';
 
 interface IState {
   readonly selectedFields?: string[];
@@ -12,24 +12,24 @@ interface IState {
   readonly err?: string | null; // todo .toString()
   // er model table
   readonly columns: ITableColumn[];
-  readonly headRows?: ITableRowData[];
-  readonly bodyRows?: ITableRowData[];
-  readonly footRows?: ITableRowData[];
+  readonly headRows?: ITableRow[];
+  readonly bodyRows?: ITableRow[];
+  readonly footRows?: ITableRow[];
   // entity fields table
   readonly fieldsTableColumns?: ITableColumn[];
-  readonly fieldsTableHeadRows?: ITableRowData[];
-  readonly fieldsTableBodyRows?: ITableRowData[];
-  readonly fieldsTableFootRows?: ITableRowData[];
+  readonly fieldsTableHeadRows?: ITableRow[];
+  readonly fieldsTableBodyRows?: ITableRow[];
+  readonly fieldsTableFootRows?: ITableRow[];
   // entity data table
   readonly dataTableColumns?: ITableColumn[];
-  readonly dataTableHeadRows?: ITableRowData[];
-  readonly dataTableBodyRows?: ITableRowData[];
-  readonly dataTableFootRows?: ITableRowData[];
+  readonly dataTableHeadRows?: ITableRow[];
+  readonly dataTableBodyRows?: ITableRow[];
+  readonly dataTableFootRows?: ITableRow[];
   // internal
   readonly erTranslatorRU?: ERTranslatorRU;
 }
 
-function createTableColumn(key: Key, widthPx?: number | null, align?: string | null): ITableColumn {
+function createTableColumn(key: Key, widthPx?: number, align?: string): ITableColumn {
   return { id: key, widthPx, align };
 }
 

@@ -58,7 +58,7 @@ class SizeMeasurer extends PureComponent<ISizeMeasurerProps, ISizeMeasurerState>
     size: { width: 0, height: 0 }
   };
 
-  public defaultProps = {
+  public static defaultProps = {
     style: {}
   };
 

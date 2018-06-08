@@ -210,6 +210,8 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
             width
           });
 
+          if (!(ScrollContainer && Col && Row && Body && BodyCell)) return <React.Fragment />; // TODO
+
           return (
             <ScrollContainer style={{ height: tableHeightPx }} onScroll={this.handleScroll}>
               {!!headRows.length &&
