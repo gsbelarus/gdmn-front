@@ -24,6 +24,7 @@
     "config",
     "dist",
     "node_modules",
-    "webpack.*.js"
+    "webpack.*.js",
+    "scripts"
   ]
 }

@@ -41,3 +41,5 @@ ehthumbs.db
 .env.production.local
 
 coverage
+
+db.json
