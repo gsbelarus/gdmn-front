@@ -1,6 +1,5 @@
 import { Key } from 'react';
 import { ERModel } from 'gdmn-orm';
-import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
 import { ActionTypes, TActions } from './actions';
 import { ITableColumn, ITableRow } from './components/data-grid-core';
@@ -25,8 +24,6 @@ interface IState {
   readonly dataTableHeadRows?: ITableRow[];
   readonly dataTableBodyRows?: ITableRow[];
   readonly dataTableFootRows?: ITableRow[];
-  // internal
-  readonly erTranslatorRU?: ERTranslatorRU;
 }
 
 function createTableColumn(key: Key, widthPx?: number, align?: string): ITableColumn {
@@ -51,7 +48,6 @@ function reducer(state: IState = initialState, action: TActions): IState {
       return {
         ...state,
         erModel: action.payload,
-        erTranslatorRU: new ERTranslatorRU(action.payload), // todo ?
         err: null
       };
     }

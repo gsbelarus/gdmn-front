@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper/Paper';
 import CSSModules from 'react-css-modules';
 
 const commonStyle = require('@src/styles/common.css');
+const styles = require('./styles.css');
 
 import { Table, TableBody, TableCell, TableHead, TableLayout, TableRow } from './components/data-grid-mui';
 import { ITableColumn, ITableRow } from './components/data-grid-core';
@@ -36,6 +37,7 @@ interface IERModelBoxProps {
 }
 
 // @CSSModules(commonStyle) FIXME webpack modules in styles
+@CSSModules(styles)
 class ERModelBox extends React.Component<IERModelBoxProps, {}> {
   private static renderBodyCellContent: React.SFC<any> = ({ column, rowData }) => {
     // TODO types
@@ -82,75 +84,92 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
 
         {/* TODO <DataGrid />  */}
 
-        <div className="row-flex">
-          <TableLayout
-            tableHeightPx={200}
-            headRows={headRows}
-            columns={columns}
-            bodyRows={bodyRows}
-            renderScrollContainer={({ style, ...props }) => <Paper style={{ flex: 1, ...style }} {...props} />}
-            renderHeadCell={({ column, rowData, ...props }) => (
-              <TableCell
-                renderContent={contentProps => <HeadCellContent column={column} rowData={rowData} {...contentProps} />}
-                column={column}
-                {...props}
-              />
-            )}
-            renderBodyCell={({ column, rowData, ...props }) => (
-              <TableCell
-                renderContent={contentProps => <BodyCellContent column={column} rowData={rowData} {...contentProps} />}
-                column={column}
-                {...props}
-              />
-            )}
-          />
-          <TableLayout
-            tableHeightPx={200}
-            headRows={fieldsTableHeadRows}
-            columns={fieldsTableColumns}
-            bodyRows={fieldsTableBodyRows}
-            renderScrollContainer={({ style, ...props }) => (
-              <Paper style={{ marginLeft: 16, flex: 1, ...style }} {...props} />
-            )}
-            renderHeadCell={({ column, rowData, ...props }) => (
-              <TableCell
-                renderContent={contentProps => <HeadCellContent column={column} rowData={rowData} {...contentProps} />}
-                column={column}
-                {...props}
-              />
-            )}
-            renderBodyCell={({ column, rowData, ...props }) => (
-              <TableCell
-                renderContent={contentProps => <BodyCellContent column={column} rowData={rowData} {...contentProps} />}
-                column={column}
-                {...props}
-              />
-            )}
-          />
-          <TableLayout
-            tableHeightPx={200}
-            headRows={dataTableHeadRows}
-            columns={dataTableColumns}
-            bodyRows={dataTableBodyRows}
-            renderScrollContainer={({ style, ...props }) => (
-              <Paper style={{ marginLeft: 16, flex: 2, ...style }} {...props} />
-            )}
-            renderHeadCell={({ column, rowData, ...props }) => (
-              <TableCell
-                renderContent={contentProps => <HeadCellContent column={column} rowData={rowData} {...contentProps} />}
-                column={column}
-                {...props}
-              />
-            )}
-            renderBodyCell={({ column, rowData, ...props }) => (
-              <TableCell
-                renderContent={contentProps => <BodyCellContent column={column} rowData={rowData} {...contentProps} />}
-                column={column}
-                {...props}
-              />
-            )}
-          />
-        </div>
+        <table styleName="EntitiesTable">
+          <thead>
+            <tr>
+              <th>Entity</th>
+              <th>Наименование</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(erModel.entities).map((e, idx) => (
+              <tr key={idx}>
+                <td>{e[1].name}</td>
+                <td>{e[1].lName.ru!.name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/*<div className="row-flex">*/}
+        {/*<TableLayout*/}
+        {/*tableHeightPx={200}*/}
+        {/*headRows={headRows}*/}
+        {/*columns={columns}*/}
+        {/*bodyRows={bodyRows}*/}
+        {/*renderScrollContainer={({ style, ...props }) => <Paper style={{ flex: 1, ...style }} {...props} />}*/}
+        {/*renderHeadCell={({ column, rowData, ...props }) => (*/}
+        {/*<TableCell*/}
+        {/*renderContent={contentProps => <HeadCellContent column={column} rowData={rowData} {...contentProps} />}*/}
+        {/*column={column}*/}
+        {/*{...props}*/}
+        {/*/>*/}
+        {/*)}*/}
+        {/*renderBodyCell={({ column, rowData, ...props }) => (*/}
+        {/*<TableCell*/}
+        {/*renderContent={contentProps => <BodyCellContent column={column} rowData={rowData} {...contentProps} />}*/}
+        {/*column={column}*/}
+        {/*{...props}*/}
+        {/*/>*/}
+        {/*)}*/}
+        {/*/>*/}
+        {/*<TableLayout*/}
+        {/*tableHeightPx={200}*/}
+        {/*headRows={fieldsTableHeadRows}*/}
+        {/*columns={fieldsTableColumns}*/}
+        {/*bodyRows={fieldsTableBodyRows}*/}
+        {/*renderScrollContainer={({ style, ...props }) => (*/}
+        {/*<Paper style={{ marginLeft: 16, flex: 1, ...style }} {...props} />*/}
+        {/*)}*/}
+        {/*renderHeadCell={({ column, rowData, ...props }) => (*/}
+        {/*<TableCell*/}
+        {/*renderContent={contentProps => <HeadCellContent column={column} rowData={rowData} {...contentProps} />}*/}
+        {/*column={column}*/}
+        {/*{...props}*/}
+        {/*/>*/}
+        {/*)}*/}
+        {/*renderBodyCell={({ column, rowData, ...props }) => (*/}
+        {/*<TableCell*/}
+        {/*renderContent={contentProps => <BodyCellContent column={column} rowData={rowData} {...contentProps} />}*/}
+        {/*column={column}*/}
+        {/*{...props}*/}
+        {/*/>*/}
+        {/*)}*/}
+        {/*/>*/}
+        {/*<TableLayout*/}
+        {/*tableHeightPx={200}*/}
+        {/*headRows={dataTableHeadRows}*/}
+        {/*columns={dataTableColumns}*/}
+        {/*bodyRows={dataTableBodyRows}*/}
+        {/*renderScrollContainer={({ style, ...props }) => (*/}
+        {/*<Paper style={{ marginLeft: 16, flex: 2, ...style }} {...props} />*/}
+        {/*)}*/}
+        {/*renderHeadCell={({ column, rowData, ...props }) => (*/}
+        {/*<TableCell*/}
+        {/*renderContent={contentProps => <HeadCellContent column={column} rowData={rowData} {...contentProps} />}*/}
+        {/*column={column}*/}
+        {/*{...props}*/}
+        {/*/>*/}
+        {/*)}*/}
+        {/*renderBodyCell={({ column, rowData, ...props }) => (*/}
+        {/*<TableCell*/}
+        {/*renderContent={contentProps => <BodyCellContent column={column} rowData={rowData} {...contentProps} />}*/}
+        {/*column={column}*/}
+        {/*{...props}*/}
+        {/*/>*/}
+        {/*)}*/}
+        {/*/>*/}
+        {/*</div>*/}
       </React.Fragment>
     );
   }

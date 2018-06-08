@@ -1,0 +1,13 @@
+.EntitiesTable {
+  display: table;
+  text-align: left;
+}
+
+.EntitiesTable th, td {
+  border: 1px gray solid;
+  padding: 0px 0px 0px 4px;
+}
+
+.EntitiesTable th {
+  background-color: lightgreen;
+}

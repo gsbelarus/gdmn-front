@@ -11,6 +11,9 @@ const actions = {
   }),
   setCommand: createAction('SET_SEM_COMMAND', resolve => {
     return (command: ICommand) => resolve(command);
+  }),
+  setError: createAction('SET_SEM_ERROR', resolve => {
+    return (err: string) => resolve(err);
   })
 };
 

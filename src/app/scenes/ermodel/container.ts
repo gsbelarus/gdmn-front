@@ -1,7 +1,6 @@
 import { deserializeERModel, EntityLink, EntityQuery, EntityQueryField, ERModel, IERModel } from 'gdmn-orm';
 import { connect } from 'react-redux';
 import { Dispatch as ReduxDispatch } from 'redux';
-import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectErmodelState } from '@src/app/store/selectors';
@@ -107,12 +106,8 @@ interface IOwnProps {
   dataTableFootRows?: ITableRow[];
 }
 
-interface IStateToProps extends IOwnProps {
-  erTranslatorRU?: ERTranslatorRU;
-}
-
 const ERModelBoxContainer = connect(
-  (state: IRootState, ownProps: IOwnProps): IStateToProps => ({
+  (state: IRootState, ownProps: IOwnProps): IOwnProps => ({
     ...selectErmodelState(state),
     bodyRows: createBodyRows(selectErmodelState(state).erModel),
     fieldsTableBodyRows: createFieldsBodyRows(

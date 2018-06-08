@@ -2,12 +2,11 @@ import React from 'react';
 import { graphlib, layout } from 'dagre';
 import { Phrase, Word } from 'gdmn-nlp';
 import CSSModules from 'react-css-modules';
-import { ICommand } from 'gdmn-nlp-agent';
-
-import { Edge } from './components/edge';
-import { Rect } from './components/rect';
 
 const styles = require('./styles.css');
+import { Edge } from './components/edge';
+import { Rect } from './components/rect';
+import { ICommand } from 'gdmn-nlp-agent';
 
 interface ISemanticsBoxProps {
   readonly text: string;
@@ -17,12 +16,13 @@ interface ISemanticsBoxProps {
   readonly onClearText: () => any;
   readonly onParse: (text: string) => any;
   readonly command?: ICommand;
+  readonly err?: string;
 }
 
 @CSSModules(styles)
 class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
   public render() {
-    const { text, wordsSignatures, onSetText, onClearText, onParse, phrase, command } = this.props;
+    const { text, wordsSignatures, onSetText, onClearText, onParse, phrase, command, err } = this.props;
 
     // Create a new directed graph
     const g = new graphlib.Graph();
@@ -82,6 +82,30 @@ class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
 
     const makeEdge = (e: dagre.Edge, idx: number) => <Edge key={idx} points={g.edge(e).points} />;
 
+    const displayCommand = () => {
+      return (
+        command && (
+          <div styleName="command">
+            <div styleName={`action${command.action}`} />
+            {command.objects &&
+              command.objects.map((co, idx) => (
+                <div styleName="commandObject" key={idx}>
+                  <div styleName="entityName">{co.entity.name}</div>
+                  {co.conditions &&
+                    co.conditions.map((cond, idx2) => (
+                      <div styleName="condition" key={idx2}>
+                        <div styleName="attr">{cond.attr.name}</div>
+                        <div styleName={`op${cond.op}`} />
+                        <div styleName="value">{cond.value}</div>
+                      </div>
+                    ))}
+                </div>
+              ))}
+          </div>
+        )
+      );
+    };
+
     return (
       <React.Fragment>
         <div styleName="SemanticsInput">
@@ -97,36 +121,38 @@ class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
           </div>
         </div>
         <div styleName="SemanticsOutput">{wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}</div>
-        <div>{JSON.stringify(command, undefined, 2)}</div>
-        <div>
-          {g.graph() ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={g.graph().width}
-              height={g.graph().height}
-              viewBox={'0 0 ' + g.graph().width + ' ' + g.graph().height}
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <defs>
-                <marker
-                  id="arrow"
-                  viewBox="0 0 10 10"
-                  refX="9"
-                  refY="5"
-                  markerUnits="strokeWidth"
-                  markerWidth="8"
-                  markerHeight="6"
-                  orient="auto"
-                >
-                  <path d="M 0 0 L 10 5 L 0 10 Z" style={{ strokeWidth: '1' }} />
-                </marker>
-              </defs>
-              <g>
-                {g.nodes().map((n, idx) => makeRect(n, idx))}
-                {g.edges().map((e, idx) => makeEdge(e, idx))}
-              </g>
-            </svg>
-          ) : null}
+        <div styleName="CommandAndGraph">
+          {err || displayCommand()}
+          <div>
+            {g.graph() ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={g.graph().width}
+                height={g.graph().height}
+                viewBox={'0 0 ' + g.graph().width + ' ' + g.graph().height}
+                preserveAspectRatio="xMidYMid meet"
+              >
+                <defs>
+                  <marker
+                    id="arrow"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerUnits="strokeWidth"
+                    markerWidth="8"
+                    markerHeight="6"
+                    orient="auto"
+                  >
+                    <path d="M 0 0 L 10 5 L 0 10 Z" style={{ strokeWidth: '1' }} />
+                  </marker>
+                </defs>
+                <g>
+                  {g.nodes().map((n, idx) => makeRect(n, idx))}
+                  {g.edges().map((e, idx) => makeEdge(e, idx))}
+                </g>
+              </svg>
+            ) : null}
+          </div>
         </div>
       </React.Fragment>
     );
