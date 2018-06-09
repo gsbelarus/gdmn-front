@@ -1,8 +1,8 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, ReactElement } from 'react';
 import hoistStatics from 'hoist-non-react-statics';
 
 interface IForwardRef {
-  (props: any, ref: any): React.ReactElement<any>;
+  (props: any, ref: any): ReactElement<any>;
   displayName?: string;
 }
 

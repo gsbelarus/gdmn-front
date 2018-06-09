@@ -1,23 +1,23 @@
-import { combineReducers, Reducer as ReduxReducer } from 'redux';
+import { combineReducers, Reducer } from 'redux';
 
-import { IState as IErmodelState, reducer as ermodelReducer } from '@src/app/scenes/ermodel/reducer';
-import { reducer as morphologyReducer, IState as IMorphologyState } from '@src/app/scenes/morphology/reducer';
-import { reducer as semanticsReducer, IState as ISemanticState } from '@src/app/scenes/semantics/reducer';
+import { IErmodelState, reducer as ermodelReducer } from '@src/app/scenes/ermodel/reducer';
+import { IMorphologyState, reducer as morphologyReducer } from '@src/app/scenes/morphology/reducer';
+import { ISemanticsState, reducer as semanticsReducer } from '@src/app/scenes/semantics/reducer';
 
 interface IRootState {
-  readonly morphology: IMorphologyState;
-  readonly semantics: ISemanticState;
+  readonly morphologyState: IMorphologyState;
+  readonly semanticsState: ISemanticsState;
   readonly ermodelState: IErmodelState;
 }
 
 const rootReducer = combineReducers<IRootState>({
-  // TODO combineReducers<IRootState, RootActions>
-  morphology: morphologyReducer,
-  semantics: semanticsReducer,
+  // TODO <IRootState, RootActions>
+  morphologyState: morphologyReducer,
+  semanticsState: semanticsReducer,
   ermodelState: ermodelReducer
 });
 
-type TRootReducer = ReduxReducer<IRootState>; // TODO ReduxReducer<IRootState, RootActions>
+type TRootReducer = Reducer<IRootState>; // TODO <IRootState, RootActions>
 
 // tslint:disable-next-line no-default-export
 export default rootReducer; // TODO test hmr require without default

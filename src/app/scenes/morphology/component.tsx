@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, MouseEvent, Component } from 'react';
 import { IToken } from 'chevrotain';
 import classNames from 'classnames';
 import {
@@ -46,7 +46,7 @@ interface IMorphBoxProps extends CSSModules.InjectedCSSModuleProps {
 }
 
 @CSSModules(styles, { allowMultiple: true })
-class MorphBox extends React.Component<IMorphBoxProps, {}> {
+class MorphBox extends Component<IMorphBoxProps, {}> {
   public render() {
     const {
       text,
@@ -69,7 +69,7 @@ class MorphBox extends React.Component<IMorphBoxProps, {}> {
           <div styleName="MorphText">
             <textarea
               value={text}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onSetText(e.currentTarget.value)}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onSetText(e.currentTarget.value)}
             />
             <div styleName="MorphTextButtons">
               <button onClick={onClearText}>Clear</button>
@@ -86,7 +86,7 @@ class MorphBox extends React.Component<IMorphBoxProps, {}> {
               <span
                 className={classNames('Token', 'tkn-' + t.tokenType!.tokenName, { selected: idx === selectedToken })}
                 key={idx}
-                onClick={(e: React.MouseEvent<HTMLSpanElement>) => this.props.onClickToken(idx)}
+                onClick={(e: MouseEvent<HTMLSpanElement>) => this.props.onClickToken(idx)}
               >
                 {t.tokenType === WhiteSpace ? t.image.replace(' ', String.fromCharCode(9251)) : t.image}
               </span>
@@ -112,7 +112,7 @@ class MorphBox extends React.Component<IMorphBoxProps, {}> {
     if (w instanceof RusPronoun) {
       const l = w.lexeme as RusPronounLexeme;
       const f = (c: RusCase) => (
-        <div onClick={(e: React.MouseEvent<HTMLDivElement>) => onSetText(e.currentTarget.innerText)}>
+        <div onClick={(e: MouseEvent<HTMLDivElement>) => onSetText(e.currentTarget.innerText)}>
           {l.getWordForm(c).word}
         </div>
       );
@@ -137,7 +137,7 @@ class MorphBox extends React.Component<IMorphBoxProps, {}> {
     if (w instanceof RusAdjective) {
       const l = (w as RusAdjective).lexeme as RusAdjectiveLexeme;
       const f = (morphSigns: RusAdjectiveMorphSigns) => (
-        <div onClick={(e: React.MouseEvent<HTMLElement>) => onSetText(e.currentTarget.innerText)}>
+        <div onClick={(e: MouseEvent<HTMLElement>) => onSetText(e.currentTarget.innerText)}>
           {l.getWordForm(morphSigns).word}
         </div>
       );
@@ -231,7 +231,7 @@ class MorphBox extends React.Component<IMorphBoxProps, {}> {
     if (w instanceof RusVerb) {
       const l = (w as RusVerb).lexeme as RusVerbLexeme;
       const f = (morphSigns: RusVerbMorphSigns) => (
-        <div onClick={(e: React.MouseEvent<HTMLElement>) => onSetText(e.currentTarget.innerText)}>
+        <div onClick={(e: MouseEvent<HTMLElement>) => onSetText(e.currentTarget.innerText)}>
           {l.getWordForm(morphSigns).word}
         </div>
       );
@@ -383,7 +383,7 @@ class MorphBox extends React.Component<IMorphBoxProps, {}> {
       const l = (w as RusNoun).lexeme as RusNounLexeme;
 
       const f = (morphSigns: RusNounMorphSigns) => (
-        <div onClick={(e: React.MouseEvent<HTMLDivElement>) => onSetText(e.currentTarget.innerText)}>
+        <div onClick={(e: MouseEvent<HTMLDivElement>) => onSetText(e.currentTarget.innerText)}>
           {l.getWordForm(morphSigns).word}
         </div>
       );

@@ -9,20 +9,18 @@ import {
   RusVerbLexemes
 } from 'gdmn-nlp';
 import { connect } from 'react-redux';
-import { Dispatch as ReduxDispatch } from 'redux';
+import { Dispatch } from 'redux';
 
 import { IRootState } from '@src/app/store/rootReducer';
-import { selectMorphology } from '@src/app/store/selectors';
-import { actions, TActions } from './actions';
+import { selectMorphologyState } from '@src/app/store/selectors';
+import { actions, TMorphologyActions } from './actions';
 import { MorphBox } from './component';
-
-type TDispatch = ReduxDispatch<TActions>;
 
 const MorphBoxContainer = connect(
   (state: IRootState) => ({
-    ...selectMorphology(state)
+    ...selectMorphologyState(state)
   }),
-  (dispatch: TDispatch) => ({
+  (dispatch: Dispatch<TMorphologyActions>) => ({
     onSetText: (text: string) => dispatch(actions.setMorphText(text)),
     onClickToken: (selectedToken: number) => dispatch(actions.setSelectedToken(selectedToken)),
     onClearText: () => dispatch(actions.setMorphText('')),

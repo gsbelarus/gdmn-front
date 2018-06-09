@@ -57,14 +57,9 @@ async function getData() {
     jsonDb.data = await getData();
 
     fs.writeFile('./db.json', JSON.stringify(jsonDb), function(err) {
-      if (err) {
-        return console.log(err);
-      } else {
-        console.log('Mock data generated.');
-      }
+      if (err) return console.log(err);
+      console.log('Mock data generated.');
     });
-
-    console.log(jsonDb);
   } catch (error) {
     console.log(error);
   }

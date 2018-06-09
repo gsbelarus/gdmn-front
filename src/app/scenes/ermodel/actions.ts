@@ -35,7 +35,7 @@ interface ILoadErrorAction {
   type: ActionTypes.LOAD_ERROR;
 }
 
-type TActions =
+type TErModelActions =
   | ISelectFieldsAction
   | ISelectEntityAction
   | ILoadErModelOkAction
@@ -49,5 +49,5 @@ export {
   ILoadErModelOkAction,
   ILoadEntityDataOkAction,
   ILoadErrorAction,
-  TActions
+  TErModelActions
 };

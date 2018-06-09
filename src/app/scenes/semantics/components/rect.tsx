@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 interface IRectProps {
   readonly text: string;
@@ -9,7 +9,7 @@ interface IRectProps {
   readonly className: string;
 }
 
-class Rect extends React.Component<IRectProps, {}> {
+class Rect extends Component<IRectProps, {}> {
   public render() {
     const { x, y, width, height, text, className } = this.props;
     const cx = x + width / 2;

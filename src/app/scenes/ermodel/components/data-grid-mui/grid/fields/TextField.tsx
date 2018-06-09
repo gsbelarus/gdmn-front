@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 interface ITextFieldProps {
   style?: object;
@@ -6,7 +6,7 @@ interface ITextFieldProps {
   getValue: (data: object | string) => string;
 }
 
-class TextField extends React.Component<ITextFieldProps, any> {
+class TextField extends Component<ITextFieldProps, any> {
   // TODO pure
 
   public static defaultProps = {

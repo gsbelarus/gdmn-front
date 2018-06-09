@@ -9,6 +9,6 @@ const actions = {
   })
 };
 
-type TActions = ActionType<typeof actions>;
+type TMorphologyActions = ActionType<typeof actions>;
 
-export { actions, TActions };
+export { actions, TMorphologyActions };

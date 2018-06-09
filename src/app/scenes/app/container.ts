@@ -2,9 +2,14 @@ import '@src/styles/global.css';
 
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import { App as _App } from './component';
+import { App } from './component';
 
-const App = hot(module)(connect()(_App));
+// TODO test compose order
+const AppContainer = compose(
+  hot(module),
+  connect()
+)(App);
 
-export { App };
+export { AppContainer };

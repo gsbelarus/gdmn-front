@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 import {
-  InfiniteTableLayout as CoreInfiniteTableLayout,
-  IInfiniteTableLayoutProps as ICoreInfiniteTableLayoutProps
+  IInfiniteTableLayoutProps as ICoreInfiniteTableLayoutProps,
+  InfiniteTableLayout as CoreInfiniteTableLayout
 } from '@src/app/scenes/ermodel/components/data-grid-core';
-import { Table, ITableLayoutProps, TableLayout } from '@src/app/scenes/ermodel/components/data-grid-mui';
+import { Table, TableLayout } from '@src/app/scenes/ermodel/components/data-grid-mui';
 
 type TInfiniteTableLayoutProps = ICoreInfiniteTableLayoutProps;
 

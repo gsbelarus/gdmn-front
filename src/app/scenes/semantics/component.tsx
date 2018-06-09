@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Fragment, Component, ChangeEvent } from 'react';
 import { graphlib, layout } from 'dagre';
 import { Phrase, Word } from 'gdmn-nlp';
+import { ICommand } from 'gdmn-nlp-agent';
 import CSSModules from 'react-css-modules';
 
-const styles = require('./styles.css');
 import { Edge } from './components/edge';
 import { Rect } from './components/rect';
-import { ICommand } from 'gdmn-nlp-agent';
+
+const styles = require('./styles.css');
 
 interface ISemanticsBoxProps {
   readonly text: string;
@@ -20,7 +21,7 @@ interface ISemanticsBoxProps {
 }
 
 @CSSModules(styles)
-class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
+class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
   public render() {
     const { text, wordsSignatures, onSetText, onClearText, onParse, phrase, command, err } = this.props;
 
@@ -107,12 +108,12 @@ class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
     };
 
     return (
-      <React.Fragment>
+      <Fragment>
         <div styleName="SemanticsInput">
           <div styleName="SemanticsText">
             <textarea
               value={text}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onSetText(e.currentTarget.value)}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onSetText(e.currentTarget.value)}
             />
             <div styleName="SemanticsTextButtons">
               <button onClick={onClearText}>Clear</button>
@@ -154,7 +155,7 @@ class SemanticsBox extends React.Component<ISemanticsBoxProps, {}> {
             ) : null}
           </div>
         </div>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

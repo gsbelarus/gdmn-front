@@ -1,56 +1,21 @@
 import { deserializeERModel, EntityLink, EntityQuery, EntityQueryField, ERModel, IERModel } from 'gdmn-orm';
 import { connect } from 'react-redux';
-import { Dispatch as ReduxDispatch } from 'redux';
+import { Dispatch } from 'redux';
 
+import { Api } from '@src/app/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectErmodelState } from '@src/app/store/selectors';
-import {
-  loadEntityDataOk,
-  loadERModelOk,
-  loadError,
-  selectEntity,
-  selectFields
-} from '@src/app/scenes/ermodel/actionCreators';
-import { TActions } from './actions';
-import { ERModelBox } from './component';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
-import { Api } from '@src/app/services/Api';
-
-type TDispatch = ReduxDispatch<TActions>;
-
-const enum SortDirection {
-  DESC,
-  ASC
-}
-interface ISort {
-  direction: SortDirection;
-  fieldName: string;
-}
-
-function arraySort(sort: ISort, flatData: any[]) {
-  // TODO async
-
-  return flatData.sort((a, b) => {
-    if (sort.direction === SortDirection.DESC) {
-      if (b[sort.fieldName] > a[sort.fieldName]) return -1;
-      if (a[sort.fieldName] > b[sort.fieldName]) return 1;
-    } else {
-      if (b[sort.fieldName] > a[sort.fieldName]) return 1;
-      if (a[sort.fieldName] > b[sort.fieldName]) return -1;
-    }
-    return 0;
-  });
-}
+import { loadEntityDataOk, loadERModelOk, loadError, selectEntity, selectFields } from './actionCreators';
+import { TErModelActions } from './actions';
+import { ERModelBox } from './component';
 
 function createBodyRows(erModel: ERModel): ITableRow[] {
   if (!erModel) return [];
 
-  const bodyRows = Object.keys(erModel.entities).map(
+  return Object.keys(erModel.entities).map(
     (key, index) => ({ id: index, name: erModel.entities[key].name }) // TODO gen uid
   );
-
-  const currentSort = { fieldName: 'name', direction: SortDirection.DESC }; // TODO -> state
-  return arraySort(currentSort, bodyRows);
 }
 
 function createFieldsBodyRows(erModel: ERModel, entityName?: string) {
@@ -65,9 +30,12 @@ function createFieldsBodyRows(erModel: ERModel, entityName?: string) {
   return bodyRows;
 }
 
-function loadEntityData(fieldNames: string[], entityName: string, erModel: ERModel, dispatch: TDispatch) {
-  // TODO async
-
+function loadEntityData(
+  fieldNames: string[],
+  entityName: string,
+  erModel: ERModel,
+  dispatch: Dispatch<TErModelActions>
+) {
   const entity = erModel.entity(entityName);
   const query = new EntityQuery(
     new EntityLink(entity, 'U', [new EntityQueryField(Object.values(entity.attributes)[0])])
@@ -116,7 +84,7 @@ const ERModelBoxContainer = connect(
     )
     // dataTableBodyRows: createBodyRows(selectErmodelState(state).erModel)
   }),
-  (dispatch: TDispatch, ownProps: IOwnProps): IDispatchToProps => ({
+  (dispatch: Dispatch<TErModelActions>, ownProps: IOwnProps): IDispatchToProps => ({
     selectEntity: (name: string) => dispatch(selectEntity(name)),
     selectFields: (fieldNames: string[], entityName: string, erModel: ERModel) => {
       dispatch(selectFields(fieldNames));

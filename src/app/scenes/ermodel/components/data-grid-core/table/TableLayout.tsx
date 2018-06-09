@@ -1,4 +1,4 @@
-import React, { Component, Key, ReactType } from 'react';
+import React, { Fragment, Component, Key, ReactType } from 'react';
 
 interface ITableRow {
   id: Key;
@@ -89,7 +89,9 @@ class TableLayout extends Component<ITableLayoutProps, any> {
 
     const minWidth = this.getMinWidth(columns);
 
-    return ScrollContainer && Table && Col && Row && Body && BodyCell ? (
+    if (!(ScrollContainer && Table && Col && Row && Body && BodyCell)) return <Fragment />; // TODO
+
+    return (
       <ScrollContainer style={{ maxHeight: tableHeight || tableHeightPx, overflowX: 'auto' }}>
         <Table style={{ minWidth: `${minWidth}px` }}>
           {ColGroup && (
@@ -127,8 +129,6 @@ class TableLayout extends Component<ITableLayoutProps, any> {
           )}
         </Table>
       </ScrollContainer>
-    ) : (
-      <React.Fragment />
     );
   }
 }

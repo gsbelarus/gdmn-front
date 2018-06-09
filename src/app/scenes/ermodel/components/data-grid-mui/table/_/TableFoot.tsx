@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MuiTableFoot, { TableFooterProps as MuiTableFootProps } from '@material-ui/core/TableFooter';
 
 import {
@@ -8,7 +8,7 @@ import {
 
 type TTableFootProps = ICoreTableFootProps & MuiTableFootProps;
 
-class TableFoot extends React.Component<TTableFootProps, any> {
+class TableFoot extends Component<TTableFootProps, any> {
   public render(): JSX.Element {
     const { children, ...muiTableFootProps } = this.props;
 

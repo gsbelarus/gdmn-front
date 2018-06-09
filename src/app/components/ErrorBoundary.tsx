@@ -1,14 +1,14 @@
-import React, { ReactChild, ReactType } from 'react';
+import React, { Fragment, ErrorInfo, ReactChild, SFC } from 'react';
 
 interface IErrorBoundaryProps {
   children?: ReactChild | ReactChild[];
-  onError?: (error: Error, info: React.ErrorInfo) => void;
+  onError?: (error: Error, info: ErrorInfo) => void;
   renderComponent?: any; // TODO ReactType
 }
 
 interface IErrorBoundaryState {
   error: Error | null;
-  info: React.ErrorInfo | null;
+  info: ErrorInfo | null;
 }
 
 interface IDefaultErrorBoundaryComponentProps {
@@ -18,8 +18,8 @@ interface IDefaultErrorBoundaryComponentProps {
 
 // TODO test error state
 class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryState> {
-  private static renderDefaultErrorBoundary: React.SFC<IDefaultErrorBoundaryComponentProps> = ({ error, stack }) => (
-    <React.Fragment>
+  private static renderDefaultErrorBoundary: SFC<IDefaultErrorBoundaryComponentProps> = ({ error, stack }) => (
+    <Fragment>
       <h1>Something went wrong!</h1>
       <br />
       <br />
@@ -33,7 +33,7 @@ class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryS
         <br />
         {stack}
       </h2>
-    </React.Fragment>
+    </Fragment>
   );
 
   public static defaultProps = {
@@ -45,7 +45,7 @@ class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryS
     info: null
   };
 
-  public componentDidCatch(error: Error, info: React.ErrorInfo) {
+  public componentDidCatch(error: Error, info: ErrorInfo) {
     const { onError } = this.props;
 
     if (onError) {
@@ -66,9 +66,9 @@ class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryS
     return error ? (
       <Component error={error} stack={info ? info.componentStack : ''} />
     ) : (
-      <React.Fragment>{children}</React.Fragment>
+      <Fragment>{children}</Fragment>
     );
   }
 }
 
-export { ErrorBoundary, IErrorBoundaryProps, IErrorBoundaryState, IDefaultErrorBoundaryComponentProps };
+export { ErrorBoundary, IErrorBoundaryProps, IErrorBoundaryState };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 const styles = {
   list: {
@@ -18,7 +18,7 @@ interface IImageFieldProps {
   getTitle: (data: object | string) => string;
 }
 
-class ImageField extends React.Component<IImageFieldProps, any> {
+class ImageField extends Component<IImageFieldProps, any> {
   // TODO pure
 
   public static defaultProps = {

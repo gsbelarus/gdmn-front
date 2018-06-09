@@ -1,10 +1,10 @@
 import { Key } from 'react';
 import { ERModel } from 'gdmn-orm';
 
-import { ActionTypes, TActions } from './actions';
+import { ActionTypes, TErModelActions } from './actions';
 import { ITableColumn, ITableRow } from './components/data-grid-core';
 
-interface IState {
+interface IErmodelState {
   readonly selectedFields?: string[];
   readonly selectedEntityName?: string;
   readonly erModel: ERModel;
@@ -30,7 +30,7 @@ function createTableColumn(key: Key, widthPx?: number, align?: string): ITableCo
   return { id: key, widthPx, align };
 }
 
-const initialState: IState = {
+const initialState: IErmodelState = {
   erModel: new ERModel(),
   // er models table
   columns: [createTableColumn('name', 200)],
@@ -42,7 +42,7 @@ const initialState: IState = {
 
 // todo combineReducers<IState, RootAction>
 
-function reducer(state: IState = initialState, action: TActions): IState {
+function reducer(state: IErmodelState = initialState, action: TErModelActions): IErmodelState {
   switch (action.type) {
     case ActionTypes.LOAD_ERMODEL_OK: {
       return {
@@ -75,4 +75,4 @@ function reducer(state: IState = initialState, action: TActions): IState {
   }
 }
 
-export { reducer, IState, initialState };
+export { reducer, IErmodelState };

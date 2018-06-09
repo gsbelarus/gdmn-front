@@ -1,12 +1,12 @@
 import React, { ReactType } from 'react';
 import ReactDOM from 'react-dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
 import purple from '@material-ui/core/colors/purple';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import { Root } from './components/Root';
-import { App } from './scenes/app/container';
+import { AppContainer } from './scenes/app/container';
 import { store } from './store/store';
 
 const config = require('configFile'); // FIXME import config from 'configFile';
@@ -22,7 +22,7 @@ const NotFoundView = () => <h2>404!</h2>;
 const rootRoutes = (
   <Switch>
     <Redirect exact={true} from="/" to="/app" />
-    <Route path="/app" component={App} />
+    <Route path="/app" component={AppContainer} />
     <Route path="*" component={NotFoundView} />
   </Switch>
 );

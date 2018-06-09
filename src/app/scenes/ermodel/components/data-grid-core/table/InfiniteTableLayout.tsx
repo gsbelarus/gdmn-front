@@ -1,9 +1,9 @@
-import React, { Key, PureComponent, ReactType } from 'react';
+import React, { Fragment, Key, PureComponent, ReactType } from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { RefWrapper } from '@src/app/scenes/ermodel/components/RefWrapper';
 import { SizeMeasurer } from '@src/app/scenes/ermodel/components/SizeMeasurer';
-import { TableLayout, ITableLayoutProps, ITableRow, ITableColumn } from './TableLayout';
+import { ITableColumn, ITableLayoutProps, ITableRow, TableLayout } from './TableLayout';
 
 interface IInfiniteTableLayoutProps extends ITableLayoutProps {
   tableMinWidthPx: number; // TODO calc from column?
@@ -210,7 +210,7 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
             width
           });
 
-          if (!(ScrollContainer && Col && Row && Body && BodyCell)) return <React.Fragment />; // TODO
+          if (!(ScrollContainer && Col && Row && Body && BodyCell)) return <Fragment />; // TODO
 
           return (
             <ScrollContainer style={{ height: tableHeightPx }} onScroll={this.handleScroll}>

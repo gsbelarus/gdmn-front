@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import MuiTableCell, { TableCellProps as MuiTableCellProps } from '@material-ui/core/TableCell';
-import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
+import { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import { WithStyles } from '@material-ui/core/styles';
 
+import { withStyles } from '@src/app/components/withStyles';
 import {
   ITableCellProps as ICoreTableCellProps,
   ITableColumn,
@@ -38,12 +39,14 @@ interface ITableCellProps extends TBaseTableCellProps {
   column: ITableColumn;
 }
 
-class _TableCell extends React.Component<ITableCellProps, any> {
+@withStyles(styles)
+class TableCell extends Component<ITableCellProps, any> {
   public static defaultProps = {
     renderContentSkeleton: TextSkeleton // TODO from column
   };
 
   public render(): JSX.Element {
+    // FIXME  className
     const {
       loading,
       renderContentSkeleton,
@@ -74,7 +77,5 @@ class _TableCell extends React.Component<ITableCellProps, any> {
     );
   }
 }
-
-const TableCell = withStyles(styles, { name: 'TableCell' })(_TableCell);
 
 export { TableCell, ITableCellProps };

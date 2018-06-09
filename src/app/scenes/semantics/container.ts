@@ -1,24 +1,22 @@
-import { parsePhrase, ParsedText } from 'gdmn-nlp';
+import { parsePhrase } from 'gdmn-nlp';
 import { connect } from 'react-redux';
-import { Dispatch as ReduxDispatch } from 'redux';
+import { Dispatch } from 'redux';
 
 import { IRootState } from '@src/app/store/rootReducer';
-import { selectSemantics, selectErmodelState } from '@src/app/store/selectors';
-import { actions, TActions } from './actions';
+import { selectSemanticsState } from '@src/app/store/selectors';
+import { actions, TSemanticsActions } from './actions';
 import { SemanticsBox } from './component';
-
-type TDispatch = ReduxDispatch<TActions>;
 
 const SemanticsBoxContainer = connect(
   (state: IRootState) => ({
-    text: selectSemantics(state).text,
-    wordsSignatures: selectSemantics(state).wordsSignatures,
-    phrase: selectSemantics(state).phrase,
-    command: selectSemantics(state).command,
-    err: selectSemantics(state).err,
-    erTranslatorRU: selectSemantics(state).erTranslatorRU
+    text: selectSemanticsState(state).text,
+    wordsSignatures: selectSemanticsState(state).wordsSignatures,
+    phrase: selectSemanticsState(state).phrase,
+    command: selectSemanticsState(state).command,
+    err: selectSemanticsState(state).err,
+    erTranslatorRU: selectSemanticsState(state).erTranslatorRU
   }),
-  (dispatch: TDispatch) => ({
+  (dispatch: Dispatch<TSemanticsActions>) => ({
     dispatch,
     onSetText: (text: string) => dispatch(actions.setSemText(text)),
     onClearText: () => dispatch(actions.setSemText(''))

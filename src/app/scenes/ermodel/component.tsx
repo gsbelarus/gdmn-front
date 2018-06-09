@@ -1,14 +1,12 @@
-import React, { CSSProperties } from 'react';
+import React, { Fragment, Component, SFC } from 'react';
 import Button from '@material-ui/core/Button';
 import { ERModel } from 'gdmn-orm';
-import Paper from '@material-ui/core/Paper/Paper';
 import CSSModules from 'react-css-modules';
 
-const commonStyle = require('@src/styles/common.css');
-const styles = require('./styles.css');
-
-import { Table, TableBody, TableCell, TableHead, TableLayout, TableRow } from './components/data-grid-mui';
 import { ITableColumn, ITableRow } from './components/data-grid-core';
+
+// const commonStyle = require('@src/styles/common.css');
+const styles = require('./styles.css');
 
 interface IERModelBoxProps {
   selectedFields?: string[];
@@ -38,15 +36,15 @@ interface IERModelBoxProps {
 
 // @CSSModules(commonStyle) FIXME webpack modules in styles
 @CSSModules(styles)
-class ERModelBox extends React.Component<IERModelBoxProps, {}> {
-  private static renderBodyCellContent: React.SFC<any> = ({ column, rowData }) => {
+class ERModelBox extends Component<IERModelBoxProps, {}> {
+  private static renderBodyCellContent: SFC<any> = ({ column, rowData }) => {
     // TODO types
-    return <React.Fragment>{rowData[column.id]}</React.Fragment>;
+    return <Fragment>{rowData[column.id]}</Fragment>;
   };
 
-  private static renderHeadCellContent: React.SFC<any> = ({ column, rowData }) => {
+  private static renderHeadCellContent: SFC<any> = ({ column, rowData }) => {
     // TODO types
-    return <React.Fragment>{rowData[column.id].title}</React.Fragment>;
+    return <Fragment>{rowData[column.id].title}</Fragment>;
   };
 
   public render(): JSX.Element {
@@ -66,7 +64,7 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
     const { renderHeadCellContent: HeadCellContent, renderBodyCellContent: BodyCellContent } = ERModelBox;
 
     return (
-      <React.Fragment>
+      <Fragment>
         <div>{err && `ERROR: ${err}`}</div>
         <div>{`загружено сущностей: ${Object.entries(erModel.entities).length}`}</div>
         <Button style={{ margin: 60 }} onClick={loadErModel}>
@@ -170,7 +168,7 @@ class ERModelBox extends React.Component<IERModelBoxProps, {}> {
         {/*)}*/}
         {/*/>*/}
         {/*</div>*/}
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

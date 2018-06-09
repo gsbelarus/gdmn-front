@@ -1,7 +1,9 @@
 import { IRootState } from './rootReducer';
 
-const selectMorphology = ({ morphology }: IRootState) => morphology;
-const selectSemantics = ({ semantics }: IRootState) => semantics;
+// TODO reselect
+
+const selectMorphologyState = ({ morphologyState }: IRootState) => morphologyState;
+const selectSemanticsState = ({ semanticsState }: IRootState) => semanticsState;
 const selectErmodelState = ({ ermodelState }: IRootState) => ermodelState;
 
-export { selectMorphology, selectSemantics, selectErmodelState };
+export { selectMorphologyState, selectSemanticsState, selectErmodelState };

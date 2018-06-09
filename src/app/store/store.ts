@@ -1,6 +1,6 @@
 import { configureStore } from './configureStore';
 import rootReducer from './rootReducer';
 
-const store = configureStore(rootReducer, []); // TODO middlewares
+const store = configureStore(rootReducer);
 
 export { store };

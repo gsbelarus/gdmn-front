@@ -2,9 +2,9 @@ import { IToken } from 'chevrotain';
 import { morphAnalyzer, RusWord, tokenize, Words } from 'gdmn-nlp';
 import { getType } from 'typesafe-actions';
 
-import { actions, TActions } from './actions';
+import { actions, TMorphologyActions } from './actions';
 
-interface IState {
+interface IMorphologyState {
   readonly text: string;
   readonly tokens: IToken[];
   readonly selectedToken: number;
@@ -13,14 +13,14 @@ interface IState {
 
 const initialText = '';
 
-const initialState: IState = {
+const initialState: IMorphologyState = {
   text: initialText,
   tokens: tokenize(initialText),
   selectedToken: -1,
   words: []
 };
 
-function reducer(state: IState = initialState, action: TActions): IState {
+function reducer(state: IMorphologyState = initialState, action: TMorphologyActions): IMorphologyState {
   switch (action.type) {
     case getType(actions.setMorphText): {
       const tokens = tokenize(action.payload);
@@ -61,4 +61,4 @@ function reducer(state: IState = initialState, action: TActions): IState {
   }
 }
 
-export { reducer, IState, initialState };
+export { reducer, IMorphologyState };

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, SFC } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Store } from 'redux';
@@ -10,7 +10,7 @@ interface IRootProps {
 
 // TODO const history = browserHistory; // syncHistoryWithStore(browserHistory, store)
 
-const Root: React.SFC<IRootProps> = ({ store, routes }) => (
+const Root: SFC<IRootProps> = ({ store, routes }) => (
   <Provider store={store}>
     <BrowserRouter>{routes}</BrowserRouter>
   </Provider>

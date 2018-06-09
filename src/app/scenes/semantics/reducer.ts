@@ -1,12 +1,12 @@
 import { Phrase } from 'gdmn-nlp';
 import { getType } from 'typesafe-actions';
-import { ICommand, ERTranslatorRU } from 'gdmn-nlp-agent';
+import { ERTranslatorRU, ICommand } from 'gdmn-nlp-agent';
 
-import { actions } from './actions';
 import { TRootActions } from '@src/app/store/RootActions';
 import { ActionTypes } from '@src/app/scenes/ermodel/actions';
+import { actions } from './actions';
 
-interface IState {
+interface ISemanticsState {
   readonly text: string;
   readonly wordsSignatures: string[];
   readonly phrase?: Phrase;
@@ -17,12 +17,12 @@ interface IState {
 
 const initialText = 'покажи все организации из минска';
 
-const initialState: IState = {
+const initialState: ISemanticsState = {
   text: initialText,
   wordsSignatures: []
 };
 
-function reducer(state: IState = initialState, action: TRootActions): IState {
+function reducer(state: ISemanticsState = initialState, action: TRootActions): ISemanticsState {
   switch (action.type) {
     case getType(actions.setSemText): {
       return {
@@ -72,4 +72,4 @@ function reducer(state: IState = initialState, action: TRootActions): IState {
   }
 }
 
-export { reducer, IState, initialState };
+export { reducer, ISemanticsState };

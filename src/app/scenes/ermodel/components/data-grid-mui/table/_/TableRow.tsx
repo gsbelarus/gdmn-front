@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MuiTableRow, { TableRowProps as MuiTableRowProps } from '@material-ui/core/TableRow';
 
 import {
@@ -8,7 +8,7 @@ import {
 
 type TTableRowProps = ICoreTableRowProps & MuiTableRowProps;
 
-class TableRow extends React.Component<TTableRowProps, any> {
+class TableRow extends Component<TTableRowProps, any> {
   public render(): JSX.Element {
     const { children, ...muiTableRowProps } = this.props; //  props.row
 

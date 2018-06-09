@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { Fragment, Component } from 'react';
+import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import { StyledComponentProps, StyleRulesCallback, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
+import { StyleRulesCallback, WithStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import CSSModules from 'react-css-modules';
-import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 
-const styles = require('./styles.css');
-
+import { withStyles } from '@src/app/components/withStyles';
 import { ErrorBoundary } from '@src/app/components/ErrorBoundary';
 import { ERModelBoxContainer } from '@src/app/scenes/ermodel/container';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
 import { SemanticsBoxContainer } from '@src/app/scenes/semantics/container';
+
+const styles = require('./styles.css');
 
 const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme => ({
   main: {
@@ -29,13 +30,14 @@ type IAppProps = RouteComponentProps<any> &
   WithStyles<keyof ReturnType<typeof muiStyles>> &
   CSSModules.InjectedCSSModuleProps;
 
+@withStyles(muiStyles)
 @CSSModules(styles)
-class _App extends React.Component<IAppProps, {}> {
+class App extends Component<IAppProps, {}> {
   public render() {
-    const { match, classes } = this.props;
+    const { match, classes } = this.props; // FIXME
     const { main, navItem, navItemSelected } = classes;
     return (
-      <React.Fragment>
+      <Fragment>
         <AppBar position="static">
           <Toolbar>
             <NavLink className={navItem} to={`${match.url}/morphology`} activeClassName={navItemSelected}>
@@ -66,13 +68,11 @@ class _App extends React.Component<IAppProps, {}> {
             </Switch>
           </ErrorBoundary>
         </main>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
 
 // TODO switch -> children -> container
-
-const App = withStyles(muiStyles)(_App);
 
 export { App, IAppProps };
