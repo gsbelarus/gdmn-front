@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
-import { WithStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 
-import { withStyles } from '@src/app/components/withStyles';
+import { IWithStyles, withStyles } from '@src/app/components/withStyles';
 import {
   ITableLayoutProps as ICoreTableLayoutProps,
   TableLayout as CoreTableLayout
@@ -48,7 +47,7 @@ interface ITableLayoutProps extends ICoreTableLayoutProps {
 }
 
 @withStyles(styles)
-class TableLayout extends Component<ITableLayoutProps & WithStyles<TTableLayoutClassKey>, any> {
+class TableLayout extends Component<ITableLayoutProps & IWithStyles<TTableLayoutClassKey>, any> {
   public static defaultProps = {
     headSticky: true,
     footSticky: true,
@@ -74,8 +73,8 @@ class TableLayout extends Component<ITableLayoutProps & WithStyles<TTableLayoutC
     return (
       <CoreTableLayout
         className={classNames({
-          [classes.stickyHeadCell]: headSticky,
-          [classes.stickyFootCell]: footSticky
+          [classes!.stickyHeadCell]: headSticky,
+          [classes!.stickyFootCell]: footSticky
         })}
         {...coreTableLayoutProps}
       />

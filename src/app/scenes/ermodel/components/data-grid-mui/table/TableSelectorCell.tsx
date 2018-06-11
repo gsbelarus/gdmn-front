@@ -3,9 +3,8 @@ import classNames from 'classnames';
 import MuiTableCell, { TableCellProps as MuiTableCellProps } from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
-import { WithStyles } from '@material-ui/core/styles';
 
-import { withStyles } from '@src/app/components/withStyles';
+import { IWithStyles, withStyles } from '@src/app/components/withStyles';
 
 type TTableCellClassKey = 'cell' | 'pointer';
 const styles: StyleRulesCallback<TTableCellClassKey> = theme => ({
@@ -20,7 +19,7 @@ const styles: StyleRulesCallback<TTableCellClassKey> = theme => ({
   }
 });
 
-type TBaseTableCellProps = MuiTableCellProps & WithStyles<TTableCellClassKey>;
+type TBaseTableCellProps = MuiTableCellProps & IWithStyles<TTableCellClassKey>;
 interface ITableSelectorCellProps extends TBaseTableCellProps {
   selectorDisabled: boolean;
   selectorChecked: boolean;
@@ -43,8 +42,8 @@ class TableSelectorCell extends Component<ITableSelectorCellProps, any> {
 
     const cellClasses = classNames(
       {
-        [classes.cell]: true,
-        [classes.pointer]: !selectorDisabled
+        [classes!.cell]: true,
+        [classes!.pointer]: !selectorDisabled
       },
       className
     );

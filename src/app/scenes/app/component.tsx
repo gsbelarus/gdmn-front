@@ -2,11 +2,11 @@ import React, { Fragment, Component } from 'react';
 import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import { StyleRulesCallback, WithStyles } from '@material-ui/core/styles';
+import { StyleRulesCallback } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import CSSModules from 'react-css-modules';
 
-import { withStyles } from '@src/app/components/withStyles';
+import { IWithStyles, withStyles } from '@src/app/components/withStyles';
 import { ErrorBoundary } from '@src/app/components/ErrorBoundary';
 import { ERModelBoxContainer } from '@src/app/scenes/ermodel/container';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
@@ -27,7 +27,7 @@ const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = th
 });
 
 type IAppProps = RouteComponentProps<any> &
-  WithStyles<keyof ReturnType<typeof muiStyles>> &
+  IWithStyles<keyof ReturnType<typeof muiStyles>> &
   CSSModules.InjectedCSSModuleProps;
 
 @withStyles(muiStyles)
@@ -35,7 +35,7 @@ type IAppProps = RouteComponentProps<any> &
 class App extends Component<IAppProps, {}> {
   public render() {
     const { match, classes } = this.props; // FIXME
-    const { main, navItem, navItemSelected } = classes;
+    const { main, navItem, navItemSelected } = classes!;
     return (
       <Fragment>
         <AppBar position="static">
