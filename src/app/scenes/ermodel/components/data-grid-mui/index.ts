@@ -6,6 +6,8 @@ export * from './table/Table';
 export * from './table/TableCell';
 export * from './table/TableLayout';
 export * from './table/InfiniteTableLayout';
+export * from './table/TableSelectorCell';
+export * from './table/withLayoutSelection';
 export * from './grid/fields/BooleanField';
 export * from './grid/fields/ImageField';
 export * from './grid/fields/TextField';

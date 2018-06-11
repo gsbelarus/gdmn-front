@@ -1,16 +1,14 @@
 import React, { forwardRef, ReactElement } from 'react';
 import hoistStatics from 'hoist-non-react-statics';
 
+import { getDisplayName } from '@src/app/utils';
+
 interface IForwardRef {
   (props: any, ref: any): ReactElement<any>;
   displayName?: string;
 }
 
 const forwardRefSymbol = '__forwardRef__';
-
-function getDisplayName(Component: any) {
-  return Component.displayName || Component.name || 'Component';
-}
 
 function withForwardRef(Component: any, options: { displayName?: string; hoistExclude?: object }) {
   const WrappedComponent: IForwardRef = (props: any, ref: any) => (

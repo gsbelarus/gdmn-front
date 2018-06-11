@@ -1,3 +1,5 @@
+import { ComponentType } from 'react';
+
 function isDevMode() {
   return process.env.NODE_ENV !== 'production';
 }
@@ -26,4 +28,14 @@ function arraySort(sort: ISort, flatData: any[]) {
   });
 }
 
-export { isDevMode };
+// react
+
+function getDisplayName(component: ComponentType<any>) {
+  return component.displayName || component.name || 'Component';
+}
+
+function getHOCDisplayName(hocName: string, component: ComponentType<any>) {
+  return `${hocName}(${getDisplayName(component)})`;
+}
+
+export { isDevMode, getDisplayName, getHOCDisplayName };

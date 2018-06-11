@@ -7,7 +7,7 @@
   },
   "description": "gdmn web client",
   "dependencies": {
-    "@material-ui/core": "^1.2.0",
+    "@material-ui/core": "^1.2.1",
     "@material-ui/icons": "^1.1.0",
     "@types/classnames": "^2.2.4",
     "@types/dagre": "^0.7.40",
@@ -28,6 +28,7 @@
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
+    "recompose": "^0.27.1",
     "redux": "^4.0.0",
     "typesafe-actions": "^2.0.4"
   },
@@ -36,6 +37,7 @@
     "@babel/preset-env": "^7.0.0-beta.49",
     "@babel/register": "^7.0.0-beta.49",
     "@types/react-css-modules": "^4.6.1",
+    "@types/recompose": "^0.26.1",
     "@types/redux-logger": "^3.0.6",
     "all-contributors-cli": "^4.11.2",
     "babel-loader": "^8.0.0-beta.3",
