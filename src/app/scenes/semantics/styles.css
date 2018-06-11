@@ -33,39 +33,39 @@
   margin-bottom: 8px;
 }
 
-svg {
+.CommandAndGraph svg {
   display: block;
   margin: auto;
   padding-top: 16px;
 }
 
-svg rect.outerRect {
+.CommandAndGraph svg rect.outerRect {
   stroke: none;
   fill: gray;
 }
 
-svg rect:global.phrase {
+.CommandAndGraph svg rect:global.phrase {
   stroke: none;
   fill: white;
 }
 
-svg rect:global.word {
+.CommandAndGraph svg rect:global.word {
   stroke: none;
   fill: aquamarine;
 }
 
-svg text {
+.CommandAndGraph svg text {
   fill: black;
   font-size: 14px;
 }
 
-svg path {
+.CommandAndGraph svg path {
   fill: none;
   stroke: black;
   stroke-width: 1px;
 }
 
-svg marker#arrow path {
+.CommandAndGraph svg marker#arrow path {
   fill: gray;
 }
 
