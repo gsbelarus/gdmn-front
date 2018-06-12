@@ -1,14 +1,17 @@
-import React, { ReactChild, ReactType } from 'react';
+import React, { Fragment, PureComponent, ReactChild, ReactType } from 'react';
+import { IInjectedSelectorSelectionProps } from '@src/app/scenes/ermodel/components/data-grid-core';
 
-interface ITableRowProps {
+interface ITableRowProps extends IInjectedSelectorSelectionProps {
   children?: ReactChild | ReactChild[];
-  renderComponent: ReactType;
+  renderComponent?: ReactType;
   [t: string]: any;
 }
 
-class TableRow extends React.Component<ITableRowProps, any> {
+class TableRow extends PureComponent<ITableRowProps, any> {
   public render(): JSX.Element {
     const { renderComponent: Component, children, ...componentProps } = this.props;
+
+    if (!Component) return <Fragment />; // FIXME
 
     return <Component {...componentProps}>{children}</Component>;
   }

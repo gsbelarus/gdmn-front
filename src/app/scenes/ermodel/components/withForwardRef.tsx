@@ -1,28 +1,28 @@
-import React, { forwardRef, ReactElement } from 'react';
-import hoistStatics from 'hoist-non-react-statics';
+import React, { Component, ComponentType, forwardRef, ReactElement } from 'react';
+import { compose, defaultProps, getDisplayName, setDisplayName, setStatic, wrapDisplayName } from 'recompose';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
-import { getDisplayName } from '@src/app/utils';
-
-interface IForwardRef {
-  (props: any, ref: any): ReactElement<any>;
-  displayName?: string;
-}
+type IWithForwardRefProps = (props: any, ref: any) => ReactElement<any>;
 
 const forwardRefSymbol = '__forwardRef__';
 
-function withForwardRef(Component: any, options: { displayName?: string; hoistExclude?: object }) {
-  const WrappedComponent: IForwardRef = (props: any, ref: any) => (
-    <Component {...{ [forwardRefSymbol]: ref, ...props }} />
+function withForwardRef(WrappedComponent: ComponentType<any>) {
+  const WithForwardRef: IWithForwardRefProps = (props: any, ref: any) => (
+    <WrappedComponent {...{ [forwardRefSymbol]: ref, ...props }} />
   );
-  WrappedComponent.displayName = options.displayName || `withForwardRef(${getDisplayName(Component)})`;
 
-  return hoistStatics(
-    forwardRef(WrappedComponent),
-    Component,
-    options.hoistExclude || { $$typeof: true, render: true }
-  );
+  const enhanced = compose(
+    setDisplayName(wrapDisplayName(WrappedComponent, 'withForwardRef')),
+    setStatic('WrappedComponent', WrappedComponent)
+  )(WithForwardRef as any);
+
+  return hoistNonReactStatics(
+    forwardRef(enhanced as any),
+    WrappedComponent,
+    { $$typeof: true, render: true }
+  );// TODO hoistStatics(forwardRef(enhanced), { $$typeof: true, render: true })(WrappedComponent);
 }
 
-// const hasForwardRef = Component => Component.$$typeof && typeof Component.render === 'function';
+// const hasForwardRef = WrappedComponent => WrappedComponent.$$typeof && typeof WrappedComponent.render === 'function';
 
-export { withForwardRef, forwardRefSymbol };
+export { withForwardRef, IWithForwardRefProps, forwardRefSymbol };

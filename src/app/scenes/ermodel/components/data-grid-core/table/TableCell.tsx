@@ -1,9 +1,10 @@
-import React, { ReactChild, ReactType } from 'react';
+import React, { PureComponent, ReactChild, ReactType } from 'react';
+import { IInjectedSelectionProps } from '@src/app/scenes/ermodel/components/data-grid-core';
 
-interface ITableCellProps {
+interface ITableCellProps extends IInjectedSelectionProps {
   children?: ReactChild | ReactChild[];
   loading?: boolean; // content = fixed-height skeleton
-  renderComponent: ReactType; // 'td' // TODO func({key, rowData, column})
+  renderComponent?: ReactType; // 'td' // TODO func({key, rowData, column})
   renderContent: ReactType;
   renderContentSkeleton?: ReactType;
   [t: string]: any;
@@ -12,19 +13,21 @@ interface ITableCellProps {
   // onDoubleClick: ()=>void
 }
 
-class TableCell extends React.Component<ITableCellProps, any> {
+class TableCell extends PureComponent<ITableCellProps, any> {
   public static defaultProps = {
     loading: false
   };
 
   public render(): JSX.Element {
     const {
-      renderComponent: Component,
+      renderComponent,
       renderContent: Content,
       renderContentSkeleton: Skeleton,
       loading,
       ...componentProps
     } = this.props;
+
+    const Component = renderComponent!;
 
     return <Component {...componentProps}>{loading && Skeleton ? <Skeleton /> : <Content />}</Component>;
   }

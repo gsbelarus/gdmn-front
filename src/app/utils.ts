@@ -38,4 +38,7 @@ function getHOCDisplayName(hocName: string, component: ComponentType<any>) {
   return `${hocName}(${getDisplayName(component)})`;
 }
 
-export { isDevMode, getDisplayName, getHOCDisplayName };
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+type Subtract<T, K> = Omit<T, keyof K>;
+
+export { isDevMode, Subtract };
