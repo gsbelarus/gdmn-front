@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import MuiTable, { TableProps as MuiTableProps } from '@material-ui/core/Table';
 import { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
@@ -16,7 +16,7 @@ const styles: StyleRulesCallback<TTableClassKey> = theme => ({
 type TTableProps = ICoreTableProps & MuiTableProps & IWithStyles<TTableClassKey>;
 
 @withStyles(styles)
-class Table extends Component<TTableProps, any> {
+class Table extends PureComponent<TTableProps, any> {
   public render(): JSX.Element {
     const { children, classes, className, ...muiTableProps } = this.props; // FIXME classname
 

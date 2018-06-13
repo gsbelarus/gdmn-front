@@ -1,4 +1,4 @@
-import React, { Fragment, ErrorInfo, ReactChild, SFC } from 'react';
+import React, { ErrorInfo, Fragment, ReactChild, SFC } from 'react';
 
 interface IErrorBoundaryProps {
   children?: ReactChild | ReactChild[];

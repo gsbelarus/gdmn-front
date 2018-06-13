@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactType } from 'react';
+import React, { PureComponent, ReactChild, ReactType } from 'react';
 
 interface ITableProps {
   children?: ReactChild | ReactChild[];
@@ -6,7 +6,7 @@ interface ITableProps {
   [t: string]: any;
 }
 
-class Table extends React.Component<ITableProps, any> {
+class Table extends PureComponent<ITableProps, any> {
   public render(): JSX.Element {
     const { renderComponent: Component, children, ...componentProps } = this.props;
 

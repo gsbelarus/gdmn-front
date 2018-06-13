@@ -1,11 +1,11 @@
-import React, { ReactChild, ReactType } from 'react';
+import React, { PureComponent, ReactChild, ReactType } from 'react';
 
 interface ITableHeadProps {
   children?: ReactChild | ReactChild[];
   renderComponent: ReactType;
 }
 
-class TableHead extends React.Component<ITableHeadProps, any> {
+class TableHead extends PureComponent<ITableHeadProps, any> {
   public render(): JSX.Element {
     const { renderComponent: Component, children, ...componentProps } = this.props;
 

@@ -3,8 +3,8 @@ import { Theme } from '@material-ui/core';
 
 // 'classes' is optional
 interface IWithStyles<ClassKey extends string = string> {
-  classes?: ClassNameMap<ClassKey>,
-  theme?: Theme
+  classes?: ClassNameMap<ClassKey>;
+  theme?: Theme;
 }
 
 // TODO fixme prev decorators
@@ -17,8 +17,6 @@ function withStyles(style: StyleRules<any> | StyleRulesCallback<any>, options?: 
 }
 
 export { withStyles, IWithStyles };
-
-
 
 /*
 type StyleDecorator = <T extends ReactType>(target: T) =>  T;

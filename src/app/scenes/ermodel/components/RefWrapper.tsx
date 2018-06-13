@@ -1,4 +1,4 @@
-import React, { Children, Component, ReactChild } from 'react';
+import React, { Children, PureComponent, ReactChild } from 'react';
 
 /**
  * Refs don't work on SFC
@@ -9,7 +9,7 @@ interface IRefWrapperProps {
   children: ReactChild | ReactChild[];
 }
 
-class RefWrapper extends Component<IRefWrapperProps, any> {
+class RefWrapper extends PureComponent<IRefWrapperProps, any> {
   public render(): JSX.Element {
     return Children.only(this.props.children);
   }

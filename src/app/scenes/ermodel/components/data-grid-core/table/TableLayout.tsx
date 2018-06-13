@@ -1,4 +1,4 @@
-import React, { Fragment, Component, Key, ReactType } from 'react';
+import React, { Fragment, Key, PureComponent, ReactType } from 'react';
 
 interface ITableRow {
   id: Key;
@@ -38,7 +38,7 @@ interface ITableLayoutProps {
 // TODO arrow -> renderItem
 // TODO col, cell types
 
-class TableLayout extends Component<ITableLayoutProps, any> {
+class TableLayout extends PureComponent<ITableLayoutProps, any> {
   public static defaultProps = {
     columns: [],
     bodyRows: [],
@@ -87,12 +87,14 @@ class TableLayout extends Component<ITableLayoutProps, any> {
       tableHeight
     } = this.props;
 
+    // console.log('render CoreTableLayout');
+
     const minWidth = this.getMinWidth(columns);
 
     if (!(ScrollContainer && Table && Col && Row && Body && BodyCell)) return <Fragment />; // TODO
 
     return (
-      <ScrollContainer style={{ maxHeight: tableHeight || tableHeightPx, overflowX: 'auto' }}>
+      <ScrollContainer style={{ maxHeight: tableHeight || tableHeightPx, overflow: 'auto' }}>
         <Table style={{ minWidth: `${minWidth}px` }}>
           {ColGroup && (
             <ColGroup>
@@ -112,7 +114,7 @@ class TableLayout extends Component<ITableLayoutProps, any> {
           <Body>
             {!!bodyRows &&
               bodyRows.map(row => (
-                <Row key={row.id}>
+                <Row key={row.id} uid={row.id}>
                   {columns.map(column => <BodyCell key={column.id} column={column} rowData={row} />)}
                 </Row>
               ))}

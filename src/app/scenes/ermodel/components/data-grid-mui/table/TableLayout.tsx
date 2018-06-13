@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import { Paper } from '@material-ui/core';
@@ -8,14 +8,7 @@ import {
   ITableLayoutProps as ICoreTableLayoutProps,
   TableLayout as CoreTableLayout
 } from '@src/app/scenes/ermodel/components/data-grid-core';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFoot,
-  TableHead,
-  TableRow
-} from '@src/app/scenes/ermodel/components/data-grid-mui';
+import { Table, TableBody, TableCell, TableFoot, TableHead, TableRow } from '@src/app/scenes/ermodel/components/data-grid-mui';
 
 type TTableLayoutClassKey = 'stickyHeadCell' | 'stickyFootCell';
 const styles: StyleRulesCallback<TTableLayoutClassKey> = theme => ({
@@ -47,7 +40,7 @@ interface ITableLayoutProps extends ICoreTableLayoutProps {
 }
 
 @withStyles(styles)
-class TableLayout extends Component<ITableLayoutProps & IWithStyles<TTableLayoutClassKey>, any> {
+class TableLayout extends PureComponent<ITableLayoutProps & IWithStyles<TTableLayoutClassKey>, any> {
   public static defaultProps = {
     headSticky: true,
     footSticky: true,
@@ -69,6 +62,8 @@ class TableLayout extends Component<ITableLayoutProps & IWithStyles<TTableLayout
 
   public render(): JSX.Element {
     const { headSticky, footSticky, classes, ...coreTableLayoutProps } = this.props;
+
+    // console.log('render TableLayout');
 
     return (
       <CoreTableLayout

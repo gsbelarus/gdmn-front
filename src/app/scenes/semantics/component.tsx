@@ -1,4 +1,4 @@
-import React, { Fragment, Component, ChangeEvent } from 'react';
+import React, { ChangeEvent, Component, Fragment } from 'react';
 import { graphlib, layout } from 'dagre';
 import { Phrase, Word } from 'gdmn-nlp';
 import { ICommand } from 'gdmn-nlp-agent';

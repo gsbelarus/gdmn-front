@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import MuiTableCell, { TableCellProps as MuiTableCellProps } from '@material-ui/core/TableCell';
 import { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
@@ -40,7 +40,7 @@ interface ITableCellProps extends TBaseTableCellProps {
 }
 
 @withStyles(styles)
-class TableCell extends Component<ITableCellProps, any> {
+class TableCell extends PureComponent<ITableCellProps, any> {
   public static defaultProps = {
     renderContentSkeleton: TextSkeleton // TODO from column
   };

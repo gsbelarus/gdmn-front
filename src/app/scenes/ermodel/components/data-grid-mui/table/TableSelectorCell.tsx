@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import MuiTableCell, { TableCellProps as MuiTableCellProps } from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -10,12 +10,13 @@ type TTableCellClassKey = 'cell' | 'pointer';
 const styles: StyleRulesCallback<TTableCellClassKey> = theme => ({
   cell: {
     overflow: 'visible',
-    paddingRight: 0,
-    paddingLeft: theme.spacing.unit,
-    textAlign: 'center'
+    padding: 0,
+    textAlign: 'center',
+
+    width: 48
   },
   pointer: {
-    cursor: 'pointer'
+    // cursor: 'pointer'
   }
 });
 
@@ -26,12 +27,11 @@ interface ITableSelectorCellProps extends TBaseTableCellProps {
   onSelectorToggle: () => void;
 
   className?: string;
-
   // TODO someSelected, allSelected
 }
 
 @withStyles(styles)
-class TableSelectorCell extends Component<ITableSelectorCellProps, any> {
+class TableSelectorCell extends PureComponent<ITableSelectorCellProps, any> {
   public static defaultProps = {
     selectorDisabled: false,
     selectorChecked: false
@@ -52,11 +52,10 @@ class TableSelectorCell extends Component<ITableSelectorCellProps, any> {
       <MuiTableCell padding="checkbox" className={cellClasses} {...muiCellProps}>
         <Checkbox
           checked={selectorChecked}
-          indeterminate={false}
           disabled={selectorDisabled}
           onClick={e => {
             if (selectorDisabled) return;
-            e.stopPropagation();
+            // e.stopPropagation();
             onSelectorToggle();
           }}
         />

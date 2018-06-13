@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, Component } from 'react';
+import React, { ChangeEvent, Component, MouseEvent } from 'react';
 import { IToken } from 'chevrotain';
 import classNames from 'classnames';
 import {

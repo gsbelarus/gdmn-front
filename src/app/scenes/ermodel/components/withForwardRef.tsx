@@ -1,5 +1,5 @@
-import React, { Component, ComponentType, forwardRef, ReactElement } from 'react';
-import { compose, defaultProps, getDisplayName, setDisplayName, setStatic, wrapDisplayName } from 'recompose';
+import React, { ComponentType, forwardRef, ReactElement } from 'react';
+import { compose, setDisplayName, setStatic, wrapDisplayName } from 'recompose';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
 type IWithForwardRefProps = (props: any, ref: any) => ReactElement<any>;
@@ -16,11 +16,7 @@ function withForwardRef(WrappedComponent: ComponentType<any>) {
     setStatic('WrappedComponent', WrappedComponent)
   )(WithForwardRef as any);
 
-  return hoistNonReactStatics(
-    forwardRef(enhanced as any),
-    WrappedComponent,
-    { $$typeof: true, render: true }
-  );// TODO hoistStatics(forwardRef(enhanced), { $$typeof: true, render: true })(WrappedComponent);
+  return hoistNonReactStatics(forwardRef(enhanced as any), WrappedComponent, { $$typeof: true, render: true }); // TODO hoistStatics(forwardRef(enhanced), { $$typeof: true, render: true })(WrappedComponent);
 }
 
 // const hasForwardRef = WrappedComponent => WrappedComponent.$$typeof && typeof WrappedComponent.render === 'function';
