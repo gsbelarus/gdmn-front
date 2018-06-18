@@ -10,7 +10,7 @@ import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data
 interface ISemanticsState {
   readonly text: string;
   readonly wordsSignatures: string[];
-  readonly phrase?: Phrase;
+  readonly phrase?: any;// FIXME Phrase;
   readonly command?: ICommand;
   readonly err?: string;
   readonly erTranslatorRU?: ERTranslatorRU;

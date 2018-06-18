@@ -86,7 +86,9 @@ const SemanticsBoxContainer = pure(
         const erTranslatorRU = state.erTranslatorRU;
         if (!erTranslatorRU || !parsedText.phrase) return;
         try {
-          const command = erTranslatorRU.process(parsedText.phrase);
+          const command = erTranslatorRU.process(
+            <any> // FIXME
+              parsedText.phrase);
           events.dispatch(actions.setCommand(command));
 
           // TODO extract

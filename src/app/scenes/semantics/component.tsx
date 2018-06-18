@@ -15,7 +15,7 @@ const styles = require('./styles.css');
 interface ISemanticsBoxProps {
   readonly text: string;
   readonly wordsSignatures: string[];
-  readonly phrase: Phrase;
+  readonly phrase: any; // FIXME Phrase;
   readonly onSetText: (text: string) => any;
   readonly onClearText: () => any;
   readonly onParse: (text: string) => any;
@@ -64,7 +64,9 @@ class SemanticsBox extends PureComponent<ISemanticsBoxProps, {}> {
         return {};
       });
 
-      const recurs = (phr: Word | Phrase) => {
+      const recurs = (phr: any
+                        // FIXME Word | Phrase
+      ) => {
         if (phr instanceof Phrase) {
           const label = phr.constructor.name;
           g.setNode(phr.id.toString(), {

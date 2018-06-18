@@ -23,7 +23,7 @@ import {
   RusVerbMorphSigns,
   WhiteSpace,
   Word,
-  Words
+  // Words
 } from 'gdmn-nlp';
 import CSSModules from 'react-css-modules';
 
@@ -33,7 +33,7 @@ interface IMorphBoxProps extends CSSModules.InjectedCSSModuleProps {
   readonly text: string;
   readonly tokens: IToken[];
   readonly selectedToken: number;
-  readonly words: Words;
+  readonly words: any; // FIXME Words;
   readonly onSetText: (text: string) => any;
   readonly onClickToken: (key: number) => any;
   readonly onClearText: () => any;
@@ -94,7 +94,7 @@ class MorphBox extends Component<IMorphBoxProps, {}> {
           </div>
         </div>
         <div styleName="MorphOutput">
-          {words.map((w, idx) => (
+          {words.map((w: any, idx: any) => (
             <span key={idx}>
               <div>
                 <div>{w.getDisplayText()}</div>
@@ -108,7 +108,9 @@ class MorphBox extends Component<IMorphBoxProps, {}> {
     );
   }
 
-  private formatWordForms(w: Word, onSetText: Function): JSX.Element {
+  private formatWordForms(
+    w: any,// FIXME Word,
+    onSetText: Function): JSX.Element {
     if (w instanceof RusPronoun) {
       const l = w.lexeme as RusPronounLexeme;
       const f = (c: RusCase) => (
