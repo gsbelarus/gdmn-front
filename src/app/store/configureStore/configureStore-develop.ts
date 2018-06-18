@@ -1,4 +1,5 @@
 import { applyMiddleware, compose, createStore, Middleware } from 'redux';
+import { createLogger } from 'redux-logger';
 
 import { IRootState, TRootReducer } from '@src/app/store/rootReducer';
 
@@ -9,7 +10,7 @@ const devCompose =
     : compose;
 
 const devMiddlewares: Middleware[] = [
-  // createLogger()
+  createLogger()
 ];
 
 function configureStore(rootReducer: TRootReducer, middlewares: Middleware[] = [], initialState?: IRootState) {

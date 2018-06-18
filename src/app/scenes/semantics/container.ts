@@ -14,7 +14,6 @@ import { loadERModelOk, loadError } from '@src/app/scenes/ermodel/actionCreators
 import { deserializeERModel, IERModel } from 'gdmn-orm';
 import { TRootActions } from '@src/app/store/RootActions';
 import { createSelector } from 'reselect';
-import { pure } from 'recompose';
 
 const tableDataSelector = (state: any, props: any) => selectSemanticsState(state).tableData;
 
@@ -55,61 +54,64 @@ function _createTableColumn(key: Key, widthPx?: number, align?: string): ITableC
 }
 const dataTableMetaSelector = createSelector([tableDataSelector], createTableMeta);
 
-const SemanticsBoxContainer = pure(
+const ermodelSelector = (state: any, props: any) => selectErmodelState(state).erModel;
+
+function createCommand(erTranslatorRU: any, parsedTextPhrase: any) {
+  if (!erTranslatorRU || !parsedTextPhrase) return;
+
+  // try {
+    const command = erTranslatorRU.process(
+      <any> // FIXME
+        parsedTextPhrase);
+
+    return command;
+
+  // TODO
+  // } catch (err) {
+  //   if (err instanceof Error) {
+  //     dispatch(actions.setError(err.message));
+  //   }
+  // }
+}
+const parsedTextPhraseSelector = (state: any, props: any) => selectSemanticsState(state).phrase;
+const erTranslatorRUSelector = (state: any, props: any) => selectSemanticsState(state).erTranslatorRU;
+const commandSelector = createSelector([erTranslatorRUSelector, parsedTextPhraseSelector], createCommand);
+
+const SemanticsBoxContainer =
   connect(
     (state: IRootState, ownProps) => ({
       ...selectSemanticsState(state),
       ...dataTableMetaSelector(state, ownProps),
-      dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps)
+      dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
+      erModel: ermodelSelector(state, ownProps),
+      command: commandSelector(state, ownProps)
     }),
     (dispatch: Dispatch<TRootActions>) => ({
-      dispatch,
       onSetText: (text: string) => dispatch(actions.setSemText(text)),
       onClearText: () => dispatch(actions.setSemText('')),
-      loadErModel: () => {
-        Api.fetchEr()
-          .then(res => {
-            return dispatch(loadERModelOk(deserializeERModel(<IERModel>res)));
-          })
-          .catch((err: Error) => dispatch(loadError(err.message)));
-      },
-      loadData: () => {
-        // TODO
-      }
-    }),
-    (state, events) => ({
-      ...state,
-      ...events,
       onParse: (text: string) => {
         const parsedText = parsePhrase(text);
-        events.dispatch(actions.setParsedText(parsedText));
-        const erTranslatorRU = state.erTranslatorRU;
-        if (!erTranslatorRU || !parsedText.phrase) return;
-        try {
-          const command = erTranslatorRU.process(
-            <any> // FIXME
-              parsedText.phrase);
-          events.dispatch(actions.setCommand(command));
+        dispatch(actions.setParsedText(parsedText));
+      },
+      loadErModel: () => {
+        Api.fetchEr()
+          .then(res => dispatch(loadERModelOk(deserializeERModel(<IERModel>res))))
+          .catch((err: Error) => dispatch(loadError(err.message)));
+      },
+      loadData: (command: any) => {
+        dispatch(actions.tableDataLoadStart());
 
-          // TODO extract
+        const queries = EQueryTranslator.process(command);
 
-          const queries = EQueryTranslator.process(command);
-
-          Promise.all(
-            queries.map(query =>
-              Api.fetchQuery(query, 'command')
-                .then(res => events.dispatch(actions.setTableData(res)))
-                .catch((err: Error) => console.log(err))
-            )
-          );
-        } catch (err) {
-          if (err instanceof Error) {
-            events.dispatch(actions.setError(err.message));
-          }
-        }
-      }
+        Promise.all(
+          queries.map(query =>
+            Api.fetchQuery(query, 'command')
+              .then(res => dispatch(actions.setTableData(res))) // TODO command id
+              .catch((err: Error) => console.log(err))
+          )
+        );
+      },
     })
-  )(<any>SemanticsBox)
-);
+  )(<any>SemanticsBox);
 
 export { SemanticsBoxContainer };

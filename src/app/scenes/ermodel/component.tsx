@@ -1,4 +1,4 @@
-import React, { Fragment, Key, PureComponent, SFC } from 'react';
+import React, { Component, Fragment, Key, PureComponent, SFC } from 'react';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper/Paper';
 import { ERModel } from 'gdmn-orm';
@@ -49,7 +49,8 @@ interface IERModelBoxProps {
 @CSSModules(styles)
 class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
   public render(): JSX.Element {
-    const {} = this.props;
+
+    console.log('render ERModelBox');
 
     const {
       erModel,

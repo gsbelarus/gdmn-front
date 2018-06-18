@@ -10,13 +10,14 @@ const actions = {
   setParsedText: createAction('SET_SEM_PARSED_TEXT', resolve => {
     return (parsedText: ParsedText) => resolve(parsedText);
   }),
-  setCommand: createAction('SET_SEM_COMMAND', resolve => {
-    return (command: ICommand) => resolve(command);
-  }),
+  // setCommand: createAction('SET_SEM_COMMAND', resolve => {
+  //   return (command: ICommand) => resolve(command);
+  // }),
   setError: createAction('SET_SEM_ERROR', resolve => {
     return (err: string) => resolve(err);
   }),
-  setTableData: createAction('SET_TABLE_DATA', resolve => (tableData: object) => resolve(tableData))
+  setTableData: createAction('SET_TABLE_DATA', resolve => (tableData: object) => resolve(tableData)),
+  tableDataLoadStart: createAction('tableDataLoadStart')
 };
 
 type TSemanticsActions = ActionType<typeof actions>;

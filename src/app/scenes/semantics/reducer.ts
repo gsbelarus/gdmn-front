@@ -6,15 +6,17 @@ import { TRootActions } from '@src/app/store/RootActions';
 import { ActionTypes } from '@src/app/scenes/ermodel/actions';
 import { actions } from './actions';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
+import { ERModel } from 'gdmn-orm';
 
 interface ISemanticsState {
   readonly text: string;
   readonly wordsSignatures: string[];
   readonly phrase?: any;// FIXME Phrase;
-  readonly command?: ICommand;
+  // readonly command?: ICommand;
   readonly err?: string;
   readonly erTranslatorRU?: ERTranslatorRU;
   readonly tableData?: object;
+  readonly dataLoading?: boolean;
   // entity data table
   // readonly dataTableColumns?: ITableColumn[];
   // readonly dataTableHeadRows?: ITableRow[];
@@ -26,7 +28,8 @@ const initialText = 'покажи все организации из минск�
 
 const initialState: ISemanticsState = {
   text: initialText,
-  wordsSignatures: []
+  wordsSignatures: [],
+  dataLoading: false
 };
 
 function reducer(state: ISemanticsState = initialState, action: TRootActions): ISemanticsState {
@@ -44,26 +47,27 @@ function reducer(state: ISemanticsState = initialState, action: TRootActions): I
         ...state,
         wordsSignatures: action.payload.wordsSignatures,
         phrase: action.payload.phrase,
-        command: undefined,
+        // command: undefined,
         err: undefined
       };
     }
 
-    case getType(actions.setCommand): {
-      return {
-        ...state,
-        err: undefined,
-        command: action.payload
-      };
-    }
+    // case getType(actions.setCommand): {
+    //   return {
+    //     ...state,
+    //     err: undefined,
+    //     command: action.payload
+    //   };
+    // }
 
     case getType(actions.setError): {
       return {
         ...state,
         wordsSignatures: [],
         phrase: undefined,
-        command: undefined,
-        err: action.payload
+        // command: undefined,
+        dataLoading: false,
+        err: action.payload,
       };
     }
 
@@ -77,8 +81,16 @@ function reducer(state: ISemanticsState = initialState, action: TRootActions): I
     case getType(actions.setTableData): {
       return {
         ...state,
-        tableData: action.payload
+        tableData: action.payload,
+        dataLoading: false
       };
+    }
+
+    case getType(actions.tableDataLoadStart): {
+      return {
+        ...state,
+        dataLoading: true
+      }
     }
 
     default:

@@ -9,6 +9,8 @@ import { Rect } from './components/rect';
 import { ERModelBox } from '@src/app/scenes/ermodel/component';
 import { InfiniteTableLayout, TableRow } from '@src/app/scenes/ermodel/components/data-grid-mui';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
+import { ERModel } from 'gdmn-orm';
+import { LinearProgress } from '@material-ui/core';
 
 const styles = require('./styles.css');
 
@@ -21,18 +23,20 @@ interface ISemanticsBoxProps {
   readonly onParse: (text: string) => any;
   readonly command?: ICommand;
   readonly err?: string;
+  erModel?: ERModel;
+  dataLoading?: boolean;
   // data table
   dataTableColumns?: ITableColumn[];
   dataTableHeadRows?: ITableRow[];
   dataTableBodyRows?: ITableRow[];
   dataTableFootRows?: ITableRow[];
   // actions
-  loadErModel: () => any; // TODO
-  loadData: () => any; // TODO
+  loadErModel: () => void;
+  loadData: (command: any) => void;
 }
 
 @CSSModules(styles)
-class SemanticsBox extends PureComponent<ISemanticsBoxProps, {}> {
+class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
   public render() {
     console.log('render SemanticsBox');
 
@@ -49,7 +53,9 @@ class SemanticsBox extends PureComponent<ISemanticsBoxProps, {}> {
       dataTableHeadRows,
       dataTableBodyRows,
       loadErModel,
-      loadData
+      loadData,
+      erModel,
+      dataLoading
     } = this.props;
 
     // Create a new directed graph
@@ -64,8 +70,9 @@ class SemanticsBox extends PureComponent<ISemanticsBoxProps, {}> {
         return {};
       });
 
-      const recurs = (phr: any
-                        // FIXME Word | Phrase
+      const recurs = (
+        phr: any
+        // FIXME Word | Phrase
       ) => {
         if (phr instanceof Phrase) {
           const label = phr.constructor.name;
@@ -191,17 +198,28 @@ class SemanticsBox extends PureComponent<ISemanticsBoxProps, {}> {
           </div>
         </div>
 
+        <div style={{ backgroundColor: 'lightgray', margin: '32px 0 0px' }}>
+          <div style={{padding: 8}}>
+          <button disabled={!phrase} onClick={loadErModel}>
+            BUILD COMMAND (load er-model)
+          </button>
+          <button disabled={!command} onClick={() => loadData(command)}>
+            RUN COMMAND (load data)
+          </button>
+          </div>
+          { dataLoading && (<LinearProgress color="secondary" />) }
+        </div>
         <InfiniteTableLayout
-          tableHeight={'40vh'}
+          tableHeight={'36vh'}
           headRows={dataTableHeadRows}
           columns={dataTableColumns}
           bodyRows={dataTableBodyRows}
           renderHeadCell={ERModelBox.renderHeadCell}
           renderBodyCell={ERModelBox.renderBodyCell}
-          //
           tableHeightPx={0}
           tableMinWidthPx={0}
         />
+
       </Fragment>
     );
   }

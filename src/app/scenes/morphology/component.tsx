@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component, MouseEvent } from 'react';
+import React, { ChangeEvent, Component, MouseEvent, PureComponent } from 'react';
 import { IToken } from 'chevrotain';
 import classNames from 'classnames';
 import {
@@ -46,8 +46,9 @@ interface IMorphBoxProps extends CSSModules.InjectedCSSModuleProps {
 }
 
 @CSSModules(styles, { allowMultiple: true })
-class MorphBox extends Component<IMorphBoxProps, {}> {
+class MorphBox extends PureComponent<IMorphBoxProps, {}> {
   public render() {
+
     const {
       text,
       tokens,

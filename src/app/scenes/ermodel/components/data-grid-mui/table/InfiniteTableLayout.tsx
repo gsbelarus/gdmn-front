@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 
 import {
   IInfiniteTableLayoutProps2 as ICoreInfiniteTableLayoutProps,
@@ -8,7 +8,7 @@ import { Table, TableLayout } from '@src/app/scenes/ermodel/components/data-grid
 
 type TInfiniteTableLayoutProps = ICoreInfiniteTableLayoutProps;
 
-class InfiniteTableLayout extends PureComponent<TInfiniteTableLayoutProps, any> {
+class InfiniteTableLayout extends Component<TInfiniteTableLayoutProps, any> {
   public static defaultProps = {
     ...TableLayout.defaultProps,
     // CoreInfiniteTableLayout:

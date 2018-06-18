@@ -10,6 +10,7 @@ import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data
 import { loadEntityDataOk, loadERModelOk, loadError } from './actionCreators';
 import { TErModelActions } from './actions';
 import { ERModelBox } from './component';
+import { pure } from 'recompose';
 
 const ermodelSelector = (state: any, props: any) => selectErmodelState(state).erModel;
 

@@ -57,21 +57,23 @@ class TableCell extends PureComponent<ITableCellProps, any> {
       ...muiTableCellProps
     } = this.props;
 
+    const cellClasses = classNames(
+      {
+        [classes.cell]: true,
+        [classes.cellRightAlign]: column && column.align === 'right',
+        [classes.cellCenterAlign]: column && column.align === 'center',
+        [classes.cellNoWrap]: true
+      },
+      className
+    );
+
     return (
       <CoreTableCell
         loading={loading}
         renderComponent={MuiTableCell}
         renderContent={renderContent}
         renderContentSkeleton={renderContentSkeleton}
-        className={classNames(
-          {
-            [classes.cell]: true,
-            [classes.cellRightAlign]: column && column.align === 'right',
-            [classes.cellCenterAlign]: column && column.align === 'center',
-            [classes.cellNoWrap]: true
-          },
-          className
-        )}
+        className={ cellClasses}
         {...muiTableCellProps}
       />
     );
