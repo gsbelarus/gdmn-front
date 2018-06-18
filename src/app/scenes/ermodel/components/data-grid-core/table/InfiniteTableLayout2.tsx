@@ -33,23 +33,24 @@ class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps, any> {
   private rowRenderer({ key, index, isScrolling, isVisible, style }: any) {
     // console.log('_rowRenderer');
 
-    const { renderRow: Row, renderBodyCell: BodyCell } = this.props;
+    const { renderRow: Row, renderBodyCell: BodyCell, rowHeightPx, bodyRows, columns } = this.props;
 
     if (!(!!Row && !!BodyCell)) return <Fragment />; // todo tmp
 
     return (
-      <Row key={key} uid={this.props.bodyRows![index].id} style={style}>
-        {this.props!.columns!.map((column, i) => {
-          const width = i === this.props!.columns!.length - 1 ? '100%' : CoreTableLayout.getColumnWidthPx(column);
+      <Row key={key} uid={bodyRows![index].id} style={style}>
+        {columns!.map((column, i) => {
+          const width = CoreTableLayout.getColumnWidthPx(column); // TODO i === this.props!.columns!.length - 1 ? '100%' : CoreTableLayout.getColumnWidthPx(column);
           return (
             <BodyCell
               key={column.id}
               column={column}
-              rowData={this.props.bodyRows![index]}
+              rowData={bodyRows![index]}
               style={{
-                maxWidth: width,
+                width,
                 minWidth: width,
-                width
+                maxWidth: width,
+                height: rowHeightPx
               }}
             />
           );
@@ -152,7 +153,7 @@ class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps, any> {
                     // scrollTop={scrollTop}
                     // scrollToIndex={scrollToIndex}
                     rowRenderer={this.rowRenderer}
-                    overscanRowCount={10}
+                    overscanRowCount={0}
                     // onRowsRendered={onRowsRendered}
                   />
                   // </div>
