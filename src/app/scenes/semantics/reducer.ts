@@ -5,6 +5,7 @@ import { ERTranslatorRU, ICommand } from 'gdmn-nlp-agent';
 import { TRootActions } from '@src/app/store/RootActions';
 import { ActionTypes } from '@src/app/scenes/ermodel/actions';
 import { actions } from './actions';
+import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
 
 interface ISemanticsState {
   readonly text: string;
@@ -13,6 +14,12 @@ interface ISemanticsState {
   readonly command?: ICommand;
   readonly err?: string;
   readonly erTranslatorRU?: ERTranslatorRU;
+  readonly tableData?: object;
+  // entity data table
+  // readonly dataTableColumns?: ITableColumn[];
+  // readonly dataTableHeadRows?: ITableRow[];
+  // readonly dataTableBodyRows?: ITableRow[];
+  // readonly dataTableFootRows?: ITableRow[];
 }
 
 const initialText = 'покажи все организации из минска';
@@ -64,6 +71,13 @@ function reducer(state: ISemanticsState = initialState, action: TRootActions): I
       return {
         ...state,
         erTranslatorRU: new ERTranslatorRU(action.payload)
+      };
+    }
+
+    case getType(actions.setTableData): {
+      return {
+        ...state,
+        tableData: action.payload
       };
     }
 

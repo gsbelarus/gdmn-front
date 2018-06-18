@@ -1,22 +1,23 @@
 import { ERModel } from 'gdmn-orm';
+import { Key } from 'react';
 
 enum ActionTypes {
-  SELECT_ENTITY = 'app/ermodel/SELECT_ENTITY',
-  SELECT_FIELDS = 'app/ermodel/SELECT_FIELDS',
+  TOGGLE_ENTITITES_ROW = 'app/ermodel/TOGGLE_ENTITITES_ROW',
+  TOGGLE_FIELD_ROW = 'app/ermodel/TOGGLE_FIELD_ROW',
   // todo LOAD_ERRMODEL_REQUEST
   LOAD_ERMODEL_OK = 'app/ermodel/LOAD_ERMODEL_OK',
   LOAD_ENTITY_DATA_OK = 'app/ermodel/LOAD_ENTITY_DATA_OK',
   LOAD_ERROR = 'app/ermodel/LOAD_ERROR'
 }
 
-interface ISelectEntityAction {
-  payload: string;
-  type: ActionTypes.SELECT_ENTITY;
+interface IToggleEntitiesRowAction {
+  payload: Key;
+  type: ActionTypes.TOGGLE_ENTITITES_ROW;
 }
 
-interface ISelectFieldsAction {
-  payload: string[];
-  type: ActionTypes.SELECT_FIELDS;
+interface IToggleFieldsRowAction {
+  payload: Key;
+  type: ActionTypes.TOGGLE_FIELD_ROW;
 }
 
 interface ILoadErModelOkAction {
@@ -36,16 +37,16 @@ interface ILoadErrorAction {
 }
 
 type TErModelActions =
-  | ISelectFieldsAction
-  | ISelectEntityAction
+  | IToggleEntitiesRowAction
+  | IToggleFieldsRowAction
   | ILoadErModelOkAction
   | ILoadEntityDataOkAction
   | ILoadErrorAction;
 
 export {
   ActionTypes,
-  ISelectEntityAction,
-  ISelectFieldsAction,
+  IToggleEntitiesRowAction,
+  IToggleFieldsRowAction,
   ILoadErModelOkAction,
   ILoadEntityDataOkAction,
   ILoadErrorAction,

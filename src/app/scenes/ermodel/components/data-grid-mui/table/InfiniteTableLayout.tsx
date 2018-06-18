@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 
 import {
-  IInfiniteTableLayoutProps as ICoreInfiniteTableLayoutProps,
-  InfiniteTableLayout as CoreInfiniteTableLayout
+  IInfiniteTableLayoutProps2 as ICoreInfiniteTableLayoutProps,
+  InfiniteTableLayout2 as CoreInfiniteTableLayout
 } from '@src/app/scenes/ermodel/components/data-grid-core';
 import { Table, TableLayout } from '@src/app/scenes/ermodel/components/data-grid-mui';
 

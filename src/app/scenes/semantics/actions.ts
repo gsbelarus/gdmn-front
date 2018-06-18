@@ -1,6 +1,7 @@
 import { ParsedText } from 'gdmn-nlp';
 import { ActionType, createAction } from 'typesafe-actions';
 import { ICommand } from 'gdmn-nlp-agent';
+import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
 
 const actions = {
   setSemText: createAction('SET_SEM_TEXT', resolve => {
@@ -14,7 +15,8 @@ const actions = {
   }),
   setError: createAction('SET_SEM_ERROR', resolve => {
     return (err: string) => resolve(err);
-  })
+  }),
+  setTableData: createAction('SET_TABLE_DATA', resolve => (tableData: object) => resolve(tableData))
 };
 
 type TSemanticsActions = ActionType<typeof actions>;

@@ -8,7 +8,7 @@ import { ITableColumn, ITableLayoutProps, ITableRow, TableLayout } from './Table
 interface IInfiniteTableLayoutProps extends ITableLayoutProps {
   tableMinWidthPx: number; // TODO calc from column?
   rowHeightPx?: number;
-  renderBodyTable: ReactType;
+  renderBodyTable?: ReactType;
   renderHeadTable?: ReactType;
   // TODO (delete) renderTable, tableHeight
 }
@@ -20,7 +20,9 @@ interface IInfiniteTableLayoutState {
 }
 
 class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfiniteTableLayoutState> {
-  public static defaultProps = TableLayout.defaultProps; // todo test  IInfiniteTableLayoutProps
+  public static defaultProps = {
+    ...TableLayout.defaultProps
+  };
 
   public state: IInfiniteTableLayoutState = {
     rowHeights: new Map<Key, number>(),
@@ -49,15 +51,15 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
     const { headerRows, bodyRows } = this.props;
     const { rowHeights } = this.state;
 
-    if (!(headerRows !== nextProps.headerRows || bodyRows !== nextProps.bodyRows)) return;
-
-    const nextRowHeights = [...nextProps.headerRows, ...(nextProps.bodyRows || [])].reduce((acc, row) => {
-      const rowHeight = rowHeights.get(row.id);
-      if (!!rowHeight) acc.set(row.id, rowHeight);
-      return acc;
-    }, new Map());
-
-    this.setState({ rowHeights: nextRowHeights });
+    // if (!(headerRows !== nextProps.headerRows || bodyRows !== nextProps.bodyRows)) return;
+    //
+    // const nextRowHeights = [...(nextProps.headerRows || []), ...(nextProps.bodyRows || [])].reduce((acc, row) => {
+    //   const rowHeight = rowHeights.get(row.id);
+    //   if (!!rowHeight) acc.set(row.id, rowHeight);
+    //   return acc;
+    // }, new Map());
+    //
+    // this.setState({ rowHeights: nextRowHeights });
   }
 
   public componentDidUpdate() {
@@ -135,7 +137,7 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
     const columnBoundaries = InfiniteTableLayout.getItemBoundaries(columns.length, columnsVisibleBoundary);
     const rowBoundaries = InfiniteTableLayout.getItemBoundaries(rows.length, rowsVisibleBoundary);
 
-    const visibleCells = InfiniteTableLayout.getVisibleCells(columnBoundaries);
+    const visibleStubCells = InfiniteTableLayout.getVisibleStubCells(columnBoundaries);
 
     return {
       columns: InfiniteTableLayout.getVisibleItems(
@@ -156,7 +158,7 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
         this.getRowHeightPx,
         (row: ITableRow) => ({
           row,
-          cells: visibleCells // TODO ?
+          cells: visibleStubCells // TODO ?
         }),
         (boundary: { start: number; end: number }, heightPx: number) => ({
           row: { id: `${boundary.start}_${boundary.end}_stub`, heightPx }
@@ -189,6 +191,8 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
     } = this.props;
     const { viewportLeft, viewportTop } = this.state;
 
+    if (!BodyTable) return <Fragment />; // FIXME
+
     return (
       <SizeMeasurer>
         {({ width }) => {
@@ -196,69 +200,80 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
 
           const headHeight = headRows.length ? headRows.reduce((acc, row) => acc + this.getRowHeightPx(row), 0) : 0;
 
-          const { columns: visibleHeadColumns, rows: visibleHeadRows } = this.filterVisible(headRows, columns, {
-            top: 0,
-            left: viewportLeft,
-            height: headHeight,
-            width
-          });
-
-          const { columns: visibleBodyColumns, rows: visibleBodyRows } = this.filterVisible(bodyRows, columns, {
+          // const { columns: visibleHeadColumns, rows: visibleHeadRows } = this.filterVisible(headRows, columns, {
+          //   top: 0,
+          //   left: viewportLeft,
+          //   height: headHeight,
+          //   width
+          // });
+          //
+          const { columns: visibleBodyColumns2, rows: visibleBodyRows2 } = this.filterVisible(bodyRows, columns, {
             top: viewportTop,
             left: viewportLeft,
             height: tableHeightPx - headHeight,
             width
           });
 
+          const visibleHeadRows = headRows;
+          const visibleHeadColumns = columns; // TODO tmp
+          const visibleBodyColumns = columns;
+          const visibleBodyRows = visibleBodyRows2; // TODO tmp
+
+          console.log(visibleBodyRows.length);
+
           if (!(ScrollContainer && Col && Row && Body && BodyCell)) return <Fragment />; // TODO
 
           return (
-            <ScrollContainer style={{ height: tableHeightPx }} onScroll={this.handleScroll}>
-              {!!headRows.length &&
-                HeadTable &&
-                Head &&
-                HeadCell && (
-                  <HeadTable style={{ minWidth: tableMinWidthPx }}>
-                    {ColGroup && (
-                      <ColGroup>
-                        {visibleHeadColumns.map(column => (
-                          <Col key={column.id} style={{ width: column.widthPx }} column={column} />
-                        ))}
-                      </ColGroup>
-                    )}
-                    <Head>
-                      {visibleHeadRows.map(({ row, cells = [] }) => (
-                        <RefWrapper key={row.id} ref={(ref: any) => this.setRowRef(row, ref)}>
-                          <Row>
-                            {cells.map((cell: any) => {
-                              const { column } = cell;
-                              return <HeadCell key={column.id} column={column} rowData={row} />;
-                            })}
-                          </Row>
-                        </RefWrapper>
-                      ))}
-                    </Head>
-                  </HeadTable>
-                )}
+            <ScrollContainer style={{ height: tableHeightPx, overflow: 'auto' }} onScroll={this.handleScroll}>
+              {/*{!!headRows.length &&*/}
+              {/*HeadTable &&*/}
+              {/*Head &&*/}
+              {/*HeadCell && (*/}
+              {/*<HeadTable style={{ minWidth: tableMinWidthPx }}>*/}
+              {/*{ColGroup && (*/}
+              {/*<ColGroup>*/}
+              {/*{visibleHeadColumns.map(column => (*/}
+              {/*<Col key={column.id} style={{ width: column.widthPx }} column={column} />*/}
+              {/*))}*/}
+              {/*</ColGroup>*/}
+              {/*)}*/}
+              {/*<Head>*/}
+              {/*{visibleHeadRows.map(({ row, cells = [] }) => (*/}
+              {/*<RefWrapper key={row.id} ref={(ref: any) => this.setRowRef(row, ref)}>*/}
+              {/*<Row>*/}
+              {/*{cells.map((cell: any) => {*/}
+              {/*const { column } = cell;*/}
+              {/*return <HeadCell key={column.id} column={column} rowData={row} />;*/}
+              {/*})}*/}
+              {/*</Row>*/}
+              {/*</RefWrapper>*/}
+              {/*))}*/}
+              {/*</Head>*/}
+              {/*</HeadTable>*/}
+              {/*)}*/}
               <BodyTable style={{ minWidth: tableMinWidthPx }}>
-                {ColGroup && (
-                  <ColGroup>
-                    {visibleBodyColumns.map(column => (
-                      <Col key={column.id} style={{ width: column.widthPx }} column={column} />
-                    ))}
-                  </ColGroup>
-                )}
+                {/*{ColGroup && (*/}
+                {/*<ColGroup>*/}
+                {/*{visibleBodyColumns.map(column => (*/}
+                {/*<Col key={column.id} style={{ width: column.widthPx }} column={column} />*/}
+                {/*))}*/}
+                {/*</ColGroup>*/}
+                {/*)}*/}
                 <Body>
-                  {visibleBodyRows.map(({ row, cells = [] }) => (
-                    <RefWrapper key={row.id} ref={(ref: any) => this.setRowRef(row, ref)}>
-                      <Row>
-                        {cells.map((cell: any) => {
-                          const { column } = cell;
-                          return <BodyCell key={column.id} column={column} rowData={row} />;
-                        })}
-                      </Row>
-                    </RefWrapper>
-                  ))}
+                  {visibleBodyRows.map(({ row, cells }) => {
+                    return (
+                      <RefWrapper key={row.id} ref={(ref: any) => this.setRowRef(row, ref)}>
+                        <Row key={row.id} uid={row.id}>
+                          {visibleBodyColumns.map(column => <BodyCell key={column.id} column={column} rowData={row} />)}
+                          {!!cells &&
+                            cells.map((cell: any) => {
+                              const { column } = cell;
+                              return <BodyCell key={column.id} column={column} rowData={row} />;
+                            })}
+                        </Row>
+                      </RefWrapper>
+                    );
+                  })}
                 </Body>
               </BodyTable>
             </ScrollContainer>
@@ -267,6 +282,31 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
       </SizeMeasurer>
     );
   } // TODO rowData -> row
+
+  /*
+
+<RefWrapper key={row.id} ref={ref => this.setRowRef(row, ref)}>
+  <Row
+  // tableRow={row}
+  // style={!!row.height
+  //   ? { height: `${row.height}px` }
+  //   : undefined}
+  >
+    {cells.map(cell => {
+      const { column } = cell;
+      return (
+        <HeadCell
+          key={column.id}
+          column={column}
+          rowData={row}
+          //style={column.animationState}
+        />
+      );
+    })}
+  </Row>
+</RefWrapper>
+
+ */
 
   private static getVisibleBoundary(
     items: any[],
@@ -353,7 +393,7 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
     return visibleItems;
   }
 
-  private static getVisibleCells(boundaries: Array<{ start: number; end: number }>): object[] {
+  private static getVisibleStubCells(boundaries: Array<{ start: number; end: number }>): object[] {
     // TODO cell type // TODO visibleCells no stub ??
     const visibleCells: any[] = [];
     let index = 0;
@@ -411,30 +451,5 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
     return boundaries;
   }
 }
-
-/*
-
-<RefWrapper key={row.id} ref={ref => this.setRowRef(row, ref)}>
-  <Row
-  // tableRow={row}
-  // style={!!row.height
-  //   ? { height: `${row.height}px` }
-  //   : undefined}
-  >
-    {cells.map(cell => {
-      const { column } = cell;
-      return (
-        <HeadCell
-          key={column.id}
-          column={column}
-          rowData={row}
-          //style={column.animationState}
-        />
-      );
-    })}
-  </Row>
-</RefWrapper>
-
- */
 
 export { InfiniteTableLayout, IInfiniteTableLayoutProps, IInfiniteTableLayoutState };

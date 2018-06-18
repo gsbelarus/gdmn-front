@@ -1,3 +1,5 @@
+import { EntityQuery } from 'gdmn-orm';
+
 const config = require('configFile');
 
 // TODO types
@@ -41,15 +43,29 @@ class Api {
       .then(response => response.text());
   }
 
-  public static fetchQuery(query: string): Promise<object> {
-    return Api.fetch(Api.API_URL, {
-      method: 'POST',
-      body: query
-    }).then((responseBody: string) => JSON.parse(responseBody));
+  public static fetchQuery(query: EntityQuery, urlOptions?: string): Promise<object> {
+    return Api.fetch(
+      Api.API_URL,
+      // + urlOptions
+      {
+        method: 'POST',
+        body: query.serialize()
+      }
+    )
+      .then((responseBody: string) => JSON.parse(responseBody))
+      .then(res => {
+        console.log('[GDMN] fetchQuery DONE!');
+        return res;
+      });
   }
 
   public static fetchEr(): Promise<object> {
-    return Api.fetch(Api.ER_URL).then((responseBody: string) => JSON.parse(responseBody));
+    return Api.fetch(Api.ER_URL)
+      .then((responseBody: string) => JSON.parse(responseBody))
+      .then(res => {
+        console.log('[GDMN] fetchEr DONE!');
+        return res;
+      });
   }
 }
 

@@ -5,9 +5,10 @@ import {
   ILoadEntityDataOkAction,
   ILoadErModelOkAction,
   ILoadErrorAction,
-  ISelectEntityAction,
-  ISelectFieldsAction
+  IToggleEntitiesRowAction,
+  IToggleFieldsRowAction
 } from '@src/app/scenes/ermodel/actions';
+import { Key } from 'react';
 
 const loadERModelOk = (erModel: ERModel): ILoadErModelOkAction => ({
   payload: erModel,
@@ -26,18 +27,18 @@ const loadError = (error: string): ILoadErrorAction => ({
   type: ActionTypes.LOAD_ERROR
 });
 
-function selectEntity(name: string): ISelectEntityAction {
+function toggleEntitiesRow(id: Key): IToggleEntitiesRowAction {
   return {
-    payload: name,
-    type: ActionTypes.SELECT_ENTITY
+    payload: id,
+    type: ActionTypes.TOGGLE_ENTITITES_ROW
   };
 }
 
-function selectFields(names: string[]): ISelectFieldsAction {
+function toggleFieldsRow(id: Key): IToggleFieldsRowAction {
   return {
-    payload: names,
-    type: ActionTypes.SELECT_FIELDS
+    payload: id,
+    type: ActionTypes.TOGGLE_FIELD_ROW
   };
 }
 
-export { loadERModelOk, loadEntityDataOk, loadError, selectEntity, selectFields };
+export { loadERModelOk, loadEntityDataOk, loadError, toggleEntitiesRow, toggleFieldsRow };

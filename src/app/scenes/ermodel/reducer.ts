@@ -5,15 +5,16 @@ import { ActionTypes, TErModelActions } from './actions';
 import { ITableColumn, ITableRow } from './components/data-grid-core';
 
 interface IErmodelState {
-  readonly selectedFields?: string[];
-  readonly selectedEntityName?: string;
+  readonly entitiesSelectedRowIds?: Key[];
+  readonly fieldsSelectedRowIds?: Key[];
+
   readonly erModel: ERModel;
-  readonly err?: string | null; // todo .toString()
+  readonly err?: string | null;
   // er model table
-  readonly columns: ITableColumn[];
-  readonly headRows?: ITableRow[];
-  readonly bodyRows?: ITableRow[];
-  readonly footRows?: ITableRow[];
+  readonly entitiesTableColumns: ITableColumn[];
+  readonly entitiesTableHeadRows?: ITableRow[];
+  readonly entitiesTableBodyRows?: ITableRow[];
+  readonly entitiesTableFootRows?: ITableRow[];
   // entity fields table
   readonly fieldsTableColumns?: ITableColumn[];
   readonly fieldsTableHeadRows?: ITableRow[];
@@ -33,8 +34,8 @@ function createTableColumn(key: Key, widthPx?: number, align?: string): ITableCo
 const initialState: IErmodelState = {
   erModel: new ERModel(),
   // er models table
-  columns: [createTableColumn('name', 200)],
-  headRows: [{ id: 1, name: { title: 'entity.NAME' } }],
+  entitiesTableColumns: [createTableColumn('name', 400)],
+  entitiesTableHeadRows: [{ id: 1, name: { title: 'entity.NAME' } }],
   // entity fields table
   fieldsTableColumns: [createTableColumn('name', 200)],
   fieldsTableHeadRows: [{ id: 1, name: { title: 'field.NAME' } }]
@@ -58,16 +59,42 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
         err: action.payload
       };
     }
-    case ActionTypes.SELECT_ENTITY: {
+    case ActionTypes.TOGGLE_ENTITITES_ROW: {
+      if (action.payload === undefined) return state;
+
+      const selectedRowIds = [...(state.entitiesSelectedRowIds || [])];
+
+      if (
+        !!state.entitiesSelectedRowIds &&
+        state.entitiesSelectedRowIds.find(value => value === action.payload) !== undefined
+      ) {
+        selectedRowIds.splice(selectedRowIds.indexOf(action.payload), 1);
+      } else {
+        selectedRowIds.push(action.payload);
+      }
+
       return {
         ...state,
-        selectedEntityName: action.payload
+        entitiesSelectedRowIds: selectedRowIds
       };
     }
-    case ActionTypes.SELECT_FIELDS: {
+    case ActionTypes.TOGGLE_FIELD_ROW: {
+      if (action.payload === undefined) return state;
+
+      const selectedRowIds = [...(state.fieldsSelectedRowIds || [])];
+
+      if (
+        !!state.fieldsSelectedRowIds &&
+        state.fieldsSelectedRowIds.find(value => value === action.payload) !== undefined
+      ) {
+        selectedRowIds.splice(selectedRowIds.indexOf(action.payload), 1);
+      } else {
+        selectedRowIds.push(action.payload);
+      }
+
       return {
         ...state,
-        selectedFields: action.payload
+        fieldsSelectedRowIds: selectedRowIds
       };
     }
     default:

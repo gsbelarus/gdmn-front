@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import MuiTableHead, { TableHeadProps as MuiTableHeadProps } from '@material-ui/core/TableHead';
 
-import { ITableHeadProps as ICoreTableHeadProps, TableHead as CoreTableHead } from '@src/app/scenes/ermodel/components/data-grid-core';
+import {
+  ITableHeadProps as ICoreTableHeadProps,
+  TableHead as CoreTableHead
+} from '@src/app/scenes/ermodel/components/data-grid-core';
 
 type TTableHeadProps = ICoreTableHeadProps & MuiTableHeadProps;
 

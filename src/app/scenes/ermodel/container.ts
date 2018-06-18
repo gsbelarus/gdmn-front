@@ -1,33 +1,41 @@
 import { deserializeERModel, EntityLink, EntityQuery, EntityQueryField, ERModel, IERModel } from 'gdmn-orm';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { createSelector } from 'reselect';
 
 import { Api } from '@src/app/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectErmodelState } from '@src/app/store/selectors';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
-import { loadEntityDataOk, loadERModelOk, loadError, selectEntity, selectFields } from './actionCreators';
+import { loadEntityDataOk, loadERModelOk, loadError } from './actionCreators';
 import { TErModelActions } from './actions';
 import { ERModelBox } from './component';
+
+const ermodelSelector = (state: any, props: any) => selectErmodelState(state).erModel;
 
 function createBodyRows(erModel: ERModel): ITableRow[] {
   if (!erModel) return [];
 
-  return Object.keys(erModel.entities).map(
+  const bodyRows = Object.keys(erModel.entities).map(
     (key, index) => ({ id: index, name: erModel.entities[key].name }) // TODO gen uid
-  );
-}
-
-function createFieldsBodyRows(erModel: ERModel, entityName?: string) {
-  if (!erModel || !entityName) return [];
-
-  const entity = erModel.entity(entityName);
-
-  const bodyRows = Object.keys(entity.attributes).map(
-    (key, index) => ({ id: index, name: entity.attributes[key].name }) // TODO gen uid
   );
 
   return bodyRows;
+}
+const bodyRowsSelector = createSelector([ermodelSelector], createBodyRows);
+
+function createFieldsBodyRows(erModel?: ERModel, selectedEntityId?: number) {
+  if (!erModel || selectedEntityId === undefined) return [];
+
+  console.log(selectedEntityId);
+
+  const entity = erModel.entities[selectedEntityId];
+
+  // const bodyRows = Object.keys(entity.attributes).map(
+  //   (key, index) => ({ id: index, name: entity.attributes[key].name }) // TODO gen uid
+  // );
+
+  return [];
 }
 
 function loadEntityData(
@@ -39,29 +47,26 @@ function loadEntityData(
   const entity = erModel.entity(entityName);
   const query = new EntityQuery(
     new EntityLink(entity, 'U', [new EntityQueryField(Object.values(entity.attributes)[0])])
-  ).serialize();
+  );
 
-  Api.fetchQuery(query)
+  Api.fetchQuery(query, 'er')
     .then(res => dispatch(loadEntityDataOk(res)))
     .catch((err: Error) => dispatch(loadError(err.message)));
 }
 
 interface IDispatchToProps {
-  selectEntity: (name: string) => any;
-  selectFields: (fieldNames: string[], entityName: string, erModel: ERModel) => any;
   loadErModel: () => any;
+  loadData: () => any;
 }
 
 interface IOwnProps {
-  selectedFields?: string[];
-  selectedEntityName?: string;
   erModel: ERModel;
   err?: string | null;
   // er model table
-  columns: ITableColumn[];
-  headRows?: ITableRow[];
-  bodyRows?: ITableRow[];
-  footRows?: ITableRow[];
+  entitiesTableColumns: ITableColumn[];
+  entitiesTableHeadRows?: ITableRow[];
+  entitiesTableBodyRows?: ITableRow[];
+  entitiesTableFootRows?: ITableRow[];
   // entity fields table
   fieldsTableColumns?: ITableColumn[];
   fieldsTableHeadRows?: ITableRow[];
@@ -75,27 +80,30 @@ interface IOwnProps {
 }
 
 const ERModelBoxContainer = connect(
-  (state: IRootState, ownProps: IOwnProps): IOwnProps => ({
-    ...selectErmodelState(state),
-    bodyRows: createBodyRows(selectErmodelState(state).erModel),
-    fieldsTableBodyRows: createFieldsBodyRows(
-      selectErmodelState(state).erModel,
-      selectErmodelState(state).selectedEntityName
-    )
-    // dataTableBodyRows: createBodyRows(selectErmodelState(state).erModel)
-  }),
+  (state: IRootState, ownProps: IOwnProps): IOwnProps => {
+    const { entitiesSelectedRowIds, fieldsSelectedRowIds, ...props } = selectErmodelState(state);
+
+    return {
+      ...props,
+      entitiesTableBodyRows: bodyRowsSelector(state, ownProps),
+      fieldsTableBodyRows: createFieldsBodyRows(
+        selectErmodelState(state).erModel,
+        !!entitiesSelectedRowIds ? <number>entitiesSelectedRowIds[0] : undefined
+      ),
+      dataTableBodyRows: [] // createBodyRows(selectErmodelState(state).erModel)
+    };
+  },
   (dispatch: Dispatch<TErModelActions>, ownProps: IOwnProps): IDispatchToProps => ({
-    selectEntity: (name: string) => dispatch(selectEntity(name)),
-    selectFields: (fieldNames: string[], entityName: string, erModel: ERModel) => {
-      dispatch(selectFields(fieldNames));
-      loadEntityData(fieldNames, entityName, erModel, dispatch);
-    },
     loadErModel: () => {
       Api.fetchEr()
         .then(res => {
           return dispatch(loadERModelOk(deserializeERModel(<IERModel>res)));
         })
         .catch((err: Error) => dispatch(loadError(err.message)));
+    },
+    loadData: () => {
+      // TODO
+      // loadEntityData(fieldNames, entityName, erModel, dispatch);
     }
   })
 )(ERModelBox);

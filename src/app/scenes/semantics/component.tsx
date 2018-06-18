@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component, Fragment } from 'react';
+import React, { ChangeEvent, Component, Fragment, PureComponent } from 'react';
 import { graphlib, layout } from 'dagre';
 import { Phrase, Word } from 'gdmn-nlp';
 import { ICommand } from 'gdmn-nlp-agent';
@@ -6,6 +6,9 @@ import CSSModules from 'react-css-modules';
 
 import { Edge } from './components/edge';
 import { Rect } from './components/rect';
+import { ERModelBox } from '@src/app/scenes/ermodel/component';
+import { InfiniteTableLayout, TableRow } from '@src/app/scenes/ermodel/components/data-grid-mui';
+import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
 
 const styles = require('./styles.css');
 
@@ -18,12 +21,36 @@ interface ISemanticsBoxProps {
   readonly onParse: (text: string) => any;
   readonly command?: ICommand;
   readonly err?: string;
+  // data table
+  dataTableColumns?: ITableColumn[];
+  dataTableHeadRows?: ITableRow[];
+  dataTableBodyRows?: ITableRow[];
+  dataTableFootRows?: ITableRow[];
+  // actions
+  loadErModel: () => any; // TODO
+  loadData: () => any; // TODO
 }
 
 @CSSModules(styles)
-class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
+class SemanticsBox extends PureComponent<ISemanticsBoxProps, {}> {
   public render() {
-    const { text, wordsSignatures, onSetText, onClearText, onParse, phrase, command, err } = this.props;
+    console.log('render SemanticsBox');
+
+    const {
+      text,
+      wordsSignatures,
+      onSetText,
+      onClearText,
+      onParse,
+      phrase,
+      command,
+      err,
+      dataTableColumns,
+      dataTableHeadRows,
+      dataTableBodyRows,
+      loadErModel,
+      loadData
+    } = this.props;
 
     // Create a new directed graph
     const g = new graphlib.Graph();
@@ -117,7 +144,13 @@ class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
             />
             <div styleName="SemanticsTextButtons">
               <button onClick={onClearText}>Clear</button>
-              <button onClick={() => onParse(text)}>Parse</button>
+              <button
+                onClick={() => {
+                  onParse(text);
+                }}
+              >
+                Parse
+              </button>
             </div>
           </div>
         </div>
@@ -155,6 +188,18 @@ class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
             ) : null}
           </div>
         </div>
+
+        <InfiniteTableLayout
+          tableHeight={'40vh'}
+          headRows={dataTableHeadRows}
+          columns={dataTableColumns}
+          bodyRows={dataTableBodyRows}
+          renderHeadCell={ERModelBox.renderHeadCell}
+          renderBodyCell={ERModelBox.renderBodyCell}
+          //
+          tableHeightPx={0}
+          tableMinWidthPx={0}
+        />
       </Fragment>
     );
   }
