@@ -35,7 +35,7 @@ class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps, any> {
 
     const { renderRow: Row, renderBodyCell: BodyCell, rowHeightPx, bodyRows, columns } = this.props;
 
-    if (!(!!Row && !!BodyCell)) return <Fragment />; // todo tmp
+    if (!(!!Row && !!BodyCell && !isScrolling && isVisible)) return <Fragment />;
 
     return (
       <Row key={key} uid={bodyRows![index].id} style={style}>
@@ -130,9 +130,6 @@ class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps, any> {
             {/*ref={ref => this.infiniteLoader = ref}*/}
             {/*>*/}
             {/*{({ onRowsRendered, registerChild }) => (*/}
-            {/*<WindowScroller>*/}
-            {/*{({ height, scrollTop }) => (*/}
-
             <div style={{ height: tableHeight, width: '100%' }}>
               <AutoSizer>
                 {({ width, height }) => (
@@ -153,15 +150,14 @@ class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps, any> {
                     // scrollTop={scrollTop}
                     // scrollToIndex={scrollToIndex}
                     rowRenderer={this.rowRenderer}
-                    overscanRowCount={0}
+                    overscanRowCount={10}
+                    overscanColumnCount={0}
                     // onRowsRendered={onRowsRendered}
                   />
                   // </div>
                 )}
               </AutoSizer>
             </div>
-            {/*)}*/}
-            {/*</WindowScroller>*/}
             {/*)}*/}
             {/*</InfiniteLoader>*/}
           </Body>
