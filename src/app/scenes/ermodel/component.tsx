@@ -16,7 +16,7 @@ import {
   TableSelectorCell,
   TTableRowProps
 } from '@src/app/scenes/ermodel/components/data-grid-mui';
-import { toggleEntitiesRow, toggleFieldsRow } from '@src/app/scenes/ermodel/actionCreators';
+import { singleselectToggleEntitiesRow, multiselectToggleFieldsRow } from '@src/app/scenes/ermodel/actionCreators';
 import { selectErmodelState } from '@src/app/store/selectors';
 
 // const commonStyle = require('@src/styles/common.css');
@@ -42,14 +42,13 @@ interface IERModelBoxProps {
   dataTableFootRows?: ITableRow[];
   // actions
   loadErModel: () => any;
-  loadData: () => any;
+  loadData?: () => void;
 }
 
 // @CSSModules(commonStyle) FIXME webpack modules in styles
 @CSSModules(styles)
 class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
   public render(): JSX.Element {
-
     console.log('render ERModelBox');
 
     const {
@@ -82,7 +81,7 @@ class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
         <Button style={{ margin: 60 }} onClick={loadErModel}>
           Load ER-Model
         </Button>
-        <Button style={{ margin: 60 }} onClick={loadData}>
+        <Button style={{ margin: 60 }} onClick={!loadData ? () => ({}) : loadData} disabled={!loadData}>
           Load Entity-Data
         </Button>
 
@@ -169,19 +168,17 @@ class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
     );
   };
 
-  private static getSelectedRowSelector(selectSelectedRowIdsState: any) {
-    return createSelector(
-      [(state: any, props: any) => selectSelectedRowIdsState(state), (state: any, props: any) => props.uid],
-      (selectedRowIds, rowUid) =>
-        !!selectedRowIds && selectedRowIds.find((value: any) => value === rowUid) !== undefined
-    );
-  }
-
-  private static entitiesSelectedRowSelector = ERModelBox.getSelectedRowSelector(
-    (state: any) => selectErmodelState(state).entitiesSelectedRowIds
+  private static fieldsSelectedRowSelector = createSelector(
+    [(state: any, props: any) => selectErmodelState(state).fieldsSelectedRowIds, (state: any, props: any) => props.uid],
+    (selectedRowIds, rowUid) => !!selectedRowIds && selectedRowIds.find((value: any) => value === rowUid) !== undefined
   );
-  private static fieldsSelectedRowSelector = ERModelBox.getSelectedRowSelector(
-    (state: any) => selectErmodelState(state).fieldsSelectedRowIds
+
+  private static entitiesSelectedRowSelector = createSelector(
+    [
+      (state: any, props: any) => selectErmodelState(state).entitiesSelectedRowId,
+      (state: any, props: any) => props.uid
+    ],
+    (selectedRowId, rowUid) => selectedRowId !== undefined && selectedRowId === rowUid
   );
 
   private static SelectableRow = withProps({
@@ -199,7 +196,7 @@ class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
           'aria-checked': ERModelBox.entitiesSelectedRowSelector(state, props)
         };
       },
-      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(toggleEntitiesRow, dispatch) })
+      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(singleselectToggleEntitiesRow, dispatch) })
     )(ERModelBox.SelectableRow)
   );
 
@@ -211,7 +208,7 @@ class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
           'aria-checked': ERModelBox.fieldsSelectedRowSelector(state, props)
         };
       },
-      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(toggleFieldsRow, dispatch) })
+      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(multiselectToggleFieldsRow, dispatch) })
     )(ERModelBox.SelectableRow)
   );
 

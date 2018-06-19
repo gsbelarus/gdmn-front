@@ -60,11 +60,11 @@ function createCommand(erTranslatorRU: any, parsedTextPhrase: any) {
   if (!erTranslatorRU || !parsedTextPhrase) return;
 
   // try {
-    const command = erTranslatorRU.process(
-      <any> // FIXME
-        parsedTextPhrase);
+  const command = erTranslatorRU.process(<
+    any // FIXME
+  >parsedTextPhrase);
 
-    return command;
+  return command;
 
   // TODO
   // } catch (err) {
@@ -77,41 +77,40 @@ const parsedTextPhraseSelector = (state: any, props: any) => selectSemanticsStat
 const erTranslatorRUSelector = (state: any, props: any) => selectSemanticsState(state).erTranslatorRU;
 const commandSelector = createSelector([erTranslatorRUSelector, parsedTextPhraseSelector], createCommand);
 
-const SemanticsBoxContainer =
-  connect(
-    (state: IRootState, ownProps) => ({
-      ...selectSemanticsState(state),
-      ...dataTableMetaSelector(state, ownProps),
-      dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
-      erModel: ermodelSelector(state, ownProps),
-      command: commandSelector(state, ownProps)
-    }),
-    (dispatch: Dispatch<TRootActions>) => ({
-      onSetText: (text: string) => dispatch(actions.setSemText(text)),
-      onClearText: () => dispatch(actions.setSemText('')),
-      onParse: (text: string) => {
-        const parsedText = parsePhrase(text);
-        dispatch(actions.setParsedText(parsedText));
-      },
-      loadErModel: () => {
-        Api.fetchEr()
-          .then(res => dispatch(loadERModelOk(deserializeERModel(<IERModel>res))))
-          .catch((err: Error) => dispatch(loadError(err.message)));
-      },
-      loadData: (command: any) => {
-        dispatch(actions.tableDataLoadStart());
+const SemanticsBoxContainer = connect(
+  (state: IRootState, ownProps) => ({
+    ...selectSemanticsState(state),
+    ...dataTableMetaSelector(state, ownProps),
+    dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
+    erModel: ermodelSelector(state, ownProps),
+    command: commandSelector(state, ownProps)
+  }),
+  (dispatch: Dispatch<TRootActions>) => ({
+    onSetText: (text: string) => dispatch(actions.setSemText(text)),
+    onClearText: () => dispatch(actions.setSemText('')),
+    onParse: (text: string) => {
+      const parsedText = parsePhrase(text);
+      dispatch(actions.setParsedText(parsedText));
+    },
+    loadErModel: () => {
+      Api.fetchEr()
+        .then(res => dispatch(loadERModelOk(deserializeERModel(<IERModel>res))))
+        .catch((err: Error) => dispatch(loadError(err.message)));
+    },
+    loadData: (command: any) => {
+      dispatch(actions.tableDataLoadStart());
 
-        const queries = EQueryTranslator.process(command);
+      const queries = EQueryTranslator.process(command);
 
-        Promise.all(
-          queries.map(query =>
-            Api.fetchQuery(query, 'command')
-              .then(res => dispatch(actions.setTableData(res))) // TODO command id
-              .catch((err: Error) => console.log(err))
-          )
-        );
-      },
-    })
-  )(<any>SemanticsBox);
+      Promise.all(
+        queries.map(query =>
+          Api.fetchQuery(query, 'command')
+            .then(res => dispatch(actions.setTableData(res))) // TODO command id
+            .catch((err: Error) => console.log(err))
+        )
+      );
+    }
+  })
+)(<any>SemanticsBox);
 
 export { SemanticsBoxContainer };

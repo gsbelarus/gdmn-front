@@ -11,7 +11,7 @@ import { ERModel } from 'gdmn-orm';
 interface ISemanticsState {
   readonly text: string;
   readonly wordsSignatures: string[];
-  readonly phrase?: any;// FIXME Phrase;
+  readonly phrase?: any; // FIXME Phrase;
   // readonly command?: ICommand;
   readonly err?: string;
   readonly erTranslatorRU?: ERTranslatorRU;
@@ -67,7 +67,7 @@ function reducer(state: ISemanticsState = initialState, action: TRootActions): I
         phrase: undefined,
         // command: undefined,
         dataLoading: false,
-        err: action.payload,
+        err: action.payload
       };
     }
 
@@ -90,7 +90,7 @@ function reducer(state: ISemanticsState = initialState, action: TRootActions): I
       return {
         ...state,
         dataLoading: true
-      }
+      };
     }
 
     default:

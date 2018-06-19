@@ -5,8 +5,10 @@ import { ActionTypes, TErModelActions } from './actions';
 import { ITableColumn, ITableRow } from './components/data-grid-core';
 
 interface IErmodelState {
-  readonly entitiesSelectedRowIds?: Key[];
+  // readonly entitiesSelectedName?: string;
+  readonly entitiesSelectedRowId?: Key;
   readonly fieldsSelectedRowIds?: Key[];
+  readonly tableData?: object;
 
   readonly erModel: ERModel;
   readonly err?: string | null;
@@ -21,10 +23,10 @@ interface IErmodelState {
   readonly fieldsTableBodyRows?: ITableRow[];
   readonly fieldsTableFootRows?: ITableRow[];
   // entity data table
-  readonly dataTableColumns?: ITableColumn[];
-  readonly dataTableHeadRows?: ITableRow[];
-  readonly dataTableBodyRows?: ITableRow[];
-  readonly dataTableFootRows?: ITableRow[];
+  // readonly dataTableColumns?: ITableColumn[];
+  // readonly dataTableHeadRows?: ITableRow[];
+  // readonly dataTableBodyRows?: ITableRow[];
+  // readonly dataTableFootRows?: ITableRow[];
 }
 
 function createTableColumn(key: Key, widthPx?: number, align?: string): ITableColumn {
@@ -62,24 +64,22 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
     case ActionTypes.TOGGLE_ENTITITES_ROW: {
       if (action.payload === undefined) return state;
 
-      const selectedRowIds = [...(state.entitiesSelectedRowIds || [])];
-
-      if (
-        !!state.entitiesSelectedRowIds &&
-        state.entitiesSelectedRowIds.find(value => value === action.payload) !== undefined
-      ) {
-        selectedRowIds.splice(selectedRowIds.indexOf(action.payload), 1);
-      } else {
-        selectedRowIds.push(action.payload);
-      }
+      // single selection mode
 
       return {
         ...state,
-        entitiesSelectedRowIds: selectedRowIds
+        entitiesSelectedRowId:
+          state.entitiesSelectedRowId === action.payload.entitiesSelectedRowId
+            ? undefined
+            : action.payload.entitiesSelectedRowId,
+        fieldsSelectedRowIds: undefined,
+        tableData: undefined
       };
     }
     case ActionTypes.TOGGLE_FIELD_ROW: {
       if (action.payload === undefined) return state;
+
+      // miltiple selection mode
 
       const selectedRowIds = [...(state.fieldsSelectedRowIds || [])];
 
@@ -94,9 +94,18 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
 
       return {
         ...state,
-        fieldsSelectedRowIds: selectedRowIds
+        fieldsSelectedRowIds: selectedRowIds,
+        tableData: undefined
       };
     }
+
+    case ActionTypes.LOAD_ENTITY_DATA_OK: {
+      return {
+        ...state,
+        tableData: action.payload
+      };
+    }
+
     default:
       return state;
   }

@@ -27,18 +27,24 @@ const loadError = (error: string): ILoadErrorAction => ({
   type: ActionTypes.LOAD_ERROR
 });
 
-function toggleEntitiesRow(id: Key): IToggleEntitiesRowAction {
+function singleselectToggleEntitiesRow(
+  entitiesSelectedRowId: Key
+  // , entitiesSelectedName: string
+): IToggleEntitiesRowAction {
   return {
-    payload: id,
+    payload: {
+      entitiesSelectedRowId
+      // entitiesSelectedName
+    },
     type: ActionTypes.TOGGLE_ENTITITES_ROW
   };
 }
 
-function toggleFieldsRow(id: Key): IToggleFieldsRowAction {
+function multiselectToggleFieldsRow(id: Key): IToggleFieldsRowAction {
   return {
     payload: id,
     type: ActionTypes.TOGGLE_FIELD_ROW
   };
 }
 
-export { loadERModelOk, loadEntityDataOk, loadError, toggleEntitiesRow, toggleFieldsRow };
+export { loadERModelOk, loadEntityDataOk, loadError, singleselectToggleEntitiesRow, multiselectToggleFieldsRow };

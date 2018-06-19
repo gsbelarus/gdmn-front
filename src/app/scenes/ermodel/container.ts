@@ -1,66 +1,132 @@
-import { deserializeERModel, EntityLink, EntityQuery, EntityQueryField, ERModel, IERModel } from 'gdmn-orm';
+import {
+  Attribute,
+  Entity,
+  deserializeERModel,
+  EntityLink,
+  EntityQuery,
+  EntityQueryField,
+  ERModel,
+  IERModel
+} from 'gdmn-orm';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { createSelector } from 'reselect';
 
 import { Api } from '@src/app/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
-import { selectErmodelState } from '@src/app/store/selectors';
+import { selectErmodelState, selectSemanticsState } from '@src/app/store/selectors';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
 import { loadEntityDataOk, loadERModelOk, loadError } from './actionCreators';
 import { TErModelActions } from './actions';
-import { ERModelBox } from './component';
-import { pure } from 'recompose';
+import { ERModelBox, IERModelBoxProps } from './component';
+import { Key } from 'react';
+import { actions } from '@src/app/scenes/semantics/actions';
 
 const ermodelSelector = (state: any, props: any) => selectErmodelState(state).erModel;
 
-function createBodyRows(erModel: ERModel): ITableRow[] {
+function createEntityBodyRows(erModel: ERModel): ITableRow[] {
   if (!erModel) return [];
 
-  const bodyRows = Object.keys(erModel.entities).map(
+  return Object.keys(erModel.entities).map(
     (key, index) => ({ id: index, name: erModel.entities[key].name }) // TODO gen uid
   );
-
-  return bodyRows;
 }
-const bodyRowsSelector = createSelector([ermodelSelector], createBodyRows);
+const entitiesTableBodyRowsSelector = createSelector([ermodelSelector], createEntityBodyRows);
 
-function createFieldsBodyRows(erModel?: ERModel, selectedEntityId?: number) {
-  if (!erModel || selectedEntityId === undefined) return [];
+function createFieldsBodyRows(erModel?: ERModel, selectedEntity?: Entity) {
+  if (!erModel || !selectedEntity) return [];
 
-  console.log(selectedEntityId);
-
-  const entity = erModel.entities[selectedEntityId];
-
-  // const bodyRows = Object.keys(entity.attributes).map(
-  //   (key, index) => ({ id: index, name: entity.attributes[key].name }) // TODO gen uid
-  // );
-
-  return [];
-}
-
-function loadEntityData(
-  fieldNames: string[],
-  entityName: string,
-  erModel: ERModel,
-  dispatch: Dispatch<TErModelActions>
-) {
-  const entity = erModel.entity(entityName);
-  const query = new EntityQuery(
-    new EntityLink(entity, 'U', [new EntityQueryField(Object.values(entity.attributes)[0])])
+  return Object.keys(selectedEntity.attributes).map(
+    (key, index) => ({ id: index, name: selectedEntity.attributes[key].name }) // TODO gen uid
   );
-
-  Api.fetchQuery(query, 'er')
-    .then(res => dispatch(loadEntityDataOk(res)))
-    .catch((err: Error) => dispatch(loadError(err.message)));
 }
+
+const selectedEntitySelector = (state: any, props: any) => {
+  // TODO selectors
+  const erModel = selectErmodelState(state).erModel;
+  const entitiesSelectedRowId = selectErmodelState(state).entitiesSelectedRowId;
+
+  if (!erModel || entitiesSelectedRowId === undefined) return;
+
+  const entitiesSelectedName = Object.keys(erModel.entities)[<number>entitiesSelectedRowId];
+  return erModel.entities[entitiesSelectedName];
+};
+
+const fieldsTableBodyRowsSelector = createSelector([ermodelSelector, selectedEntitySelector], createFieldsBodyRows);
+
+const selectedFieldsSelector = (state: any, props: any) => {
+  // TODO selectors
+  const selectedEntity = selectedEntitySelector(state, props);
+  const fieldsSelectedRowIds = selectErmodelState(state).fieldsSelectedRowIds;
+
+  if (!selectedEntity || !fieldsSelectedRowIds) return;
+
+  const selectedFields: Attribute[] = [];
+
+  Object.keys(selectedEntity.attributes).forEach((key, index) => {
+    if (fieldsSelectedRowIds.findIndex(i => i === index) !== -1) selectedFields.push(selectedEntity.attributes[key]);
+  });
+
+  console.log(selectedFields);
+
+  return selectedFields;
+};
+
+const tableDataSelector = (state: any, props: any) => selectErmodelState(state).tableData;
+
+function createDataBodyRows(data?: any): ITableRow[] {
+  if (!data || !data.data) return [];
+
+  return data.data.map((dataItem: any, index: number) => ({ id: index, ...dataItem }));
+}
+const dataTableBodyRowsSelector = createSelector([tableDataSelector], createDataBodyRows);
+
+function createTableMeta(data?: any) {
+  if (!data || !data.aliases) return { dataTableHeadRows: [], dataTableColumns: [] };
+
+  const headrow: { [t: string]: any } = {};
+  const dataTableColumns: ITableColumn[] = [];
+
+  data.aliases.forEach((item: any) => {
+    addHeadRowCell(item, headrow);
+    dataTableColumns.push(createColumn(item));
+  });
+  const dataTableHeadRows = [{ id: 1, ...headrow }];
+
+  return {
+    dataTableHeadRows,
+    dataTableColumns
+  };
+}
+
+function addHeadRowCell(itemAlias: any, headrow: any) {
+  headrow[itemAlias.values[itemAlias.attribute]] = { title: `${itemAlias.alias}.${itemAlias.attribute}` };
+}
+
+function createColumn(itemAlias: any) {
+  return _createTableColumn(itemAlias.values[itemAlias.attribute], 200);
+}
+function _createTableColumn(key: Key, widthPx?: number, align?: string): ITableColumn {
+  return { id: key, widthPx, align };
+}
+const dataTableMetaSelector = createSelector([tableDataSelector], createTableMeta);
 
 interface IDispatchToProps {
   loadErModel: () => any;
-  loadData: () => any;
+  loadData?: () => void;
+  dispatch: any;
 }
 
-interface IOwnProps {
+interface IStateToProps {
+  fieldsSelectedRowIds?: Key[];
+  selectedEntity?: Entity;
+  selectedFields?: Attribute[];
+  // entity data table
+  dataTableColumns?: ITableColumn[];
+  dataTableHeadRows?: ITableRow[];
+  dataTableBodyRows?: ITableRow[];
+  dataTableFootRows?: ITableRow[];
+
   erModel: ERModel;
   err?: string | null;
   // er model table
@@ -73,28 +139,24 @@ interface IOwnProps {
   fieldsTableHeadRows?: ITableRow[];
   fieldsTableBodyRows?: ITableRow[];
   fieldsTableFootRows?: ITableRow[];
-  // entity data table
-  dataTableColumns?: ITableColumn[];
-  dataTableHeadRows?: ITableRow[];
-  dataTableBodyRows?: ITableRow[];
-  dataTableFootRows?: ITableRow[];
 }
 
 const ERModelBoxContainer = connect(
-  (state: IRootState, ownProps: IOwnProps): IOwnProps => {
-    const { entitiesSelectedRowIds, fieldsSelectedRowIds, ...props } = selectErmodelState(state);
+  (state: IRootState, ownProps: IERModelBoxProps): IStateToProps => {
+    const { entitiesSelectedRowId, tableData, ...props } = selectErmodelState(state); // exclude, do not remove!
 
     return {
       ...props,
-      entitiesTableBodyRows: bodyRowsSelector(state, ownProps),
-      fieldsTableBodyRows: createFieldsBodyRows(
-        selectErmodelState(state).erModel,
-        !!entitiesSelectedRowIds ? <number>entitiesSelectedRowIds[0] : undefined
-      ),
-      dataTableBodyRows: [] // createBodyRows(selectErmodelState(state).erModel)
+      ...dataTableMetaSelector(state, ownProps),
+      dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
+      entitiesTableBodyRows: entitiesTableBodyRowsSelector(state, ownProps),
+      //
+      fieldsTableBodyRows: fieldsTableBodyRowsSelector(state, ownProps),
+      selectedEntity: selectedEntitySelector(state, ownProps),
+      selectedFields: selectedFieldsSelector(state, ownProps)
     };
   },
-  (dispatch: Dispatch<TErModelActions>, ownProps: IOwnProps): IDispatchToProps => ({
+  (dispatch: Dispatch<TErModelActions>, ownProps: IERModelBoxProps): IDispatchToProps => ({
     loadErModel: () => {
       Api.fetchEr()
         .then(res => {
@@ -102,10 +164,29 @@ const ERModelBoxContainer = connect(
         })
         .catch((err: Error) => dispatch(loadError(err.message)));
     },
-    loadData: () => {
-      // TODO
-      // loadEntityData(fieldNames, entityName, erModel, dispatch);
-    }
+    dispatch // TODO
+  }),
+  (
+    { fieldsSelectedRowIds, selectedEntity, selectedFields, ...stateProps },
+    { loadData, dispatch, ...dispatchProps },
+    ownProps
+  ) => ({
+    // exclude, do not remove!
+    ...stateProps,
+    ...dispatchProps,
+    loadData:
+      fieldsSelectedRowIds && fieldsSelectedRowIds.length > 0
+        ? () => {
+            if (!selectedEntity || !selectedFields) return;
+
+            const queryFields: EntityQueryField[] = selectedFields.map(item => new EntityQueryField(item));
+            const query = new EntityQuery(new EntityLink(selectedEntity, 'alias', queryFields));
+
+            Api.fetchQuery(query, 'er')
+              .then(res => dispatch(loadEntityDataOk(res)))
+              .catch((err: Error) => dispatch(loadError(err.message)));
+          }
+        : undefined
   })
 )(ERModelBox);
 

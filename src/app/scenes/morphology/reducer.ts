@@ -1,5 +1,8 @@
 import { IToken } from 'chevrotain';
-import { morphAnalyzer, RusWord, tokenize,
+import {
+  morphAnalyzer,
+  RusWord,
+  tokenize
   // Words
 } from 'gdmn-nlp';
 import { getType } from 'typesafe-actions';
@@ -10,7 +13,7 @@ interface IMorphologyState {
   readonly text: string;
   readonly tokens: IToken[];
   readonly selectedToken: number;
-  readonly words: any;// FIXME Words;
+  readonly words: any; // FIXME Words;
 }
 
 const initialText = '';
@@ -32,8 +35,9 @@ function reducer(state: IMorphologyState = initialState, action: TMorphologyActi
       } else if (selectedToken >= tokens.length) {
         selectedToken = tokens.length - 1;
       }
-      let words: any = [];// FIXME Words = [];
-      if (selectedToken > -1 &&
+      let words: any = []; // FIXME Words = [];
+      if (
+        selectedToken > -1 &&
         true // FIXME tokens[selectedToken].tokenType === RusWord
       ) {
         words = morphAnalyzer(tokens[selectedToken].image);
@@ -50,7 +54,8 @@ function reducer(state: IMorphologyState = initialState, action: TMorphologyActi
       let selectedToken = action.payload;
       if (selectedToken >= state.tokens.length) selectedToken = state.tokens.length - 1;
       let words: any = []; // FIXME Words = [];
-      if (selectedToken > -1 &&
+      if (
+        selectedToken > -1 &&
         true // FIXME state.tokens[selectedToken].tokenType === RusWord
       ) {
         words = morphAnalyzer(state.tokens[selectedToken].image);

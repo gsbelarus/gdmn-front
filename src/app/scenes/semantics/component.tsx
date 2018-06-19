@@ -199,15 +199,15 @@ class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
         </div>
 
         <div style={{ backgroundColor: 'lightgray', margin: '32px 0 0px' }}>
-          <div style={{padding: 8}}>
-          <button disabled={!phrase} onClick={loadErModel}>
-            BUILD COMMAND (load er-model)
-          </button>
-          <button disabled={!command} onClick={() => loadData(command)}>
-            RUN COMMAND (load data)
-          </button>
+          <div style={{ padding: 8 }}>
+            <button disabled={!phrase} onClick={loadErModel}>
+              BUILD COMMAND (load er-model)
+            </button>
+            <button disabled={!command} onClick={() => loadData(command)}>
+              RUN COMMAND (load data)
+            </button>
           </div>
-          { dataLoading && (<LinearProgress color="secondary" />) }
+          {dataLoading && <LinearProgress color="secondary" />}
         </div>
         <InfiniteTableLayout
           tableHeight={'36vh'}
@@ -218,8 +218,8 @@ class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
           renderBodyCell={ERModelBox.renderBodyCell}
           tableHeightPx={0}
           tableMinWidthPx={0}
+          heavyWeightRow={true}
         />
-
       </Fragment>
     );
   }

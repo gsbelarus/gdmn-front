@@ -8,7 +8,7 @@ import {
   TableLayout as CoreTableLayout
 } from '@src/app/scenes/ermodel/components/data-grid-core';
 
-class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps, any> {
+class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps & { heavyWeightRow?: boolean }, any> {
   public static defaultProps = {
     ...InfiniteTableLayout.defaultProps
   };
@@ -33,14 +33,17 @@ class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps, any> {
   private rowRenderer({ key, index, isScrolling, isVisible, style }: any) {
     // console.log('_rowRenderer');
 
-    const { renderRow: Row, renderBodyCell: BodyCell, rowHeightPx, bodyRows, columns } = this.props;
+    const { renderRow: Row, renderBodyCell: BodyCell, rowHeightPx, bodyRows, columns, heavyWeightRow } = this.props;
 
-    if (!(!!Row && !!BodyCell && !isScrolling && isVisible)) return <Fragment />;
+    if (!(!!Row && !!BodyCell)) return <Fragment />;
+
+    if (heavyWeightRow && !isVisible) return <Fragment />; // no overscan
+    // if (isScrolling && !isVisible) return <Fragment />;
 
     return (
       <Row key={key} uid={bodyRows![index].id} style={style}>
         {columns!.map((column, i) => {
-          const width = CoreTableLayout.getColumnWidthPx(column); // TODO i === this.props!.columns!.length - 1 ? '100%' : CoreTableLayout.getColumnWidthPx(column);
+          const width = i === columns!.length - 1 ? '100%' : CoreTableLayout.getColumnWidthPx(column);
           return (
             <BodyCell
               key={column.id}
@@ -151,7 +154,7 @@ class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps, any> {
                     // scrollToIndex={scrollToIndex}
                     rowRenderer={this.rowRenderer}
                     overscanRowCount={10}
-                    overscanColumnCount={0}
+                    // overscanColumnCount={0}
                     // onRowsRendered={onRowsRendered}
                   />
                   // </div>

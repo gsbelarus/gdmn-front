@@ -73,7 +73,7 @@ class TableCell extends PureComponent<ITableCellProps, any> {
         renderComponent={MuiTableCell}
         renderContent={renderContent}
         renderContentSkeleton={renderContentSkeleton}
-        className={ cellClasses}
+        className={cellClasses}
         {...muiTableCellProps}
       />
     );
