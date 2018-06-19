@@ -1,10 +1,9 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-// import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-
 import config from '../config/config';
 import pkg from '../package.json';
 import { getRootRelativePath } from './utils';
+// import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const OUTPUT_PATH = getRootRelativePath(config.webpack.buildPath);
 const ENTRY_APP_TS = getRootRelativePath('src/app/index.tsx');

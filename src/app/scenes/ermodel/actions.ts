@@ -13,7 +13,6 @@ enum ActionTypes {
 interface IToggleEntitiesRowAction {
   payload: {
     entitiesSelectedRowId: Key;
-    // entitiesSelectedName: string;
   };
   type: ActionTypes.TOGGLE_ENTITITES_ROW;
 }

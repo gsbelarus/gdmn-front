@@ -1,7 +1,8 @@
+import { Key } from 'react';
 import {
   Attribute,
-  Entity,
   deserializeERModel,
+  Entity,
   EntityLink,
   EntityQuery,
   EntityQueryField,
@@ -14,13 +15,11 @@ import { createSelector } from 'reselect';
 
 import { Api } from '@src/app/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
-import { selectErmodelState, selectSemanticsState } from '@src/app/store/selectors';
+import { selectErmodelState } from '@src/app/store/selectors';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
 import { loadEntityDataOk, loadERModelOk, loadError } from './actionCreators';
 import { TErModelActions } from './actions';
 import { ERModelBox, IERModelBoxProps } from './component';
-import { Key } from 'react';
-import { actions } from '@src/app/scenes/semantics/actions';
 
 const ermodelSelector = (state: any, props: any) => selectErmodelState(state).erModel;
 
@@ -167,11 +166,10 @@ const ERModelBoxContainer = connect(
     dispatch // TODO
   }),
   (
-    { fieldsSelectedRowIds, selectedEntity, selectedFields, ...stateProps },
+    { fieldsSelectedRowIds, selectedEntity, selectedFields, ...stateProps }, // exclude, do not remove!
     { loadData, dispatch, ...dispatchProps },
     ownProps
   ) => ({
-    // exclude, do not remove!
     ...stateProps,
     ...dispatchProps,
     loadData:

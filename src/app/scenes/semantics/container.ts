@@ -1,11 +1,11 @@
-import { parsePhrase, Phrase } from 'gdmn-nlp';
+import { parsePhrase } from 'gdmn-nlp';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { Api } from '@src/app/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectErmodelState, selectSemanticsState } from '@src/app/store/selectors';
-import { actions, TSemanticsActions } from './actions';
+import { actions } from './actions';
 import { SemanticsBox } from './component';
 import { EQueryTranslator } from '@src/app/scenes/semantics/EQueryTranslator';
 import { Key } from 'react';

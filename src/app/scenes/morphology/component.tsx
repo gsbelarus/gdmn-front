@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component, MouseEvent, PureComponent } from 'react';
+import React, { ChangeEvent, MouseEvent, PureComponent } from 'react';
 import { IToken } from 'chevrotain';
 import classNames from 'classnames';
 import {
@@ -21,9 +21,7 @@ import {
   RusVerb,
   RusVerbLexeme,
   RusVerbMorphSigns,
-  WhiteSpace,
-  Word
-  // Words
+  WhiteSpace
 } from 'gdmn-nlp';
 import CSSModules from 'react-css-modules';
 
@@ -86,7 +84,7 @@ class MorphBox extends PureComponent<IMorphBoxProps, {}> {
               <span
                 className={classNames('Token', 'tkn-' + t.tokenType!.tokenName, { selected: idx === selectedToken })}
                 key={idx}
-                onClick={(e: MouseEvent<HTMLSpanElement>) => this.props.onClickToken(idx)}
+                onClick={() => this.props.onClickToken(idx)}
               >
                 {t.tokenType === WhiteSpace ? t.image.replace(' ', String.fromCharCode(9251)) : t.image}
               </span>

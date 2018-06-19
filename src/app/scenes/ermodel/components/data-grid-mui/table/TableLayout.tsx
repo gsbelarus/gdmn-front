@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import { Paper } from '@material-ui/core';
 
-import { IWithStyles, withStyles } from '@src/app/components/withStyles';
+import { IWithStyles } from '@src/app/components/withStyles';
 import {
   ITableLayoutProps as ICoreTableLayoutProps,
   TableLayout as CoreTableLayout

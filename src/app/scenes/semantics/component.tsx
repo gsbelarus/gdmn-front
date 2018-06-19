@@ -1,13 +1,13 @@
-import React, { ChangeEvent, Component, Fragment, PureComponent } from 'react';
-import { graphlib, layout } from 'dagre';
-import { Phrase, Word } from 'gdmn-nlp';
+import React, { ChangeEvent, Component, Fragment } from 'react';
+import { graphlib, layout, Edge as DagreEdge } from 'dagre';
+import { Phrase } from 'gdmn-nlp';
 import { ICommand } from 'gdmn-nlp-agent';
 import CSSModules from 'react-css-modules';
 
 import { Edge } from './components/edge';
 import { Rect } from './components/rect';
 import { ERModelBox } from '@src/app/scenes/ermodel/component';
-import { InfiniteTableLayout, TableRow } from '@src/app/scenes/ermodel/components/data-grid-mui';
+import { InfiniteTableLayout } from '@src/app/scenes/ermodel/components/data-grid-mui';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
 import { ERModel } from 'gdmn-orm';
 import { LinearProgress } from '@material-ui/core';
@@ -54,7 +54,6 @@ class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
       dataTableBodyRows,
       loadErModel,
       loadData,
-      erModel,
       dataLoading
     } = this.props;
 
@@ -117,7 +116,7 @@ class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
       );
     };
 
-    const makeEdge = (e: dagre.Edge, idx: number) => <Edge key={idx} points={g.edge(e).points} />;
+    const makeEdge = (e: DagreEdge, idx: number) => <Edge key={idx} points={g.edge(e).points} />;
 
     const displayCommand = () => {
       return (

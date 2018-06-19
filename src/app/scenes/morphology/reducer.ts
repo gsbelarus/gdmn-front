@@ -1,10 +1,5 @@
 import { IToken } from 'chevrotain';
-import {
-  morphAnalyzer,
-  RusWord,
-  tokenize
-  // Words
-} from 'gdmn-nlp';
+import { morphAnalyzer, tokenize } from 'gdmn-nlp';
 import { getType } from 'typesafe-actions';
 
 import { actions, TMorphologyActions } from './actions';

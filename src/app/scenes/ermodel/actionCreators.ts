@@ -27,14 +27,10 @@ const loadError = (error: string): ILoadErrorAction => ({
   type: ActionTypes.LOAD_ERROR
 });
 
-function singleselectToggleEntitiesRow(
-  entitiesSelectedRowId: Key
-  // , entitiesSelectedName: string
-): IToggleEntitiesRowAction {
+function singleselectToggleEntitiesRow(entitiesSelectedRowId: Key): IToggleEntitiesRowAction {
   return {
     payload: {
       entitiesSelectedRowId
-      // entitiesSelectedName
     },
     type: ActionTypes.TOGGLE_ENTITITES_ROW
   };

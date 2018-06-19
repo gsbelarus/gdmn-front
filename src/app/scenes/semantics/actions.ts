@@ -1,7 +1,5 @@
 import { ParsedText } from 'gdmn-nlp';
 import { ActionType, createAction } from 'typesafe-actions';
-import { ICommand } from 'gdmn-nlp-agent';
-import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
 
 const actions = {
   setSemText: createAction('SET_SEM_TEXT', resolve => {

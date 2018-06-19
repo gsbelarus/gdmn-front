@@ -15,18 +15,11 @@ interface IErmodelState {
   // er model table
   readonly entitiesTableColumns: ITableColumn[];
   readonly entitiesTableHeadRows?: ITableRow[];
-  readonly entitiesTableBodyRows?: ITableRow[];
-  readonly entitiesTableFootRows?: ITableRow[];
+  // readonly entitiesTableFootRows?: ITableRow[];
   // entity fields table
   readonly fieldsTableColumns?: ITableColumn[];
   readonly fieldsTableHeadRows?: ITableRow[];
-  readonly fieldsTableBodyRows?: ITableRow[];
-  readonly fieldsTableFootRows?: ITableRow[];
-  // entity data table
-  // readonly dataTableColumns?: ITableColumn[];
-  // readonly dataTableHeadRows?: ITableRow[];
-  // readonly dataTableBodyRows?: ITableRow[];
-  // readonly dataTableFootRows?: ITableRow[];
+  // readonly fieldsTableFootRows?: ITableRow[];
 }
 
 function createTableColumn(key: Key, widthPx?: number, align?: string): ITableColumn {
@@ -51,20 +44,22 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
       return {
         ...state,
         erModel: action.payload,
+
         err: null
       };
     }
     case ActionTypes.LOAD_ERROR: {
       return {
         ...state,
-        erModel: new ERModel(),
-        err: action.payload
+        err: action.payload,
+
+        erModel: new ERModel()
       };
     }
     case ActionTypes.TOGGLE_ENTITITES_ROW: {
       if (action.payload === undefined) return state;
 
-      // single selection mode
+      // single selection
 
       return {
         ...state,
@@ -72,6 +67,7 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
           state.entitiesSelectedRowId === action.payload.entitiesSelectedRowId
             ? undefined
             : action.payload.entitiesSelectedRowId,
+
         fieldsSelectedRowIds: undefined,
         tableData: undefined
       };
@@ -79,10 +75,9 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
     case ActionTypes.TOGGLE_FIELD_ROW: {
       if (action.payload === undefined) return state;
 
-      // miltiple selection mode
+      // multiple selection
 
       const selectedRowIds = [...(state.fieldsSelectedRowIds || [])];
-
       if (
         !!state.fieldsSelectedRowIds &&
         state.fieldsSelectedRowIds.find(value => value === action.payload) !== undefined
@@ -95,6 +90,7 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
       return {
         ...state,
         fieldsSelectedRowIds: selectedRowIds,
+
         tableData: undefined
       };
     }

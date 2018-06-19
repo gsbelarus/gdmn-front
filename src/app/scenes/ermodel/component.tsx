@@ -1,4 +1,4 @@
-import React, { Component, Fragment, Key, PureComponent, SFC } from 'react';
+import React, { Fragment, PureComponent, SFC } from 'react';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper/Paper';
 import { ERModel } from 'gdmn-orm';
@@ -16,8 +16,8 @@ import {
   TableSelectorCell,
   TTableRowProps
 } from '@src/app/scenes/ermodel/components/data-grid-mui';
-import { singleselectToggleEntitiesRow, multiselectToggleFieldsRow } from '@src/app/scenes/ermodel/actionCreators';
 import { selectErmodelState } from '@src/app/store/selectors';
+import { multiselectToggleFieldsRow, singleselectToggleEntitiesRow } from './actionCreators';
 
 // const commonStyle = require('@src/styles/common.css');
 const styles = require('./styles.css');
@@ -59,15 +59,15 @@ class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
       entitiesTableColumns,
       entitiesTableHeadRows,
       entitiesTableBodyRows,
-      entitiesTableFootRows,
+      // entitiesTableFootRows,
       fieldsTableColumns,
       fieldsTableHeadRows,
       fieldsTableBodyRows,
-      fieldsTableFootRows,
+      // fieldsTableFootRows,
       dataTableColumns,
       dataTableHeadRows,
-      dataTableBodyRows,
-      dataTableFootRows
+      dataTableBodyRows
+      // dataTableFootRows
     } = this.props;
     // const { renderHeadCellContent: HeadCellContent, renderBodyCellContent: BodyCellContent } = ERModelBox;
 

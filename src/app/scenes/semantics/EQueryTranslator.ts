@@ -1,5 +1,5 @@
 import { EntityLink, EntityQuery, EntityQueryField, EntityQueryOptions, isEntityAttribute } from 'gdmn-orm';
-import { Action, Determiner, ICommand, ICommandObject } from 'gdmn-nlp-agent';
+import { Determiner, ICommand, ICommandObject } from 'gdmn-nlp-agent';
 
 export class EQueryTranslator {
   public static process(command: ICommand): EntityQuery[] {
@@ -17,7 +17,7 @@ export class EQueryTranslator {
               <EntityQueryField[]>[]
             );
             const link = new EntityLink(commandObject.entity, 'alias', fields);
-            const options = EQueryTranslator._createOptions(commandObject);
+            const options = EQueryTranslator.createOptions(commandObject);
             return new EntityQuery(link, options);
           });
       }
@@ -25,7 +25,7 @@ export class EQueryTranslator {
     throw new Error("Can't create EntityQuery by command");
   }
 
-  private static _createOptions(commandObject: ICommandObject): EntityQueryOptions | undefined {
+  private static createOptions(commandObject: ICommandObject): EntityQueryOptions | undefined {
     switch (commandObject.determiner) {
       case Determiner.All:
         return;

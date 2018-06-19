@@ -1,5 +1,5 @@
-import React, { Component, Fragment, Key, PureComponent, ReactType } from 'react';
-import { List, AutoSizer, WindowScroller } from 'react-virtualized';
+import React, { Component, Fragment } from 'react';
+import { AutoSizer, List } from 'react-virtualized';
 
 import {
   IInfiniteTableLayoutProps,
@@ -31,8 +31,6 @@ class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps & { heavy
   }
 
   private rowRenderer({ key, index, isScrolling, isVisible, style }: any) {
-    // console.log('_rowRenderer');
-
     const { renderRow: Row, renderBodyCell: BodyCell, rowHeightPx, bodyRows, columns, heavyWeightRow } = this.props;
 
     if (!(!!Row && !!BodyCell)) return <Fragment />;
