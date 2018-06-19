@@ -17,37 +17,41 @@ import {
   TTableRowProps
 } from '@src/app/scenes/ermodel/components/data-grid-mui';
 import { selectErmodelState } from '@src/app/store/selectors';
-import { multiselectToggleFieldsRow, singleselectToggleEntitiesRow } from './actionCreators';
+import { actions } from './actions';
 
 // const commonStyle = require('@src/styles/common.css');
 const styles = require('./styles.css');
 
-interface IERModelBoxProps {
-  erModel: ERModel;
-  err?: string | null;
-  // er model table
-  entitiesTableColumns: ITableColumn[];
-  entitiesTableHeadRows?: ITableRow[];
+interface IERModelBoxStateProps {
+  readonly erModel: ERModel;
+  readonly err?: string | null;
+  readonly entitiesTableColumns: ITableColumn[];
+  readonly entitiesTableHeadRows?: ITableRow[];
+  // readonly entitiesTableFootRows?: ITableRow[];
+  readonly fieldsTableColumns?: ITableColumn[];
+  readonly fieldsTableHeadRows?: ITableRow[];
+  // readonly fieldsTableFootRows?: ITableRow[];
+}
+
+interface IERModelBoxSelectorProps {
   entitiesTableBodyRows?: ITableRow[];
-  entitiesTableFootRows?: ITableRow[];
-  // entity fields table
-  fieldsTableColumns?: ITableColumn[];
-  fieldsTableHeadRows?: ITableRow[];
   fieldsTableBodyRows?: ITableRow[];
-  fieldsTableFootRows?: ITableRow[];
-  // entity data table
   dataTableColumns?: ITableColumn[];
   dataTableHeadRows?: ITableRow[];
   dataTableBodyRows?: ITableRow[];
   dataTableFootRows?: ITableRow[];
-  // actions
-  loadErModel: () => any;
+}
+
+interface IERModelBoxActionsProps {
+  loadErModel: () => void;
   loadData?: () => void;
 }
 
+type TERModelBoxProps = IERModelBoxStateProps & IERModelBoxSelectorProps & IERModelBoxActionsProps;
+
 // @CSSModules(commonStyle) FIXME webpack modules in styles
 @CSSModules(styles)
-class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
+class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
   public render(): JSX.Element {
     console.log('render ERModelBox');
 
@@ -69,9 +73,6 @@ class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
       dataTableBodyRows
       // dataTableFootRows
     } = this.props;
-    // const { renderHeadCellContent: HeadCellContent, renderBodyCellContent: BodyCellContent } = ERModelBox;
-
-    // console.log('render');
 
     return (
       <Fragment>
@@ -196,7 +197,7 @@ class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
           'aria-checked': ERModelBox.entitiesSelectedRowSelector(state, props)
         };
       },
-      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(singleselectToggleEntitiesRow, dispatch) })
+      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.singleselectToggleEntitiesRow, dispatch) })
     )(ERModelBox.SelectableRow)
   );
 
@@ -208,11 +209,11 @@ class ERModelBox extends PureComponent<IERModelBoxProps, {}> {
           'aria-checked': ERModelBox.fieldsSelectedRowSelector(state, props)
         };
       },
-      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(multiselectToggleFieldsRow, dispatch) })
+      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.multiselectToggleFieldsRow, dispatch) })
     )(ERModelBox.SelectableRow)
   );
 
   private static renderDataTableRow = pure(TableRow);
 }
 
-export { IERModelBoxProps, ERModelBox };
+export { ERModelBox, TERModelBoxProps, IERModelBoxStateProps, IERModelBoxSelectorProps, IERModelBoxActionsProps };

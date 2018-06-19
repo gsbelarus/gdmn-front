@@ -1,19 +1,25 @@
+import { Key } from 'react';
 import { parsePhrase } from 'gdmn-nlp';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { deserializeERModel, IERModel } from 'gdmn-orm';
+import { createSelector } from 'reselect';
 
 import { Api } from '@src/app/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectErmodelState, selectSemanticsState } from '@src/app/store/selectors';
-import { actions } from './actions';
-import { SemanticsBox } from './component';
 import { EQueryTranslator } from '@src/app/scenes/semantics/EQueryTranslator';
-import { Key } from 'react';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
-import { loadERModelOk, loadError } from '@src/app/scenes/ermodel/actionCreators';
-import { deserializeERModel, IERModel } from 'gdmn-orm';
+import { actions as erModelActions } from '@src/app/scenes/ermodel/actions';
 import { TRootActions } from '@src/app/store/RootActions';
-import { createSelector } from 'reselect';
+import { actions } from './actions';
+import {
+  ISemanticsBoxActionsProps,
+  ISemanticsBoxSelectorProps,
+  ISemanticsBoxStateProps,
+  SemanticsBox,
+  TSemanticsBoxProps
+} from './component';
 
 const tableDataSelector = (state: any, props: any) => selectSemanticsState(state).tableData;
 
@@ -54,7 +60,7 @@ function _createTableColumn(key: Key, widthPx?: number, align?: string): ITableC
 }
 const dataTableMetaSelector = createSelector([tableDataSelector], createTableMeta);
 
-const ermodelSelector = (state: any, props: any) => selectErmodelState(state).erModel;
+const ermodelSelector = (state: any, props: any) => selectErmodelState(state).erModel; // TODO import
 
 function createCommand(erTranslatorRU: any, parsedTextPhrase: any) {
   if (!erTranslatorRU || !parsedTextPhrase) return;
@@ -78,24 +84,25 @@ const erTranslatorRUSelector = (state: any, props: any) => selectSemanticsState(
 const commandSelector = createSelector([erTranslatorRUSelector, parsedTextPhraseSelector], createCommand);
 
 const SemanticsBoxContainer = connect(
-  (state: IRootState, ownProps) => ({
-    ...selectSemanticsState(state),
-    ...dataTableMetaSelector(state, ownProps),
-    dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
-    erModel: ermodelSelector(state, ownProps),
-    command: commandSelector(state, ownProps)
-  }),
-  (dispatch: Dispatch<TRootActions>) => ({
-    onSetText: (text: string) => dispatch(actions.setSemText(text)),
+  (state: IRootState, ownProps: TSemanticsBoxProps): ISemanticsBoxStateProps & ISemanticsBoxSelectorProps => {
+    const { erTranslatorRU, tableData, ...props } = selectSemanticsState(state); // exclude, do not remove!
+
+    return {
+      ...props,
+      ...dataTableMetaSelector(state, ownProps),
+      dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
+      erModel: ermodelSelector(state, ownProps),
+      command: commandSelector(state, ownProps)
+    };
+  },
+  (dispatch: Dispatch<TRootActions>): ISemanticsBoxActionsProps => ({
+    onSetText: bindActionCreators(actions.setSemText, dispatch),
     onClearText: () => dispatch(actions.setSemText('')),
-    onParse: (text: string) => {
-      const parsedText = parsePhrase(text);
-      dispatch(actions.setParsedText(parsedText));
-    },
+    onParse: (text: string) => dispatch(actions.setParsedText(parsePhrase(text))),
     loadErModel: () => {
       Api.fetchEr()
-        .then(res => dispatch(loadERModelOk(deserializeERModel(<IERModel>res))))
-        .catch((err: Error) => dispatch(loadError(err.message)));
+        .then(res => dispatch(erModelActions.loadERModelOk(deserializeERModel(<IERModel>res))))
+        .catch((err: Error) => dispatch(erModelActions.loadError(err.message)));
     },
     loadData: (command: any) => {
       dispatch(actions.tableDataLoadStart());
@@ -111,6 +118,6 @@ const SemanticsBoxContainer = connect(
       );
     }
   })
-)(<any>SemanticsBox);
+)(SemanticsBox);
 
 export { SemanticsBoxContainer };

@@ -1,56 +1,27 @@
 import { ERModel } from 'gdmn-orm';
 import { Key } from 'react';
+import { ActionType, createAction } from 'typesafe-actions';
 
-enum ActionTypes {
-  TOGGLE_ENTITITES_ROW = 'app/ermodel/TOGGLE_ENTITITES_ROW',
-  TOGGLE_FIELD_ROW = 'app/ermodel/TOGGLE_FIELD_ROW',
-  // todo LOAD_ERRMODEL_REQUEST
-  LOAD_ERMODEL_OK = 'app/ermodel/LOAD_ERMODEL_OK',
-  LOAD_ENTITY_DATA_OK = 'app/ermodel/LOAD_ENTITY_DATA_OK',
-  LOAD_ERROR = 'app/ermodel/LOAD_ERROR'
-}
+// todo LOAD_ERRMODEL_REQUEST
 
-interface IToggleEntitiesRowAction {
-  payload: {
-    entitiesSelectedRowId: Key;
-  };
-  type: ActionTypes.TOGGLE_ENTITITES_ROW;
-}
-
-interface IToggleFieldsRowAction {
-  payload: Key;
-  type: ActionTypes.TOGGLE_FIELD_ROW;
-}
-
-interface ILoadErModelOkAction {
-  payload: ERModel;
-  type: ActionTypes.LOAD_ERMODEL_OK;
-}
-
-interface ILoadEntityDataOkAction {
-  payload: object;
-  type: ActionTypes.LOAD_ENTITY_DATA_OK;
-}
-
-interface ILoadErrorAction {
-  error: true;
-  payload: string;
-  type: ActionTypes.LOAD_ERROR;
-}
-
-type TErModelActions =
-  | IToggleEntitiesRowAction
-  | IToggleFieldsRowAction
-  | ILoadErModelOkAction
-  | ILoadEntityDataOkAction
-  | ILoadErrorAction;
-
-export {
-  ActionTypes,
-  IToggleEntitiesRowAction,
-  IToggleFieldsRowAction,
-  ILoadErModelOkAction,
-  ILoadEntityDataOkAction,
-  ILoadErrorAction,
-  TErModelActions
+const actions = {
+  loadERModelOk: createAction('app/ermodel/LOAD_ERMODEL_OK', resolve => {
+    return (erModel: ERModel) => resolve(erModel);
+  }),
+  loadEntityDataOk: createAction('app/ermodel/LOAD_ENTITY_DATA_OK', resolve => {
+    return (data: object) => resolve(data); // TODO data type
+  }),
+  loadError: createAction('app/ermodel/LOAD_ERROR', resolve => {
+    return (error: string) => resolve(error);
+  }),
+  singleselectToggleEntitiesRow: createAction('app/ermodel/TOGGLE_ENTITITES_ROW', resolve => {
+    return (entitiesSelectedRowId: Key) => resolve({ entitiesSelectedRowId });
+  }),
+  multiselectToggleFieldsRow: createAction('app/ermodel/TOGGLE_FIELD_ROW', resolve => {
+    return (fieldsSelectedRowId: Key) => resolve(fieldsSelectedRowId);
+  })
 };
+
+type TErModelActions = ActionType<typeof actions>;
+
+export { actions, TErModelActions };

@@ -2,34 +2,34 @@ import { getType } from 'typesafe-actions';
 import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
 import { TRootActions } from '@src/app/store/RootActions';
-import { ActionTypes } from '@src/app/scenes/ermodel/actions';
+import { actions as ermodelActions } from '@src/app/scenes/ermodel/actions';
 import { actions } from './actions';
+import { ISemanticsBoxStateProps } from '@src/app/scenes/semantics/component';
 
-interface ISemanticsState {
-  readonly text: string;
-  readonly wordsSignatures: string[];
-  readonly phrase?: any; // FIXME Phrase;
+interface ISemanticsState extends ISemanticsBoxStateProps {
   readonly erTranslatorRU?: ERTranslatorRU;
   readonly tableData?: object;
-
-  readonly err?: string;
-  readonly dataLoading?: boolean;
 }
 
-const initialText = 'покажи все организации из минска';
-
 const initialState: ISemanticsState = {
-  text: initialText,
+  text: 'покажи все организации из минска',
   wordsSignatures: [],
   dataLoading: false
 };
 
 function reducer(state: ISemanticsState = initialState, action: TRootActions): ISemanticsState {
   switch (action.type) {
+    case getType(ermodelActions.loadERModelOk): {
+      return {
+        ...state,
+        erTranslatorRU: new ERTranslatorRU(action.payload)
+      };
+    }
     case getType(actions.setSemText): {
       return {
         ...state,
         text: action.payload,
+
         err: undefined
       };
     }
@@ -40,22 +40,6 @@ function reducer(state: ISemanticsState = initialState, action: TRootActions): I
         phrase: action.payload.phrase,
 
         err: undefined
-      };
-    }
-    case getType(actions.setError): {
-      return {
-        ...state,
-        err: action.payload,
-
-        wordsSignatures: [],
-        phrase: undefined,
-        dataLoading: false
-      };
-    }
-    case ActionTypes.LOAD_ERMODEL_OK: {
-      return {
-        ...state,
-        erTranslatorRU: new ERTranslatorRU(action.payload)
       };
     }
     case getType(actions.setTableData): {
@@ -70,6 +54,16 @@ function reducer(state: ISemanticsState = initialState, action: TRootActions): I
       return {
         ...state,
         dataLoading: true
+      };
+    }
+    case getType(actions.setError): {
+      return {
+        ...state,
+        err: action.payload,
+
+        wordsSignatures: [],
+        phrase: undefined,
+        dataLoading: false
       };
     }
     default:

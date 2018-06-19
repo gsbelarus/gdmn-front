@@ -1,25 +1,15 @@
 import { Key } from 'react';
 import { ERModel } from 'gdmn-orm';
+import { getType } from 'typesafe-actions';
 
-import { ActionTypes, TErModelActions } from './actions';
-import { ITableColumn, ITableRow } from './components/data-grid-core';
+import { IERModelBoxStateProps } from '@src/app/scenes/ermodel/component';
+import { actions, TErModelActions } from './actions';
+import { ITableColumn } from './components/data-grid-core';
 
-interface IErmodelState {
-  // readonly entitiesSelectedName?: string;
+interface IErmodelState extends IERModelBoxStateProps {
   readonly entitiesSelectedRowId?: Key;
   readonly fieldsSelectedRowIds?: Key[];
   readonly tableData?: object;
-
-  readonly erModel: ERModel;
-  readonly err?: string | null;
-  // er model table
-  readonly entitiesTableColumns: ITableColumn[];
-  readonly entitiesTableHeadRows?: ITableRow[];
-  // readonly entitiesTableFootRows?: ITableRow[];
-  // entity fields table
-  readonly fieldsTableColumns?: ITableColumn[];
-  readonly fieldsTableHeadRows?: ITableRow[];
-  // readonly fieldsTableFootRows?: ITableRow[];
 }
 
 function createTableColumn(key: Key, widthPx?: number, align?: string): ITableColumn {
@@ -28,10 +18,8 @@ function createTableColumn(key: Key, widthPx?: number, align?: string): ITableCo
 
 const initialState: IErmodelState = {
   erModel: new ERModel(),
-  // er models table
   entitiesTableColumns: [createTableColumn('name', 400)],
   entitiesTableHeadRows: [{ id: 1, name: { title: 'entity.NAME' } }],
-  // entity fields table
   fieldsTableColumns: [createTableColumn('name', 200)],
   fieldsTableHeadRows: [{ id: 1, name: { title: 'field.NAME' } }]
 };
@@ -40,7 +28,7 @@ const initialState: IErmodelState = {
 
 function reducer(state: IErmodelState = initialState, action: TErModelActions): IErmodelState {
   switch (action.type) {
-    case ActionTypes.LOAD_ERMODEL_OK: {
+    case getType(actions.loadERModelOk): {
       return {
         ...state,
         erModel: action.payload,
@@ -48,7 +36,7 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
         err: null
       };
     }
-    case ActionTypes.LOAD_ERROR: {
+    case getType(actions.loadError): {
       return {
         ...state,
         err: action.payload,
@@ -56,7 +44,7 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
         erModel: new ERModel()
       };
     }
-    case ActionTypes.TOGGLE_ENTITITES_ROW: {
+    case getType(actions.singleselectToggleEntitiesRow): {
       if (action.payload === undefined) return state;
 
       // single selection
@@ -72,7 +60,7 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
         tableData: undefined
       };
     }
-    case ActionTypes.TOGGLE_FIELD_ROW: {
+    case getType(actions.multiselectToggleFieldsRow): {
       if (action.payload === undefined) return state;
 
       // multiple selection
@@ -94,14 +82,12 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
         tableData: undefined
       };
     }
-
-    case ActionTypes.LOAD_ENTITY_DATA_OK: {
+    case getType(actions.loadEntityDataOk): {
       return {
         ...state,
         tableData: action.payload
       };
     }
-
     default:
       return state;
   }

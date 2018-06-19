@@ -1,42 +1,48 @@
 import React, { ChangeEvent, Component, Fragment } from 'react';
-import { graphlib, layout, Edge as DagreEdge } from 'dagre';
+import { Edge as DagreEdge, graphlib, layout } from 'dagre';
 import { Phrase } from 'gdmn-nlp';
+import { ERModel } from 'gdmn-orm';
 import { ICommand } from 'gdmn-nlp-agent';
 import CSSModules from 'react-css-modules';
+import { LinearProgress } from '@material-ui/core';
 
-import { Edge } from './components/edge';
-import { Rect } from './components/rect';
 import { ERModelBox } from '@src/app/scenes/ermodel/component';
 import { InfiniteTableLayout } from '@src/app/scenes/ermodel/components/data-grid-mui';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
-import { ERModel } from 'gdmn-orm';
-import { LinearProgress } from '@material-ui/core';
+import { Edge } from './components/edge';
+import { Rect } from './components/rect';
 
 const styles = require('./styles.css');
 
-interface ISemanticsBoxProps {
+interface ISemanticsBoxStateProps {
   readonly text: string;
   readonly wordsSignatures: string[];
-  readonly phrase: any; // FIXME Phrase;
-  readonly onSetText: (text: string) => any;
-  readonly onClearText: () => any;
-  readonly onParse: (text: string) => any;
-  readonly command?: ICommand;
+  readonly phrase?: any; // FIXME Phrase;
   readonly err?: string;
+  readonly dataLoading?: boolean;
+}
+
+interface ISemanticsBoxSelectorProps {
+  command?: ICommand;
   erModel?: ERModel;
-  dataLoading?: boolean;
-  // data table
   dataTableColumns?: ITableColumn[];
   dataTableHeadRows?: ITableRow[];
   dataTableBodyRows?: ITableRow[];
   dataTableFootRows?: ITableRow[];
-  // actions
-  loadErModel: () => void;
-  loadData: (command: any) => void;
 }
 
+interface ISemanticsBoxActionsProps {
+  loadErModel: () => void;
+  loadData: (command: any) => void;
+  onSetText: (text: string) => void;
+  onClearText: () => void;
+  onParse: (text: string) => void;
+}
+
+type TSemanticsBoxProps = ISemanticsBoxStateProps & ISemanticsBoxSelectorProps & ISemanticsBoxActionsProps;
+
 @CSSModules(styles)
-class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
+class SemanticsBox extends Component<TSemanticsBoxProps, {}> {
   public render() {
     console.log('render SemanticsBox');
 
@@ -209,19 +215,25 @@ class SemanticsBox extends Component<ISemanticsBoxProps, {}> {
           {dataLoading && <LinearProgress color="secondary" />}
         </div>
         <InfiniteTableLayout
-          tableHeight={'36vh'}
-          headRows={dataTableHeadRows}
-          columns={dataTableColumns}
           bodyRows={dataTableBodyRows}
-          renderHeadCell={ERModelBox.renderHeadCell}
+          columns={dataTableColumns}
+          headRows={dataTableHeadRows}
+          heavyWeightRow={true}
           renderBodyCell={ERModelBox.renderBodyCell}
+          renderHeadCell={ERModelBox.renderHeadCell}
+          tableHeight={'36vh'}
           tableHeightPx={0}
           tableMinWidthPx={0}
-          heavyWeightRow={true}
         />
       </Fragment>
     );
   }
 }
 
-export { SemanticsBox, ISemanticsBoxProps };
+export {
+  SemanticsBox,
+  TSemanticsBoxProps,
+  ISemanticsBoxStateProps,
+  ISemanticsBoxSelectorProps,
+  ISemanticsBoxActionsProps
+};

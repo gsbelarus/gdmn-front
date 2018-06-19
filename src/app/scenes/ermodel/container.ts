@@ -17,9 +17,14 @@ import { Api } from '@src/app/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectErmodelState } from '@src/app/store/selectors';
 import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
-import { loadEntityDataOk, loadERModelOk, loadError } from './actionCreators';
-import { TErModelActions } from './actions';
-import { ERModelBox, IERModelBoxProps } from './component';
+import { actions, TErModelActions } from './actions';
+import {
+  ERModelBox,
+  IERModelBoxActionsProps,
+  IERModelBoxSelectorProps,
+  IERModelBoxStateProps,
+  TERModelBoxProps
+} from './component';
 
 const ermodelSelector = (state: any, props: any) => selectErmodelState(state).erModel;
 
@@ -110,38 +115,18 @@ function _createTableColumn(key: Key, widthPx?: number, align?: string): ITableC
 }
 const dataTableMetaSelector = createSelector([tableDataSelector], createTableMeta);
 
-interface IDispatchToProps {
-  loadErModel: () => any;
-  loadData?: () => void;
-  dispatch: any;
+interface IDispatchToProps extends IERModelBoxActionsProps {
+  dispatch: any; // TODO
 }
 
-interface IStateToProps {
+interface IStateToProps extends IERModelBoxStateProps, IERModelBoxSelectorProps {
   fieldsSelectedRowIds?: Key[];
   selectedEntity?: Entity;
   selectedFields?: Attribute[];
-  // entity data table
-  dataTableColumns?: ITableColumn[];
-  dataTableHeadRows?: ITableRow[];
-  dataTableBodyRows?: ITableRow[];
-  dataTableFootRows?: ITableRow[];
-
-  erModel: ERModel;
-  err?: string | null;
-  // er model table
-  entitiesTableColumns: ITableColumn[];
-  entitiesTableHeadRows?: ITableRow[];
-  entitiesTableBodyRows?: ITableRow[];
-  entitiesTableFootRows?: ITableRow[];
-  // entity fields table
-  fieldsTableColumns?: ITableColumn[];
-  fieldsTableHeadRows?: ITableRow[];
-  fieldsTableBodyRows?: ITableRow[];
-  fieldsTableFootRows?: ITableRow[];
 }
 
 const ERModelBoxContainer = connect(
-  (state: IRootState, ownProps: IERModelBoxProps): IStateToProps => {
+  (state: IRootState, ownProps: TERModelBoxProps): IStateToProps => {
     const { entitiesSelectedRowId, tableData, ...props } = selectErmodelState(state); // exclude, do not remove!
 
     return {
@@ -155,21 +140,21 @@ const ERModelBoxContainer = connect(
       selectedFields: selectedFieldsSelector(state, ownProps)
     };
   },
-  (dispatch: Dispatch<TErModelActions>, ownProps: IERModelBoxProps): IDispatchToProps => ({
+  (dispatch: Dispatch<TErModelActions>): IDispatchToProps => ({
     loadErModel: () => {
       Api.fetchEr()
         .then(res => {
-          return dispatch(loadERModelOk(deserializeERModel(<IERModel>res)));
+          return dispatch(actions.loadERModelOk(deserializeERModel(<IERModel>res)));
         })
-        .catch((err: Error) => dispatch(loadError(err.message)));
+        .catch((err: Error) => dispatch(actions.loadError(err.message)));
     },
     dispatch // TODO
   }),
   (
     { fieldsSelectedRowIds, selectedEntity, selectedFields, ...stateProps }, // exclude, do not remove!
     { loadData, dispatch, ...dispatchProps },
-    ownProps
-  ) => ({
+    ownProps: TERModelBoxProps
+  ): TERModelBoxProps => ({
     ...stateProps,
     ...dispatchProps,
     loadData:
@@ -181,8 +166,8 @@ const ERModelBoxContainer = connect(
             const query = new EntityQuery(new EntityLink(selectedEntity, 'alias', queryFields));
 
             Api.fetchQuery(query, 'er')
-              .then(res => dispatch(loadEntityDataOk(res)))
-              .catch((err: Error) => dispatch(loadError(err.message)));
+              .then(res => dispatch(actions.loadEntityDataOk(res)))
+              .catch((err: Error) => dispatch(actions.loadError(err.message)));
           }
         : undefined
   })
