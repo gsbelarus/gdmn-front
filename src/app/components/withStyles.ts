@@ -1,9 +1,4 @@
-import muiWithStyles, {
-  ClassNameMap,
-  StyleRules,
-  StyleRulesCallback,
-  WithStylesOptions
-} from '@material-ui/core/styles/withStyles';
+import muiWithStyles, { ClassNameMap, StyleRules, StyleRulesCallback, WithStylesOptions } from '@material-ui/core/styles/withStyles';
 import { Theme } from '@material-ui/core';
 
 // 'classes' is optional

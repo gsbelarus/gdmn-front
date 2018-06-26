@@ -1,119 +1,21 @@
 import { Key } from 'react';
-import {
-  Attribute,
-  deserializeERModel,
-  Entity,
-  EntityLink,
-  EntityQuery,
-  EntityQueryField,
-  ERModel,
-  IERModel
-} from 'gdmn-orm';
+import { Attribute, deserializeERModel, Entity, EntityLink, EntityQuery, EntityQueryField, IERModel } from 'gdmn-orm';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { createSelector } from 'reselect';
 
 import { Api } from '@src/app/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectErmodelState } from '@src/app/store/selectors';
-import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
 import { actions, TErModelActions } from './actions';
+import { ERModelBox, IERModelBoxActionsProps, IERModelBoxSelectorProps, IERModelBoxStateProps, TERModelBoxProps } from './component';
 import {
-  ERModelBox,
-  IERModelBoxActionsProps,
-  IERModelBoxSelectorProps,
-  IERModelBoxStateProps,
-  TERModelBoxProps
-} from './component';
-
-const ermodelSelector = (state: any, props: any) => selectErmodelState(state).erModel;
-
-function createEntityBodyRows(erModel: ERModel): ITableRow[] {
-  if (!erModel) return [];
-
-  return Object.keys(erModel.entities).map(
-    (key, index) => ({ id: index, name: erModel.entities[key].name }) // TODO gen uid
-  );
-}
-const entitiesTableBodyRowsSelector = createSelector([ermodelSelector], createEntityBodyRows);
-
-function createFieldsBodyRows(erModel?: ERModel, selectedEntity?: Entity) {
-  if (!erModel || !selectedEntity) return [];
-
-  return Object.keys(selectedEntity.attributes).map(
-    (key, index) => ({ id: index, name: selectedEntity.attributes[key].name }) // TODO gen uid
-  );
-}
-
-const selectedEntitySelector = (state: any, props: any) => {
-  // TODO selectors
-  const erModel = selectErmodelState(state).erModel;
-  const entitiesSelectedRowId = selectErmodelState(state).entitiesSelectedRowId;
-
-  if (!erModel || entitiesSelectedRowId === undefined) return;
-
-  const entitiesSelectedName = Object.keys(erModel.entities)[<number>entitiesSelectedRowId];
-  return erModel.entities[entitiesSelectedName];
-};
-
-const fieldsTableBodyRowsSelector = createSelector([ermodelSelector, selectedEntitySelector], createFieldsBodyRows);
-
-const selectedFieldsSelector = (state: any, props: any) => {
-  // TODO selectors
-  const selectedEntity = selectedEntitySelector(state, props);
-  const fieldsSelectedRowIds = selectErmodelState(state).fieldsSelectedRowIds;
-
-  if (!selectedEntity || !fieldsSelectedRowIds) return;
-
-  const selectedFields: Attribute[] = [];
-
-  Object.keys(selectedEntity.attributes).forEach((key, index) => {
-    if (fieldsSelectedRowIds.findIndex(i => i === index) !== -1) selectedFields.push(selectedEntity.attributes[key]);
-  });
-
-  console.log(selectedFields);
-
-  return selectedFields;
-};
-
-const tableDataSelector = (state: any, props: any) => selectErmodelState(state).tableData;
-
-function createDataBodyRows(data?: any): ITableRow[] {
-  if (!data || !data.data) return [];
-
-  return data.data.map((dataItem: any, index: number) => ({ id: index, ...dataItem }));
-}
-const dataTableBodyRowsSelector = createSelector([tableDataSelector], createDataBodyRows);
-
-function createTableMeta(data?: any) {
-  if (!data || !data.aliases) return { dataTableHeadRows: [], dataTableColumns: [] };
-
-  const headrow: { [t: string]: any } = {};
-  const dataTableColumns: ITableColumn[] = [];
-
-  data.aliases.forEach((item: any) => {
-    addHeadRowCell(item, headrow);
-    dataTableColumns.push(createColumn(item));
-  });
-  const dataTableHeadRows = [{ id: 1, ...headrow }];
-
-  return {
-    dataTableHeadRows,
-    dataTableColumns
-  };
-}
-
-function addHeadRowCell(itemAlias: any, headrow: any) {
-  headrow[itemAlias.values[itemAlias.attribute]] = { title: `${itemAlias.alias}.${itemAlias.attribute}` };
-}
-
-function createColumn(itemAlias: any) {
-  return _createTableColumn(itemAlias.values[itemAlias.attribute], 200);
-}
-function _createTableColumn(key: Key, widthPx?: number, align?: string): ITableColumn {
-  return { id: key, widthPx, align };
-}
-const dataTableMetaSelector = createSelector([tableDataSelector], createTableMeta);
+  dataTableBodyRowsSelector,
+  dataTableMetaSelector,
+  entitiesTableBodyRowsSelector,
+  fieldsTableBodyRowsSelector,
+  selectedEntitySelector,
+  selectedFieldsSelector
+} from './selectors';
 
 interface IDispatchToProps extends IERModelBoxActionsProps {
   dispatch: any; // TODO

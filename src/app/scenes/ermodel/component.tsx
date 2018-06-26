@@ -5,19 +5,18 @@ import { ERModel } from 'gdmn-orm';
 import CSSModules from 'react-css-modules';
 import { pure, withProps } from 'recompose';
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 
-import { ITableColumn, ITableRow, withSelectorSelection } from '@src/app/scenes/ermodel/components/data-grid-core';
+import { ITableColumn, ITableRow, withSelectorSelection } from './components/data-grid-core';
 import {
   InfiniteTableLayout,
   TableCell,
   TableRow,
   TableSelectorCell,
   TTableRowProps
-} from '@src/app/scenes/ermodel/components/data-grid-mui';
-import { selectErmodelState } from '@src/app/store/selectors';
+} from './components/data-grid-mui';
 import { actions } from './actions';
+import { entitiesSelectedRowSelector, fieldsSelectedRowSelector } from './selectors';
 
 // const commonStyle = require('@src/styles/common.css');
 const styles = require('./styles.css');
@@ -169,19 +168,6 @@ class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
     );
   };
 
-  private static fieldsSelectedRowSelector = createSelector(
-    [(state: any, props: any) => selectErmodelState(state).fieldsSelectedRowIds, (state: any, props: any) => props.uid],
-    (selectedRowIds, rowUid) => !!selectedRowIds && selectedRowIds.find((value: any) => value === rowUid) !== undefined
-  );
-
-  private static entitiesSelectedRowSelector = createSelector(
-    [
-      (state: any, props: any) => selectErmodelState(state).entitiesSelectedRowId,
-      (state: any, props: any) => props.uid
-    ],
-    (selectedRowId, rowUid) => selectedRowId !== undefined && selectedRowId === rowUid
-  );
-
   private static SelectableRow = withProps({
     renderSelectorCell: TableSelectorCell,
     role: 'checkbox',
@@ -193,8 +179,8 @@ class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
     connect(
       (state, props) => {
         return {
-          selected: ERModelBox.entitiesSelectedRowSelector(state, props),
-          'aria-checked': ERModelBox.entitiesSelectedRowSelector(state, props)
+          selected: entitiesSelectedRowSelector(state, props),
+          'aria-checked': entitiesSelectedRowSelector(state, props)
         };
       },
       (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.singleselectToggleEntitiesRow, dispatch) })
@@ -205,8 +191,8 @@ class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
     connect(
       (state, props) => {
         return {
-          selected: ERModelBox.fieldsSelectedRowSelector(state, props),
-          'aria-checked': ERModelBox.fieldsSelectedRowSelector(state, props)
+          selected: fieldsSelectedRowSelector(state, props),
+          'aria-checked': fieldsSelectedRowSelector(state, props)
         };
       },
       (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.multiselectToggleFieldsRow, dispatch) })

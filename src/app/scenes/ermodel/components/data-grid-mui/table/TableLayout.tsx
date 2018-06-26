@@ -8,14 +8,7 @@ import {
   ITableLayoutProps as ICoreTableLayoutProps,
   TableLayout as CoreTableLayout
 } from '@src/app/scenes/ermodel/components/data-grid-core';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFoot,
-  TableHead,
-  TableRow
-} from '@src/app/scenes/ermodel/components/data-grid-mui';
+import { Table, TableBody, TableCell, TableFoot, TableHead, TableRow } from '@src/app/scenes/ermodel/components/data-grid-mui';
 
 type TTableLayoutClassKey = 'stickyHeadCell' | 'stickyFootCell';
 const styles: StyleRulesCallback<TTableLayoutClassKey> = theme => ({

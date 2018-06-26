@@ -2,9 +2,9 @@ import { Key } from 'react';
 import { ERModel } from 'gdmn-orm';
 import { getType } from 'typesafe-actions';
 
-import { IERModelBoxStateProps } from '@src/app/scenes/ermodel/component';
-import { actions, TErModelActions } from './actions';
 import { ITableColumn } from './components/data-grid-core';
+import { IERModelBoxStateProps } from './component';
+import { actions, TErModelActions } from './actions';
 
 interface IErmodelState extends IERModelBoxStateProps {
   readonly entitiesSelectedRowId?: Key;
