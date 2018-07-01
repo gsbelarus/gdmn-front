@@ -11,15 +11,16 @@ import { ErrorBoundary } from '@src/app/components/ErrorBoundary';
 import { ERModelBoxContainer } from '@src/app/scenes/ermodel/container';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
 import { SemanticsBoxContainer } from '@src/app/scenes/semantics/container';
+import { NLPDialogScroll } from '@src/app/components/NLPDialogScroll';
 
 const styles = require('./styles.css');
 
 const muiStyles: StyleRulesCallback<'main' | 'navItem' | 'navItemSelected'> = theme => ({
   main: {
-    padding: theme.spacing.unit * 4
+    padding: 0
   },
   navItem: {
-    margin: theme.spacing.unit
+    margin: 0
   },
   navItemSelected: {
     color: theme.palette.secondary.main + ' !important'
@@ -38,36 +39,43 @@ class App extends Component<IAppProps, {}> {
     const { main, navItem, navItemSelected } = classes!;
     return (
       <Fragment>
-        <AppBar position="static">
-          <Toolbar>
-            <NavLink className={navItem} to={`${match.url}/morphology`} activeClassName={navItemSelected}>
-              <Button color="inherit" component={'div'}>
-                Morphology
-              </Button>
-            </NavLink>
-            <NavLink className={navItem} to={`${match.url}/semantics`} activeClassName={navItemSelected}>
-              <Button color="inherit" component={'div'}>
-                Semantics
-              </Button>
-            </NavLink>
-            <NavLink className={navItem} to={`${match.url}/ermodel`} activeClassName={navItemSelected}>
-              <Button color="inherit" component={'div'}>
-                ER-Model
-              </Button>
-            </NavLink>
-          </Toolbar>
-        </AppBar>
-        <main styleName={'main'} className={main}>
+        <div styleName="TheScreen">
+          <div styleName="AppBar">
+            <AppBar>
+              <Toolbar>
+                <NavLink className={navItem} to={`${match.url}/morphology`} activeClassName={navItemSelected}>
+                  <Button color="inherit" component={'div'}>
+                    Morphology
+                  </Button>
+                </NavLink>
+                <NavLink className={navItem} to={`${match.url}/semantics`} activeClassName={navItemSelected}>
+                  <Button color="inherit" component={'div'}>
+                    Semantics
+                  </Button>
+                </NavLink>
+                <NavLink className={navItem} to={`${match.url}/ermodel`} activeClassName={navItemSelected}>
+                  <Button color="inherit" component={'div'}>
+                    ER-Model
+                  </Button>
+                </NavLink>
+              </Toolbar>
+            </AppBar>
+          </div>
           <ErrorBoundary>
-            <Switch>
-              <Route exact={true} path={`${match.path}/`} render={() => <div>Welcome to Home, homie!</div>} />
-              <Route path={`${match.path}/morphology`} component={MorphBoxContainer} />
-              <Route path={`${match.path}/semantics`} component={SemanticsBoxContainer} />
-              <Route path={`${match.path}/ermodel`} component={ERModelBoxContainer} />
-              <Redirect from={`${match.path}/*`} to={`${match.path}`} />
-            </Switch>
+            <div styleName='NLPDialogColumn'>
+              <NLPDialogScroll />
+            </div>
+            <div styleName='WorkArea'>
+              <Switch>
+                <Route exact={true} path={`${match.path}/`} render={() => <div>Welcome to Home, homie!</div>} />
+                <Route path={`${match.path}/morphology`} component={MorphBoxContainer} />
+                <Route path={`${match.path}/semantics`} component={SemanticsBoxContainer} />
+                <Route path={`${match.path}/ermodel`} component={ERModelBoxContainer} />
+                <Redirect from={`${match.path}/*`} to={`${match.path}`} />
+              </Switch>
+            </div>
           </ErrorBoundary>
-        </main>
+        </div>
       </Fragment>
     );
   }
