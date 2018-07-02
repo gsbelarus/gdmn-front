@@ -1,16 +1,30 @@
 .NLPDialog {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   background-color: aquamarine;
   width: 100%;
   height: 100%;
 }
 
+.NLPItem {
+  margin-left: 4px;
+  margin-bottom: 8px;
+}
+
+.NLPItem span {
+  display: inline-block;
+  background-color: blueviolet;
+  border-radius: 50%;
+  width: 2em;
+  line-height: 2em;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+}
+
 .NLPInput {
-  position: absolute;
   background-color: white;
-  bottom: 0;
-  right: 0;
-  left: 0;
   padding-left: 2px;
   padding-top: 2px;
   overflow: hidden;

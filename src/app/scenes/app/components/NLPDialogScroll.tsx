@@ -35,7 +35,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     const { nlpDialog } = this.props;
     return (
       <div styleName="NLPDialog">
-        {nlpDialog && nlpDialog.items.map( (i, idx) => i && <div key={idx}>{i.text}</div>)}
+        {nlpDialog && nlpDialog.items.map( (i, idx) => i && <div key={idx} styleName="NLPItem"><span>{i.who}</span>{i.text}</div>)}
         <div styleName="NLPInput">
           <textarea
             spellCheck={false}
