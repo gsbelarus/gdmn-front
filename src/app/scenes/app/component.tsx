@@ -11,7 +11,21 @@ import { ErrorBoundary } from '@src/app/components/ErrorBoundary';
 import { ERModelBoxContainer } from '@src/app/scenes/ermodel/container';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
 import { SemanticsBoxContainer } from '@src/app/scenes/semantics/container';
-import { NLPDialogScroll } from '@src/app/components/NLPDialogScroll';
+import { NLPDialogScroll } from '@src/app/scenes/app/components/NLPDialogScroll';
+import { TNLPDialogActions, actions } from '@src/app/scenes/app/actions';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { IRootState } from '@src/app/store/rootReducer';
+import { selectNLPDialogState } from '@src/app/store/selectors';
+
+const NLPDialogScrollContainer = connect(
+  (state: IRootState) => ({
+    ...selectNLPDialogState(state)
+  }),
+  (dispatch: Dispatch<TNLPDialogActions>) => ({
+    onSetText: (text: string) => dispatch(actions.addNLPDialogText(text)),
+  })
+)(NLPDialogScroll);
 
 const styles = require('./styles.css');
 
@@ -63,7 +77,7 @@ class App extends Component<IAppProps, {}> {
           </div>
           <ErrorBoundary>
             <div styleName='NLPDialogColumn'>
-              <NLPDialogScroll />
+              <NLPDialogScrollContainer />
             </div>
             <div styleName='WorkArea'>
               <Switch>
