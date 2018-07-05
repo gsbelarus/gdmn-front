@@ -23,12 +23,16 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     super(props);
   }
 
-  onPressEnter(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+  private onPressEnter(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === 'Enter' && this.state.text.trim()) {
       this.props.onSetText(this.state.text);
       this.setState({ text: '' });
       e.preventDefault();
     }
+  }
+
+  public componentDidMount() {
+
   }
 
   public render() {
