@@ -16,6 +16,8 @@
 .NLPDialogColumn {
   grid-column: 1;
   grid-row: 2;
+  overflow: hidden;
+  position: relative;
 }
 
 .WorkArea {

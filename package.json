@@ -7,7 +7,7 @@
   },
   "description": "gdmn web client",
   "dependencies": {
-    "@material-ui/core": "^1.3.0",
+    "@material-ui/core": "^1.3.1",
     "@material-ui/icons": "1.1.0",
     "@types/classnames": "2.2.4",
     "@types/dagre": "0.7.40",
@@ -58,11 +58,11 @@
     "ts-loader": "^4.4.2",
     "tslint": "5.10.0",
     "tslint-config-prettier": "1.13.0",
-    "tslint-consistent-codestyle": "1.13.1",
+    "tslint-consistent-codestyle": "1.13.2",
     "tslint-react": "3.6.0",
     "typescript": "2.9.2",
     "uglifyjs-webpack-plugin": "^1.2.7",
-    "webpack": "^4.14.0",
+    "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "3.1.4",
     "webpack-merge": "^4.1.3"
