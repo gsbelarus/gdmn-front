@@ -60,10 +60,6 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     }
   }
 
-  private onClick(e: React.MouseEvent<HTMLDivElement>) {
-
-  }
-
   private onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
     const { nlpDialog } = this.props;
@@ -145,7 +141,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
             }
             {
               showFrom || showTo < nlpDialog.items.size - 1 ?
-                <div styleName="NLPScrollBar" onClick={this.onClick.bind(this)} onMouseDown={this.onMouseDown.bind(this)}>
+                <div styleName="NLPScrollBar" onMouseDown={this.onMouseDown.bind(this)}>
                   <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} />
                 </div>
               : null
