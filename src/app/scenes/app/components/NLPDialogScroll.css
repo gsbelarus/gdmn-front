@@ -113,13 +113,17 @@
 .NLPScrollBarThumb {
   display: block;
   position: absolute;
-  height: 20%;
   width: 100%;
-  top: 20%;
-  border-radius: 5px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
-.NLPScrollBar:hover .NLPScrollBarThumb {
+.NLPScrollBar:hover .NLPScrollBarThumb::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.2);
   transition: background 0.5s;
+  border-radius: 5px;
 }

@@ -1,6 +1,5 @@
 import React, { Component, Fragment, ChangeEvent } from 'react';
 import CSSModules from 'react-css-modules';
-import Button from '@material-ui/core/Button/Button';
 import { NLPDialog } from 'gdmn-nlp-agent';
 
 const styles = require('./NLPDialogScroll.css');
@@ -54,11 +53,31 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     const { nlpDialog } = this.props;
     const { showFrom, showTo } = this.state;
     if (e.deltaY < 0 && showFrom > 0) {
-      this.setState({ showFrom: showFrom - 1, showTo: showTo - 1 })
+      this.setState({ showFrom: showFrom - 1, showTo: showTo - 1, recalc: true });
     }
     else if (e.deltaY > 0 && showTo < nlpDialog.items.size - 1 ) {
-      this.setState({ showFrom: showFrom + 1, showTo: showTo + 1 })
+      this.setState({ showFrom: showFrom + 1, showTo: showTo + 1, recalc: true });
     }
+  }
+
+  private onClick(e: React.MouseEvent<HTMLDivElement>) {
+
+  }
+
+  private onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    const { nlpDialog } = this.props;
+    const { showFrom, showTo } = this.state;
+    const pos = e.clientY / e.currentTarget.clientHeight;
+    const ht = showTo - showFrom + 1;
+    const center = Math.trunc(nlpDialog.items.size * pos);
+    let newFrom = Math.trunc(center - ht / 2);
+    if (newFrom < 0) { newFrom = 0 };
+    let newTo = newFrom + ht - 1;
+    if (newTo > nlpDialog.items.size - 1) {
+      newTo = nlpDialog.items.size - 1;
+    }
+    this.setState({ showFrom: newFrom, showTo: newTo, recalc: true });
   }
 
   private calcVisibleCount() {
@@ -75,7 +94,10 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
           }
         }
         else if (this.shownItems[0].offsetTop <= 0) {
-          if (showFrom < showTo) {
+          if (this.shownItems.length > 1 && this.shownItems[1].offsetTop > 0) {
+            this.setState({ recalc: false });
+          }
+          else if (showFrom < showTo) {
             this.setState({
               showFrom: showFrom + 1,
               recalc: false
@@ -95,7 +117,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
   }
 
   public componentDidMount() {
-    setTimeout( () => this.setState({ recalc: true }), 100);
+    setTimeout( () => this.setState({ recalc: true }), 200);
   }
 
   public componentDidUpdate() {
@@ -105,8 +127,8 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
   public render() {
     const { nlpDialog } = this.props;
     const { showFrom, showTo } = this.state;
-    const thumbHeight = Math.round((showTo - showFrom + 1) / nlpDialog.items.size * 100).toString() + '%';
-    const thumbTop = Math.round(showFrom / nlpDialog.items.size * 100).toString() + '%';
+    let thumbHeight = `${Math.trunc((showTo - showFrom + 1) / nlpDialog.items.size * 100).toString()}%`;
+    let thumbTop = `${Math.trunc(showFrom / nlpDialog.items.size * 100).toString()}%`;
     this.shownItems = [];
     return (
       <Fragment>
@@ -123,7 +145,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
             }
             {
               showFrom || showTo < nlpDialog.items.size - 1 ?
-                <div styleName="NLPScrollBar">
+                <div styleName="NLPScrollBar" onClick={this.onClick.bind(this)} onMouseDown={this.onMouseDown.bind(this)}>
                   <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} />
                 </div>
               : null
