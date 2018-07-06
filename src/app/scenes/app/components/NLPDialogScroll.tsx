@@ -20,7 +20,6 @@ interface INLPDialogScrollState {
 @CSSModules(styles)
 export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollState> {
 
-  nlpDialogDiv: HTMLDivElement | null = null;
   shownItems: HTMLDivElement[] = [];
   state: INLPDialogScrollState;
 
@@ -93,19 +92,26 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
 
   public render() {
     const { nlpDialog } = this.props;
+    const { showFrom, showTo } = this.state;
     this.shownItems = [];
     return (
       <Fragment>
-        <div styleName="NLPDialog" ref={ elem => this.nlpDialogDiv = elem }>
-          {
-            nlpDialog && nlpDialog.items.map(
-              (i, idx) => i && typeof idx === 'number' && idx >= this.state.showFrom && idx <= this.state.showTo &&
-                <div key={idx} styleName="NLPItem" ref={ elem => elem && this.shownItems.push(elem) } >
-                  <span styleName="Circle">{i.who}</span>
-                  <span styleName="Message">{i.text}</span>
-                </div>
-            )
-          }
+        <div styleName="NLPDialog">
+          <div styleName="NLPItems">
+            {
+              nlpDialog && nlpDialog.items.map(
+                (i, idx) => i && typeof idx === 'number' && idx >= this.state.showFrom && idx <= this.state.showTo &&
+                  <div key={idx} styleName="NLPItem" ref={ elem => elem && this.shownItems.push(elem) } >
+                    <span styleName="Circle">{i.who}</span>
+                    <span styleName="Message">{i.text}</span>
+                  </div>
+              )
+            }
+            {
+              showFrom ? <div styleName="NLPScrollBar"><div styleName="NLPScrollBarThumb" /></div>
+              : null
+            }
+          </div>
           <div styleName="NLPInput">
             <textarea
               spellCheck={false}
