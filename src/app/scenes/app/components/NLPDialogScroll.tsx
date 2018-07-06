@@ -49,6 +49,18 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     }
   }
 
+  private onWheel(e: React.WheelEvent<HTMLDivElement>) {
+    e.preventDefault();
+    const { nlpDialog } = this.props;
+    const { showFrom, showTo } = this.state;
+    if (e.deltaY < 0 && showFrom > 0) {
+      this.setState({ showFrom: showFrom - 1, showTo: showTo - 1 })
+    }
+    else if (e.deltaY > 0 && showTo < nlpDialog.items.size - 1 ) {
+      this.setState({ showFrom: showFrom + 1, showTo: showTo + 1 })
+    }
+  }
+
   private calcVisibleCount() {
     const { nlpDialog } = this.props;
     const { showFrom, showTo, recalc } = this.state;
@@ -93,11 +105,13 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
   public render() {
     const { nlpDialog } = this.props;
     const { showFrom, showTo } = this.state;
+    const thumbHeight = Math.round((showTo - showFrom + 1) / nlpDialog.items.size * 100).toString() + '%';
+    const thumbTop = Math.round(showFrom / nlpDialog.items.size * 100).toString() + '%';
     this.shownItems = [];
     return (
       <Fragment>
         <div styleName="NLPDialog">
-          <div styleName="NLPItems">
+          <div styleName="NLPItems" onWheel={this.onWheel.bind(this)} >
             {
               nlpDialog && nlpDialog.items.map(
                 (i, idx) => i && typeof idx === 'number' && idx >= this.state.showFrom && idx <= this.state.showTo &&
@@ -108,7 +122,10 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
               )
             }
             {
-              showFrom ? <div styleName="NLPScrollBar"><div styleName="NLPScrollBarThumb" /></div>
+              showFrom || showTo < nlpDialog.items.size - 1 ?
+                <div styleName="NLPScrollBar">
+                  <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} />
+                </div>
               : null
             }
           </div>
