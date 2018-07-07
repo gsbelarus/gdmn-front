@@ -110,6 +110,18 @@
   transition: background 0.5s;
 }
 
+.NLPScrollBarVisible {
+  z-index: 10;
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 12px;
+  top: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.5s;
+}
+
 .NLPScrollBarThumb {
   display: block;
   position: absolute;
@@ -119,6 +131,16 @@
 }
 
 .NLPScrollBar:hover .NLPScrollBarThumb::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.5s;
+  border-radius: 5px;
+}
+
+.NLPScrollBarVisible .NLPScrollBarThumb::before {
   content: "";
   display: block;
   width: 100%;

@@ -14,9 +14,11 @@ interface INLPDialogScrollState {
   showFrom: number;
   showTo: number;
   recalc: boolean;
+  scrollVisible: boolean;
+  scrollTimer: NodeJS.Timer | undefined;
 }
 
-@CSSModules(styles)
+@CSSModules(styles, { allowMultiple: true })
 export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollState> {
 
   shownItems: HTMLDivElement[] = [];
@@ -29,7 +31,9 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       text: '',
       showFrom: nlpDialog.items.size ? nlpDialog.items.size - 1 : 0,
       showTo: nlpDialog.items.size ? nlpDialog.items.size - 1 : 0,
-      recalc: true
+      recalc: true,
+      scrollVisible: false,
+      scrollTimer: undefined
     }
     this.calcVisibleCount = this.calcVisibleCount.bind(this);
   }
@@ -51,12 +55,35 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
   private onWheel(e: React.WheelEvent<HTMLDivElement>) {
     e.preventDefault();
     const { nlpDialog } = this.props;
-    const { showFrom, showTo } = this.state;
+    const { showFrom, showTo, scrollTimer } = this.state;
+
+    if (scrollTimer) {
+      clearTimeout(scrollTimer);
+    }
+
     if (e.deltaY < 0 && showFrom > 0) {
-      this.setState({ showFrom: showFrom - 1, showTo: showTo - 1, recalc: true });
+      this.setState({
+        showFrom: showFrom - 1,
+        showTo: showTo - 1,
+        recalc: true,
+        scrollVisible: true,
+        scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+      });
     }
     else if (e.deltaY > 0 && showTo < nlpDialog.items.size - 1 ) {
-      this.setState({ showFrom: showFrom + 1, showTo: showTo + 1, recalc: true });
+      this.setState({
+        showFrom: showFrom + 1,
+        showTo: showTo + 1,
+        recalc: true,
+        scrollVisible: true,
+        scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+      });
+    }
+    else {
+      this.setState({
+        scrollVisible: true,
+        scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+      });
     }
   }
 
@@ -133,7 +160,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
 
   public render() {
     const { nlpDialog } = this.props;
-    const { showFrom, showTo } = this.state;
+    const { showFrom, showTo, scrollVisible } = this.state;
     let thumbHeight = `${Math.trunc((showTo - showFrom + 1) / nlpDialog.items.size * 100).toString()}%`;
     let thumbTop = `${Math.trunc(showFrom / nlpDialog.items.size * 100).toString()}%`;
     this.shownItems = [];
@@ -150,13 +177,9 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
                   </div>
               )
             }
-            {
-              showFrom || showTo < nlpDialog.items.size - 1 ?
-                <div styleName="NLPScrollBar" onMouseDown={this.onMouseDown.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>
-                  <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} />
-                </div>
-              : null
-            }
+            <div styleName={scrollVisible ? "NLPScrollBarVisible" : "NLPScrollBar"} onMouseDown={this.onMouseDown.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>
+              <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} />
+            </div>
           </div>
           <div styleName="NLPInput">
             <textarea
