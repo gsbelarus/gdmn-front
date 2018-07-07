@@ -60,8 +60,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     }
   }
 
-  private onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
-    e.preventDefault();
+  private doScroll = (e: React.MouseEvent<HTMLDivElement>) => {
     const { nlpDialog } = this.props;
     const { showFrom, showTo } = this.state;
     const pos = e.clientY / e.currentTarget.clientHeight;
@@ -74,6 +73,18 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       newTo = nlpDialog.items.size - 1;
     }
     this.setState({ showFrom: newFrom, showTo: newTo, recalc: true });
+  }
+
+  private onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    this.doScroll(e);
+  }
+
+  private onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (e.buttons === 1) {
+      e.preventDefault();
+      this.doScroll(e);
+    }
   }
 
   private calcVisibleCount() {
@@ -141,7 +152,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
             }
             {
               showFrom || showTo < nlpDialog.items.size - 1 ?
-                <div styleName="NLPScrollBar" onMouseDown={this.onMouseDown.bind(this)}>
+                <div styleName="NLPScrollBar" onMouseDown={this.onMouseDown.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>
                   <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} />
                 </div>
               : null
