@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component, Fragment } from 'react';
+import React, { ChangeEvent, Component, Fragment, PureComponent } from 'react';
 import { Edge as DagreEdge, graphlib, layout } from 'dagre';
 import { Phrase } from 'gdmn-nlp';
 import { ERModel } from 'gdmn-orm';
@@ -24,6 +24,7 @@ interface ISemanticsBoxStateProps {
 
 interface ISemanticsBoxSelectorProps {
   command?: ICommand;
+  sqlQuery?: string;
   erModel?: ERModel;
   dataTableColumns?: ITableColumn[];
   dataTableHeadRows?: ITableRow[];
@@ -42,9 +43,9 @@ interface ISemanticsBoxActionsProps {
 type TSemanticsBoxProps = ISemanticsBoxStateProps & ISemanticsBoxSelectorProps & ISemanticsBoxActionsProps;
 
 @CSSModules(styles)
-class SemanticsBox extends Component<TSemanticsBoxProps, {}> {
+class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
   public render() {
-    console.log('render SemanticsBox');
+    // console.log('render SemanticsBox');
 
     const {
       text,
@@ -60,7 +61,8 @@ class SemanticsBox extends Component<TSemanticsBoxProps, {}> {
       dataTableBodyRows,
       loadErModel,
       loadData,
-      dataLoading
+      dataLoading,
+      sqlQuery
     } = this.props;
 
     // Create a new directed graph
@@ -170,7 +172,17 @@ class SemanticsBox extends Component<TSemanticsBoxProps, {}> {
         </div>
         <div styleName="SemanticsOutput">{wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}</div>
         <div styleName="CommandAndGraph">
-          {err || displayCommand()}
+          <div>
+            {err || displayCommand()}
+            {!!sqlQuery && (
+              <textarea
+                styleName="command"
+                style={{ width: '100%', minHeight: 70, resize: 'vertical', marginTop: 2 }}
+                disabled={true}
+                value={sqlQuery}
+              />
+            )}
+          </div>
           <div>
             {g.graph() ? (
               <svg
