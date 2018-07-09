@@ -7,7 +7,13 @@ import { Api } from '@src/app/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectErmodelState } from '@src/app/store/selectors';
 import { actions, TErModelActions } from './actions';
-import { ERModelBox, IERModelBoxActionsProps, IERModelBoxSelectorProps, IERModelBoxStateProps, TERModelBoxProps } from './component';
+import {
+  ERModelBox,
+  IERModelBoxActionsProps,
+  IERModelBoxSelectorProps,
+  IERModelBoxStateProps,
+  TERModelBoxProps
+} from './component';
 import {
   dataTableBodyRowsSelector,
   dataTableMetaSelector,

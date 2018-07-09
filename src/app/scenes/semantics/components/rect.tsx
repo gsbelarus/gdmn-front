@@ -9,11 +9,14 @@ interface IRectProps {
   readonly className: string;
 }
 
+// TODO :global.outerRect
+
 class Rect extends Component<IRectProps, {}> {
   public render() {
     const { x, y, width, height, text, className } = this.props;
     const cx = x + width / 2;
     const cy = y + height / 2;
+
     return (
       <g>
         <rect x={x} y={y} rx={4} ry={4} width={width} height={height} className="outerRect" />
@@ -25,4 +28,5 @@ class Rect extends Component<IRectProps, {}> {
     );
   }
 }
+
 export { Rect, IRectProps };

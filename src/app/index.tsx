@@ -1,22 +1,14 @@
 import React, { ReactType } from 'react';
 import ReactDOM from 'react-dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import green from '@material-ui/core/colors/green';
-import purple from '@material-ui/core/colors/purple';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
+import theme from '@src/styles/muiTheme';
 import { Root } from './components/Root';
 import { AppContainer } from './scenes/app/container';
 import { store } from './store/store';
 
 const config = require('configFile'); // FIXME import config from 'configFile';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: purple,
-    secondary: green
-  }
-});
 
 const NotFoundView = () => <h2>404!</h2>;
 const rootRoutes = (
