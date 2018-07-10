@@ -1,3 +1,10 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+/*
 body,
 div,
 dl,
@@ -86,12 +93,6 @@ a {
   text-decoration: none;
 }
 
-*,
-*::after,
-*::before {
-  box-sizing: border-box;
-}
-
 article,
 aside,
 details,
@@ -107,3 +108,4 @@ section,
 summary {
   display: block;
 }
+*/

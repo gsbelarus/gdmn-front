@@ -3,18 +3,21 @@ import { combineReducers, Reducer } from 'redux';
 import { IErmodelState, reducer as ermodelReducer } from '@src/app/scenes/ermodel/reducer';
 import { IMorphologyState, reducer as morphologyReducer } from '@src/app/scenes/morphology/reducer';
 import { ISemanticsState, reducer as semanticsReducer } from '@src/app/scenes/semantics/reducer';
+import { INLPDialogState, reducer as nlpDialogReducer } from '@src/app/scenes/app/reducer';
 
 interface IRootState {
   readonly morphologyState: IMorphologyState;
   readonly semanticsState: ISemanticsState;
   readonly ermodelState: IErmodelState;
+  readonly nlpDialogState: INLPDialogState;
 }
 
 const rootReducer = combineReducers<IRootState>({
   // TODO <IRootState, RootActions>
   morphologyState: morphologyReducer,
   semanticsState: semanticsReducer,
-  ermodelState: ermodelReducer
+  ermodelState: ermodelReducer,
+  nlpDialogState: nlpDialogReducer
 });
 
 type TRootReducer = Reducer<IRootState>; // TODO <IRootState, RootActions>
