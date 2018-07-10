@@ -1,0 +1,40 @@
+.resize-handle {
+  position: absolute;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  width: calc(var(--spacing-unit) * 2);
+  top: 0;
+  right: - var(--spacing-unit);
+  height: 100%;
+  cursor: col-resize;
+  z-index: 100;
+}
+
+.resize-handle-line {
+  position: absolute;
+  background-color: var(--palette-primary-light);
+  height: 50%;
+  width: 1px;
+  top: 25%;
+  transition: all linear 100ms;
+}
+
+.resize-handle-line-first {
+  left: calc(var(--spacing-unit) - 1);
+}
+
+.resize-handle-line-second {
+  left: calc(var(--spacing-unit) + 1);
+}
+
+.resize-handle-line-active {
+  left: var(--spacing-unit);
+}
+
+.resize-handle-active.resize-handle-line {
+  opacity: 1;
+  background-color: var(--palette-primary-light);
+  height: calc(100% - 4px);
+  top: 2px;
+}

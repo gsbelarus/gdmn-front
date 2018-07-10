@@ -11,3 +11,4 @@ export * from './table/withLayoutSelection';
 export * from './grid/fields/BooleanField';
 export * from './grid/fields/ImageField';
 export * from './grid/fields/TextField';
+export * from './Resizer';

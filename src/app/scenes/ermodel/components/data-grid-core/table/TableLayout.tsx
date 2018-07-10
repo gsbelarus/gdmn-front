@@ -10,6 +10,7 @@ interface ITableColumn {
   id: Key;
   widthPx?: number;
   align?: string;
+  previewed?: boolean;
   [t: string]: any;
 }
 

@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent, SFC } from 'react';
+import React, { Component, Fragment, PureComponent, SFC } from 'react';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper/Paper';
 import { ERModel } from 'gdmn-orm';
@@ -52,7 +52,7 @@ type TERModelBoxProps = IERModelBoxStateProps & IERModelBoxSelectorProps & IERMo
 @CSSModules(styles)
 class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
   public render(): JSX.Element {
-    console.log('render ERModelBox');
+    // console.log('render ERModelBox');
 
     const {
       erModel,
@@ -175,29 +175,29 @@ class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
     tabIndex: -1
   })(withSelectorSelection<TTableRowProps>(TableRow) as any);
 
-  private static renderEntitiesTableRow = pure(
-    connect(
-      (state, props) => {
-        return {
-          selected: entitiesSelectedRowSelector(state, props),
-          'aria-checked': entitiesSelectedRowSelector(state, props)
-        };
-      },
-      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.singleselectToggleEntitiesRow, dispatch) })
-    )(ERModelBox.SelectableRow)
-  );
+  private static renderEntitiesTableRow = connect(
+    // TODO test pure(
+    (state, props) => {
+      return {
+        selected: entitiesSelectedRowSelector(state, props),
+        'aria-checked': entitiesSelectedRowSelector(state, props)
+      };
+    },
+    (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.singleselectToggleEntitiesRow, dispatch) })
+  )(ERModelBox.SelectableRow);
+  // );
 
-  private static renderFieldsTableRow = pure(
-    connect(
-      (state, props) => {
-        return {
-          selected: fieldsSelectedRowSelector(state, props),
-          'aria-checked': fieldsSelectedRowSelector(state, props)
-        };
-      },
-      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.multiselectToggleFieldsRow, dispatch) })
-    )(ERModelBox.SelectableRow)
-  );
+  private static renderFieldsTableRow = connect(
+    // pure(
+    (state, props) => {
+      return {
+        selected: fieldsSelectedRowSelector(state, props),
+        'aria-checked': fieldsSelectedRowSelector(state, props)
+      };
+    },
+    (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.multiselectToggleFieldsRow, dispatch) })
+  )(ERModelBox.SelectableRow);
+  // );
 
   private static renderDataTableRow = pure(TableRow);
 }
