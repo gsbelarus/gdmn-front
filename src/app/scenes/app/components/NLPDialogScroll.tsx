@@ -19,7 +19,7 @@ interface INLPDialogScrollState {
 }
 
 @CSSModules(styles, { allowMultiple: true })
-export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollState> {
+class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollState> {
   public shownItems: HTMLDivElement[] = [];
   public state: INLPDialogScrollState;
 
@@ -213,3 +213,5 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     );
   }
 }
+
+export { NLPDialogScroll };
