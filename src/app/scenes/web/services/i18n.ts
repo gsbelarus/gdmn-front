@@ -9,18 +9,18 @@ import i18nextLocalstorageCache from 'i18next-localstorage-cache';
 import { promisify } from '@src/app/utils';
 import { L10n } from '@src/app/scenes/web/services/l10n';
 
-class I18n {
-  private static DEFAULT_LANG_CODE = 'en';
-  private static DEFAULT_CURRENCY = 'USD';
+const DEFAULT_LANG_CODE = 'en';
+const DEFAULT_CURRENCY = 'USD';
 
-  private intlService = new L10n(I18n.DEFAULT_LANG_CODE, I18n.DEFAULT_CURRENCY);
+class I18n {
+  private intlService = new L10n(DEFAULT_LANG_CODE, DEFAULT_CURRENCY);
   private i18nextService = i18next
     .use(i18nextFetchBackend)
     .use(i18nextLocalstorageCache)
     .use(i18nextBrowserLanguageDetector)
     .use(reactI18nextModule);
 
-  private langCode: string = I18n.DEFAULT_LANG_CODE;
+  private langCode: string = DEFAULT_LANG_CODE;
 
   private static instance: I18n = new I18n();
 
@@ -39,8 +39,8 @@ class I18n {
   }
 
   private async initI18next() {
-    this.i18nextService.on('initialized', this.onInitialized);
-    this.i18nextService.on('languageChanged', this.onLanguageChanged);
+    this.i18nextService.on('initialized', this.onInitialized.bind(this));
+    this.i18nextService.on('languageChanged', this.onLanguageChanged.bind(this));
 
     return promisify(this.i18nextService.init.bind(this.i18nextService))({
       debug: true,
@@ -104,7 +104,7 @@ class I18n {
 
   private static async loadLocales(url: string, options: any, cb: Function, data: any) {
     try {
-      const locale = await import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
+      const locale = await require(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
       `../locales/${url}`); // TODO path
 
       cb(locale, { status: '200' });
@@ -116,9 +116,9 @@ class I18n {
   private async ensureIntlSupported() {
     if (global.Intl) return; // TODO && global.IntlPolyfill
 
-    await import(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
+    await require(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
     'intl');
-    await import(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
+    await require(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
     `intl/locale-data/jsonp/${this.langCode}.js`);
   }
 

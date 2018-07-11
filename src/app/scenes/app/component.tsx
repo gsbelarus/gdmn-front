@@ -9,7 +9,7 @@ import { ErrorBoundary } from '@src/app/components/ErrorBoundary';
 import { ERModelBoxContainer } from '@src/app/scenes/ermodel/container';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
 import { SemanticsBoxContainer } from '@src/app/scenes/semantics/container';
-// import { WebContainer } from '@src/app/scenes/web/container';
+import { WebContainer } from '@src/app/scenes/web/container';
 import { Home } from '@src/app/scenes/app/components/Home';
 
 const styles = require('./styles.css');
@@ -54,7 +54,7 @@ class App extends Component<IAppProps, {}> {
               <Route path={`${match.path}/morphology`} component={MorphBoxContainer} />
               <Route path={`${match.path}/semantics`} component={SemanticsBoxContainer} />
               <Route path={`${match.path}/ermodel`} component={ERModelBoxContainer} />
-              {/*<Route path={`${match.path}/web`} component={WebContainer} />*/}
+              <Route path={`${match.path}/web`} component={WebContainer} />
               <Redirect from={`${match.path}/*`} to={`${match.path}`} />
             </Switch>
           </ErrorBoundary>
