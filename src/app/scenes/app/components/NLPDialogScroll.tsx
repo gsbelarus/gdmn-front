@@ -13,9 +13,10 @@ interface INLPDialogScrollState {
   text: string;
   showFrom: number;
   showTo: number;
+  partialOK: boolean;
   recalc: boolean;
   scrollVisible: boolean;
-  scrollTimer: NodeJS.Timer | undefined;
+  scrollTimer: any;
 }
 
 @CSSModules(styles, { allowMultiple: true })
@@ -31,6 +32,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       text: '',
       showFrom: nlpDialog.items.size ? nlpDialog.items.size - 1 : 0,
       showTo: nlpDialog.items.size ? nlpDialog.items.size - 1 : 0,
+      partialOK: true,
       recalc: true,
       scrollVisible: false,
       scrollTimer: undefined
@@ -46,6 +48,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
         text: '',
         showFrom: nlpDialog.items.size ? nlpDialog.items.size - 1 : 0,
         showTo: nlpDialog.items.size ? nlpDialog.items.size - 1 : 0,
+        partialOK: true,
         recalc: true
       });
       e.preventDefault();
@@ -61,19 +64,30 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       clearTimeout(scrollTimer);
     }
 
-    if (e.deltaY < 0 && showFrom > 0) {
-      this.setState({
-        showFrom: showFrom - 1,
-        showTo: showTo - 1,
-        recalc: true,
-        scrollVisible: true,
-        scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
-      });
+    if (e.deltaY < 0) {
+      if (showFrom > 0) {
+        this.setState({
+          showFrom: showFrom - 1,
+          showTo: showTo - 1,
+          partialOK: false,
+          recalc: true,
+          scrollVisible: true,
+          scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+        });
+      } else {
+        this.setState({
+          partialOK: false,
+          recalc: true,
+          scrollVisible: true,
+          scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+        });
+      }
     }
     else if (e.deltaY > 0 && showTo < nlpDialog.items.size - 1 ) {
       this.setState({
         showFrom: showFrom + 1,
         showTo: showTo + 1,
+        partialOK: true,
         recalc: true,
         scrollVisible: true,
         scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
@@ -91,20 +105,54 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     const { nlpDialog } = this.props;
     const { showFrom, showTo } = this.state;
     const pos = e.clientY / e.currentTarget.clientHeight;
-    const ht = showTo - showFrom + 1;
+    const page = showTo - showFrom + 1;
     const center = Math.trunc(nlpDialog.items.size * pos);
-    let newFrom = Math.trunc(center - ht / 2);
+    let newFrom = Math.trunc(center - page / 2);
     if (newFrom < 0) { newFrom = 0 };
-    let newTo = newFrom + ht - 1;
+    let newTo = newFrom + page - 1;
     if (newTo > nlpDialog.items.size - 1) {
       newTo = nlpDialog.items.size - 1;
     }
-    this.setState({ showFrom: newFrom, showTo: newTo, recalc: true });
+    this.setState({ showFrom: newFrom, showTo: newTo, partialOK: !!newFrom, recalc: true });
   }
 
   private onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
-    e.preventDefault();
-    this.doScroll(e);
+    if (e.currentTarget === e.target) {
+      e.preventDefault();
+
+      const { nlpDialog } = this.props;
+      const { showFrom, showTo } = this.state;
+      const pos = e.clientY / e.currentTarget.clientHeight;
+      const page = showTo - showFrom + 1;
+      let newFrom: number;
+      let newTo: number;
+
+      if (pos < 0.5) {
+        newFrom = showFrom - page;
+        newTo = showTo - page;
+      } else {
+        newFrom = showFrom + page;
+        newTo = showTo + page;
+      }
+
+      if (newFrom < 0) {
+        newFrom = 0;
+      }
+
+      if (newFrom >= nlpDialog.items.size) {
+        newFrom = nlpDialog.items.size - 1;
+      }
+
+      if (newTo < newFrom) {
+        newTo = newFrom;
+      }
+
+      if (newTo >= nlpDialog.items.size) {
+        newTo = nlpDialog.items.size - 1;
+      }
+
+      this.setState({ showFrom: newFrom, showTo: newTo, partialOK: pos >= 0.5, recalc: true });
+    }
   }
 
   private onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
@@ -116,42 +164,46 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
 
   private calcVisibleCount() {
     const { nlpDialog } = this.props;
-    const { showFrom, showTo, recalc } = this.state;
+    const { showFrom, showTo, recalc, partialOK } = this.state;
 
-    if (recalc) {
-      if (this.shownItems.length) {
-        if (this.shownItems[0].offsetTop > 38) {
-          if (this.shownItems.length < nlpDialog.items.size && showFrom > 0) {
-            this.setState({ showFrom: showFrom - 1 });
-          } else {
-            this.setState({ recalc: false });
-          }
+    if (!recalc) return;
+
+    if (this.shownItems.length) {
+      if (this.shownItems[0].offsetTop > 38) {
+        if (this.shownItems.length < nlpDialog.items.size && showFrom > 0) {
+          this.setState({ showFrom: showFrom - 1 });
+        } else {
+          this.setState({ recalc: false });
         }
-        else if (this.shownItems[0].offsetTop <= 0) {
-          if (this.shownItems.length > 1 && this.shownItems[1].offsetTop > 0) {
-            this.setState({ recalc: false });
-          }
-          else if (showFrom < showTo) {
-            this.setState({
-              showFrom: showFrom + 1,
-              recalc: false
-            });
-          } else {
-            this.setState({ recalc: false });
-          }
-        }
-      } else {
+      }
+      else if (this.shownItems[0].offsetTop + this.shownItems[0].offsetHeight < 0 && showFrom < showTo) {
         this.setState({
-          showFrom: 0,
-          showTo: 0,
+          showFrom: showFrom + 1,
+          recalc: true
+        });
+      }
+      else if (this.shownItems[0].offsetTop < 0 && !partialOK && !showFrom && showFrom < showTo) {
+        this.setState({
+          showTo: showTo - 1,
           recalc: false
         });
       }
+      else {
+        this.setState({ recalc: false });
+      }
+    } else {
+      this.setState({
+        showFrom: 0,
+        showTo: 0,
+        recalc: false
+      });
     }
   }
 
   public componentDidMount() {
+    //this.setState({ recalc: true });
     setTimeout( () => this.setState({ recalc: true }), 200);
+    //this.calcVisibleCount();
   }
 
   public componentDidUpdate() {
