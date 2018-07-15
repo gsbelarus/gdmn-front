@@ -101,21 +101,6 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     }
   }
 
-  private doScroll = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { nlpDialog } = this.props;
-    const { showFrom, showTo } = this.state;
-    const pos = e.clientY / e.currentTarget.clientHeight;
-    const page = showTo - showFrom + 1;
-    const center = Math.trunc(nlpDialog.items.size * pos);
-    let newFrom = Math.trunc(center - page / 2);
-    if (newFrom < 0) { newFrom = 0 };
-    let newTo = newFrom + page - 1;
-    if (newTo > nlpDialog.items.size - 1) {
-      newTo = nlpDialog.items.size - 1;
-    }
-    this.setState({ showFrom: newFrom, showTo: newTo, partialOK: !!newFrom, recalc: true });
-  }
-
   private onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     e.preventDefault();
 
@@ -160,7 +145,18 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
   private onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
     if (e.buttons === 1) {
       e.preventDefault();
-      this.doScroll(e);
+      const { nlpDialog } = this.props;
+      const { showFrom, showTo } = this.state;
+      const pos = e.clientY / e.currentTarget.clientHeight;
+      const page = showTo - showFrom + 1;
+      const center = Math.trunc(nlpDialog.items.size * pos);
+      let newFrom = Math.trunc(center - page / 2);
+      if (newFrom < 0) { newFrom = 0 };
+      let newTo = newFrom + page - 1;
+      if (newTo > nlpDialog.items.size - 1) {
+        newTo = nlpDialog.items.size - 1;
+      }
+      this.setState({ showFrom: newFrom, showTo: newTo, partialOK: !!newFrom, recalc: true });
     }
   }
 
