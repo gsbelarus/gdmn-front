@@ -17,6 +17,8 @@ interface INLPDialogScrollState {
   recalc: boolean;
   scrollVisible: boolean;
   scrollTimer: any;
+  prevClientY?: number;
+  prevFrac: number;
 }
 
 @CSSModules(styles, { allowMultiple: true })
@@ -35,7 +37,9 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       partialOK: true,
       recalc: true,
       scrollVisible: false,
-      scrollTimer: undefined
+      scrollTimer: undefined,
+      prevClientY: -1,
+      prevFrac: 0
     }
     this.calcVisibleCount = this.calcVisibleCount.bind(this);
   }
@@ -54,6 +58,11 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       e.preventDefault();
     }
   }
+
+  private delayedScrollHide = () => ({
+    scrollVisible: true,
+    scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+  });
 
   private onWheel(e: React.WheelEvent<HTMLDivElement>) {
     e.preventDefault();
@@ -139,30 +148,55 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       this.setState({ showFrom: newFrom, showTo: newTo, partialOK: pos >= 0.5, recalc: true });
     } else {
       e.currentTarget.setPointerCapture(e.pointerId);
+      this.setState({ scrollVisible: true, prevClientY: e.clientY, prevFrac: 0 });
     }
   }
 
   private onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
-    if (e.buttons === 1) {
+    const { nlpDialog } = this.props;
+    const { showFrom, showTo, prevClientY, prevFrac } = this.state;
+
+    if (e.buttons === 1 && typeof(prevClientY) === 'number' && nlpDialog.items.size) {
       e.preventDefault();
-      const { nlpDialog } = this.props;
-      const { showFrom, showTo } = this.state;
-      const pos = e.clientY / e.currentTarget.clientHeight;
-      const page = showTo - showFrom + 1;
-      const center = Math.trunc(nlpDialog.items.size * pos);
-      let newFrom = Math.trunc(center - page / 2);
-      if (newFrom < 0) { newFrom = 0 };
-      let newTo = newFrom + page - 1;
-      if (newTo > nlpDialog.items.size - 1) {
-        newTo = nlpDialog.items.size - 1;
+
+      const deltaY = e.clientY - prevClientY;
+      const deltaPrecise = deltaY / (e.currentTarget.clientHeight / nlpDialog.items.size);
+      const deltaCorrected = deltaPrecise + prevFrac;
+      const delta = Math.trunc(deltaCorrected);
+
+      if (delta) {
+        let newFrom = showFrom + delta;
+        if (newFrom < 0) newFrom = 0;
+        let newTo = showTo + delta;
+        if (newTo >= nlpDialog.items.size) newTo = nlpDialog.items.size - 1;
+        if (newFrom > newTo) newFrom = newTo;
+        this.setState({
+          showFrom: newFrom,
+          showTo: newTo,
+          partialOK: !!newFrom,
+          recalc: true,
+          prevClientY: e.clientY,
+          prevFrac: deltaCorrected - delta
+        });
       }
-      this.setState({ showFrom: newFrom, showTo: newTo, partialOK: !!newFrom, recalc: true });
     }
   }
 
   private onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
     e.preventDefault();
     e.currentTarget.releasePointerCapture(e.pointerId);
+    const { scrollTimer } = this.state;
+
+    if (scrollTimer) {
+      clearTimeout(scrollTimer);
+    }
+
+    this.setState({
+      scrollVisible: true,
+      scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000),
+      prevClientY: undefined,
+      prevFrac: 0
+    });
   }
 
   private calcVisibleCount() {
