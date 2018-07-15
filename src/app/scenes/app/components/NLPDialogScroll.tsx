@@ -116,10 +116,10 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     this.setState({ showFrom: newFrom, showTo: newTo, partialOK: !!newFrom, recalc: true });
   }
 
-  private onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
-    if (e.currentTarget === e.target) {
-      e.preventDefault();
+  private onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    e.preventDefault();
 
+    if (e.currentTarget === e.target) {
       const { nlpDialog } = this.props;
       const { showFrom, showTo } = this.state;
       const pos = e.clientY / e.currentTarget.clientHeight;
@@ -152,14 +152,21 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       }
 
       this.setState({ showFrom: newFrom, showTo: newTo, partialOK: pos >= 0.5, recalc: true });
+    } else {
+      e.currentTarget.setPointerCapture(e.pointerId);
     }
   }
 
-  private onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+  private onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
     if (e.buttons === 1) {
       e.preventDefault();
       this.doScroll(e);
     }
+  }
+
+  private onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.currentTarget.releasePointerCapture(e.pointerId);
   }
 
   private calcVisibleCount() {
@@ -229,7 +236,12 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
                   </div>
               )
             }
-            <div styleName={scrollVisible ? "NLPScrollBarVisible" : "NLPScrollBar"} onMouseDown={this.onMouseDown.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>
+            <div
+              styleName={scrollVisible ? "NLPScrollBarVisible" : "NLPScrollBar"}
+              onPointerDown={this.onPointerDown.bind(this)}
+              onPointerUp={this.onPointerUp.bind(this)}
+              onPointerMove={this.onPointerMove.bind(this)}
+            >
               <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} />
             </div>
           </div>
