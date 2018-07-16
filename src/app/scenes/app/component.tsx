@@ -25,6 +25,11 @@ class App extends Component<IAppProps, {}> {
       <Fragment>
         <AppBar position="static">
           <Toolbar>
+            <NavLink styleName="nav-item" to={`${match.url}/app`} activeClassName="nav-item-selected">
+              <Button color="inherit" component={'div'}>
+                NLP
+              </Button>
+            </NavLink>
             <NavLink styleName="nav-item" to={`${match.url}/morphology`} activeClassName="nav-item-selected">
               <Button color="inherit" component={'div'}>
                 Morphology

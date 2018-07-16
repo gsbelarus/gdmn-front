@@ -1,7 +1,7 @@
 .main {
   height: calc(100% - 64px);
   overflow: auto;
-  padding: calc(var(--spacing-unit) * 4);
+  /* padding: calc(var(--spacing-unit) * 4); */
 
   text-align: center;
 }
