@@ -3,6 +3,8 @@ import CSSModules from 'react-css-modules';
 import { NLPDialog } from 'gdmn-nlp-agent';
 
 const styles = require('./NLPDialogScroll.css');
+const topGap = 24;
+const scrollTimerDelay = 4000;
 
 interface INLPDialogScrollProps {
   nlpDialog: NLPDialog;
@@ -25,6 +27,7 @@ interface INLPDialogScrollState {
 export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollState> {
 
   shownItems: HTMLDivElement[] = [];
+  scrollThumb: HTMLDivElement | undefined | null;
   state: INLPDialogScrollState;
 
   constructor (props: INLPDialogScrollProps) {
@@ -59,12 +62,12 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     }
   }
 
-  private delayedScrollHide = () => ({
-    scrollVisible: true,
-    scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
-  });
-
   private onWheel(e: React.WheelEvent<HTMLDivElement>) {
+    const delayedScrollHide = () => ({
+      scrollVisible: true,
+      scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), scrollTimerDelay)
+    });
+
     e.preventDefault();
     const { nlpDialog } = this.props;
     const { showFrom, showTo, scrollTimer } = this.state;
@@ -80,15 +83,13 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
           showTo: showTo - 1,
           partialOK: false,
           recalc: true,
-          scrollVisible: true,
-          scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+          ...delayedScrollHide()
         });
       } else {
         this.setState({
           partialOK: false,
           recalc: true,
-          scrollVisible: true,
-          scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+          ...delayedScrollHide()
         });
       }
     }
@@ -98,14 +99,12 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
         showTo: showTo + 1,
         partialOK: true,
         recalc: true,
-        scrollVisible: true,
-        scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+        ...delayedScrollHide()
       });
     }
     else {
       this.setState({
-        scrollVisible: true,
-        scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000)
+        ...delayedScrollHide()
       });
     }
   }
@@ -113,15 +112,16 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
   private onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     e.preventDefault();
 
-    if (e.currentTarget === e.target) {
+    if (e.currentTarget === e.target && this.scrollThumb) {
       const { nlpDialog } = this.props;
       const { showFrom, showTo } = this.state;
-      const pos = e.clientY / e.currentTarget.clientHeight;
+
+      const above = e.clientY <= this.scrollThumb.getBoundingClientRect().top;
       const page = showTo - showFrom + 1;
       let newFrom: number;
       let newTo: number;
 
-      if (pos < 0.5) {
+      if (above) {
         newFrom = showFrom - page;
         newTo = showTo - page;
       } else {
@@ -145,7 +145,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
         newTo = nlpDialog.items.size - 1;
       }
 
-      this.setState({ showFrom: newFrom, showTo: newTo, partialOK: pos >= 0.5, recalc: true });
+      this.setState({ showFrom: newFrom, showTo: newTo, partialOK: !above, recalc: true });
     } else {
       e.currentTarget.setPointerCapture(e.pointerId);
       this.setState({ scrollVisible: true, prevClientY: e.clientY, prevFrac: 0 });
@@ -165,19 +165,26 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       const delta = Math.trunc(deltaCorrected);
 
       if (delta) {
-        let newFrom = showFrom + delta;
-        if (newFrom < 0) newFrom = 0;
-        let newTo = showTo + delta;
-        if (newTo >= nlpDialog.items.size) newTo = nlpDialog.items.size - 1;
-        if (newFrom > newTo) newFrom = newTo;
-        this.setState({
-          showFrom: newFrom,
-          showTo: newTo,
-          partialOK: !!newFrom,
-          recalc: true,
-          prevClientY: e.clientY,
-          prevFrac: deltaCorrected - delta
-        });
+        if (showFrom === 0 && delta < 0) {
+          this.setState({
+            partialOK: false,
+            recalc: true
+          });
+        } else {
+          let newFrom = showFrom + delta;
+          if (newFrom < 0) newFrom = 0;
+          let newTo = showTo + delta;
+          if (newTo >= nlpDialog.items.size) newTo = nlpDialog.items.size - 1;
+          if (newFrom > newTo) newFrom = newTo;
+          this.setState({
+            showFrom: newFrom,
+            showTo: newTo,
+            partialOK: !!newFrom,
+            recalc: true,
+            prevClientY: e.clientY,
+            prevFrac: deltaCorrected - delta
+          });
+        }
       }
     }
   }
@@ -193,7 +200,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
 
     this.setState({
       scrollVisible: true,
-      scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), 4000),
+      scrollTimer: setTimeout( () => this.setState({ scrollVisible: false, scrollTimer: undefined }), scrollTimerDelay),
       prevClientY: undefined,
       prevFrac: 0
     });
@@ -206,7 +213,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     if (!recalc) return;
 
     if (this.shownItems.length) {
-      if (this.shownItems[0].offsetTop > 38) {
+      if (this.shownItems[0].offsetTop > topGap) {
         if (this.shownItems.length < nlpDialog.items.size && showFrom > 0) {
           this.setState({ showFrom: showFrom - 1 });
         } else {
@@ -272,7 +279,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
               onPointerUp={this.onPointerUp.bind(this)}
               onPointerMove={this.onPointerMove.bind(this)}
             >
-              <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} />
+              <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} ref={ elem => this.scrollThumb = elem } />
             </div>
           </div>
           <div styleName="NLPInput">
