@@ -2,7 +2,9 @@ import { IRootState } from './rootReducer';
 
 // TODO reselect
 
-export const selectMorphologyState = ({ morphologyState }: IRootState) => morphologyState;
-export const selectSemanticsState = ({ semanticsState }: IRootState) => semanticsState;
-export const selectErmodelState = ({ ermodelState }: IRootState) => ermodelState;
-export const selectNLPDialogState = ({ nlpDialogState }: IRootState) => nlpDialogState;
+const selectMorphologyState = ({ morphologyState }: IRootState) => morphologyState;
+const selectSemanticsState = ({ semanticsState }: IRootState) => semanticsState;
+const selectErmodelState = ({ ermodelState }: IRootState) => ermodelState;
+const selectNLPDialogState = ({ nlpDialogState }: IRootState) => nlpDialogState;
+
+export { selectMorphologyState, selectSemanticsState, selectErmodelState, selectNLPDialogState };

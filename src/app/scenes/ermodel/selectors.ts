@@ -40,7 +40,7 @@ const selectedFieldsSelector = (state: any, props: any) => {
     if (fieldsSelectedRowIds.findIndex(i => i === index) !== -1) selectedFields.push(selectedEntity.attributes[key]);
   });
 
-  console.log(selectedFields);
+  // console.log(selectedFields);
 
   return selectedFields;
 };

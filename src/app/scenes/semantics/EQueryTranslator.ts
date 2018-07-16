@@ -1,7 +1,7 @@
 import { EntityLink, EntityQuery, EntityQueryField, EntityQueryOptions, isEntityAttribute } from 'gdmn-orm';
 import { Determiner, ICommand, ICommandObject } from 'gdmn-nlp-agent';
 
-export class EQueryTranslator {
+class EQueryTranslator {
   public static process(command: ICommand): EntityQuery[] {
     if (command.objects) {
       switch (command.action) {
@@ -32,3 +32,5 @@ export class EQueryTranslator {
     }
   }
 }
+
+export { EQueryTranslator };

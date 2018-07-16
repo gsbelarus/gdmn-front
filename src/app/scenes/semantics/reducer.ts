@@ -8,7 +8,7 @@ import { actions } from './actions';
 
 interface ISemanticsState extends ISemanticsBoxStateProps {
   readonly erTranslatorRU?: ERTranslatorRU;
-  readonly tableData?: object;
+  readonly tableData?: any;
 }
 
 const initialState: ISemanticsState = {

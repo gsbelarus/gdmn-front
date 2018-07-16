@@ -1,0 +1,20 @@
+:global .drawer-paper {
+  text-align: initial;
+  position: relative;
+  width: 200px;
+  margin-top: 68px;
+}
+
+.content {
+  text-align: initial;
+  margin-left: 200px;
+  flex-grow: 1;
+  padding: calc(var(--spacing-unit) * 3);
+  padding-left: 0;
+  padding-top: 0;
+  min-width: 0;
+}
+
+.content .link-decor:hover {
+  text-decoration-line: underline;
+}

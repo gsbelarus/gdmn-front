@@ -1,5 +1,20 @@
 import { ComponentType } from 'react';
 
+function promisify<T>(fn: Function, context = null): (...args: any[]) => Promise<T> {
+  return (...args) =>
+    new Promise<T>((resolve, reject) => {
+      fn.call(
+        context,
+        ...[
+          ...args,
+          (err: any, ...results: any[]) => {
+            err ? reject(err) : resolve(results.length ? results[0] : results);
+          }
+        ]
+      );
+    });
+}
+
 function isDevMode() {
   return process.env.NODE_ENV !== 'production';
 }
@@ -41,4 +56,4 @@ function getHOCDisplayName(hocName: string, component: ComponentType<any>) {
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 type Subtract<T, K> = Omit<T, keyof K>;
 
-export { isDevMode, Subtract };
+export { promisify, isDevMode, Subtract };

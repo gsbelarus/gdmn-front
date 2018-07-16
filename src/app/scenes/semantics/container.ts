@@ -18,7 +18,7 @@ import {
   SemanticsBox,
   TSemanticsBoxProps
 } from './component';
-import { commandSelector, dataTableBodyRowsSelector, dataTableMetaSelector } from './selectors';
+import { commandSelector, dataTableBodyRowsSelector, dataTableMetaSelector, sqlQuerySelector } from './selectors';
 
 const SemanticsBoxContainer = connect(
   (state: IRootState, ownProps: TSemanticsBoxProps): ISemanticsBoxStateProps & ISemanticsBoxSelectorProps => {
@@ -29,7 +29,8 @@ const SemanticsBoxContainer = connect(
       ...dataTableMetaSelector(state, ownProps),
       dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
       erModel: ermodelSelector(state, ownProps),
-      command: commandSelector(state, ownProps)
+      command: commandSelector(state, ownProps),
+      sqlQuery: sqlQuerySelector(state, ownProps)
     };
   },
   (dispatch: Dispatch<TRootActions>): ISemanticsBoxActionsProps => ({

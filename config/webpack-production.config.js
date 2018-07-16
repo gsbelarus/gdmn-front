@@ -15,6 +15,7 @@ const MODULE_STYLES_PATH = getRootRelativePath('src');
 
 const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
   devtool: 'source-map',
+  mode: 'production',
   module: {
     rules: [
       {

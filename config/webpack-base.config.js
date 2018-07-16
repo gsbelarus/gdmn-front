@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+
 import config from '../config/config';
 import pkg from '../package.json';
 import { getRootRelativePath } from './utils';
@@ -24,7 +25,7 @@ function getConfiguration(outputFilename, outputChunkFilename) {
     },
     output: {
       path: OUTPUT_PATH,
-      publicPath: '/', // TODO test
+      publicPath: '/',
       filename: outputFilename,
       chunkFilename: outputChunkFilename
     },

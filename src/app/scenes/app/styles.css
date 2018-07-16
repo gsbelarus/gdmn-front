@@ -1,25 +1,15 @@
-.TheScreen {
-  display: grid;
-  grid-template-columns: 240px auto;
-  grid-template-rows: 80px auto;
-  grid-gap: 0;
-  padding: 0;
-  margin: 0;
-  height: 98vh;
+.main {
+  height: calc(100% - 64px);
+  overflow: auto;
+  padding: calc(var(--spacing-unit) * 4);
+
+  text-align: center;
 }
 
-.AppBar {
-  grid-column: 1 / 2;
-  grid-row: 1;
+.nav-item {
+  margin: var(--spacing-unit);
 }
 
-.NLPDialogColumn {
-  grid-column: 1;
-  grid-row: 2;
-  overflow: hidden;
-}
-
-.WorkArea {
-  grid-column: 2;
-  grid-row: 2;
+:global .nav-item-selected {
+  color: var(--palette-secondary-main) !important;
 }

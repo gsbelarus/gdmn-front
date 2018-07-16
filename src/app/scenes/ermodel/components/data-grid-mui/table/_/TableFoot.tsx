@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import MuiTableFoot, { TableFooterProps as MuiTableFootProps } from '@material-ui/core/TableFooter';
 
-import { ITableFootProps as ICoreTableFootProps, TableFoot as CoreTableFoot } from '@src/app/scenes/ermodel/components/data-grid-core';
+import {
+  ITableFootProps as ICoreTableFootProps,
+  TableFoot as CoreTableFoot
+} from '@src/app/scenes/ermodel/components/data-grid-core';
 
 type TTableFootProps = ICoreTableFootProps & MuiTableFootProps;
 
