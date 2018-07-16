@@ -245,9 +245,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
   }
 
   public componentDidMount() {
-    //this.setState({ recalc: true });
-    setTimeout( () => this.setState({ recalc: true }), 200);
-    //this.calcVisibleCount();
+    this.calcVisibleCount();
   }
 
   public componentDidUpdate() {
