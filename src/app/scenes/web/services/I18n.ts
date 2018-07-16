@@ -7,7 +7,7 @@ import { reactI18nextModule } from 'react-i18next';
 import i18nextLocalstorageCache from 'i18next-localstorage-cache';
 
 import { promisify } from '@src/app/utils';
-import { L10n } from '@src/app/scenes/web/services/l10n';
+import { L10n } from '@src/app/scenes/web/services/L10n';
 
 const DEFAULT_LANG_CODE = 'en';
 const DEFAULT_CURRENCY = 'USD';
