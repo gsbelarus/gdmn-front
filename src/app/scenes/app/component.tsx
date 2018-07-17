@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, ReactType } from 'react';
 import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -6,20 +6,25 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CSSModules from 'react-css-modules';
 
 import { ErrorBoundary } from '@src/app/components/ErrorBoundary';
-import { ERModelBoxContainer } from '@src/app/scenes/ermodel/container';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
-import { SemanticsBoxContainer } from '@src/app/scenes/semantics/container';
 import { WebContainer } from '@src/app/scenes/web/container';
 import { Home } from '@src/app/scenes/app/components/Home';
 
 const styles = require('./styles.css');
 
-type IAppProps = RouteComponentProps<any> & CSSModules.InjectedCSSModuleProps;
+interface IAppProps extends RouteComponentProps<any> {
+  renderSemanticsBoxContainer: React.ComponentType<any>;
+  renderERModelBoxContainer: React.ComponentType<any>;
+}
 
 @CSSModules(styles)
-class App extends Component<IAppProps, {}> {
+class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
   public render() {
-    const { match } = this.props;
+    const {
+      match,
+      renderSemanticsBoxContainer: SemanticsBoxContainer,
+      renderERModelBoxContainer: ERModelBoxContainer
+    } = this.props;
 
     return (
       <Fragment>

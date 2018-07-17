@@ -8,7 +8,17 @@
       "host": "http://localhost",
       "port": 4000
     },
-    "apiPath": "/data",
-    "erPath": "/er"
+    "paths": {
+      "api": "/data",
+      "er": "/er",
+      "signIn": "/account/login"
+    },
+    "formFieldNames": {
+      "signIn": {
+        "username": "login",
+        "password": "password"
+      }
+    },
+    "authScheme": "Bearer"
   }
 }

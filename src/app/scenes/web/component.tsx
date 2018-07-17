@@ -7,7 +7,6 @@ import ListSubheader from '@material-ui/core/ListSubheader/ListSubheader';
 import CSSModules from 'react-css-modules';
 import Typography from '@material-ui/core/Typography/Typography';
 import { translate, Trans, InjectedTranslateProps, InjectedI18nProps } from 'react-i18next';
-// import { i18n } from 'i18next';
 
 const styles = require('./styles.css');
 

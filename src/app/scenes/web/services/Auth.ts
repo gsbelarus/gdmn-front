@@ -12,7 +12,8 @@ const enum UserRoleType {
 }
 
 class Auth {
-  private readonly accessTokenName: string;
+  public static ACCESS_TOKEN_STORAGE_KEY = 'access_token';
+
   private webStorage: WebStorage;
 
   private static routeAccessLevels = {
@@ -24,21 +25,20 @@ class Auth {
     developer: [UserRoleType.DEVELOPER]
   }; // TODO: bitMask
 
-  constructor(accessTokenName: string, webStorage: WebStorage) {
-    this.accessTokenName = accessTokenName;
+  constructor(webStorage: WebStorage) {
     this.webStorage = webStorage;
   }
 
   public async storeAccessToken(accessToken: any) {
-    await this.webStorage.set(this.accessTokenName, accessToken);
+    await this.webStorage.set(Auth.ACCESS_TOKEN_STORAGE_KEY, accessToken);
   }
 
   public async removeAccessToken() {
-    await this.webStorage.remove(this.accessTokenName);
+    await this.webStorage.remove(Auth.ACCESS_TOKEN_STORAGE_KEY);
   }
 
   public async getAccessToken() {
-    return this.webStorage.get(this.accessTokenName);
+    return this.webStorage.get(Auth.ACCESS_TOKEN_STORAGE_KEY);
   }
 
   public async decodeAccessToken() {

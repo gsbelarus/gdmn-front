@@ -42,7 +42,7 @@ class WebStorage implements IWebStorage {
 
   public async get(key: string): Promise<any> {
     return this.safe(() => {
-      const value = this.storage.getItem(key);
+      const value = this.storage.getItem(`${this.options.namespace}${key}`);
       try {
         return JSON.parse(value || '');
       } catch (e) {
@@ -53,7 +53,7 @@ class WebStorage implements IWebStorage {
 
   public async set(key: string, value: any) {
     this.safe(() => {
-      this.storage.setItem(key, JSON.stringify(value));
+      this.storage.setItem(`${this.options.namespace}${key}`, JSON.stringify(value));
     });
   }
 
@@ -63,14 +63,14 @@ class WebStorage implements IWebStorage {
        * FIXME localStorage.hasOwnProperty doesn't exist in IE8 and is outright broken in Opera.
        * Source: https://shanetomlinson.com/2012/localstorage-bugs-inconsistent-removeitem-delete/
       */
-      if (this.storage.hasOwnProperty(key)) {
-        this.storage.removeItem(key);
+      if (this.storage.hasOwnProperty(`${this.options.namespace}${key}`)) {
+        this.storage.removeItem(`${this.options.namespace}${key}`);
       }
     });
   }
 
   public async clear() {
-    await this.safe(() => this.storage.removeItem(this.options.namespace));
+    // TODO await this.safe(() => this.storage.removeItem(this.options.namespace));
   }
 
   public isPersisted() {
