@@ -5,11 +5,12 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import theme from '@src/styles/muiTheme';
 import { Root } from './components/Root';
 import { getAppContainer } from './scenes/app/container';
-import { store } from './store/store';
+import { getStore } from './store/store';
 import { I18n } from '@src/app/scenes/web/services/I18n';
-import { Auth } from '@src/app/scenes/web/services/Auth';
+import { Auth, UserRoleType } from '@src/app/scenes/web/services/Auth';
 import { WebStorage, WebStorageType } from '@src/app/scenes/web/services/WebStorage';
 import { GdmnApi } from '@src/app/services/GdmnApi';
+import { IAuthState } from '@src/app/scenes/auth/reducer';
 
 const config = require('configFile'); // FIXME import config from 'configFile';
 
@@ -27,6 +28,8 @@ const apiService = new GdmnApi(
   config.server.formFieldNames.signIn.password
 );
 const i18nService = I18n.getInstance();
+
+let store: any;
 
 const domContainerNode = config.webpack.appMountNodeId;
 
@@ -49,10 +52,19 @@ async function i18nInit() {
   }
 }
 
+async function storeInit() {
+  const authInitialState: IAuthState = {
+    authenticated: await authService.isAuthenticated(),
+    accessToken: await authService.getAccessToken(),
+    userRole: !(await authService.isAuthenticated()) ? UserRoleType.ANONYM : UserRoleType.USER // TODO: decodeToken(payload.authToken).userRole
+  };
+
+  store = getStore(authInitialState, authService);
+}
+
 async function start() {
   console.log('[GDMN] start');
-
-  return Promise.all([i18nInit()]);
+  return Promise.all([storeInit(), i18nInit()]);
 }
 
 function render(RootComponent: ReactType) {

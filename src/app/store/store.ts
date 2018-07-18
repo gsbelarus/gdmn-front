@@ -1,6 +1,10 @@
 import { configureStore } from './configureStore';
-import rootReducer from './rootReducer';
+import getRootReducer from './rootReducer';
+import { getMiddlewares } from './middlewares';
+import { IAuthState } from '@src/app/scenes/auth/reducer';
+import { Auth } from '@src/app/scenes/web/services/Auth';
 
-const store = configureStore(rootReducer);
+const getStore = (authInitialState: IAuthState, authStore: Auth) =>
+  configureStore(getRootReducer(authInitialState), getMiddlewares(authStore));
 
-export { store };
+export { getStore };

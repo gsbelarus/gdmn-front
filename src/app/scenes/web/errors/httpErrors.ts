@@ -93,7 +93,7 @@ function httpErrorFactory(statusCode: number, responseBody: IServerResponseError
   const errorStatusClass = httpErrorClasses[statusCode.toString()];
 
   return errorStatusClass
-    ? Reflect.construct(errorStatusClass, [responseBody])
+    ? Reflect.construct(errorStatusClass, [responseBody]) // TODO Reflect
     : new HttpError(statusCode, 'Unknown error', responseBody);
 }
 

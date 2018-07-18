@@ -34,7 +34,8 @@
     "intl-format-cache": "2.1.0",
     "intl": "1.2.5",
     "jwt-decode": "2.2.0",
-    "es6-error": "4.1.1"
+    "es6-error": "4.1.1",
+    "redux-form": "7.4.2"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.51",
@@ -55,6 +56,7 @@
     "@types/react-virtualized": "9.18.3",
     "@types/recompose": "0.26.1",
     "@types/redux": "3.6.0",
+    "@types/redux-form": "^7.4.1",
     "@types/redux-logger": "3.0.6",
     "all-contributors-cli": "5.0.0",
     "babel-loader": "8.0.0-beta.3",

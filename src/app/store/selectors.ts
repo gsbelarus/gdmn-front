@@ -6,5 +6,14 @@ const selectMorphologyState = ({ morphologyState }: IRootState) => morphologySta
 const selectSemanticsState = ({ semanticsState }: IRootState) => semanticsState;
 const selectErmodelState = ({ ermodelState }: IRootState) => ermodelState;
 const selectNLPDialogState = ({ nlpDialogState }: IRootState) => nlpDialogState;
+const selectAppState = ({ appState }: IRootState) => appState;
+const selectAuthState = ({ authState }: IRootState) => authState;
 
-export { selectMorphologyState, selectSemanticsState, selectErmodelState, selectNLPDialogState };
+export {
+  selectAuthState,
+  selectMorphologyState,
+  selectSemanticsState,
+  selectErmodelState,
+  selectNLPDialogState,
+  selectAppState
+};

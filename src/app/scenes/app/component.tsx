@@ -8,11 +8,19 @@ import CSSModules from 'react-css-modules';
 import { ErrorBoundary } from '@src/app/components/ErrorBoundary';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
 import { WebContainer } from '@src/app/scenes/web/container';
-import { Home } from '@src/app/scenes/app/components/Home';
 
 const styles = require('./styles.css');
 
-interface IAppProps extends RouteComponentProps<any> {
+interface IAppActionsProps {
+  signOut: () => void;
+}
+
+interface IAppStateProps {
+  readonly errorMessage?: string;
+}
+
+interface IAppProps extends RouteComponentProps<any>, IAppActionsProps, IAppStateProps {
+  renderHome: React.ComponentType<any>;
   renderSemanticsBoxContainer: React.ComponentType<any>;
   renderERModelBoxContainer: React.ComponentType<any>;
 }
@@ -22,8 +30,10 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
   public render() {
     const {
       match,
+      renderHome: Home,
       renderSemanticsBoxContainer: SemanticsBoxContainer,
-      renderERModelBoxContainer: ERModelBoxContainer
+      renderERModelBoxContainer: ERModelBoxContainer,
+      errorMessage // TODO
     } = this.props;
 
     return (
@@ -71,4 +81,4 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
 
 // TODO switch -> children -> container
 
-export { App, IAppProps };
+export { App, IAppProps, IAppStateProps, IAppActionsProps };

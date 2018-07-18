@@ -55,4 +55,4 @@ class Auth {
   }
 }
 
-export { Auth };
+export { Auth, UserRoleType };
