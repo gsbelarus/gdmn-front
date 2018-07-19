@@ -45,6 +45,10 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
       prevFrac: 0
     }
     this.calcVisibleCount = this.calcVisibleCount.bind(this);
+    this.onWheel = this.onWheel.bind(this);
+    this.onPointerDown = this.onPointerDown.bind(this);
+    this.onPointerUp = this.onPointerUp.bind(this);
+    this.onPointerMove = this.onPointerMove.bind(this);
   }
 
   private onPressEnter(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -261,7 +265,7 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     return (
       <Fragment>
         <div styleName="NLPDialog">
-          <div styleName="NLPItems" onWheel={this.onWheel.bind(this)} >
+          <div styleName="NLPItems" onWheel={this.onWheel} >
             {
               nlpDialog && nlpDialog.items.map(
                 (i, idx) => i && typeof idx === 'number' && idx >= this.state.showFrom && idx <= this.state.showTo &&
@@ -273,9 +277,9 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
             }
             <div
               styleName={scrollVisible ? "NLPScrollBarVisible" : "NLPScrollBar"}
-              onPointerDown={this.onPointerDown.bind(this)}
-              onPointerUp={this.onPointerUp.bind(this)}
-              onPointerMove={this.onPointerMove.bind(this)}
+              onPointerDown={this.onPointerDown}
+              onPointerUp={this.onPointerUp}
+              onPointerMove={this.onPointerMove}
             >
               <div styleName="NLPScrollBarThumb" style={{ height: thumbHeight, top: thumbTop }} ref={ elem => this.scrollThumb = elem } />
             </div>
