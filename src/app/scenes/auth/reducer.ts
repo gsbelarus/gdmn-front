@@ -8,10 +8,7 @@ interface IAuthState {
   userRole: UserRoleType;
 }
 
-const getReducer = (authInitialState: IAuthState) => (
-  state: IAuthState = authInitialState,
-  action: TAuthActions
-) => {
+const getReducer = (authInitialState: IAuthState) => (state: IAuthState = authInitialState, action: TAuthActions) => {
   switch (action.type) {
     case getType(actions.signInRequestOk): {
       return {

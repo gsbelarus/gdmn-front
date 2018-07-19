@@ -9,7 +9,7 @@ import { Auth } from '@src/app/scenes/web/services/Auth';
 const notAuthorizedAccessMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
   if (action.type === getType(actions.notAuthorizedAccess)) {
     next(action);
-    dispatch(actions.redirect('/auth')); // TODO inject signInPath
+    dispatch(actions.redirect('/auth/signIn')); // TODO inject signInPath
     return;
   }
 
@@ -21,8 +21,7 @@ const getAccessDeniedMiddleware = (authStore: Auth): Middleware => ({ dispatch, 
     dispatch(actions.redirect('/')); // dispatch({ type:'ON_ERROR', payload: new Error('Нет прав доступа'), error: true });
     return next(action);
   } else if (action.type === getType(authActions.signOut)) {
-    authStore.removeAccessToken()
-      .then(() => next(action));
+    authStore.removeAccessToken().then(() => next(action));
   }
 
   return next(action);
@@ -58,4 +57,4 @@ const getMiddlewares = (authStore: Auth): Middleware[] => [
   errorMiddleware
 ];
 
-export { getMiddlewares }
+export { getMiddlewares };

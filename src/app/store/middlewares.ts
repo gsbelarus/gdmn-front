@@ -8,4 +8,4 @@ const getMiddlewares = (authStore: Auth): Middleware[] => [
   ...getAuthMiddlewares(authStore)
 ];
 
-export { getMiddlewares }
+export { getMiddlewares };

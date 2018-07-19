@@ -60,7 +60,10 @@ const nlpDialogInitialState = (): INLPDialogState => {
   };
 };
 
-function nlpDialogReducer(state: INLPDialogState = nlpDialogInitialState(), action: TNLPDialogActions): INLPDialogState {
+function nlpDialogReducer(
+  state: INLPDialogState = nlpDialogInitialState(),
+  action: TNLPDialogActions
+): INLPDialogState {
   switch (action.type) {
     case getType(actions.addNLPDialogText): {
       state.nlpDialog.add('me', action.payload);
@@ -95,13 +98,13 @@ function reducer(state: IAppState = appInitialState, action: TAppActions) {
       return {
         ...state,
         errorMessage: action.payload
-      }
+      };
     }
     case getType(actions.hideError): {
       return {
         ...state,
         errorMessage: ''
-      }
+      };
     }
     default:
       return state;

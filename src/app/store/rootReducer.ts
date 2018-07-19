@@ -1,4 +1,5 @@
 import { combineReducers, Reducer } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 
 import { IErmodelState, reducer as ermodelReducer } from '@src/app/scenes/ermodel/reducer';
 import { IMorphologyState, reducer as morphologyReducer } from '@src/app/scenes/morphology/reducer';
@@ -13,6 +14,7 @@ interface IRootState {
   readonly nlpDialogState: INLPDialogState;
   readonly appState: IAppState;
   readonly authState: IAuthState;
+  readonly form: any;
 }
 
 const getRootReducer = (authInitialState: IAuthState) =>
@@ -23,7 +25,8 @@ const getRootReducer = (authInitialState: IAuthState) =>
     ermodelState: ermodelReducer,
     nlpDialogState: nlpDialogReducer,
     appState: appReducer,
-    authState: getAuthReducer(authInitialState)
+    authState: getAuthReducer(authInitialState),
+    form: formReducer // TODO move in auth
   });
 
 type TRootReducer = Reducer<IRootState>; // TODO <IRootState, RootActions>

@@ -3,14 +3,12 @@ import CSSModules from 'react-css-modules';
 
 const homeStyles = require('./Home.css');
 
-interface IHomeProps  {
+interface IHomeProps {
   renderNlpDialogScrollContainer: ReactType;
-
 }
 
 @CSSModules(homeStyles)
 class Home extends Component<IHomeProps, any> {
-
   public render() {
     const { renderNlpDialogScrollContainer: NlpDialogScrollContainer } = this.props;
 

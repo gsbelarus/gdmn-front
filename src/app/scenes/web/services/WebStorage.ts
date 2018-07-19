@@ -16,8 +16,8 @@ interface IWebStorageOptions {
 }
 
 const enum WebStorageType {
-  local,
-  session // cookies, // cache
+  local = 'localStorage',
+  session = 'sessionStorage' // cookies, // cache
 }
 
 // TODO test safari in private mode (Safari sets quota to 0 bytes)
@@ -33,8 +33,7 @@ class WebStorage implements IWebStorage {
   private readonly options: IWebStorageOptions;
 
   constructor(type: WebStorageType, options: IWebStorageOptions, failSilently?: boolean) {
-    this.storage = (<any>window)[type]; // TODO
-
+    this.storage = (<any>window)[type];
     this.type = type;
     this.options = options;
     this.failSilently = failSilently;
