@@ -10,6 +10,7 @@ import { ERModelBoxContainer } from '@src/app/scenes/ermodel/container';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
 import { SemanticsBoxContainer } from '@src/app/scenes/semantics/container';
 import { WebContainer } from '@src/app/scenes/web/container';
+import { ApplicationsBoxContainer } from '@src/app/scenes/applications/container';
 import { Home } from '@src/app/scenes/app/components/Home';
 
 const styles = require('./styles.css');
@@ -50,6 +51,11 @@ class App extends Component<IAppProps, {}> {
                 Web
               </Button>
             </NavLink>
+            <NavLink styleName="nav-item" to={`${match.url}/applications`} activeClassName="nav-item-selected">
+              <Button color="inherit" component={'div'}>
+                Applications
+              </Button>
+            </NavLink>
           </Toolbar>
         </AppBar>
         <main styleName="main">
@@ -60,6 +66,7 @@ class App extends Component<IAppProps, {}> {
               <Route path={`${match.path}/semantics`} component={SemanticsBoxContainer} />
               <Route path={`${match.path}/ermodel`} component={ERModelBoxContainer} />
               <Route path={`${match.path}/web`} component={WebContainer} />
+              <Route path={`${match.path}/applications`} component={ApplicationsBoxContainer}/>
               <Redirect from={`${match.path}/*`} to={`${match.path}`} />
             </Switch>
           </ErrorBoundary>

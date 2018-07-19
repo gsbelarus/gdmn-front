@@ -7,4 +7,6 @@ const selectSemanticsState = ({ semanticsState }: IRootState) => semanticsState;
 const selectErmodelState = ({ ermodelState }: IRootState) => ermodelState;
 const selectNLPDialogState = ({ nlpDialogState }: IRootState) => nlpDialogState;
 
-export { selectMorphologyState, selectSemanticsState, selectErmodelState, selectNLPDialogState };
+const selectApplicationsState = ({ applicationsState }: IRootState) => applicationsState;
+
+export { selectMorphologyState, selectSemanticsState, selectErmodelState, selectNLPDialogState, selectApplicationsState };

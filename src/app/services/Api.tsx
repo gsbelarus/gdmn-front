@@ -34,6 +34,11 @@ class Api {
     // options.headers['Access-Control-Allow-Origin'] = '*';
     // options.credentials = 'same-origin';
 
+    // TODO auth and remove this hardcode:
+    const auth_token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTMxOTExOTA2LCJleHAiOjE1MzI1MTY3MDZ9.UeO4hYyNEtWeoZoMIm2DI79zgmcRhSXSBXpMB285Ck4`;
+    options.headers.Authorization = `Bearer ${auth_token}`
+    //
+
     return fetch(uri, options)
       .catch((err: Error) => {
         console.log('[GDMN] Network request to server failed: ' + err.message); // fixme fetch err to string
