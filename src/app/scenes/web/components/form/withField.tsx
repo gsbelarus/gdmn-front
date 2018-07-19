@@ -11,7 +11,8 @@ function withField(mapFieldProps: any, WrappedComponent: any) {
     };
   }
 
-  if (process.env.NODE_ENV !== 'production') { // TODO
+  if (process.env.NODE_ENV !== 'production') {
+    // TODO
     const displayName = wrapDisplayName(WrappedComponent, 'withField');
 
     return compose(
