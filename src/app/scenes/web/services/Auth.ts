@@ -16,15 +16,6 @@ class Auth {
 
   private webStorage: WebStorage;
 
-  private static routeAccessLevels = {
-    // todo
-    anonym: [UserRoleType.ANONYM],
-    // 'public':    '*',
-    user: [UserRoleType.USER, UserRoleType.ADMIN, UserRoleType.DEVELOPER],
-    admin: [UserRoleType.ADMIN, UserRoleType.DEVELOPER],
-    developer: [UserRoleType.DEVELOPER]
-  }; // TODO: bitMask
-
   constructor(webStorage: WebStorage) {
     this.webStorage = webStorage;
   }
@@ -48,10 +39,6 @@ class Auth {
 
   public async isAuthenticated() {
     return (await this.getAccessToken()) !== null; // TODO verify
-  }
-
-  public static checkAccess(requiredLevel: [UserRoleType], userRole: UserRoleType) {
-    return requiredLevel.includes(userRole);
   }
 }
 
