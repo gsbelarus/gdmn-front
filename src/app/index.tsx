@@ -44,11 +44,7 @@ const rootRoutes = (
       path="/auth/signIn"
       component={AuthContainer}
     />
-    <ProtectedRouteContainer
-      accessLevel={RouteAccessLevelType.PROTECTED_USER}
-      path="/app"
-      component={AppContainer}
-    />
+    <ProtectedRouteContainer accessLevel={RouteAccessLevelType.PROTECTED_USER} path="/app" component={AppContainer} />
     <Route path="*" component={NotFoundView} />
   </Switch>
 );

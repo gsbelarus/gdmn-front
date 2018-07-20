@@ -33,6 +33,7 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
       renderHome: Home,
       renderSemanticsBoxContainer: SemanticsBoxContainer,
       renderERModelBoxContainer: ERModelBoxContainer,
+      signOut,
       errorMessage // TODO
     } = this.props;
 
@@ -55,11 +56,19 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
                 ER-Model
               </Button>
             </NavLink>
-            <NavLink styleName="nav-item" to={`${match.url}/web`} activeClassName="nav-item-selected">
+            <NavLink
+              styleName="nav-item"
+              to={`${match.url}/web`}
+              activeClassName="nav-item-selected"
+              style={{ flexGrow: 1 }}
+            >
               <Button color="inherit" component={'div'}>
                 Web
               </Button>
             </NavLink>
+            <Button color="inherit" component={'div'} onClick={signOut}>
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
         <main styleName="main">

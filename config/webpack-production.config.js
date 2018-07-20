@@ -64,6 +64,16 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
       })
       // new OptimizeCSSAssetsPlugin({})
     ]
+    // splitChunks: {
+    //   cacheGroups: {
+    //     vendor: {
+    //       chunks: 'initial',
+    //       name: 'vendor',
+    //       test: 'vendor',
+    //       enforce: true
+    //     }
+    //   }
+    // }
   },
   performance: {
     // TODO ?
@@ -74,7 +84,7 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
       root: getRootRelativePath()
     }),
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production'
+      NODE_ENV: JSON.stringify('production')
     }),
     new MiniCssExtractPlugin({ filename: EXTRACT_CSS_FILENAME })
   ],

@@ -19,7 +19,7 @@ const actions = {
 
 type TAuthActions = ActionType<typeof actions>;
 
-actions.signInRequestError =  (error: Error) => ({
+actions.signInRequestError = (error: Error) => ({
   type: 'auth/SIGN_IN_REQUEST_ERROR',
   payload: error,
   error: true

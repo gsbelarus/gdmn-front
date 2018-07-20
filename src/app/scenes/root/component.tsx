@@ -19,14 +19,13 @@ interface IRootProps {
 const Root: SFC<IRootProps> = ({ store, routes, theme, renderSnackbarContainer }) => (
   <Provider store={store}>
     <Fragment>
-    <BrowserRouter>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        {routes}
-      </MuiThemeProvider>
-    </BrowserRouter>
-    {renderSnackbarContainer}
-
+      <BrowserRouter>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          {routes}
+        </MuiThemeProvider>
+      </BrowserRouter>
+      {renderSnackbarContainer}
     </Fragment>
   </Provider>
 );

@@ -90,7 +90,7 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
   },
   plugins: [
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development'
+      NODE_ENV: JSON.stringify('development')
     }),
     new webpack.HotModuleReplacementPlugin(), // TODO test hot: true
     new webpack.NamedModulesPlugin()

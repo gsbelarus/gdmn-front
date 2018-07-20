@@ -15,6 +15,13 @@ function promisify<T>(fn: Function, context = null): (...args: any[]) => Promise
     });
 }
 
+/**
+ * function that performs no operations
+ */
+const noop = Object.freeze(() => {
+  /**/
+});
+
 function isDevMode() {
   return process.env.NODE_ENV !== 'production';
 }
