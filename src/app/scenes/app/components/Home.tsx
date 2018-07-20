@@ -7,6 +7,7 @@ import { TNLPDialogActions, actions } from '../actions';
 import { IRootState } from '../../../store/rootReducer';
 import { selectNLPDialogState } from '../../../store/selectors';
 import { NLPDialogScroll } from './NLPDialogScroll';
+import { Grid } from 'gdmn-grid';
 
 const homeStyles = require('./Home.css');
 
@@ -28,7 +29,7 @@ class Home extends Component<any, any> {
           <Home.nlpDialogScrollContainer />
         </div>
         <div styleName="WorkArea">
-          <div>Welcome to Home, homie!</div>
+          <Grid />
         </div>
       </div>
     );

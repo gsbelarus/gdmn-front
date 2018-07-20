@@ -21,6 +21,7 @@
     "@types/redux": "3.6.0",
     "classnames": "2.2.6",
     "dagre": "0.8.2",
+    "gdmn-grid": "git+https://github.com/gsbelarus/gdmn-grid.git",
     "gdmn-nlp": "git+https://github.com/gsbelarus/gdmn-nlp.git",
     "gdmn-nlp-agent": "git+https://github.com/gsbelarus/gdmn-nlp-agent.git",
     "gdmn-orm": "git+https://github.com/gsbelarus/gdmn-orm.git",
