@@ -1,5 +1,6 @@
 import React, { Component, ReactType } from 'react';
 import CSSModules from 'react-css-modules';
+import { Grid } from 'gdmn-grid';
 
 const homeStyles = require('./Home.css');
 
@@ -18,7 +19,7 @@ class Home extends Component<IHomeProps, any> {
           <NlpDialogScrollContainer />
         </div>
         <div styleName="WorkArea">
-          <div>Welcome to Home, homie!</div>
+          <Grid />
         </div>
       </div>
     );

@@ -1,9 +1,11 @@
 .main {
   height: calc(100% - 64px);
   overflow: auto;
-  padding: calc(var(--spacing-unit) * 4);
-
   text-align: center;
+}
+
+.main:global.scene-pad {
+  padding: calc(var(--spacing-unit) * 4);
 }
 
 .nav-item {

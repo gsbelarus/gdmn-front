@@ -12,6 +12,7 @@ interface INLPDialogState {
 const nlpDialogInitialState = (): INLPDialogState => {
   const nlpDialog = new NLPDialog();
 
+  /*
   nlpDialog.add(
     'me',
     `Мой родны кут, як ты мне мілы!..
@@ -44,7 +45,6 @@ const nlpDialogInitialState = (): INLPDialogState => {
   На крыллях сонца дойдзе к хмарам `
   );
 
-  /*
   nlpDialog.add('me', `Ды йзноў дажджом на рэчку сыдзе –
   Ніхто з граніц сваіх не выйдзе,
   З законаў, жыццем напісаных,

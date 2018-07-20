@@ -29,6 +29,7 @@ interface IAppProps extends RouteComponentProps<any>, IAppActionsProps, IAppStat
 class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
   public render() {
     const {
+      location,
       match,
       renderHome: Home,
       renderSemanticsBoxContainer: SemanticsBoxContainer,
@@ -41,6 +42,11 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
       <Fragment>
         <AppBar position="static">
           <Toolbar>
+            <NavLink styleName="nav-item" to={`${match.url}/app`} activeClassName="nav-item-selected">
+              <Button color="inherit" component={'div'}>
+                NLP
+              </Button>
+            </NavLink>
             <NavLink styleName="nav-item" to={`${match.url}/morphology`} activeClassName="nav-item-selected">
               <Button color="inherit" component={'div'}>
                 Morphology
@@ -71,7 +77,7 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
             </Button>
           </Toolbar>
         </AppBar>
-        <main styleName="main">
+        <main styleName="main" className={location.pathname !== match.path ? 'scene-pad' : ''}>
           <ErrorBoundary>
             <Switch>
               <Route exact={true} path={`${match.path}/`} component={Home} />
