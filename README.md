@@ -57,7 +57,7 @@ This project is released with a [Contributor Code of Conduct][code-of-conduct-ur
 
 
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-lightgrey.svg
-[coc-url]: CODE_OF_CONDUCT.md
+[coc-url]: .github/CODE_OF_CONDUCT.md
 [license-badge]: https://img.shields.io/badge/license-MPL-yellowgreen.svg
 [license-url]: LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-lightgrey.svg
@@ -66,7 +66,7 @@ This project is released with a [Contributor Code of Conduct][code-of-conduct-ur
 [all-contributors-badge]: https://img.shields.io/badge/all_contributors-2-yellow.svg 
 <!-- https://img.shields.io/github/contributors/cdnjs/cdnjs.svg -->
 [gs-url]: https://github.com/GoldenSoftwareLtd
-[contributing-url]: CONTRIBUTING.md
-[code-of-conduct-url]: CODE_OF_CONDUCT.md
+[contributing-url]: .github/CONTRIBUTING.md
+[code-of-conduct-url]: .github/CODE_OF_CONDUCT.md
 [prettier-badge]: https://img.shields.io/badge/styled_with-prettier-ff69b4.svg
 [prettier-url]: https://github.com/prettier/prettier
