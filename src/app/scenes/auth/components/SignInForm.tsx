@@ -16,8 +16,7 @@ interface ISignInFormProps extends InjectedFormProps {
 @CSSModules(styles)
 class SignInForm extends React.Component<ISignInFormProps, {}> {
   public render(): JSX.Element {
-    const { handleSubmit, onSubmit, pristine, submitting } = this.props;
-
+    const { handleSubmit, onSubmit, pristine, submitting, initialized } = this.props;
     return (
       <Form onSubmit={handleSubmit((values: any) => onSubmit(values))}>
         <Field name="username" component={TextField as any} label="Пользователь" validate={requiredValidate} />
@@ -28,9 +27,8 @@ class SignInForm extends React.Component<ISignInFormProps, {}> {
           type="password"
           validate={requiredValidate}
         />
-
         <div styleName="form-actions">
-          <Button variant="raised" color="secondary" disabled={pristine || submitting} type="submit">
+          <Button variant="raised" color="secondary" disabled={(!initialized && pristine) || submitting} type="submit">
             <span>Войти</span>
           </Button>
         </div>

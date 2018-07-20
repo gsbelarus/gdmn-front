@@ -32,8 +32,8 @@ function checkAccess(routeAccessLevel: RouteAccessLevelType, userRole: UserRoleT
 }
 
 interface IProtectedRouteStateProps {
-  userRole: UserRoleType;
-  authenticated: boolean;
+  userRole?: UserRoleType;
+  authenticated?: boolean;
 }
 
 // interface IProtectedRouteActionsProps {
@@ -61,7 +61,7 @@ const ProtectedRoute: SFC<IProtectedRouteProps> = ({
     <Route
       {...routeProps}
       render={props => {
-        if (!checkAccess(accessLevel, userRole)) {
+        if (!checkAccess(accessLevel, userRole!)) {
           if (!authenticated) {
             // onNotAuthorizedAccess(props.location.pathname);
             return (

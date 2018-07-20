@@ -5,12 +5,12 @@
 /*@import url("https://fonts.googleapis.com/css?family=Open+Sans");*/
 
 /* Material UI: Roboto */
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i&subset=cyrillic-ext');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&subset=cyrillic-ext');
 /* Material UI: Material Icons */
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 /*************************************************
- * RESET
+ * RESET & NORMALIZE
  *************************************************/
 
 @import "_reset.css";
@@ -36,7 +36,7 @@ a:link {
 
 b,
 strong {
-  font-weight: 700;
+  font-weight: 500;
 }
 
 html,
@@ -47,15 +47,8 @@ body,
 
 body {
   font-size: 14px;
-  line-height: 20px;
-  text-rendering: optimizeLegibility;
-}
-
-/*************************************************
- * LAYOUT
- *************************************************/
-
-body {
+  /*line-height: 20px;*/
+  /*text-rendering: optimizeLegibility;*/
   display: flex;
   flex-direction: column;
   font-family: Roboto, sans-serif;

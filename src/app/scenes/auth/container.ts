@@ -15,10 +15,13 @@ const parseSignInResponse = (payload: any) => {
   return payload;
 };
 
+const initialValues = { username: 'Administrator', password: 'Administrator' };
 const getSignInFormContainer = (apiService: Api) =>
   compose<ISignInFormProps, ISignInFormProps>(
     connect(
-      state => ({}),
+      state => ({
+        initialValues
+      }),
       (dispatch, ownProps) => ({
         onSubmit: (formData: { username: string; password: string }) => {
           // TODO async action

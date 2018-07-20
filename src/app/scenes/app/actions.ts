@@ -1,4 +1,4 @@
-import { ActionType, createAction } from 'typesafe-actions';
+import { ActionType, createAction, createStandardAction } from 'typesafe-actions';
 
 const dialogActions = {
   addNLPDialogText: createAction('app/nlpdialog/ADD_NLPDIALOG_TEXT', resolve => {
@@ -27,10 +27,11 @@ const appActions = {
   })
 };
 
-const actions = { ...dialogActions, ...appActions };
-
 type TNLPDialogActions = ActionType<typeof dialogActions>;
-
 type TAppActions = ActionType<typeof appActions>;
+
+appActions.onError = (error: Error, meta?: any) => ({ type: 'app/ON_ERROR', payload: error, error: true, meta });
+
+const actions = { ...dialogActions, ...appActions };
 
 export { actions, TNLPDialogActions, TAppActions };

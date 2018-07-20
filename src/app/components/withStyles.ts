@@ -6,16 +6,14 @@ import muiWithStyles, {
 } from '@material-ui/core/styles/withStyles';
 import { Theme } from '@material-ui/core';
 
-// 'classes' is optional
 interface IWithStyles<ClassKey extends string = string> {
   classes?: ClassNameMap<ClassKey>;
   theme?: Theme;
 }
 
-// TODO fixme prev decorators
-
 /**
  * decorator
+ * fixme prev decorators
  */
 function withStyles(style: StyleRules<any> | StyleRulesCallback<any>, options?: WithStylesOptions) {
   return <T>(target: T): T => <any>muiWithStyles(style, options)(<any>target);

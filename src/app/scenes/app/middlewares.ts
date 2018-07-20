@@ -5,6 +5,17 @@ import { actions as authActions } from '@src/app/scenes/auth/actions';
 import { actions } from '@src/app/scenes/app/actions';
 import { selectAppState } from '@src/app/store/selectors';
 import { Auth } from '@src/app/scenes/web/services/Auth';
+//
+// const redirectMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
+//     if (action.type === getType(actions.redirect)) {
+//       const path = action.payload || '/';
+//       browserHistory.push(action.payload);
+//     }
+//     return next(action);
+//   };
+//
+//   return middleware;
+// }
 
 const notAuthorizedAccessMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
   if (action.type === getType(actions.notAuthorizedAccess)) {
@@ -39,10 +50,12 @@ const errorMiddleware: Middleware = ({ dispatch, getState }) => next => action =
       if (errorMsg !== selectAppState(getState()).errorMessage) {
         errorMsg += '  \n  ' + selectAppState(getState()).errorMessage;
       }
+      // console.log('errorMiddleware');
       selectAppState(getState()).errorMessage = errorMsg;
     } else {
       const exludedPrefix = '@@redux-form/'; // TODO
       if (action.type.slice(0, exludedPrefix.length) !== exludedPrefix) {
+        // console.log('errorMiddleware');
         dispatch(actions.showError(errorMsg || action.type));
       }
     }

@@ -1,5 +1,3 @@
-import '@src/styles/global.css';
-
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';

@@ -30,7 +30,7 @@ const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getSta
         next(action);
       }
       return;
-    case getType(actions.signInRequestError):
+    case actions.signInRequestError(new Error()).type: // getType(actions.signInRequestError):
       // dispatch(reset('SignInForm'));
       dispatch(stopSubmit('SignInForm'));
       if (action.payload && action.payload.fields) {
