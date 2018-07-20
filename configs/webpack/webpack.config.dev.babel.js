@@ -3,27 +3,24 @@ import merge from 'webpack-merge';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
 import noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddleware';
 
-import getBaseConfiguration from './webpack-base.config';
 import { getRootRelativePath } from './utils';
+import { getWebpackConfigBase, cssLoader, cssModulesLoader } from './webpackConfigBase';
 
 const OUTPUT_FILENAME = 'scripts/[name].bundle.js';
 const OUTPUT_CHUNK_FILENAME = 'scripts/[name].chunk.js';
-const DEV_SERVER_HOST = 'localhost';
-const DEV_SERVER_PORT = 9090;
 const STYLES_PATH = getRootRelativePath('src/styles');
-const MODULE_STYLES_PATH = getRootRelativePath('src');
 
-const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
+export default merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
   devtool: 'cheap-module-source-map',
   mode: 'development',
   devServer: {
-    host: DEV_SERVER_HOST,
-    port: DEV_SERVER_PORT,
+    host: 'localhost',
+    port: 9090,
     historyApiFallback: true,
     hot: true, //HMR
     inline: true, //HMR
     open: true,
-    publicPath: '/', // TODO test
+    publicPath: '/',
     stats: {
       assets: false,
       children: false,
@@ -56,7 +53,7 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
             options: {
               babelrc: false,
               // cacheDirectory: true,
-              plugins: ['react-hot-loader/babel']
+              plugins: ['react-hot-loader/babel', '@babel/plugin-syntax-dynamic-import']
             }
           },
           {
@@ -64,37 +61,27 @@ const configuration = merge(getBaseConfiguration(OUTPUT_FILENAME, OUTPUT_CHUNK_F
           }
         ]
       },
+      // styles
       {
         test: /\.css$/,
         include: STYLES_PATH,
-        use: ['style-loader', { loader: 'css-loader', options: { sourceMap: true } }]
+        use: ['style-loader', cssLoader]
       },
+      // css modules
       {
         test: /\.css$/,
-        include: MODULE_STYLES_PATH,
+        include: getRootRelativePath('src'),
         exclude: STYLES_PATH,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
-            }
-          }
-        ]
+        use: ['style-loader', cssModulesLoader]
       }
     ]
   },
   plugins: [
     new webpack.EnvironmentPlugin({
-      NODE_ENV: JSON.stringify('development')
+      NODE_ENV: 'development'
     }),
     new webpack.HotModuleReplacementPlugin(), // TODO test hot: true
+    // prints more readable module names in the browser console on HMR updates
     new webpack.NamedModulesPlugin()
   ]
 });
-
-export default configuration;

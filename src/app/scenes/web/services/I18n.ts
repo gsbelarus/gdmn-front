@@ -104,7 +104,7 @@ class I18n {
 
   private static async loadLocales(url: string, options: any, cb: Function, data: any) {
     try {
-      const locale = await require(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
+      const locale = await import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
       `../locales/${url}`); // TODO path
 
       cb(locale, { status: '200' });
@@ -116,9 +116,9 @@ class I18n {
   private async ensureIntlSupported() {
     if (global.Intl) return; // TODO && global.IntlPolyfill
 
-    await require(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
+    await import(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
     'intl');
-    await require(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
+    await import(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
     `intl/locale-data/jsonp/${this.langCode}.js`);
   }
 

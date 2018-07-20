@@ -7,6 +7,6 @@ function getRelativePath(rootPath) {
   };
 }
 
-const getRootRelativePath = getRelativePath(path.resolve(__dirname, '..'));
+const getRootRelativePath = getRelativePath(path.resolve(__dirname, '../../'));
 
 export { getRelativePath, getRootRelativePath };

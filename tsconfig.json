@@ -22,10 +22,9 @@
   },
   "exclude": [
     "build",
-    "config",
+    "configs",
     "dist",
     "node_modules",
-    "webpack.*.js",
     "scripts"
   ]
 }
