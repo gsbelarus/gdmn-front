@@ -19,7 +19,7 @@ class Home extends Component<IHomeProps, {}> {
           <NlpDialogScrollContainer />
         </div>
         <div styleName="WorkArea">
-          <Grid />
+          grid...
         </div>
       </div>
     );
