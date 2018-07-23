@@ -9,8 +9,8 @@ import { LinearProgress } from '@material-ui/core';
 import { InfiniteTableLayout } from '@core/components/data-grid-mui';
 import { ITableColumn, ITableRow } from '@core/components/data-grid-core';
 import { ERModelBox } from '@src/app/scenes/ermodel/component';
-import { Edge } from '@src/app/scenes/semantics/components/edge';
-import { Rect } from '@src/app/scenes/semantics/components/rect';
+import { Edge } from '@src/app/scenes/semantics/components/Edge';
+import { Rect } from '@src/app/scenes/semantics/components/Rect';
 
 const styles = require('./styles.css');
 

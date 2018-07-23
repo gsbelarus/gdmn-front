@@ -1,7 +1,7 @@
 import { applyMiddleware, compose, createStore, Middleware } from 'redux';
 import { createLogger } from 'redux-logger';
 
-import { IRootState, TRootReducer } from '@src/app/store/rootReducer';
+import { IState, TReducer } from '@src/app/store/reducer';
 
 // https://github.com/zalmoxisus/redux-devtools-extension
 const devCompose =
@@ -11,12 +11,12 @@ const devCompose =
 
 const devMiddlewares: Middleware[] = [createLogger()];
 
-function configureStore(rootReducer: TRootReducer, middlewares: Middleware[] = [], initialState?: IRootState) {
+function configureStore(rootReducer: TReducer, middlewares: Middleware[] = [], initialState?: IState) {
   const store = createStore(rootReducer, initialState!, devCompose(applyMiddleware(...middlewares, ...devMiddlewares)));
 
   // webpack HMR for reducers
   if ((<any>module).hot) {
-    (<any>module).hot.accept('../rootReducer', () => {
+    (<any>module).hot.accept('../reducer', () => {
       store.replaceReducer(rootReducer);
     });
   }

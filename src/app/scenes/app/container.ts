@@ -4,22 +4,23 @@ import { bindActionCreators, compose, Dispatch } from 'redux';
 import { withProps } from 'recompose';
 
 import { GdmnApi } from '@src/app/services/GdmnApi';
-import { selectAppState, selectNLPDialogState } from '@src/app/store/selectors';
-import { IRootState } from '@src/app/store/rootReducer';
+import { selectRootState, selectNLPDialogState } from '@src/app/store/selectors';
+import { IState } from '@src/app/store/reducer';
 import { actions as authActions } from '@src/app/scenes/auth/actions';
 import { getERModelBoxContainer } from '@src/app/scenes/ermodel/container';
 import { getSemanticsBoxContainer } from '@src/app/scenes/semantics/container';
 import { Home, IHomeProps } from '@src/app/scenes/app/components/Home';
 import { NLPDialogScroll } from '@src/app/scenes/app/components/NLPDialogScroll';
-import { actions, TAppActions, TNLPDialogActions } from '@src/app/scenes/app/actions';
+import { nlpDialogActions, TNLPDialogActions } from '@src/app/scenes/app/actions';
 import { App, IAppProps, IAppStateProps, IAppActionsProps } from '@src/app/scenes/app/component';
+import { TActions } from '@src/app/store/TActions';
 
 const NLPDialogScrollContainer = connect(
-  (state: IRootState) => ({
+  (state: IState) => ({
     ...selectNLPDialogState(state)
   }),
   (dispatch: Dispatch<TNLPDialogActions>) => ({
-    onSetText: (text: string) => dispatch(actions.addNLPDialogText(text))
+    onSetText: (text: string) => dispatch(nlpDialogActions.addNLPDialogText(text))
   })
 )(NLPDialogScroll);
 
@@ -27,10 +28,10 @@ const getAppContainer = (apiService: GdmnApi) =>
   compose(
     hot(module),
     connect(
-      (state: IRootState, ownProps: IAppProps): IAppStateProps => ({
-        errorMessage: selectAppState(state).errorMessage
+      (state: IState, ownProps: IAppProps): IAppStateProps => ({
+        errorMessage: selectRootState(state).errorMessage
       }),
-      (dispatch: Dispatch<TAppActions>): IAppActionsProps => ({
+      (dispatch: Dispatch<TActions>): IAppActionsProps => ({
         signOut: bindActionCreators(authActions.signOut, dispatch)
       })
     ),

@@ -1,7 +1,7 @@
 import { getType } from 'typesafe-actions';
 import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
-import { TRootActions } from '@src/app/store/RootActions';
+import { TActions } from '@src/app/store/TActions';
 import { actions as ermodelActions } from '@src/app/scenes/ermodel/actions';
 import { ISemanticsBoxStateProps } from '@src/app/scenes/semantics/component';
 import { actions } from '@src/app/scenes/semantics/actions';
@@ -17,7 +17,7 @@ const initialState: ISemanticsState = {
   dataLoading: false
 };
 
-function reducer(state: ISemanticsState = initialState, action: TRootActions): ISemanticsState {
+function reducer(state: ISemanticsState = initialState, action: TActions): ISemanticsState {
   switch (action.type) {
     case getType(ermodelActions.loadERModelOk): {
       return {

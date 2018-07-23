@@ -1,9 +1,7 @@
-import { NLPDialog } from 'gdmn-nlp-agent';
+import { NLPDialog, INLPDialogItem } from 'gdmn-nlp-agent';
 import { getType } from 'typesafe-actions';
 
-import { TAppActions, TNLPDialogActions, actions } from '@src/app/scenes/app/actions';
-
-/// TODO extract
+import { TNLPDialogActions, nlpDialogActions } from '@src/app/scenes/app/actions';
 
 interface INLPDialogState {
   nlpDialog: NLPDialog;
@@ -65,45 +63,18 @@ function nlpDialogReducer(
   action: TNLPDialogActions
 ): INLPDialogState {
   switch (action.type) {
-    case getType(actions.addNLPDialogText): {
-      state.nlpDialog.add('me', action.payload);
-      return state;
-    }
-    default:
-      return state;
-  }
-}
+    case getType(nlpDialogActions.addNLPDialogText): {
+      // clone
+      let newNlpDialog: NLPDialog = new NLPDialog();
+      // FIXME
+      // state.nlpDialog.items.map((item?: INLPDialogItem) => newNlpDialog.add(item!.who, item!.text));
+      newNlpDialog = state.nlpDialog;
+      // add
+      newNlpDialog.add('me', action.payload);
 
-///
-
-interface IAppState {
-  refererPath?: string;
-  errorMessage?: string;
-}
-
-const appInitialState: IAppState = {
-  errorMessage: ''
-};
-
-function reducer(state: IAppState = appInitialState, action: TAppActions) {
-  switch (action.type) {
-    case getType(actions.accessDenied):
-    case getType(actions.notAuthorizedAccess): {
       return {
         ...state,
-        refererPath: action.payload
-      };
-    }
-    case getType(actions.showError): {
-      return {
-        ...state,
-        errorMessage: action.payload
-      };
-    }
-    case getType(actions.hideError): {
-      return {
-        ...state,
-        errorMessage: ''
+        nlpDialog: newNlpDialog
       };
     }
     default:
@@ -111,4 +82,4 @@ function reducer(state: IAppState = appInitialState, action: TAppActions) {
   }
 }
 
-export { reducer, nlpDialogReducer, IAppState, INLPDialogState };
+export { nlpDialogReducer, INLPDialogState };

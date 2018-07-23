@@ -5,9 +5,9 @@ import { deserializeERModel, IERModel } from 'gdmn-orm';
 
 import { EQueryTranslator } from '@core/EQueryTranslator';
 import { GdmnApi } from '@src/app/services/GdmnApi';
-import { IRootState } from '@src/app/store/rootReducer';
+import { IState } from '@src/app/store/reducer';
 import { selectSemanticsState } from '@src/app/store/selectors';
-import { TRootActions } from '@src/app/store/RootActions';
+import { TActions } from '@src/app/store/TActions';
 import { actions as erModelActions } from '@src/app/scenes/ermodel/actions';
 import { ermodelSelector } from '@src/app/scenes/ermodel/selectors';
 import { actions } from '@src/app/scenes/semantics/actions';
@@ -27,7 +27,7 @@ import {
 
 const getSemanticsBoxContainer = (apiService: GdmnApi) =>
   connect(
-    (state: IRootState, ownProps: TSemanticsBoxProps): ISemanticsBoxStateProps & ISemanticsBoxSelectorProps => {
+    (state: IState, ownProps: TSemanticsBoxProps): ISemanticsBoxStateProps & ISemanticsBoxSelectorProps => {
       const { erTranslatorRU, tableData, ...props } = selectSemanticsState(state); // exclude, do not remove!
 
       return {
@@ -39,7 +39,7 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
         sqlQuery: sqlQuerySelector(state, ownProps)
       };
     },
-    (dispatch: Dispatch<TRootActions>): ISemanticsBoxActionsProps => ({
+    (dispatch: Dispatch<TActions>): ISemanticsBoxActionsProps => ({
       onSetText: bindActionCreators(actions.setSemText, dispatch),
       onClearText: () => dispatch(actions.setSemText('')),
       onParse: (text: string) => dispatch(actions.setParsedText(parsePhrase(text))),

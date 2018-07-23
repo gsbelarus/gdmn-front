@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 
 import { UserRoleType } from '@core/services/Auth';
 import { Api } from '@core/services/Api';
-import { IRootState } from '@src/app/store/rootReducer';
+import { IState } from '@src/app/store/reducer';
 import { actions } from '@src/app/scenes/auth/actions';
 import { ISignInFormProps, SignInForm } from '@src/app/scenes/auth/components/SignInForm';
 import { AuthView, IAuthViewProps, IAuthViewStateProps } from '@src/app/scenes/auth/component';
@@ -52,7 +52,7 @@ const getSignInFormContainer = (apiService: Api) =>
 const getAuthContainer = (apiService: Api) =>
   compose<IAuthViewProps, IAuthViewProps>(
     connect(
-      (state: IRootState, ownProps: IAuthViewProps): IAuthViewStateProps => ({
+      (state: IState, ownProps: IAuthViewProps): IAuthViewStateProps => ({
         isSubmitting: state.form && state.form.SignInForm ? state.form.SignInForm.submitting : false
       })
     ),

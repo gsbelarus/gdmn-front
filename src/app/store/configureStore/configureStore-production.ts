@@ -1,8 +1,8 @@
 import { applyMiddleware, compose, createStore, Middleware } from 'redux';
 
-import { IRootState, TRootReducer } from '@src/app/store/rootReducer';
+import { IState, TReducer } from '@src/app/store/reducer';
 
-function configureStore(rootReducer: TRootReducer, middlewares: Middleware[] = [], initialState?: IRootState) {
+function configureStore(rootReducer: TReducer, middlewares: Middleware[] = [], initialState?: IState) {
   return createStore(rootReducer, initialState!, compose(applyMiddleware(...middlewares)));
 }
 

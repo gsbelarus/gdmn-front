@@ -10,7 +10,7 @@ import { WebStorage, WebStorageType } from '@core/services/WebStorage';
 import { GdmnApi } from '@src/app/services/GdmnApi';
 import theme from '@src/styles/muiTheme';
 import { getStore } from '@src/app/store/store';
-import { IRootState } from '@src/app/store/rootReducer';
+import { IState } from '@src/app/store/reducer';
 import { ProtectedRouteContainer } from '@src/app/components/ProtectedRouteContainer';
 import { getAppContainer } from '@src/app/scenes/app/container';
 import { IAuthState } from '@src/app/scenes/auth/reducer';
@@ -50,7 +50,7 @@ const rootRoutes = (
   </Switch>
 );
 
-let store: Store<IRootState>;
+let store: Store<IState>;
 const domContainerNode = config.webpack.appMountNodeId;
 
 async function loadLocales(url: string, options: any, cb: Function, data: any) {

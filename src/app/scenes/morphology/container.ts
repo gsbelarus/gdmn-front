@@ -11,13 +11,13 @@ import {
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { IRootState } from '@src/app/store/rootReducer';
+import { IState } from '@src/app/store/reducer';
 import { selectMorphologyState } from '@src/app/store/selectors';
 import { actions, TMorphologyActions } from '@src/app/scenes/morphology/actions';
 import { MorphBox } from '@src/app/scenes/morphology/component';
 
 const MorphBoxContainer = connect(
-  (state: IRootState) => ({
+  (state: IState) => ({
     ...selectMorphologyState(state)
   }),
   (dispatch: Dispatch<TMorphologyActions>) => ({

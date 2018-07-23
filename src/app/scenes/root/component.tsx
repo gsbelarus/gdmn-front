@@ -7,6 +7,8 @@ import { Store } from 'redux';
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
+import { ErrorBoundary } from '@core/components/ErrorBoundary';
+
 interface IRootProps {
   readonly theme: Theme;
   readonly store: Store;
@@ -17,17 +19,19 @@ interface IRootProps {
 // TODO const history = browserHistory; // syncHistoryWithStore(browserHistory, store)
 
 const Root: SFC<IRootProps> = ({ store, routes, theme, renderSnackbarContainer }) => (
-  <Provider store={store}>
-    <Fragment>
-      <BrowserRouter>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          {routes}
-        </MuiThemeProvider>
-      </BrowserRouter>
-      {renderSnackbarContainer}
-    </Fragment>
-  </Provider>
+  <ErrorBoundary>
+    <Provider store={store}>
+      <Fragment>
+        <BrowserRouter>
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            {routes}
+          </MuiThemeProvider>
+        </BrowserRouter>
+        {renderSnackbarContainer}
+      </Fragment>
+    </Provider>
+  </ErrorBoundary>
 );
 
 export { Root, IRootProps };

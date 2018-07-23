@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { GdmnApi } from '@src/app/services/GdmnApi';
-import { IRootState } from '@src/app/store/rootReducer';
+import { IState } from '@src/app/store/reducer';
 import { selectErmodelState } from '@src/app/store/selectors';
 import { actions, TErModelActions } from '@src/app/scenes/ermodel/actions';
 import {
@@ -35,7 +35,7 @@ interface IStateToProps extends IERModelBoxStateProps, IERModelBoxSelectorProps 
 
 const getERModelBoxContainer = (apiService: GdmnApi) =>
   connect(
-    (state: IRootState, ownProps: TERModelBoxProps): IStateToProps => {
+    (state: IState, ownProps: TERModelBoxProps): IStateToProps => {
       const { entitiesSelectedRowId, tableData, ...props } = selectErmodelState(state); // exclude, do not remove!
 
       return {
