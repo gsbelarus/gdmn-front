@@ -2,12 +2,12 @@ import { compose, withProps } from 'recompose';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
+import { UserRoleType } from '@core/services/Auth';
+import { Api } from '@core/services/Api';
 import { IRootState } from '@src/app/store/rootReducer';
+import { actions } from '@src/app/scenes/auth/actions';
 import { ISignInFormProps, SignInForm } from '@src/app/scenes/auth/components/SignInForm';
 import { AuthView, IAuthViewProps, IAuthViewStateProps } from '@src/app/scenes/auth/component';
-import { actions } from '@src/app/scenes/auth/actions';
-import { UserRoleType } from '@src/app/scenes/web/services/Auth';
-import { Api } from '@src/app/scenes/web/services/Api';
 
 const parseSignInResponse = (payload: any) => {
   payload.userRole = UserRoleType.USER; // decodeToken(payload.token).role // TODO tmp

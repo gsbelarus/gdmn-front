@@ -2,9 +2,9 @@ import { Middleware } from 'redux';
 import { getType } from 'typesafe-actions';
 import { startSubmit, stopSubmit } from 'redux-form';
 
+import { Auth, UserRoleType } from '@core/services/Auth';
+import { UnauthorizedError } from '@core/errors/httpErrors';
 import { actions } from '@src/app/scenes/auth/actions';
-import { Auth, UserRoleType } from '@src/app/scenes/web/services/Auth';
-import { UnauthorizedError } from '@src/app/scenes/web/errors/httpErrors';
 
 const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getState }) => next => action => {
   switch (action.type) {

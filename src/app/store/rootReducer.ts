@@ -1,10 +1,10 @@
 import { combineReducers, Reducer } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
+import { IAppState, INLPDialogState, reducer as appReducer, nlpDialogReducer } from '@src/app/scenes/app/reducer';
 import { IErmodelState, reducer as ermodelReducer } from '@src/app/scenes/ermodel/reducer';
 import { IMorphologyState, reducer as morphologyReducer } from '@src/app/scenes/morphology/reducer';
 import { ISemanticsState, reducer as semanticsReducer } from '@src/app/scenes/semantics/reducer';
-import { IAppState, INLPDialogState, reducer as appReducer, nlpDialogReducer } from '@src/app/scenes/app/reducer';
 import { IAuthState, getReducer as getAuthReducer } from '@src/app/scenes/auth/reducer';
 
 interface IRootState {

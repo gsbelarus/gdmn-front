@@ -54,7 +54,7 @@ export default merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
-        parallel: true,
+        parallel: true
         // sourceMap: true
       })
       // new OptimizeCSSAssetsPlugin({})

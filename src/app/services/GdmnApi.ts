@@ -1,7 +1,7 @@
 import { EntityQuery } from 'gdmn-orm';
 
-import { Auth } from '@src/app/scenes/web/services/Auth';
-import { Api } from '@src/app/scenes/web/services/Api';
+import { Auth } from '@core/services/Auth';
+import { Api } from '@core/services/Api';
 
 // TODO interface
 // TODO response type

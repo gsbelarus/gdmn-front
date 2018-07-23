@@ -3,18 +3,19 @@ import ReactDOM from 'react-dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Store } from 'react-redux';
 
-import theme from '@src/styles/muiTheme';
-import { getAppContainer } from './scenes/app/container';
-import { getStore } from './store/store';
-import { I18n } from '@src/app/scenes/web/services/I18n';
-import { Auth, UserRoleType } from '@src/app/scenes/web/services/Auth';
-import { WebStorage, WebStorageType } from '@src/app/scenes/web/services/WebStorage';
+import { RouteAccessLevelType } from '@core/components/ProtectedRoute';
+import { I18n } from '@core/services/I18n';
+import { Auth, UserRoleType } from '@core/services/Auth';
+import { WebStorage, WebStorageType } from '@core/services/WebStorage';
 import { GdmnApi } from '@src/app/services/GdmnApi';
+import theme from '@src/styles/muiTheme';
+import { getStore } from '@src/app/store/store';
+import { IRootState } from '@src/app/store/rootReducer';
+import { ProtectedRouteContainer } from '@src/app/components/ProtectedRouteContainer';
+import { getAppContainer } from '@src/app/scenes/app/container';
 import { IAuthState } from '@src/app/scenes/auth/reducer';
 import { getAuthContainer } from '@src/app/scenes/auth/container';
-import { IRootState } from '@src/app/store/rootReducer';
 import { RootContainer } from '@src/app/scenes/root/container';
-import { ProtectedRouteContainer, RouteAccessLevelType } from '@src/app/scenes/web/components/ProtectedRoute';
 
 const config = require('configFile'); // FIXME import config from 'configFile';
 
@@ -40,11 +41,11 @@ const rootRoutes = (
   <Switch>
     <Redirect exact={true} from="/" to="/app" />
     <ProtectedRouteContainer
-      accessLevel={RouteAccessLevelType.PRIVATE_ANONYM}
       path="/auth/signIn"
+      accessLevel={RouteAccessLevelType.PRIVATE_ANONYM}
       component={AuthContainer}
     />
-    <ProtectedRouteContainer accessLevel={RouteAccessLevelType.PROTECTED_USER} path="/app" component={AppContainer} />
+    <ProtectedRouteContainer path="/app" accessLevel={RouteAccessLevelType.PROTECTED_USER} component={AppContainer} />
     <Route path="*" component={NotFoundView} />
   </Switch>
 );
@@ -52,9 +53,20 @@ const rootRoutes = (
 let store: Store<IRootState>;
 const domContainerNode = config.webpack.appMountNodeId;
 
+async function loadLocales(url: string, options: any, cb: Function, data: any) {
+  try {
+    const locale = await import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
+    `../locales/${url}`);
+
+    cb(locale, { status: '200' });
+  } catch (e) {
+    cb(null, { status: '404' });
+  }
+}
+
 async function i18nInit() {
   try {
-    await i18nService.init();
+    await i18nService.init(loadLocales, 'gdmn');
   } catch (e) {
     console.error(`Error loading i18n: ${e}`);
     throw e;

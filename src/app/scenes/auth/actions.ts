@@ -1,6 +1,6 @@
 import { ActionType, createAction } from 'typesafe-actions';
 
-import { UserRoleType } from '@src/app/scenes/web/services/Auth';
+import { UserRoleType } from '@core/services/Auth';
 
 const actions = {
   signInRequest: createAction('auth/SIGN_IN_REQUEST', resolve => {
@@ -19,6 +19,7 @@ const actions = {
 
 type TAuthActions = ActionType<typeof actions>;
 
+// FIXME
 actions.signInRequestError = (error: Error) => ({
   type: 'auth/SIGN_IN_REQUEST_ERROR',
   payload: error,

@@ -1,11 +1,6 @@
 import React, { Component, Fragment, SFC } from 'react';
-import Drawer from '@material-ui/core/Drawer/Drawer';
-import List from '@material-ui/core/List/List';
-import ListItemText from '@material-ui/core/ListItemText/ListItemText';
-import ListItem from '@material-ui/core/ListItem/ListItem';
-import ListSubheader from '@material-ui/core/ListSubheader/ListSubheader';
+import { Drawer, List, ListItemText, ListItem, ListSubheader, Typography } from '@material-ui/core';
 import CSSModules from 'react-css-modules';
-import Typography from '@material-ui/core/Typography/Typography';
 import { translate, Trans, InjectedTranslateProps, InjectedI18nProps } from 'react-i18next';
 
 const styles = require('./styles.css');

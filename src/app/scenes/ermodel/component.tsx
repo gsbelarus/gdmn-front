@@ -1,22 +1,21 @@
 import React, { Fragment, PureComponent, SFC } from 'react';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper/Paper';
+import { Button, Paper } from '@material-ui/core';
 import { ERModel } from 'gdmn-orm';
 import CSSModules from 'react-css-modules';
 import { pure, withProps } from 'recompose';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { ITableColumn, ITableRow, withSelectorSelection } from './components/data-grid-core';
+import { ITableColumn, ITableRow, withSelectorSelection } from '@core/components/data-grid-core';
 import {
   InfiniteTableLayout,
   TableCell,
   TableRow,
   TableSelectorCell,
   TTableRowProps
-} from './components/data-grid-mui';
-import { actions } from './actions';
-import { entitiesSelectedRowSelector, fieldsSelectedRowSelector } from './selectors';
+} from '@core/components/data-grid-mui';
+import { actions } from '@src/app/scenes/ermodel/actions';
+import { entitiesSelectedRowSelector, fieldsSelectedRowSelector } from '@src/app/scenes/ermodel/selectors';
 
 // const commonStyle = require('@src/styles/common.css');
 const styles = require('./styles.css');

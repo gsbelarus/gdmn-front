@@ -1,4 +1,4 @@
-import { IRootState } from './rootReducer';
+import { IRootState } from '@src/app/store/rootReducer';
 
 // TODO reselect
 

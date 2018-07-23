@@ -9,7 +9,7 @@ interface IHomeProps {
 }
 
 @CSSModules(homeStyles)
-class Home extends Component<IHomeProps, any> {
+class Home extends Component<IHomeProps, {}> {
   public render() {
     const { renderNlpDialogScrollContainer: NlpDialogScrollContainer } = this.props;
 

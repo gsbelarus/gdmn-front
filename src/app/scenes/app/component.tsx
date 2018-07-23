@@ -1,11 +1,9 @@
-import React, { Component, Fragment, ReactType } from 'react';
+import React, { Component, Fragment } from 'react';
 import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Toolbar from '@material-ui/core/Toolbar';
+import { AppBar, Button, Toolbar } from '@material-ui/core';
 import CSSModules from 'react-css-modules';
 
-import { ErrorBoundary } from '@src/app/components/ErrorBoundary';
+import { ErrorBoundary } from '@core/components/ErrorBoundary';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
 import { WebContainer } from '@src/app/scenes/web/container';
 

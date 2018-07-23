@@ -6,14 +6,14 @@ import { Dispatch } from 'redux';
 import { GdmnApi } from '@src/app/services/GdmnApi';
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectErmodelState } from '@src/app/store/selectors';
-import { actions, TErModelActions } from './actions';
+import { actions, TErModelActions } from '@src/app/scenes/ermodel/actions';
 import {
   ERModelBox,
   IERModelBoxActionsProps,
   IERModelBoxSelectorProps,
   IERModelBoxStateProps,
   TERModelBoxProps
-} from './component';
+} from '@src/app/scenes/ermodel/component';
 import {
   dataTableBodyRowsSelector,
   dataTableMetaSelector,
@@ -21,7 +21,7 @@ import {
   fieldsTableBodyRowsSelector,
   selectedEntitySelector,
   selectedFieldsSelector
-} from './selectors';
+} from '@src/app/scenes/ermodel/selectors';
 
 interface IDispatchToProps extends IERModelBoxActionsProps {
   dispatch: any; // TODO

@@ -3,6 +3,7 @@ import CSSModules from 'react-css-modules';
 import { NLPDialog } from 'gdmn-nlp-agent';
 
 const styles = require('./NLPDialogScroll.css');
+
 const topGap = 24;
 const scrollTimerDelay = 4000;
 
@@ -24,7 +25,7 @@ interface INLPDialogScrollState {
 }
 
 @CSSModules(styles, { allowMultiple: true })
-export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollState> {
+class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollState> {
   public shownItems: HTMLDivElement[] = [];
   public scrollThumb: HTMLDivElement | undefined | null;
   public state: INLPDialogScrollState;
@@ -313,3 +314,5 @@ export class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialog
     );
   }
 }
+
+export { NLPDialogScroll, INLPDialogScrollProps };

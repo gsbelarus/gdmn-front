@@ -1,10 +1,10 @@
 import { Middleware } from 'redux';
 import { getType } from 'typesafe-actions';
 
+import { Auth } from '@core/services/Auth';
+import { selectAppState } from '@src/app/store/selectors';
 import { actions as authActions } from '@src/app/scenes/auth/actions';
 import { actions } from '@src/app/scenes/app/actions';
-import { selectAppState } from '@src/app/store/selectors';
-import { Auth } from '@src/app/scenes/web/services/Auth';
 //
 // const redirectMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
 //     if (action.type === getType(actions.redirect)) {

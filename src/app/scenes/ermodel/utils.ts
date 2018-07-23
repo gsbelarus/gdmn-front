@@ -1,6 +1,6 @@
 import { Key } from 'react';
 
-import { ITableColumn, ITableRow } from '@src/app/scenes/ermodel/components/data-grid-core';
+import { ITableColumn, ITableRow } from '@core/components/data-grid-core';
 
 function createNameBodyRows(rowsDataMap: any): ITableRow[] {
   if (!rowsDataMap) return [];

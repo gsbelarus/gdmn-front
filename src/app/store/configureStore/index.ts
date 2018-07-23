@@ -1,6 +1,6 @@
-import { isDevMode } from '@src/app/utils';
-import { configureStore as configureStoreDev } from './configureStore-develop';
-import { configureStore as configureStoreProd } from './configureStore-production';
+import { isDevMode } from '@core/utils/utils';
+import { configureStore as configureStoreDev } from '@src/app/store/configureStore/configureStore-develop';
+import { configureStore as configureStoreProd } from '@src/app/store/configureStore/configureStore-production';
 
 // TODO test require
 const configureStore = isDevMode() ? configureStoreDev : configureStoreProd;

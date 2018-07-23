@@ -1,11 +1,11 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 import { Field, Form, InjectedFormProps } from 'redux-form';
 import CSSModules from 'react-css-modules';
 
-import { TextField } from '@src/app/scenes/web/components/form/TextField';
-import { PasswordField } from '@src/app/scenes/web/components/form/PasswordField';
-import { requiredValidate } from '@src/app/scenes/web/utils/inputValidators';
+import { TextField } from '@core/components/form/TextField';
+import { PasswordField } from '@core/components/form/PasswordField';
+import { requiredValidate } from '@core/utils/inputValidators';
 
 const styles = require('./SignInForm.css');
 

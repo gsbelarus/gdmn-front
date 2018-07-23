@@ -2,7 +2,7 @@ import { IToken } from 'chevrotain';
 import { morphAnalyzer, tokenize } from 'gdmn-nlp';
 import { getType } from 'typesafe-actions';
 
-import { actions, TMorphologyActions } from './actions';
+import { actions, TMorphologyActions } from '@src/app/scenes/morphology/actions';
 
 interface IMorphologyState {
   readonly text: string;

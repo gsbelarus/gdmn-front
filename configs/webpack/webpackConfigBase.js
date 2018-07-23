@@ -36,6 +36,7 @@ function getWebpackConfigBase(outputFilename, outputChunkFilename) {
     ],
     resolve: {
       alias: {
+        '@core': getRootRelativePath('src/app/core'),
         '@src': getRootRelativePath('src'),
         configFile: getRootRelativePath('configs/config.json')
       },

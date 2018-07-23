@@ -3,8 +3,8 @@ import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
 import { TRootActions } from '@src/app/store/RootActions';
 import { actions as ermodelActions } from '@src/app/scenes/ermodel/actions';
-import { ISemanticsBoxStateProps } from './component';
-import { actions } from './actions';
+import { ISemanticsBoxStateProps } from '@src/app/scenes/semantics/component';
+import { actions } from '@src/app/scenes/semantics/actions';
 
 interface ISemanticsState extends ISemanticsBoxStateProps {
   readonly erTranslatorRU?: ERTranslatorRU;

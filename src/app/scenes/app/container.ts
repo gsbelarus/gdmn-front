@@ -3,17 +3,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { withProps } from 'recompose';
 
-// import { isDevMode } from '@src/app/utils';
+import { GdmnApi } from '@src/app/services/GdmnApi';
+import { selectAppState, selectNLPDialogState } from '@src/app/store/selectors';
+import { IRootState } from '@src/app/store/rootReducer';
+import { actions as authActions } from '@src/app/scenes/auth/actions';
 import { getERModelBoxContainer } from '@src/app/scenes/ermodel/container';
 import { getSemanticsBoxContainer } from '@src/app/scenes/semantics/container';
-import { GdmnApi } from '@src/app/services/GdmnApi';
-import { App, IAppProps, IAppStateProps, IAppActionsProps } from './component';
 import { Home, IHomeProps } from '@src/app/scenes/app/components/Home';
 import { NLPDialogScroll } from '@src/app/scenes/app/components/NLPDialogScroll';
-import { IRootState } from '@src/app/store/rootReducer';
 import { actions, TAppActions, TNLPDialogActions } from '@src/app/scenes/app/actions';
-import { selectAppState, selectNLPDialogState } from '@src/app/store/selectors';
-import { actions as authActions } from '@src/app/scenes/auth/actions';
+import { App, IAppProps, IAppStateProps, IAppActionsProps } from '@src/app/scenes/app/component';
 
 const NLPDialogScrollContainer = connect(
   (state: IRootState) => ({

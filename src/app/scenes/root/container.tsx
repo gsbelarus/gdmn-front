@@ -1,12 +1,12 @@
 import { withProps } from 'recompose';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Snackbar } from '@material-ui/core';
 
-import { Root } from '@src/app/scenes/root/component';
-import { bindActionCreators } from 'redux';
-import { actions } from '@src/app/scenes/app/actions';
 import { selectAppState } from '@src/app/store/selectors';
 import { IRootState } from '@src/app/store/rootReducer';
+import { Root } from '@src/app/scenes/root/component';
+import { actions } from '@src/app/scenes/app/actions';
 
 const staticSnackbarProps = {
   style: { alignItems: 'flex-end', height: 'auto' },

@@ -1,6 +1,7 @@
-import { Auth, UserRoleType } from '@src/app/scenes/web/services/Auth';
-import { actions, TAuthActions } from '@src/app/scenes/auth/actions';
 import { getType } from 'typesafe-actions';
+
+import { UserRoleType } from '@core/services/Auth';
+import { actions, TAuthActions } from '@src/app/scenes/auth/actions';
 
 interface IAuthState {
   authenticated: boolean;

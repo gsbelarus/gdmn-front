@@ -3,22 +3,27 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { deserializeERModel, IERModel } from 'gdmn-orm';
 
+import { EQueryTranslator } from '@core/EQueryTranslator';
 import { GdmnApi } from '@src/app/services/GdmnApi';
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectSemanticsState } from '@src/app/store/selectors';
+import { TRootActions } from '@src/app/store/RootActions';
 import { actions as erModelActions } from '@src/app/scenes/ermodel/actions';
 import { ermodelSelector } from '@src/app/scenes/ermodel/selectors';
-import { TRootActions } from '@src/app/store/RootActions';
-import { EQueryTranslator } from './EQueryTranslator';
-import { actions } from './actions';
+import { actions } from '@src/app/scenes/semantics/actions';
 import {
   ISemanticsBoxActionsProps,
   ISemanticsBoxSelectorProps,
   ISemanticsBoxStateProps,
   SemanticsBox,
   TSemanticsBoxProps
-} from './component';
-import { commandSelector, dataTableBodyRowsSelector, dataTableMetaSelector, sqlQuerySelector } from './selectors';
+} from '@src/app/scenes/semantics/component';
+import {
+  commandSelector,
+  dataTableBodyRowsSelector,
+  dataTableMetaSelector,
+  sqlQuerySelector
+} from '@src/app/scenes/semantics/selectors';
 
 const getSemanticsBoxContainer = (apiService: GdmnApi) =>
   connect(

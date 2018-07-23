@@ -11,9 +11,8 @@
     "moduleResolution": "node",
     "outDir": "./build",
     "paths": {
-      "@src/*": [
-        "src/*"
-      ]
+      "@core/*": ["src/app/core/*"],
+      "@src/*": ["src/*"]
     },
     "rootDir": "src",
     "sourceMap": true,

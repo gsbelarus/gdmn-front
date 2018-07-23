@@ -13,8 +13,8 @@ import { Dispatch } from 'redux';
 
 import { IRootState } from '@src/app/store/rootReducer';
 import { selectMorphologyState } from '@src/app/store/selectors';
-import { actions, TMorphologyActions } from './actions';
-import { MorphBox } from './component';
+import { actions, TMorphologyActions } from '@src/app/scenes/morphology/actions';
+import { MorphBox } from '@src/app/scenes/morphology/component';
 
 const MorphBoxContainer = connect(
   (state: IRootState) => ({
