@@ -105,10 +105,10 @@ class I18n {
   private async ensureIntlSupported() {
     if (global.Intl) return; // TODO && global.IntlPolyfill
 
-    await import(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
-    'intl');
-    await import(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
-    `intl/locale-data/jsonp/${this.langCode}.js`);
+    // await import(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
+    // 'intl');
+    // await import(/* webpackMode: "lazy", webpackChunkName: "intl-[index]" */
+    // `intl/locale-data/jsonp/${this.langCode}.js`);
   }
 
   public async changeLanguage(lang: string) {
