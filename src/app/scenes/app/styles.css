@@ -1,10 +1,10 @@
-.main {
+:global .main {
   height: calc(100% - 64px);
   overflow: auto;
   text-align: center;
 }
 
-.main:global.scene-pad {
+:global .main:global.scene-pad {
   padding: calc(var(--spacing-unit) * 4);
 }
 

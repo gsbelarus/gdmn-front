@@ -7,6 +7,7 @@ import { IMorphologyState, reducer as morphologyReducer } from '@src/app/scenes/
 import { ISemanticsState, reducer as semanticsReducer } from '@src/app/scenes/semantics/reducer';
 import { IAuthState, getReducer as getAuthReducer } from '@src/app/scenes/auth/reducer';
 import { IRootState, reducer as rootReducer } from '@src/app/scenes/root/reducer';
+import { TAppsState, applicationReducer } from '@src/app/scenes/applications/reducer';
 
 interface IState {
   readonly rootState: IRootState;
@@ -16,6 +17,7 @@ interface IState {
   readonly nlpDialogState: INLPDialogState;
   readonly authState: IAuthState;
   readonly form: any;
+  readonly applicationsState: TAppsState;
 }
 
 const getReducer = (authInitialState: IAuthState) =>
@@ -27,7 +29,8 @@ const getReducer = (authInitialState: IAuthState) =>
     ermodelState: ermodelReducer,
     nlpDialogState: nlpDialogReducer,
     authState: getAuthReducer(authInitialState),
-    form: formReducer // TODO move in auth
+    form: formReducer, // TODO move in auth
+    applicationsState: applicationReducer
   });
 
 type TReducer = Reducer<IState>; // TODO <IState, RootActions>

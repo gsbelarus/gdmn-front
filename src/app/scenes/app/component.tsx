@@ -17,17 +17,19 @@ interface IAppProps extends RouteComponentProps<any>, IAppActionsProps {
   renderHome?: React.ComponentType;
   renderSemanticsBoxContainer?: React.ComponentType;
   renderERModelBoxContainer?: React.ComponentType;
+  renderAppsBoxContainer?: React.ComponentType;
 }
 
 @CSSModules(styles)
 class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
-  public render() {
+  public render(): JSX.Element {
     const {
       location,
       match,
       renderHome: Home,
       renderSemanticsBoxContainer: SemanticsBoxContainer,
       renderERModelBoxContainer: ERModelBoxContainer,
+      renderAppsBoxContainer: AppsBoxContainer,
       signOut
     } = this.props;
 
@@ -55,6 +57,11 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
                 ER-Model
               </Button>
             </NavLink>
+            <NavLink styleName="nav-item" to={`${match.url}/apps`} activeClassName="nav-item-selected">
+              <Button color="inherit" component={'div'}>
+                Apps
+              </Button>
+            </NavLink>
             <NavLink
               styleName="nav-item"
               to={`${match.url}/web`}
@@ -70,7 +77,7 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
             </Button>
           </Toolbar>
         </AppBar>
-        <main styleName="main" className={location.pathname !== match.path ? 'scene-pad' : ''}>
+        <main className={location.pathname !== match.path ? 'main scene-pad' : 'main'}>
           <ErrorBoundary>
             <Switch>
               <Route exact={true} path={`${match.path}/`} component={Home} />
@@ -78,6 +85,7 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
               <Route path={`${match.path}/semantics`} component={SemanticsBoxContainer} />
               <Route path={`${match.path}/ermodel`} component={ERModelBoxContainer} />
               <Route path={`${match.path}/web`} component={WebContainer} />
+              <Route path={`${match.path}/apps`} component={AppsBoxContainer} />
               <Redirect from={`${match.path}/*`} to={`${match.path}`} />
             </Switch>
           </ErrorBoundary>

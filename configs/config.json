@@ -11,7 +11,9 @@
     "paths": {
       "api": "/data",
       "er": "/er",
-      "signIn": "/account/login"
+      "signIn": "/account/login",
+      "signUp": "/account",
+      "appRes": "/app"
     },
     "formFieldNames": {
       "signIn": {

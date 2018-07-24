@@ -29,6 +29,7 @@ const apiService = new GdmnApi(
   `${config.server.http.host}:${config.server.http.port}${config.server.paths.api}`,
   `${config.server.http.host}:${config.server.http.port}${config.server.paths.er}`,
   `${config.server.http.host}:${config.server.http.port}${config.server.paths.signIn}`,
+  `${config.server.http.host}:${config.server.http.port}${config.server.paths.appRes}`,
   config.server.formFieldNames.signIn.username,
   config.server.formFieldNames.signIn.password
 );

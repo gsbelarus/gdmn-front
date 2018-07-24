@@ -18,9 +18,7 @@ class Home extends Component<IHomeProps, {}> {
         <div styleName="NLPDialogColumn">
           <NlpDialogScrollContainer />
         </div>
-        <div styleName="WorkArea">
-          grid...
-        </div>
+        <div styleName="WorkArea">grid...</div>
       </div>
     );
   }
