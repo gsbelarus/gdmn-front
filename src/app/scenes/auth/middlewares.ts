@@ -22,7 +22,7 @@ const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getSta
 
         authStore.storeAccessToken(action.payload.accessToken).then(() => {
           next(action);
-          dispatch({ type: 'REDIRECT', payload: '/app' }); // TODO
+          // dispatch({ type: 'REDIRECT', payload: '/app' }); // TODO
           // return;
         }); // FIXME await
       } else {
@@ -36,11 +36,12 @@ const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getSta
       if (action.payload && action.payload.fields) {
         // TODO
         // throw new SubmissionError( { [action.payload.fieldName]:  action.payload.toString() } );
-        action.payload.message = action.payload.toString();
-      } else if (action.payload instanceof UnauthorizedError) {
-        // TODO
-        action.payload.message = 'Invalid username or password!';
+        // TODO action.payload.message = action.payload.toString();
       }
+      // else if (action.payload instanceof UnauthorizedError) {
+      //   // TODO
+      //   action.payload.message = 'Invalid username or password!';
+      // }
       break;
   }
 
@@ -52,7 +53,7 @@ const getSignOutMiddleware = (authStore: Auth): Middleware => ({ dispatch, getSt
     // todo remove userrole
     authStore.removeAccessToken().then(() => {
       next(action);
-      dispatch({ type: 'REDIRECT', payload: '/auth/signIn' }); // TODO appActions
+      // dispatch({ type: 'REDIRECT', payload: '/auth/signIn' }); // TODO
     });
     return;
   }

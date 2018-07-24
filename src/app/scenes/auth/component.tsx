@@ -21,6 +21,7 @@ class AuthView extends React.Component<IAuthViewProps, {}> {
         <div styleName="col auth-card-description-box" />
         <div styleName="col" style={{ marginTop: 5 }}>
           {isSubmitting && <LinearProgress style={{ marginTop: -5 }} />}
+
           <div styleName="auth-card-content">
             <Typography variant="headline">{'Вход'}</Typography>
             <Typography variant="body1">{'Используйте аккаунт Гедымин'}</Typography>

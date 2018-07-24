@@ -1,10 +1,10 @@
 import { ActionType, createAction } from 'typesafe-actions';
 
 const actions = {
-  setMorphText: createAction('SET_MORPH_TEXT', resolve => {
+  setMorphText: createAction('app/morphology/SET_MORPH_TEXT', resolve => {
     return (text: string) => resolve(text);
   }),
-  setSelectedToken: createAction('SET_SELECTED_TOKEN', resolve => {
+  setSelectedToken: createAction('app/morphology/SET_SELECTED_TOKEN', resolve => {
     return (selectedToken: number) => resolve(selectedToken);
   })
 };

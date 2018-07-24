@@ -10,10 +10,10 @@ const rootActions = {
   onError: createAction('ON_ERROR', resolve => {
     return (error: Error, meta?: any) => resolve(error, meta);
   }),
-  showError: createAction('SHOW_ERROR', resolve => {
-    return (errorMessage: string) => resolve(errorMessage);
+  showMessage: createAction('SHOW_MESSAGE', resolve => {
+    return (message: string) => resolve(message);
   }),
-  hideError: createAction('HIDE_ERROR', resolve => {
+  hideMessage: createAction('snackbar/HIDE_MESSAGE', resolve => {
     return () => resolve();
   })
   // redirect: createAction('REDIRECT', resolve => {

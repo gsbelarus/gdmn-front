@@ -19,6 +19,7 @@ const getReducer = (authInitialState: IAuthState) => (state: IAuthState = authIn
         authenticated: true
       };
     }
+    // TODO case error
     case getType(actions.signOut): {
       return {
         ...state,

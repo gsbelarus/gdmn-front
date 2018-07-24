@@ -1,31 +1,13 @@
 import ExtendableError from 'es6-error';
 
-const enum ErrorCodeType {
-  INTERNAL,
-  NOT_FOUND,
-  NOT_UNIQUE,
-  INVALID_AUTH_TOKEN,
-  INVALID_ARGUMENTS
-}
-
-interface IServerResponseError {
-  error: string;
-  stack?: string;
-  originalError: {
-    expose: boolean;
-    statusCode: number;
-    status: number;
-    code?: ErrorCodeType;
-    fields?: any[];
-  };
-  message?: string;
-}
+import { IResponseError } from '@core/api/IResponseError';
+import { TResponseErrorCode } from '@core/api/TResponseErrorCode';
 
 class HttpError extends ExtendableError {
   private readonly statusCode: number;
   private readonly statusMessage: string;
   private readonly errorStack?: string;
-  private readonly errorCode?: ErrorCodeType;
+  private readonly errorCode?: TResponseErrorCode;
   private readonly fields?: any[];
   private readonly meta?: object;
 
@@ -37,7 +19,7 @@ class HttpError extends ExtendableError {
       stack: errorStack,
       originalError: { code: errorCode, fields, ...meta },
       message
-    }: IServerResponseError
+    }: IResponseError
   ) {
     super(errorMessage || message || statusMessage);
 
@@ -49,15 +31,15 @@ class HttpError extends ExtendableError {
     this.meta = meta;
   }
 
-  // toString() {
-  //   return this.message || '[error] ' + this.statusMessage;
-  // }
+  public toString() {
+    return this.message;
+  }
 }
 
 function createHttpErrorClass(statusCode: number, statusMessage: string) {
   // tslint:disable-next-line:max-classes-per-file
   return class extends HttpError {
-    constructor(responseBody: IServerResponseError) {
+    constructor(responseBody: IResponseError) {
       super(statusCode, statusMessage, responseBody);
     }
   };
@@ -89,11 +71,11 @@ const httpErrorClasses: any = {
   '503': ServiceUnavailableError
 };
 
-function httpErrorFactory(statusCode: number, responseBody: IServerResponseError) {
+function httpErrorFactory(statusCode: number, responseBody: IResponseError) {
   const errorStatusClass = httpErrorClasses[statusCode.toString()];
 
   return errorStatusClass
-    ? Reflect.construct(errorStatusClass, [responseBody]) // TODO Reflect
+    ? new errorStatusClass(responseBody) // Reflect.construct(errorStatusClass, [responseBody])
     : new HttpError(statusCode, 'Unknown error', responseBody);
 }
 
@@ -103,4 +85,4 @@ function httpErrorFactory(statusCode: number, responseBody: IServerResponseError
 //   }
 // }
 
-export { httpErrorFactory, IServerResponseError };
+export { httpErrorFactory };

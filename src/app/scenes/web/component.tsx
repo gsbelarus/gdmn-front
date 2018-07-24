@@ -1,4 +1,4 @@
-import React, { Component, Fragment, SFC } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Drawer, List, ListItemText, ListItem, ListSubheader, Typography } from '@material-ui/core';
 import CSSModules from 'react-css-modules';
 import { translate, Trans, InjectedTranslateProps, InjectedI18nProps } from 'react-i18next';

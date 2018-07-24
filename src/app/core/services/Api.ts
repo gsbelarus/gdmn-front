@@ -1,6 +1,7 @@
 import { Auth } from '@core/services/Auth';
-import { IServerResponseError, httpErrorFactory } from '@core/errors/httpErrors';
+import { httpErrorFactory } from '@core/errors/httpErrors';
 import { FetchError } from '@core/errors/FetchError';
+import { IResponseError } from '@core/api/IResponseError';
 
 // TODO interface
 // TODO response type
@@ -40,7 +41,7 @@ class Api {
 
         throw error;
       })
-      .then((responseBody: IServerResponseError) => {
+      .then((responseBody: IResponseError) => {
         console.log(`[GDMN] HTTP Error (${response.status.toString()}): ${responseBody}`);
 
         throw httpErrorFactory(response.status, responseBody);

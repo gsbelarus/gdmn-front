@@ -11,17 +11,16 @@ const errorMiddleware: Middleware = ({ dispatch, getState }) => next => action =
       console.log(action.payload);
     }
 
-    if (selectRootState(getState()).errorMessage !== '') {
-      if (errorMsg !== selectRootState(getState()).errorMessage) {
-        errorMsg += '  \n  ' + selectRootState(getState()).errorMessage;
+    if (selectRootState(getState()).snackbarMessage !== '') {
+      // snackbar opened
+      if (errorMsg !== selectRootState(getState()).snackbarMessage) {
+        errorMsg += '  \n  ' + selectRootState(getState()).snackbarMessage;
       }
-      // console.log('errorMiddleware');
-      selectRootState(getState()).errorMessage = errorMsg;
+      selectRootState(getState()).snackbarMessage = errorMsg;
     } else {
       const exludedPrefix = '@@redux-form/'; // TODO
       if (action.type.slice(0, exludedPrefix.length) !== exludedPrefix) {
-        // console.log('errorMiddleware');
-        dispatch(rootActions.showError(errorMsg || action.type));
+        dispatch(rootActions.showMessage(errorMsg || action.type)); // open snackbar
       }
     }
   }
@@ -47,7 +46,7 @@ export { middlewares };
 // const notAuthorizedAccessMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
 //   if (action.type === getType(actions.notAuthorizedAccess)) {
 //     next(action);
-//     dispatch(actions.redirect('/auth/signIn')); // TODO inject signInPath
+//     dispatch(actions.redirect('/auth/signIn'));
 //     return;
 //   }
 //

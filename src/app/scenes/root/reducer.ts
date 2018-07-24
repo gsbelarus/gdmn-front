@@ -4,11 +4,11 @@ import { rootActions, TRootActions } from '@src/app/scenes/root/actions';
 
 interface IRootState {
   refererPath?: string;
-  errorMessage?: string;
+  snackbarMessage?: string;
 }
 
 const initialState: IRootState = {
-  errorMessage: ''
+  snackbarMessage: ''
 };
 
 function reducer(state: IRootState = initialState, action: TRootActions) {
@@ -20,19 +20,18 @@ function reducer(state: IRootState = initialState, action: TRootActions) {
         refererPath: action.payload
       };
     }
-    case getType(rootActions.showError): {
+    case getType(rootActions.showMessage): {
       return {
         ...state,
-        errorMessage: action.payload
+        snackbarMessage: action.payload
       };
     }
-    case getType(rootActions.hideError): {
+    case getType(rootActions.hideMessage): {
       return {
         ...state,
-        errorMessage: ''
+        snackbarMessage: ''
       };
     }
-    // TODO ON_ERROR
     default:
       return state;
   }

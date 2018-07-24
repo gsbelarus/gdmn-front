@@ -15,7 +15,7 @@ const parseSignInResponse = (payload: any) => {
   return payload;
 };
 
-const initialValues = { username: 'Administrator', password: 'Administrator' };
+const initialValues = { username: 'Administrator', password: 'Administrator' }; // TODO
 const getSignInFormContainer = (apiService: Api) =>
   compose<ISignInFormProps, ISignInFormProps>(
     connect(

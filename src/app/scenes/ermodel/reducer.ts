@@ -28,20 +28,16 @@ const initialState: IErmodelState = {
 
 function reducer(state: IErmodelState = initialState, action: TErModelActions): IErmodelState {
   switch (action.type) {
-    case getType(actions.loadERModelOk): {
+    case getType(actions.loadERModelRequestOk): {
       return {
         ...state,
-        erModel: action.payload,
-
-        err: null
+        erModel: action.payload
       };
     }
-    case getType(actions.loadError): {
+    case getType(actions.loadEntityDataRequestOk): {
       return {
         ...state,
-        err: action.payload,
-
-        erModel: new ERModel()
+        tableData: action.payload
       };
     }
     case getType(actions.singleselectToggleEntitiesRow): {
@@ -80,12 +76,6 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
         fieldsSelectedRowIds: selectedRowIds,
 
         tableData: undefined
-      };
-    }
-    case getType(actions.loadEntityDataOk): {
-      return {
-        ...state,
-        tableData: action.payload
       };
     }
     default:

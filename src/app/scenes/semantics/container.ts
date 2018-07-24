@@ -44,22 +44,24 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
       onClearText: () => dispatch(actions.setSemText('')),
       onParse: (text: string) => dispatch(actions.setParsedText(parsePhrase(text))),
       loadErModel: () => {
+        // TODO async action
+        dispatch(erModelActions.loadERModelRequest());
         apiService
           .fetchEr()
-          .then(res => dispatch(erModelActions.loadERModelOk(deserializeERModel(<IERModel>res))))
-          .catch((err: Error) => dispatch(erModelActions.loadError(err.message)));
+          .then(res => dispatch(erModelActions.loadERModelRequestOk(deserializeERModel(<IERModel>res))))
+          .catch((err: Error) => dispatch(erModelActions.loadERModelRequestError(err)));
       },
       loadData: (command: any) => {
-        dispatch(actions.tableDataLoadStart());
+        // TODO async action
+        dispatch(actions.loadNlpDataRequest());
 
         const queries = EQueryTranslator.process(command);
-
         Promise.all(
           queries.map(query =>
             apiService
               .fetchQuery(query, 'command')
-              .then(res => dispatch(actions.setTableData(res))) // TODO command id
-              .catch((err: Error) => console.log(err))
+              .then(res => dispatch(actions.loadNlpDataRequestOk(res))) // TODO command id
+              .catch((err: Error) => dispatch(actions.loadNlpDataRequestError(err)))
           )
         );
       }

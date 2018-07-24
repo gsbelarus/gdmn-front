@@ -13,14 +13,10 @@ interface IAppActionsProps {
   signOut: () => void;
 }
 
-interface IAppStateProps {
-  readonly errorMessage?: string;
-}
-
-interface IAppProps extends RouteComponentProps<any>, IAppActionsProps, IAppStateProps {
-  renderHome: React.ComponentType<any>;
-  renderSemanticsBoxContainer: React.ComponentType<any>;
-  renderERModelBoxContainer: React.ComponentType<any>;
+interface IAppProps extends RouteComponentProps<any>, IAppActionsProps {
+  renderHome?: React.ComponentType;
+  renderSemanticsBoxContainer?: React.ComponentType;
+  renderERModelBoxContainer?: React.ComponentType;
 }
 
 @CSSModules(styles)
@@ -32,8 +28,7 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
       renderHome: Home,
       renderSemanticsBoxContainer: SemanticsBoxContainer,
       renderERModelBoxContainer: ERModelBoxContainer,
-      signOut,
-      errorMessage // TODO
+      signOut
     } = this.props;
 
     return (
@@ -94,4 +89,4 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
 
 // TODO switch -> children -> container
 
-export { App, IAppProps, IAppStateProps, IAppActionsProps };
+export { App, IAppProps, IAppActionsProps };

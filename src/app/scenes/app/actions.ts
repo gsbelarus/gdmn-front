@@ -1,9 +1,7 @@
 import { ActionType, createAction } from 'typesafe-actions';
 
 const nlpDialogActions = {
-  addNLPDialogText: createAction('app/nlpdialog/ADD_NLPDIALOG_TEXT', resolve => {
-    return (text: string) => resolve(text);
-  })
+  addNlpMessage: createAction('app/nlpDialog/ADD_NLP_MESSAGE', resolve => (text: string) => resolve(text))
 };
 
 type TNLPDialogActions = ActionType<typeof nlpDialogActions>;

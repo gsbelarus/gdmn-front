@@ -7,10 +7,15 @@ const styles = require('./NLPDialogScroll.css');
 const topGap = 24;
 const scrollTimerDelay = 4000;
 
-interface INLPDialogScrollProps {
+interface INLPDialogScrollStateProps {
   nlpDialog: NLPDialog;
-  onSetText: (text: string) => any;
 }
+
+interface INLPDialogScrollActionsProps {
+  addNlpMessage: (text: string) => void;
+}
+
+type TNLPDialogScrollProps = INLPDialogScrollStateProps & INLPDialogScrollActionsProps;
 
 interface INLPDialogScrollState {
   text: string;
@@ -25,12 +30,12 @@ interface INLPDialogScrollState {
 }
 
 @CSSModules(styles, { allowMultiple: true })
-class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollState> {
+class NLPDialogScroll extends Component<TNLPDialogScrollProps, INLPDialogScrollState> {
   public shownItems: HTMLDivElement[] = [];
   public scrollThumb: HTMLDivElement | undefined | null;
   public state: INLPDialogScrollState;
 
-  constructor(props: INLPDialogScrollProps) {
+  constructor(props: TNLPDialogScrollProps) {
     super(props);
     const { nlpDialog } = this.props;
     this.state = {
@@ -54,8 +59,8 @@ class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollS
 
   private onPressEnter(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (!(e.key === 'Enter' && this.state.text.trim())) return;
-    const { nlpDialog, onSetText } = this.props;
-    onSetText(this.state.text.trim());
+    const { nlpDialog, addNlpMessage } = this.props;
+    addNlpMessage(this.state.text.trim());
     this.setState({
       text: '',
       showFrom: nlpDialog.items.size ? nlpDialog.items.size - 1 : 0,
@@ -315,4 +320,4 @@ class NLPDialogScroll extends Component<INLPDialogScrollProps, INLPDialogScrollS
   }
 }
 
-export { NLPDialogScroll, INLPDialogScrollProps };
+export { NLPDialogScroll, INLPDialogScrollStateProps, INLPDialogScrollActionsProps, TNLPDialogScrollProps };

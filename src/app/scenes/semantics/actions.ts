@@ -2,17 +2,22 @@ import { ParsedText } from 'gdmn-nlp';
 import { ActionType, createAction } from 'typesafe-actions';
 
 const actions = {
-  setSemText: createAction('SET_SEM_TEXT', resolve => {
+  setSemText: createAction('app/semantics/SET_SEM_TEXT', resolve => {
     return (text: string) => resolve(text);
   }),
-  setParsedText: createAction('SET_SEM_PARSED_TEXT', resolve => {
+  setParsedText: createAction('app/semantics/SET_SEM_PARSED_TEXT', resolve => {
     return (parsedText: ParsedText) => resolve(parsedText);
   }),
-  setError: createAction('SET_SEM_ERROR', resolve => {
-    return (err: string) => resolve(err);
+  // load nlp-query data
+  loadNlpDataRequest: createAction('app/semantics/LOAD_NLP_DATA_REQUEST', resolve => {
+    return () => resolve();
   }),
-  setTableData: createAction('SET_TABLE_DATA', resolve => (tableData: object) => resolve(tableData)),
-  tableDataLoadStart: createAction('tableDataLoadStart')
+  loadNlpDataRequestOk: createAction('app/semantics/LOAD_NLP_DATA_REQUEST_OK', resolve => {
+    return (tableData: object) => resolve(tableData);
+  }),
+  loadNlpDataRequestError: createAction('app/semantics/LOAD_NLP_DATA_REQUEST_ERROR', resolve => {
+    return (error: Error) => resolve(error);
+  })
 };
 
 type TSemanticsActions = ActionType<typeof actions>;

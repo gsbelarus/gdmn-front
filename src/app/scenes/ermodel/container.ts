@@ -51,14 +51,16 @@ const getERModelBoxContainer = (apiService: GdmnApi) =>
     },
     (dispatch: Dispatch<TErModelActions>): IDispatchToProps => ({
       loadErModel: () => {
+        // TODO async action
+        dispatch(actions.loadERModelRequest());
         apiService
           .fetchEr()
           .then(res => {
-            return dispatch(actions.loadERModelOk(deserializeERModel(<IERModel>res)));
+            return dispatch(actions.loadERModelRequestOk(deserializeERModel(<IERModel>res)));
           })
-          .catch((err: Error) => dispatch(actions.loadError(err.message)));
+          .catch((err: Error) => dispatch(actions.loadERModelRequestError(err)));
       },
-      dispatch // TODO
+      dispatch
     }),
     (
       { fieldsSelectedRowIds, selectedEntity, selectedFields, ...stateProps }, // exclude, do not remove!
@@ -70,15 +72,18 @@ const getERModelBoxContainer = (apiService: GdmnApi) =>
       loadData:
         fieldsSelectedRowIds && fieldsSelectedRowIds.length > 0
           ? () => {
+              // TODO async action
               if (!selectedEntity || !selectedFields) return;
+
+              dispatch(actions.loadEntityDataRequest());
 
               const queryFields: EntityQueryField[] = selectedFields.map(item => new EntityQueryField(item));
               const query = new EntityQuery(new EntityLink(selectedEntity, 'alias', queryFields));
 
               apiService
                 .fetchQuery(query, 'er')
-                .then(res => dispatch(actions.loadEntityDataOk(res)))
-                .catch((err: Error) => dispatch(actions.loadError(err.message)));
+                .then(res => dispatch(actions.loadEntityDataRequestOk(res)))
+                .catch((err: Error) => dispatch(actions.loadEntityDataRequestError(err)));
             }
           : undefined
     })

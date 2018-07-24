@@ -18,7 +18,7 @@ interface IRootProps {
 
 // TODO const history = browserHistory; // syncHistoryWithStore(browserHistory, store)
 
-const Root: SFC<IRootProps> = ({ store, routes, theme, renderSnackbarContainer }) => (
+const Root: SFC<IRootProps> = ({ store, routes, theme, renderSnackbarContainer: SnackbarContainer }) => (
   <ErrorBoundary>
     <Provider store={store}>
       <Fragment>
@@ -28,7 +28,7 @@ const Root: SFC<IRootProps> = ({ store, routes, theme, renderSnackbarContainer }
             {routes}
           </MuiThemeProvider>
         </BrowserRouter>
-        {renderSnackbarContainer}
+        <SnackbarContainer />
       </Fragment>
     </Provider>
   </ErrorBoundary>

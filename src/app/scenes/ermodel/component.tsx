@@ -22,7 +22,6 @@ const styles = require('./styles.css');
 
 interface IERModelBoxStateProps {
   readonly erModel: ERModel;
-  readonly err?: string | null;
   readonly entitiesTableColumns: ITableColumn[];
   readonly entitiesTableHeadRows?: ITableRow[];
   // readonly entitiesTableFootRows?: ITableRow[];
@@ -55,7 +54,6 @@ class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
 
     const {
       erModel,
-      err,
       loadErModel,
       loadData,
       entitiesTableColumns,
@@ -74,7 +72,6 @@ class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
 
     return (
       <Fragment>
-        <div>{err && `ERROR: ${err}`}</div>
         <div>{`загружено сущностей: ${Object.entries(erModel.entities).length}`}</div>
 
         <Button style={{ margin: 60 }} onClick={loadErModel}>

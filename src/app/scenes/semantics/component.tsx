@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component, Fragment, PureComponent } from 'react';
+import React, { ChangeEvent, Fragment, PureComponent } from 'react';
 import { Edge as DagreEdge, graphlib, layout } from 'dagre';
 import { Phrase } from 'gdmn-nlp';
 import { ERModel } from 'gdmn-orm';
@@ -18,7 +18,6 @@ interface ISemanticsBoxStateProps {
   readonly text: string;
   readonly wordsSignatures: string[];
   readonly phrase?: any; // FIXME Phrase;
-  readonly err?: string;
   readonly dataLoading?: boolean;
 }
 
@@ -55,7 +54,6 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
       onParse,
       phrase,
       command,
-      err,
       dataTableColumns,
       dataTableHeadRows,
       dataTableBodyRows,
@@ -173,7 +171,7 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
         <div styleName="SemanticsOutput">{wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}</div>
         <div styleName="CommandAndGraph">
           <div>
-            {err || displayCommand()}
+            {displayCommand()}
             {!!sqlQuery && (
               <textarea
                 styleName="command"

@@ -19,51 +19,54 @@ const initialState: ISemanticsState = {
 
 function reducer(state: ISemanticsState = initialState, action: TActions): ISemanticsState {
   switch (action.type) {
-    case getType(ermodelActions.loadERModelOk): {
+    case getType(ermodelActions.loadERModelRequest):
+    case getType(actions.loadNlpDataRequest): {
       return {
         ...state,
-        erTranslatorRU: new ERTranslatorRU(action.payload)
+        dataLoading: true
+      };
+    }
+    case getType(ermodelActions.loadERModelRequestOk): {
+      return {
+        ...state,
+        erTranslatorRU: new ERTranslatorRU(action.payload),
+        dataLoading: false
+      };
+    }
+    case getType(actions.loadNlpDataRequestOk): {
+      return {
+        ...state,
+        tableData: action.payload,
+        dataLoading: false
+      };
+    }
+    case ermodelActions.loadERModelRequestError(new Error()).type: {
+      // TODO tmp
+      return {
+        ...state,
+        dataLoading: false
+      };
+    }
+    case actions.loadNlpDataRequestError(new Error()).type: {
+      // TODO tmp
+      return {
+        ...state,
+        wordsSignatures: [],
+        phrase: undefined,
+        dataLoading: false
       };
     }
     case getType(actions.setSemText): {
       return {
         ...state,
-        text: action.payload,
-
-        err: undefined
+        text: action.payload
       };
     }
     case getType(actions.setParsedText): {
       return {
         ...state,
         wordsSignatures: action.payload.wordsSignatures,
-        phrase: action.payload.phrase,
-
-        err: undefined
-      };
-    }
-    case getType(actions.setTableData): {
-      return {
-        ...state,
-        tableData: action.payload,
-
-        dataLoading: false
-      };
-    }
-    case getType(actions.tableDataLoadStart): {
-      return {
-        ...state,
-        dataLoading: true
-      };
-    }
-    case getType(actions.setError): {
-      return {
-        ...state,
-        err: action.payload,
-
-        wordsSignatures: [],
-        phrase: undefined,
-        dataLoading: false
+        phrase: action.payload.phrase
       };
     }
     default:

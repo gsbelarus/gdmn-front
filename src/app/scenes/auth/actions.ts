@@ -12,7 +12,7 @@ const actions = {
   signInRequestError: createAction('auth/SIGN_IN_REQUEST_ERROR', resolve => {
     return (error: Error) => resolve(error);
   }),
-  signOut: createAction('auth/SIGN_OUT', resolve => {
+  signOut: createAction('SIGN_OUT', resolve => {
     return () => resolve();
   })
 };
