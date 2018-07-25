@@ -1,24 +1,23 @@
 import React, { Component, ReactType } from 'react';
-import CSSModules from 'react-css-modules';
-import { Grid } from 'gdmn-grid';
+import CSSModules, { InjectedCSSModuleProps } from 'react-css-modules';
 
-const homeStyles = require('./Home.css');
+import styles from './Home.css';
 
 interface IHomeProps {
   renderNlpDialogScrollContainer: ReactType;
 }
 
-@CSSModules(homeStyles)
-class Home extends Component<IHomeProps, {}> {
+@CSSModules(styles)
+class Home extends Component<IHomeProps & InjectedCSSModuleProps> {
   public render() {
     const { renderNlpDialogScrollContainer: NlpDialogScrollContainer } = this.props;
 
     return (
-      <div styleName="TheScreen">
-        <div styleName="NLPDialogColumn">
+      <div styleName="scene-box">
+        <div styleName="dialog">
           <NlpDialogScrollContainer />
         </div>
-        <div styleName="WorkArea">grid...</div>
+        <div styleName="space">grid...</div>
       </div>
     );
   }

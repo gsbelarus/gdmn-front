@@ -1,14 +1,14 @@
-import React, { Component, Fragment, ChangeEvent } from 'react';
-import CSSModules from 'react-css-modules';
+import React, { Component, Fragment, ReactNode } from 'react';
+import CSSModules, { InjectedCSSModuleProps } from 'react-css-modules';
 import { NLPDialog } from 'gdmn-nlp-agent';
 
-const styles = require('./NLPDialogScroll.css');
+import styles from './NLPDialogScroll.css';
 
 const topGap = 24;
 const scrollTimerDelay = 4000;
 
 interface INLPDialogScrollStateProps {
-  nlpDialog: NLPDialog;
+  readonly nlpDialog: NLPDialog;
 }
 
 interface INLPDialogScrollActionsProps {
@@ -30,13 +30,13 @@ interface INLPDialogScrollState {
 }
 
 @CSSModules(styles, { allowMultiple: true })
-class NLPDialogScroll extends Component<TNLPDialogScrollProps, INLPDialogScrollState> {
+class NLPDialogScroll extends Component<TNLPDialogScrollProps & InjectedCSSModuleProps, INLPDialogScrollState> {
   public shownItems: HTMLDivElement[] = [];
   public scrollThumb: HTMLDivElement | undefined | null;
-  public state: INLPDialogScrollState;
 
   constructor(props: TNLPDialogScrollProps) {
     super(props);
+
     const { nlpDialog } = this.props;
     this.state = {
       text: '',
@@ -55,11 +55,15 @@ class NLPDialogScroll extends Component<TNLPDialogScrollProps, INLPDialogScrollS
     this.onPointerDown = this.onPointerDown.bind(this);
     this.onPointerUp = this.onPointerUp.bind(this);
     this.onPointerMove = this.onPointerMove.bind(this);
+    this.onInputPressEnter = this.onInputPressEnter.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
   }
 
-  private onPressEnter(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+  private onInputPressEnter(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (!(e.key === 'Enter' && this.state.text.trim())) return;
+
     const { nlpDialog, addNlpMessage } = this.props;
+
     addNlpMessage(this.state.text.trim());
     this.setState({
       text: '',
@@ -71,6 +75,10 @@ class NLPDialogScroll extends Component<TNLPDialogScrollProps, INLPDialogScrollS
     e.preventDefault();
   }
 
+  private onInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    this.setState({ text: e.target.value });
+  }
+
   private onWheel(e: React.WheelEvent<HTMLDivElement>) {
     const delayedScrollHide = () => ({
       scrollVisible: true,
@@ -78,6 +86,7 @@ class NLPDialogScroll extends Component<TNLPDialogScrollProps, INLPDialogScrollS
     });
 
     e.preventDefault();
+
     const { nlpDialog } = this.props;
     const { showFrom, showTo, scrollTimer } = this.state;
 
@@ -246,15 +255,15 @@ class NLPDialogScroll extends Component<TNLPDialogScrollProps, INLPDialogScrollS
     }
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.calcVisibleCount();
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(): void {
     this.calcVisibleCount();
   }
 
-  public render() {
+  public render(): ReactNode {
     const { nlpDialog } = this.props;
     const { showFrom, showTo, scrollVisible } = this.state;
 
@@ -296,12 +305,8 @@ class NLPDialogScroll extends Component<TNLPDialogScrollProps, INLPDialogScrollS
             <textarea
               spellCheck={false}
               value={this.state.text}
-              onKeyPress={
-                // FIXME
-                // tslint:disable-next-line:jsx-no-bind
-                this.onPressEnter.bind(this)
-              }
-              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => this.setState({ text: e.target.value })}
+              onKeyPress={this.onInputPressEnter}
+              onChange={this.onInputChange}
             />
           </div>
         </div>

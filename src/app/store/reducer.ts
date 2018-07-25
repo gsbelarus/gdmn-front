@@ -1,7 +1,7 @@
 import { combineReducers, Reducer } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-import { INLPDialogState, nlpDialogReducer } from '@src/app/scenes/app/reducer';
+import { TNLPDialogState, nlpDialogReducer } from '@src/app/scenes/app/reducer';
 import { IErmodelState, reducer as ermodelReducer } from '@src/app/scenes/ermodel/reducer';
 import { IMorphologyState, reducer as morphologyReducer } from '@src/app/scenes/morphology/reducer';
 import { ISemanticsState, reducer as semanticsReducer } from '@src/app/scenes/semantics/reducer';
@@ -14,7 +14,7 @@ interface IState {
   readonly morphologyState: IMorphologyState;
   readonly semanticsState: ISemanticsState;
   readonly ermodelState: IErmodelState;
-  readonly nlpDialogState: INLPDialogState;
+  readonly nlpDialogState: TNLPDialogState;
   readonly authState: IAuthState;
   readonly form: any;
   readonly applicationsState: TAppsState;

@@ -2,16 +2,15 @@ import { NLPDialog } from 'gdmn-nlp-agent';
 import { getType } from 'typesafe-actions';
 
 import { TNLPDialogActions, nlpDialogActions } from '@src/app/scenes/app/actions';
+import { INLPDialogScrollStateProps } from '@src/app/scenes/app/components/NLPDialogScroll';
 
-interface INLPDialogState {
-  nlpDialog: NLPDialog;
-}
+type TNLPDialogState = INLPDialogScrollStateProps;
 
-const nlpDialogInitialState: INLPDialogState = {
+const nlpDialogInitialState: TNLPDialogState = {
   nlpDialog: new NLPDialog()
 };
 
-function nlpDialogReducer(state: INLPDialogState = nlpDialogInitialState, action: TNLPDialogActions): INLPDialogState {
+function nlpDialogReducer(state: TNLPDialogState = nlpDialogInitialState, action: TNLPDialogActions): TNLPDialogState {
   switch (action.type) {
     case getType(nlpDialogActions.addNlpMessage): {
       // clone
@@ -33,7 +32,7 @@ function nlpDialogReducer(state: INLPDialogState = nlpDialogInitialState, action
   }
 }
 
-export { nlpDialogReducer, INLPDialogState };
+export { nlpDialogReducer, TNLPDialogState };
 
 /*
 const nlpDialog = new NLPDialog();

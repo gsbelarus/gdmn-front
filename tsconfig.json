@@ -9,6 +9,9 @@
     "lib": ["es2017", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
     "outDir": "./build",
     "paths": {
       "@core/*": ["src/app/core/*"],

@@ -1,13 +1,13 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, ReactNode } from 'react';
 import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { AppBar, Button, Toolbar } from '@material-ui/core';
-import CSSModules from 'react-css-modules';
+import CSSModules, { InjectedCSSModuleProps } from 'react-css-modules';
 
 import { ErrorBoundary } from '@core/components/ErrorBoundary';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
 import { WebContainer } from '@src/app/scenes/web/container';
 
-const styles = require('./styles.css');
+import styles from './styles.css';
 
 interface IAppActionsProps {
   signOut: () => void;
@@ -20,9 +20,9 @@ interface IAppProps extends RouteComponentProps<any>, IAppActionsProps {
   renderAppsBoxContainer?: React.ComponentType;
 }
 
-@CSSModules(styles)
-class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
-  public render(): JSX.Element {
+@CSSModules(styles, { allowMultiple: true })
+class App extends Component<IAppProps & InjectedCSSModuleProps> {
+  public render(): ReactNode {
     const {
       location,
       match,
@@ -77,7 +77,7 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
             </Button>
           </Toolbar>
         </AppBar>
-        <main className={location.pathname !== match.path ? 'main scene-pad' : 'main'}>
+        <main styleName={location.pathname !== match.path ? 'main scene-pad' : 'main'}>
           <ErrorBoundary>
             <Switch>
               <Route exact={true} path={`${match.path}/`} component={Home} />
@@ -94,7 +94,5 @@ class App extends Component<IAppProps & CSSModules.InjectedCSSModuleProps, {}> {
     );
   }
 }
-
-// TODO switch -> children -> container
 
 export { App, IAppProps, IAppActionsProps };
