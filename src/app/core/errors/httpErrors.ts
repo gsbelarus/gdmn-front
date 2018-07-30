@@ -1,7 +1,7 @@
 import ExtendableError from 'es6-error';
 
-import { IResponseError } from '@core/api/IResponseError';
-import { TResponseErrorCode } from '@core/api/TResponseErrorCode';
+import { TResponseErrorCode } from '@core/gdmn-api/TResponseErrorCode';
+import { IResponseError } from '@core/gdmn-api/IResponseError';
 
 class HttpError extends ExtendableError {
   private readonly statusCode: number;
@@ -11,24 +11,27 @@ class HttpError extends ExtendableError {
   private readonly fields?: any[];
   private readonly meta?: object;
 
-  constructor(
-    statusCode: number,
-    statusMessage: string,
-    {
-      error: errorMessage,
-      stack: errorStack,
-      originalError: { code: errorCode, fields, ...meta },
-      message
-    }: IResponseError
-  ) {
-    super(errorMessage || message || statusMessage);
+  constructor(statusCode: number, statusMessage: string, responseError?: IResponseError) {
+    if (responseError) {
+      const {
+        error: errorMessage,
+        stack: errorStack,
+        originalError: { code: errorCode, fields, ...meta },
+        message
+      } = responseError;
+
+      super(errorMessage || message || statusMessage);
+
+      this.errorStack = errorStack;
+      this.errorCode = errorCode;
+      this.fields = fields;
+      this.meta = meta;
+    } else {
+      super(statusMessage);
+    }
 
     this.statusCode = statusCode;
     this.statusMessage = statusMessage;
-    this.errorStack = errorStack;
-    this.errorCode = errorCode;
-    this.fields = fields;
-    this.meta = meta;
   }
 
   public toString() {
@@ -71,7 +74,7 @@ const httpErrorClasses: any = {
   '503': ServiceUnavailableError
 };
 
-function httpErrorFactory(statusCode: number, responseBody: IResponseError) {
+function httpErrorFactory(statusCode: number, responseBody?: IResponseError): HttpError {
   const errorStatusClass = httpErrorClasses[statusCode.toString()];
 
   return errorStatusClass
@@ -85,4 +88,4 @@ function httpErrorFactory(statusCode: number, responseBody: IResponseError) {
 //   }
 // }
 
-export { httpErrorFactory };
+export { httpErrorFactory, HttpError };

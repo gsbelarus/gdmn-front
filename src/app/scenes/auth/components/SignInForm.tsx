@@ -9,16 +9,21 @@ import { requiredValidate } from '@core/utils/inputValidators';
 
 const styles = require('./SignInForm.css');
 
-interface ISignInFormProps extends InjectedFormProps {
-  onSubmit: (values: any) => void;
+interface ISignInFormProps extends InjectedFormProps<ISignInFormData> {
+  onSubmit: (values: Partial<ISignInFormData>) => void;
+}
+
+interface ISignInFormData {
+  username: string;
+  password: string;
 }
 
 @CSSModules(styles)
-class SignInForm extends React.Component<ISignInFormProps, {}> {
+class SignInForm extends React.Component<ISignInFormProps> {
   public render(): JSX.Element {
     const { handleSubmit, onSubmit, pristine, submitting, initialized } = this.props;
     return (
-      <Form onSubmit={handleSubmit((values: any) => onSubmit(values))}>
+      <Form onSubmit={handleSubmit((values: Partial<ISignInFormData>) => onSubmit(values))}>
         <Field name="username" component={TextField as any} label="Пользователь" validate={requiredValidate} />
         <Field
           name="password"
@@ -37,4 +42,4 @@ class SignInForm extends React.Component<ISignInFormProps, {}> {
   }
 }
 
-export { SignInForm, ISignInFormProps };
+export { SignInForm, ISignInFormProps, ISignInFormData };

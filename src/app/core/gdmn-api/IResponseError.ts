@@ -1,4 +1,4 @@
-import { TResponseErrorCode } from '@core/api/TResponseErrorCode';
+import { TResponseErrorCode } from '@core/gdmn-api/TResponseErrorCode';
 
 export interface IResponseError {
   error: string;

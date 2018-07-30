@@ -1,88 +1,127 @@
 import { Auth } from '@core/services/Auth';
-import { httpErrorFactory } from '@core/errors/httpErrors';
+import { HttpError, httpErrorFactory } from '@core/errors/httpErrors';
 import { FetchError } from '@core/errors/FetchError';
-import { IResponseError } from '@core/api/IResponseError';
+import { IResponseError } from '@core/gdmn-api/IResponseError';
+import { HttpStatusError } from '@core/errors/HttpStatusError';
 
-// TODO interface
-// TODO response type
-class Api {
+const enum THttpMethod {
+  POST = 'POST',
+  GET = 'GET',
+  DELETE = 'DELETE'
+  // UPDATE,
+  // PUT
+}
+
+const enum TAuthScheme {
+  BEARER = 'bearer',
+  BASIC = 'basic',
+  DIGEST = 'digest'
+}
+
+interface IApiEndpoints {
+  signIn: string;
+}
+
+class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpoints> {
+  protected readonly apiEndpoints: TApiEndpoints;
   protected readonly authService: Auth;
-  protected readonly authScheme: string;
+  protected readonly authScheme: TAuthScheme;
 
-  protected readonly signInUrl: string;
-  protected readonly signInUsernameFieldName: string;
-  protected readonly signInPasswordFieldName: string;
-
-  constructor(
-    authService: Auth,
-    authScheme: string,
-    signInUrl: string,
-    signInUsernameFieldName: string,
-    signInPasswordFieldName: string
-  ) {
-    this.signInUrl = signInUrl;
-    this.signInUsernameFieldName = signInUsernameFieldName;
-    this.signInPasswordFieldName = signInPasswordFieldName;
+  constructor(apiEndpoints: TApiEndpoints, authService: Auth, authScheme: TAuthScheme) {
+    this.apiEndpoints = apiEndpoints;
     this.authScheme = authScheme;
     this.authService = authService;
   }
 
-  protected static async checkStatus(response: any): Promise<any> {
-    if (response.status >= 200 && response.status < 300) return response;
-
-    return response
-      .json()
-      .catch((error: Error) => {
-        if (error instanceof SyntaxError) {
-          console.log('[GDMN] SyntaxError');
-
-          return {};
-        }
-
-        throw error;
-      })
-      .then((responseBody: IResponseError) => {
-        console.log(`[GDMN] HTTP Error (${response.status.toString()}): ${responseBody}`);
-
-        throw httpErrorFactory(response.status, responseBody);
-      });
-  }
-
-  public async fetch(uri: string, options?: { method?: string; headers?: any; [t: string]: any }): Promise<any> {
-    if (!options) options = {};
-    options.method = options.method || 'GET';
-    options.headers = options.headers || {};
-    options.headers.Accept = options.headers.Accept || 'application/json';
-    options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
+  public async fetch(uri: string, options: RequestInit = {}): Promise<string | never> {
+    options.headers = new Headers(options.headers);
+    if (!options.headers.has('Accept')) options.headers.set('Accept', 'application/json');
+    if (!options.headers.has('Content-Type')) options.headers.set('Content-Type', 'application/json');
+    if (!options.headers.has('Authorization')) {
+      const accessToken = await this.authService.getAccessToken(); // TODO from state
+      if (accessToken !== null) options.headers.set('Authorization', `${this.authScheme} ${accessToken}`);
+    }
+    // todo
     // options.headers['Access-Control-Allow-Origin'] = '*';
     // options.credentials = 'same-origin';
-    const accessToken = await this.authService.getAccessToken(); // TODO cache
-    if (accessToken !== null) {
-      options.headers.Authorization = `${this.authScheme} ${accessToken}`;
+    // options.method = options.method || THttpMethod.GET;
+
+    let response: Response;
+    try {
+      response = await fetch(uri, options);
+    } catch (error) {
+      // console.log('[GDMN] Network request to server failed: ' + error.message);
+      throw new FetchError(error);
     }
 
-    return fetch(uri, options)
-      .catch((err: Error) => {
-        console.log('[GDMN] Network request to server failed: ' + err.message);
-
-        throw new FetchError(err);
-      })
-      .then(Api.checkStatus)
-      .then(response => response.text());
+    try {
+      Api.checkStatus(response);
+      return await response.text();
+    } catch (error) {
+      throw error instanceof HttpStatusError ? await Api.parseResponseError(error) : error;
+    }
   }
 
-  public async fetchSignIn(username: string, password: string): Promise<object> {
-    return this.fetch(this.signInUrl, {
-      method: 'POST',
+  public async fetchForm(uri: string, formData: FormData): Promise<string | never> {
+    return this.fetch(uri, {
+      method: THttpMethod.POST, // todo test
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `${this.signInUsernameFieldName}=${username}&${this.signInPasswordFieldName}=${password}`
-    })
-      .then((responseBody: string) => JSON.parse(responseBody))
-      .then(res => {
-        console.log('[GDMN] fetchSignIn DONE.');
-        return res;
-      });
+      body: formData
+    });
+  }
+
+  public async fetchRestQuery(method: THttpMethod, resourseUri: string, query: object | string = ''): Promise<any> {
+    const responseBody = await this.fetch(resourseUri + (typeof query === 'string' ? query : ''), {
+      method, // todo
+      body: method === THttpMethod.POST ? JSON.stringify(query) : undefined
+    });
+
+    return JSON.parse(responseBody);
+  }
+
+  // TODO extract
+  public async fetchSignIn(request: TSignInRequestFormData): Promise<any> {
+    const formData = new FormData();
+    Reflect.ownKeys(request).forEach((keyValue: PropertyKey) =>
+      formData.set(keyValue.toString(), (<any>request)[keyValue])
+    );
+
+    const responseBody = await this.fetchForm(this.apiEndpoints.signIn, formData);
+    // console.log('[GDMN] fetchSignIn DONE.');
+    return JSON.parse(responseBody);
+  }
+
+  protected static checkStatus(response: Response): void | never {
+    // !ok
+    if (!(response.status >= 200 && response.status < 300)) {
+      throw new HttpStatusError(response);
+    }
+  }
+
+  protected static async parseJson(response: Response): Promise<any | never> {
+    if (response.status === 204 || response.status === 205) return;
+
+    try {
+      return await response.json();
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        // TODO
+        console.log('[GDMN] SyntaxError');
+        return;
+      }
+
+      throw error;
+    }
+  }
+
+  protected static async parseResponseError(error: HttpStatusError): Promise<HttpError> {
+    const responseErrorBody = <IResponseError | undefined>await Api.parseJson(error.response);
+    // console.log(
+    //   `[GDMN] HTTP Error (${responseErrorBody ? responseErrorBody.originalError.statusCode : ''}): ${responseErrorBody}`
+    // );
+
+    return httpErrorFactory(error.response.status, responseErrorBody);
   }
 }
 
-export { Api };
+export { Api, IApiEndpoints, THttpMethod, TAuthScheme };

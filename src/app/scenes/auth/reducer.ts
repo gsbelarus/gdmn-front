@@ -7,6 +7,9 @@ interface IAuthState {
   authenticated: boolean;
   accessToken?: string;
   userRole: UserRoleType;
+  accessTokenExpireTime?: number;
+  accessTokenIssuedAt?: number;
+  userId?: number;
 }
 
 const getReducer = (authInitialState: IAuthState) => (state: IAuthState = authInitialState, action: TAuthActions) => {

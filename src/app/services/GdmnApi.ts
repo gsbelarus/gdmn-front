@@ -1,93 +1,39 @@
-import { EntityQuery } from 'gdmn-orm';
+import { deserializeERModel, EntityQuery, ERModel, IERModel } from 'gdmn-orm';
 
 import { Auth } from '@core/services/Auth';
-import { Api } from '@core/services/Api';
+import { Api, TAuthScheme, THttpMethod } from '@core/services/Api';
+import { IEndpoints } from '@core/gdmn-api/IEndpoints';
+import { IAccountLoginRequest } from '@core/gdmn-api/account/IAccountLoginRequest';
 
-const enum FetchMethod {
-  POST = 'POST',
-  GET = 'GET',
-  DELETE = 'DELETE'
-  // UPDATE,
-  // PUT
-}
-
-// TODO interface
-// TODO response type
-class GdmnApi extends Api {
-  private readonly dataApiUrl: string;
-  private readonly erApiUrl: string;
-  private readonly appApiUrl: string;
-
-  constructor(
-    authService: Auth,
-    authScheme: string,
-    dataApiUrl: string,
-    erApiUrl: string,
-    signInUrl: string,
-    appApiUrl: string,
-    signInUsernameFieldName: string,
-    signInPasswordFieldName: string
-  ) {
-    super(authService, authScheme, signInUrl, signInUsernameFieldName, signInPasswordFieldName);
-
-    this.dataApiUrl = dataApiUrl;
-    this.erApiUrl = erApiUrl;
-    this.appApiUrl = appApiUrl;
+class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
+  constructor(apiEndpoints: IEndpoints, authService: Auth, authScheme: TAuthScheme) {
+    super(apiEndpoints, authService, authScheme);
   }
 
-  public async fetchEr(): Promise<object> {
-    return this.fetch(this.erApiUrl)
-      .then((responseBody: string) => JSON.parse(responseBody))
-      .then(res => {
-        console.log('[GDMN] fetchEr DONE.');
-        return res;
-      });
+  public async fetchEr(): Promise<ERModel> {
+    const responseBody = await this.fetch(this.apiEndpoints.er);
+    return deserializeERModel(<IERModel>JSON.parse(responseBody));
   }
 
-  public async fetchQuery(query: EntityQuery, urlOptions?: string): Promise<object> {
-    return this.fetch(
-      this.dataApiUrl,
-      // + urlOptions, // TODO mock-server
-      {
-        // method: 'GET' // TODO mock-server
-        method: FetchMethod.POST,
-        body: query.serialize()
-      }
-    )
-      .then((responseBody: string) => JSON.parse(responseBody))
-      .then(res => {
-        console.log('[GDMN] fetchQuery DONE.');
-        return res;
-      });
-  }
-
-  public async fetchRestQuery(method: FetchMethod, resourseUri: string, query: object | string = '') {
-    return this.fetch(resourseUri + (typeof query === 'string' ? query : ''), {
-      method: method.toString(),
-      body: method === FetchMethod.POST ? JSON.stringify(query) : null
-    }).then((responseBody: string) => JSON.parse(responseBody));
-  }
-
-  public async loadApps(): Promise<object> {
-    return this.fetchRestQuery(FetchMethod.GET, this.appApiUrl).then(res => {
-      console.log('[GDMN] loadApps DONE.');
-      return res;
+  public async fetchEntityQuery(query: EntityQuery): Promise<any> {
+    const responseBody = await this.fetch(this.apiEndpoints.data, {
+      method: THttpMethod.POST,
+      body: query.serialize()
     });
+    return JSON.parse(responseBody);
   }
 
-  public async deleteApp(uid: string): Promise<object> {
-    return this.fetchRestQuery(FetchMethod.DELETE, this.appApiUrl, `/${uid}`).then(res => {
-      console.log('[GDMN] deleteApp DONE.');
-      return res;
-    });
+  public async loadApps(): Promise<any> {
+    return this.fetchRestQuery(THttpMethod.GET, this.apiEndpoints.app);
   }
 
-  public async createApp(alias: string): Promise<object> {
-    return this.fetchRestQuery(FetchMethod.POST, this.appApiUrl, { alias }).then(res => {
-      console.log('[GDMN] createApp DONE.');
-      return res;
-    });
+  public async deleteApp(uid: string): Promise<any> {
+    return this.fetchRestQuery(THttpMethod.DELETE, this.apiEndpoints.app, `/${uid}`);
+  }
+
+  public async createApp(alias: string): Promise<any> {
+    return this.fetchRestQuery(THttpMethod.POST, this.apiEndpoints.app, { alias });
   }
 }
 
-export { GdmnApi, FetchMethod };
+export { GdmnApi, IEndpoints };

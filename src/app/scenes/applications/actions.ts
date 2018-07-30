@@ -1,8 +1,8 @@
 import { ActionType, createAction } from 'typesafe-actions';
 
-import { IAppCreateResponse } from '@core/api/app/IAppCreateResponse';
-import { IAppDeleteResponse } from '@core/api/app/IAppDeleteResponse';
-import { TAppGetResponse } from '@core/api/app/TAppGetResponse';
+import { IAppCreateResponse } from '@core/gdmn-api/app/IAppCreateResponse';
+import { IAppDeleteResponse } from '@core/gdmn-api/app/IAppDeleteResponse';
+import { TAppGetResponse } from '@core/gdmn-api/app/TAppGetResponse';
 
 const actions = {
   // load apps

@@ -1,7 +1,6 @@
 import { parsePhrase } from 'gdmn-nlp';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { deserializeERModel, IERModel } from 'gdmn-orm';
 
 import { EQueryTranslator } from '@core/EQueryTranslator';
 import { GdmnApi } from '@src/app/services/GdmnApi';
@@ -43,26 +42,31 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
       onSetText: bindActionCreators(actions.setSemText, dispatch),
       onClearText: () => dispatch(actions.setSemText('')),
       onParse: (text: string) => dispatch(actions.setParsedText(parsePhrase(text))),
-      loadErModel: () => {
+      loadErModel: async () => {
         // TODO async action
         dispatch(erModelActions.loadERModelRequest());
-        apiService
-          .fetchEr()
-          .then(res => dispatch(erModelActions.loadERModelRequestOk(deserializeERModel(<IERModel>res))))
-          .catch((err: Error) => dispatch(erModelActions.loadERModelRequestError(err)));
+        try {
+          const erModel = await apiService.fetchEr();
+          dispatch(erModelActions.loadERModelRequestOk(erModel));
+        } catch (err) {
+          dispatch(erModelActions.loadERModelRequestError(err));
+        }
       },
       loadData: (command: any) => {
         // TODO async action
         dispatch(actions.loadNlpDataRequest());
 
         const queries = EQueryTranslator.process(command);
+
         Promise.all(
-          queries.map(query =>
-            apiService
-              .fetchQuery(query, 'command')
-              .then(res => dispatch(actions.loadNlpDataRequestOk(res))) // TODO command id
-              .catch((err: Error) => dispatch(actions.loadNlpDataRequestError(err)))
-          )
+          queries.map(async query => {
+            try {
+              const res = await apiService.fetchEntityQuery(query);
+              dispatch(actions.loadNlpDataRequestOk(res));
+            } catch (err) {
+              dispatch(actions.loadNlpDataRequestError(err));
+            }
+          })
         );
       }
     })

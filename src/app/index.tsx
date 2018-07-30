@@ -7,7 +7,7 @@ import { RouteAccessLevelType } from '@core/components/ProtectedRoute';
 import { I18n } from '@core/services/I18n';
 import { Auth, UserRoleType } from '@core/services/Auth';
 import { WebStorage, WebStorageType } from '@core/services/WebStorage';
-import { GdmnApi } from '@src/app/services/GdmnApi';
+import { GdmnApi, IEndpoints } from '@src/app/services/GdmnApi';
 import theme from '@src/styles/muiTheme';
 import { getStore } from '@src/app/store/store';
 import { IState } from '@src/app/store/reducer';
@@ -20,18 +20,18 @@ import { RootContainer } from '@src/app/scenes/root/container';
 const config = require('configFile'); // FIXME import config from 'configFile';
 
 // TODO server.http.host/port from window
-
+const apiEndpoints: IEndpoints = {
+  data: `${config.server.http.host}:${config.server.http.port}${config.server.paths.api}`,
+  signIn: `${config.server.http.host}:${config.server.http.port}${config.server.paths.signIn}`,
+  app: `${config.server.http.host}:${config.server.http.port}${config.server.paths.appRes}`,
+  er: `${config.server.http.host}:${config.server.http.port}${config.server.paths.er}`
+};
 const webStorageService = new WebStorage(WebStorageType.local, { namespace: 'gdmn::' });
 const authService = new Auth(webStorageService);
 const apiService = new GdmnApi(
+  apiEndpoints,
   authService,
-  config.server.authScheme,
-  `${config.server.http.host}:${config.server.http.port}${config.server.paths.api}`,
-  `${config.server.http.host}:${config.server.http.port}${config.server.paths.er}`,
-  `${config.server.http.host}:${config.server.http.port}${config.server.paths.signIn}`,
-  `${config.server.http.host}:${config.server.http.port}${config.server.paths.appRes}`,
-  config.server.formFieldNames.signIn.username,
-  config.server.formFieldNames.signIn.password
+  config.server.authScheme
 );
 const i18nService = I18n.getInstance();
 
@@ -78,8 +78,14 @@ async function storeInit() {
   const authInitialState: IAuthState = {
     authenticated: await authService.isAuthenticated(),
     accessToken: await authService.getAccessToken(),
-    userRole: !(await authService.isAuthenticated()) ? UserRoleType.ANONYM : UserRoleType.USER // TODO: decodeToken(payload.authToken).userRole
+    userRole: !(await authService.isAuthenticated()) ? UserRoleType.ANONYM : UserRoleType.USER // TODO decode from token
   };
+
+  // TODO extract
+  const tokenPayload: any = Auth.decodeToken(authInitialState.accessToken!);
+  authInitialState.accessTokenExpireTime = tokenPayload.exp;
+  authInitialState.accessTokenIssuedAt = tokenPayload.iat;
+  authInitialState.userId = tokenPayload.id;
 
   store = getStore(authInitialState, authService);
 }

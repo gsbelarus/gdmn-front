@@ -72,27 +72,28 @@ class WebStorage implements IWebStorage {
     // TODO await this.safe(() => this.storage.removeItem(this.options.namespace));
   }
 
-  public isPersisted() {
-    return (<any>window.navigator).storage.persisted().then((persistent: boolean) => {
-      console.log(
-        persistent
-          ? 'Storage will not be cleared except by explicit user action'
-          : 'Storage may be cleared by the UA under storage pressure.'
-      );
-      return persistent;
-    });
+  public static async isPersisted() {
+    const persistent = await (<any>window.navigator).storage.persisted();
+    console.log(
+      persistent
+        ? 'Storage will not be cleared except by explicit user action'
+        : 'Storage may be cleared by the UA under storage pressure.'
+    );
+
+    return persistent;
   }
 
-  public requestPersistPermission() {
+  public static async requestPersistPermission(): Promise<boolean> {
     // TODO Permissions.query()
-    return (<any>window.navigator).storage.persist().then((granted: boolean) => {
-      console.log(
-        granted
-          ? 'Storage will not be cleared except by explicit user action'
-          : 'Storage may be cleared by the UA under storage pressure.'
-      );
-      return granted;
-    });
+
+    const granted = await (<any>window.navigator).storage.persist();
+    console.log(
+      granted
+        ? 'Storage will not be cleared except by explicit user action'
+        : 'Storage may be cleared by the UA under storage pressure.'
+    );
+
+    return granted;
   }
 
   public isPrivateMode(): boolean {

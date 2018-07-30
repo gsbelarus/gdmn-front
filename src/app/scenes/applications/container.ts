@@ -25,44 +25,36 @@ const getAppsBoxContainer = (apiService: GdmnApi) =>
     },
     (dispatch: Dispatch<TAppsActions>): IDispatchToProps => {
       return {
-        loadApps: () => {
+        async loadApps() {
           dispatch(actions.loadAppsRequest());
-          apiService
-            .loadApps()
-            .then((res: any) => dispatch(actions.loadAppsRequestOk(res)))
-            .catch((err: Error) => dispatch(actions.loadAppsRequestError(err)));
+          try {
+            const res = await apiService.loadApps();
+            dispatch(actions.loadAppsRequestOk(res));
+          } catch (err) {
+            dispatch(actions.loadAppsRequestError(err));
+          }
         },
-        deleteApp: (uid: string) => {
+        async deleteApp(uid: string) {
           dispatch(actions.deleteAppRequest());
-
-          apiService
-            .deleteApp(uid)
-            .then((res: any) => dispatch(actions.deleteAppRequestOk(res)))
-            .catch((err: Error) => dispatch(actions.deleteAppRequestError(err)))
-            .then(() => {
-              dispatch(actions.loadAppsRequest());
-
-              apiService
-                .loadApps()
-                .then((res: any) => dispatch(actions.loadAppsRequestOk(res)))
-                .catch((err: Error) => dispatch(actions.loadAppsRequestError(err)));
-            });
+          try {
+            const res = await apiService.deleteApp(uid);
+            dispatch(actions.deleteAppRequestOk(res));
+          } catch (err) {
+            dispatch(actions.deleteAppRequestError(err));
+          }
+          // reload
+          await this.loadApps();
         },
-        createApp: (alias: string) => {
+        async createApp(alias: string) {
           dispatch(actions.createAppRequest());
-
-          apiService
-            .createApp(alias)
-            .then((res: any) => dispatch(actions.createAppRequestOk(res)))
-            .catch((err: Error) => dispatch(actions.createAppRequestError(err)))
-            .then(() => {
-              dispatch(actions.loadAppsRequest());
-
-              apiService
-                .loadApps()
-                .then((res: any) => dispatch(actions.loadAppsRequestOk(res)))
-                .catch((err: Error) => dispatch(actions.loadAppsRequestError(err)));
-            });
+          try {
+            const res = await apiService.createApp(alias);
+            dispatch(actions.createAppRequestOk(res));
+          } catch (err) {
+            dispatch(actions.createAppRequestError(err));
+          }
+          // reload
+          await this.loadApps();
         },
         dispatch
       };
