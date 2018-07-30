@@ -5,11 +5,11 @@ import { actions, TAuthActions } from '@src/app/scenes/auth/actions';
 
 interface IAuthState {
   authenticated: boolean;
-  accessToken?: string;
   userRole: UserRoleType;
-  accessTokenExpireTime?: number;
-  accessTokenIssuedAt?: number;
-  userId?: number;
+  // accessToken?: string;
+  // accessTokenExpireTime?: number;
+  // accessTokenIssuedAt?: number;
+  // userId?: number;
 }
 
 const getReducer = (authInitialState: IAuthState) => (state: IAuthState = authInitialState, action: TAuthActions) => {
@@ -17,7 +17,7 @@ const getReducer = (authInitialState: IAuthState) => (state: IAuthState = authIn
     case getType(actions.signInRequestOk): {
       return {
         ...state,
-        accessToken: action.payload.accessToken,
+        // accessToken: action.payload.accessToken,
         userRole: action.payload.userRole,
         authenticated: true
       };
@@ -26,7 +26,7 @@ const getReducer = (authInitialState: IAuthState) => (state: IAuthState = authIn
     case getType(actions.signOut): {
       return {
         ...state,
-        accessToken: undefined,
+        // accessToken: undefined,
         userRole: UserRoleType.ANONYM,
         authenticated: false
       };

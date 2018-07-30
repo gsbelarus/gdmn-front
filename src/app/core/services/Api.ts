@@ -3,6 +3,8 @@ import { HttpError, httpErrorFactory } from '@core/errors/httpErrors';
 import { FetchError } from '@core/errors/FetchError';
 import { IResponseError } from '@core/gdmn-api/IResponseError';
 import { HttpStatusError } from '@core/errors/HttpStatusError';
+import { TAccountRefreshTokenResponse } from '@core/gdmn-api/account/TAccountRefreshTokenResponse';
+import { IAccountLoginResponse } from '@core/gdmn-api/account/IAccountLoginResponse';
 
 const enum THttpMethod {
   POST = 'POST',
@@ -20,6 +22,7 @@ const enum TAuthScheme {
 
 interface IApiEndpoints {
   signIn: string;
+  refreshAccessToken: string;
 }
 
 class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpoints> {
@@ -37,11 +40,15 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
     options.headers = new Headers(options.headers);
     if (!options.headers.has('Accept')) options.headers.set('Accept', 'application/json');
     if (!options.headers.has('Content-Type')) options.headers.set('Content-Type', 'application/json');
-    if (!options.headers.has('Authorization')) {
+    if (!options.headers.has('Authorization') && (await this.authService.isAuthenticated())) {
+      if (!this.authService.isFreshAuth()) {
+        // TODO extract to middleware
+        const { refresh_token, access_token, token_type } = await this.fetchAuthTokens();
+        await this.authService.storeTokens(access_token, refresh_token);
+      }
       const accessToken = await this.authService.getAccessToken(); // TODO from state
-      if (accessToken !== null) options.headers.set('Authorization', `${this.authScheme} ${accessToken}`);
+      options.headers.set('Authorization', `${this.authScheme} ${accessToken}`);
     }
-    // todo
     // options.headers['Access-Control-Allow-Origin'] = '*';
     // options.credentials = 'same-origin';
     // options.method = options.method || THttpMethod.GET;
@@ -62,7 +69,25 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
     }
   }
 
-  public async fetchForm(uri: string, formData: FormData): Promise<string | never> {
+  public async fetchAuthTokens(): Promise<TAccountRefreshTokenResponse> {
+    const refreshToken = await this.authService.getRefreshToken(); // TODO from state
+    const responseBody = await this.fetch(this.apiEndpoints.refreshAccessToken, {
+      method: THttpMethod.POST,
+      headers: { Authorization: `${this.authScheme} ${refreshToken}` }
+    });
+
+    return JSON.parse(responseBody);
+  }
+
+  public async fetchMultipartForm(uri: string, formData: FormData): Promise<string | never> {
+    return this.fetch(uri, {
+      method: THttpMethod.POST,
+      headers: { 'Content-Type': 'multipart/form-data' },
+      body: formData
+    });
+  }
+
+  public async fetchForm(uri: string, formData: URLSearchParams): Promise<string | never> {
     return this.fetch(uri, {
       method: THttpMethod.POST, // todo test
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -80,15 +105,18 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
   }
 
   // TODO extract
-  public async fetchSignIn(request: TSignInRequestFormData): Promise<any> {
-    const formData = new FormData();
+  public async fetchSignIn(request: TSignInRequestFormData): Promise<IAccountLoginResponse> {
+    const formData = new URLSearchParams();
     Reflect.ownKeys(request).forEach((keyValue: PropertyKey) =>
       formData.set(keyValue.toString(), (<any>request)[keyValue])
     );
 
     const responseBody = await this.fetchForm(this.apiEndpoints.signIn, formData);
     // console.log('[GDMN] fetchSignIn DONE.');
-    return JSON.parse(responseBody);
+    const res = <IAccountLoginResponse>JSON.parse(responseBody);
+    await this.authService.storeTokens(res.access_token, res.refresh_token); // TODO extract
+
+    return res;
   }
 
   protected static checkStatus(response: Response): void | never {

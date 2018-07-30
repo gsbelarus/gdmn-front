@@ -7,7 +7,7 @@ const actions = {
     return () => resolve();
   }),
   signInRequestOk: createAction('auth/SIGN_IN_REQUEST_OK', resolve => {
-    return (accessToken: string, userRole: UserRoleType) => resolve({ accessToken, userRole });
+    return (userRole: UserRoleType) => resolve({ userRole });
   }),
   signInRequestError: createAction('auth/SIGN_IN_REQUEST_ERROR', resolve => {
     return (error: Error) => resolve(error);

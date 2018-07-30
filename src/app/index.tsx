@@ -24,15 +24,12 @@ const apiEndpoints: IEndpoints = {
   data: `${config.server.http.host}:${config.server.http.port}${config.server.paths.api}`,
   signIn: `${config.server.http.host}:${config.server.http.port}${config.server.paths.signIn}`,
   app: `${config.server.http.host}:${config.server.http.port}${config.server.paths.appRes}`,
-  er: `${config.server.http.host}:${config.server.http.port}${config.server.paths.er}`
+  er: `${config.server.http.host}:${config.server.http.port}${config.server.paths.er}`,
+  refreshAccessToken: `${config.server.http.host}:${config.server.http.port}${config.server.paths.refreshAccessToken}`
 };
 const webStorageService = new WebStorage(WebStorageType.local, { namespace: 'gdmn::' });
 const authService = new Auth(webStorageService);
-const apiService = new GdmnApi(
-  apiEndpoints,
-  authService,
-  config.server.authScheme
-);
+const apiService = new GdmnApi(apiEndpoints, authService, config.server.authScheme);
 const i18nService = I18n.getInstance();
 
 const AuthContainer = getAuthContainer(apiService);
@@ -75,17 +72,20 @@ async function i18nInit() {
 }
 
 async function storeInit() {
-  const authInitialState: IAuthState = {
-    authenticated: await authService.isAuthenticated(),
-    accessToken: await authService.getAccessToken(),
-    userRole: !(await authService.isAuthenticated()) ? UserRoleType.ANONYM : UserRoleType.USER // TODO decode from token
-  };
+  const authenticated = await authService.isAuthenticated();
 
-  // TODO extract
-  const tokenPayload: any = Auth.decodeToken(authInitialState.accessToken!);
-  authInitialState.accessTokenExpireTime = tokenPayload.exp;
-  authInitialState.accessTokenIssuedAt = tokenPayload.iat;
-  authInitialState.userId = tokenPayload.id;
+  const authInitialState: IAuthState = {
+    authenticated,
+    // accessToken: authenticated ? await authService.getAccessToken() : undefined,
+    userRole: !authenticated ? UserRoleType.ANONYM : UserRoleType.USER // TODO decode from token
+  };
+  // if (authenticated) {
+  //   // TODO extract
+  //   const tokenPayload: any = Auth.decodeToken(authInitialState.accessToken!);
+  //   authInitialState.accessTokenExpireTime = tokenPayload.exp;
+  //   authInitialState.accessTokenIssuedAt = tokenPayload.iat;
+  //   authInitialState.userId = tokenPayload.id;
+  // }
 
   store = getStore(authInitialState, authService);
 }

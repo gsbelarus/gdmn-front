@@ -15,14 +15,14 @@ import { GdmnApi } from '@src/app/services/GdmnApi';
 
 const parseSignInResponse = (payload: any) => {
   payload.userRole = UserRoleType.USER; // decodeToken(payload.token).role // TODO tmp
-  if (payload.token) {
-    payload.accessToken = payload.token;
-    // TODO extract
-    const tokenPayload: any = Auth.decodeToken(payload.accessToken);
-    payload.accessTokenExpireTime = tokenPayload.exp;
-    payload.accessTokenIssuedAt = tokenPayload.iat;
-    payload.userId = tokenPayload.id;
-  }
+  // if (payload.token) {
+  //   payload.accessToken = payload.;
+  //   // TODO extract
+  //   const tokenPayload: any = Auth.decodeToken(payload.accessToken);
+  //   payload.accessTokenExpireTime = tokenPayload.exp;
+  //   payload.accessTokenIssuedAt = tokenPayload.iat;
+  //   payload.userId = tokenPayload.id;
+  // }
 
   return payload;
 };
@@ -41,10 +41,14 @@ const getSignInFormContainer = (apiService: GdmnApi) =>
           dispatch(actions.signInRequest());
 
           try {
-            const responseBody = <IAccountLoginResponse>await apiService.fetchSignIn({ login: formData.username || '', password: formData.password || '' });
+            const responseBody = <IAccountLoginResponse>(
+              await apiService.fetchSignIn({ login: formData.username || '', password: formData.password || '' })
+            );
+
             const payload = parseSignInResponse(responseBody);
 
-            dispatch(actions.signInRequestOk(payload.accessToken, payload.userRole));
+            dispatch(actions.signInRequestOk(payload.userRole));
+            console.log(payload);
           } catch (error) {
             console.log('[GDMN] ', error);
 

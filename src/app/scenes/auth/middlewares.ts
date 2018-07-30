@@ -12,19 +12,19 @@ const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getSta
       dispatch(startSubmit('SignInForm'));
       break;
     case getType(actions.signInRequestOk):
+      console.log('actions.signInRequestOk');
       // dispatch(reset('SignInForm'));
       dispatch(stopSubmit('SignInForm'));
 
-      if (!(action.payload && action.payload.accessToken)) break;
+      if (!(action.payload && action.payload.userRole)) break;
 
       if (action.payload.userRole === UserRoleType.USER) {
         // todo save userrole
-
-        authStore.storeAccessToken(action.payload.accessToken).then(() => {
-          next(action);
-          // dispatch({ type: 'REDIRECT', payload: '/app' }); // TODO
-          // return;
-        }); // FIXME await
+        // authStore.storeTokens(action.payload.acc, action.payload.refresh_token).then(() => {
+        next(action);
+        //   // dispatch({ type: 'REDIRECT', payload: '/app' }); // TODO
+        //   // return;
+        // });
       } else {
         dispatch({ type: 'ON_ERROR', payload: new Error('Нет прав доступа'), error: true }); // TODO action
         next(action);
@@ -51,7 +51,7 @@ const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getSta
 const getSignOutMiddleware = (authStore: Auth): Middleware => ({ dispatch, getState }) => next => action => {
   if (action.type === getType(actions.signOut)) {
     // todo remove userrole
-    authStore.removeAccessToken().then(() => {
+    authStore.removeTokens().then(() => {
       next(action);
       // dispatch({ type: 'REDIRECT', payload: '/auth/signIn' }); // TODO
     });
