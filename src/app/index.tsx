@@ -12,20 +12,22 @@ import theme from '@src/styles/muiTheme';
 import { getStore } from '@src/app/store/store';
 import { IState } from '@src/app/store/reducer';
 import { ProtectedRouteContainer } from '@src/app/components/ProtectedRouteContainer';
-import { getAppContainer } from '@src/app/scenes/app/container';
 import { IAuthState } from '@src/app/scenes/auth/reducer';
 import { getAuthContainer } from '@src/app/scenes/auth/container';
 import { RootContainer } from '@src/app/scenes/root/container';
+import { getGdmnContainer } from '@src/app/scenes/gdmn/container';
+import { getDemosContainer } from '@src/app/scenes/demos/container';
 
 const config = require('configFile'); // FIXME import config from 'configFile';
 
-// TODO server.http.host/port from window
+// TODO server host/port from window
+const basePath = `${config.server.http.host}:${config.server.http.port}`;
 const apiEndpoints: IEndpoints = {
-  data: `${config.server.http.host}:${config.server.http.port}${config.server.paths.api}`,
-  signIn: `${config.server.http.host}:${config.server.http.port}${config.server.paths.signIn}`,
-  app: `${config.server.http.host}:${config.server.http.port}${config.server.paths.appRes}`,
-  er: `${config.server.http.host}:${config.server.http.port}${config.server.paths.er}`,
-  refreshAccessToken: `${config.server.http.host}:${config.server.http.port}${config.server.paths.refreshAccessToken}`
+  data: `${basePath}:${config.server.paths.api}`,
+  signIn: `${basePath}${config.server.paths.signIn}`,
+  app: `${basePath}${config.server.paths.appRes}`,
+  er: `${basePath}${config.server.paths.er}`,
+  refreshAccessToken: `${basePath}${config.server.paths.refreshAccessToken}`
 };
 const webStorageService = new WebStorage(WebStorageType.local, { namespace: 'gdmn::' });
 const authService = new Auth(webStorageService);
@@ -33,17 +35,27 @@ const apiService = new GdmnApi(apiEndpoints, authService, config.server.authSche
 const i18nService = I18n.getInstance();
 
 const AuthContainer = getAuthContainer(apiService);
-const AppContainer = getAppContainer(apiService);
+const GdmnContainer = getGdmnContainer(apiService);
+const DemosContainer = getDemosContainer(apiService);
 const NotFoundView = () => <h2>404!</h2>;
 const rootRoutes = (
   <Switch>
-    <Redirect exact={true} from="/" to="/app" />
+    <Redirect exact={true} from="/" to="/demos" />
     <ProtectedRouteContainer
-      path="/auth/signIn"
+      path="/demos"
+      accessLevel={RouteAccessLevelType.PUBLIC}
+      component={DemosContainer}
+    />
+    <ProtectedRouteContainer
+      path="/gdmn/auth/signIn"
       accessLevel={RouteAccessLevelType.PRIVATE_ANONYM}
       component={AuthContainer}
     />
-    <ProtectedRouteContainer path="/app" accessLevel={RouteAccessLevelType.PROTECTED_USER} component={AppContainer} />
+    <ProtectedRouteContainer
+      path="/gdmn"
+      accessLevel={RouteAccessLevelType.PROTECTED_USER}
+      component={GdmnContainer}
+    />
     <Route path="*" component={NotFoundView} />
   </Switch>
 );

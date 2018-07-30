@@ -11,6 +11,8 @@ const errorMiddleware: Middleware = ({ dispatch, getState }) => next => action =
       console.log(action.payload);
     }
 
+    // TODO Unauthorized -> logout
+
     if (selectRootState(getState()).snackbarMessage !== '') {
       // snackbar opened
       if (errorMsg !== selectRootState(getState()).snackbarMessage) {

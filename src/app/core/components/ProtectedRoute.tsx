@@ -31,7 +31,8 @@ function checkAccess(routeAccessLevel: RouteAccessLevelType, userRole: UserRoleT
 interface IProtectedRouteStateProps {
   userRole?: UserRoleType;
   authenticated?: boolean;
-  signInPath?: string;
+  defaultAnonymPath?: string;
+  defaultUserPath?: string;
 }
 
 // interface IProtectedRouteActionsProps {
@@ -45,8 +46,7 @@ interface IProtectedRouteProps extends RouteProps, IProtectedRouteStateProps {
 }
 
 const ProtectedRoute: SFC<IProtectedRouteProps> = ({
-  accessLevel,
-  signInPath,
+  accessLevel, defaultAnonymPath, defaultUserPath,
   userRole,
   authenticated,
   // onNotAuthorizedAccess,
@@ -66,7 +66,7 @@ const ProtectedRoute: SFC<IProtectedRouteProps> = ({
             return (
               <Redirect
                 to={{
-                  pathname: signInPath,
+                  pathname: defaultAnonymPath,
                   state: { from: props.location.pathname }
                 }}
               />
@@ -76,7 +76,7 @@ const ProtectedRoute: SFC<IProtectedRouteProps> = ({
           return (
             <Redirect
               to={{
-                pathname: '/',
+                pathname: defaultUserPath,
                 state: { from: props.location.pathname }
               }}
             />

@@ -22,7 +22,7 @@ const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getSta
         // todo save userrole
         // authStore.storeTokens(action.payload.acc, action.payload.refresh_token).then(() => {
         next(action);
-        //   // dispatch({ type: 'REDIRECT', payload: '/app' }); // TODO
+        //   // dispatch({ type: 'REDIRECT', payload: '/demos' }); // TODO
         //   // return;
         // });
       } else {

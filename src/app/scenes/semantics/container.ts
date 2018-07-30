@@ -52,13 +52,13 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
           dispatch(erModelActions.loadERModelRequestError(err));
         }
       },
-      loadData: (command: any) => {
+      loadData: async (command: any) => {
         // TODO async action
         dispatch(actions.loadNlpDataRequest());
 
         const queries = EQueryTranslator.process(command);
 
-        Promise.all(
+        await Promise.all(
           queries.map(async query => {
             try {
               const res = await apiService.fetchEntityQuery(query);

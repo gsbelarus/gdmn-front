@@ -1,8 +1,8 @@
 import { NLPDialog } from 'gdmn-nlp-agent';
 import { getType } from 'typesafe-actions';
 
-import { TNLPDialogActions, nlpDialogActions } from '@src/app/scenes/app/actions';
-import { INLPDialogScrollStateProps } from '@src/app/scenes/app/components/NLPDialogScroll';
+import { TNLPDialogActions, nlpDialogActions } from '@src/app/scenes/demos/actions';
+import { INLPDialogScrollStateProps } from '@src/app/scenes/demos/components/NLPDialogScroll';
 
 type TNLPDialogState = INLPDialogScrollStateProps;
 
