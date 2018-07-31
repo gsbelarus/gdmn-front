@@ -59,8 +59,8 @@ class Auth {
 
   public async isFreshAuth(): Promise<boolean> {
     const accessToken = await this.getDecodedAccessToken(); // TODO from state
-    console.log(new Date(accessToken.iat*1000));
-    console.log(new Date(accessToken.exp*1000));
+    console.log(new Date(accessToken.iat * 1000));
+    console.log(new Date(accessToken.exp * 1000));
     console.log('is fresh: ' + Auth.isFreshToken(accessToken));
     return Auth.isFreshToken(accessToken);
   }
@@ -79,7 +79,7 @@ class Auth {
   public static isFreshToken(token: IJwtToken): boolean {
     if (Auth.isExpiredToken(token)) return false; // session has expired - login in again
 
-    return Auth.getExpiredTokenTime(token)*(1+Auth.ACCESS_TOKEN_MIN_EXPIRES_PT) < token.exp;
+    return Auth.getExpiredTokenTime(token) * (1 + Auth.ACCESS_TOKEN_MIN_EXPIRES_PT) < token.exp;
   }
 
   private static getExpiredTokenTime(token: IJwtToken): number {

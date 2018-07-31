@@ -4,12 +4,7 @@ import { Dispatch } from 'redux';
 import { selectAppsState } from '@src/app/store/selectors';
 import { GdmnApi } from '@src/app/services/GdmnApi';
 import { IState } from '@src/app/store/reducer';
-import {
-  IAppsViewStateProps,
-  TAppsViewProps,
-  AppsView,
-  IAppsViewActionsProps
-} from '@src/app/scenes/apps/component';
+import { IAppsViewStateProps, TAppsViewProps, AppsView, IAppsViewActionsProps } from '@src/app/scenes/apps/component';
 import { TAppsActions, appsActions } from '@src/app/scenes/apps/actions';
 
 interface IDispatchToProps extends IAppsViewActionsProps {

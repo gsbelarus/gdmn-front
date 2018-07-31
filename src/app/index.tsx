@@ -17,6 +17,7 @@ import { getAuthContainer } from '@src/app/scenes/auth/container';
 import { RootContainer } from '@src/app/scenes/root/container';
 import { getGdmnContainer } from '@src/app/scenes/gdmn/container';
 import { getDemosContainer } from '@src/app/scenes/demos/container';
+import { HomeView } from '@src/app/scenes/home/component';
 
 const config = require('configFile'); // FIXME import config from 'configFile';
 
@@ -40,22 +41,14 @@ const DemosContainer = getDemosContainer(apiService);
 const NotFoundView = () => <h2>404!</h2>;
 const rootRoutes = (
   <Switch>
-    <Redirect exact={true} from="/" to="/demos" />
-    <ProtectedRouteContainer
-      path="/demos"
-      accessLevel={RouteAccessLevelType.PUBLIC}
-      component={DemosContainer}
-    />
+    <Route exact={true} path="/" component={HomeView} />
+    <ProtectedRouteContainer path="/demos" accessLevel={RouteAccessLevelType.PUBLIC} component={DemosContainer} />
     <ProtectedRouteContainer
       path="/gdmn/auth/signIn"
       accessLevel={RouteAccessLevelType.PRIVATE_ANONYM}
       component={AuthContainer}
     />
-    <ProtectedRouteContainer
-      path="/gdmn"
-      accessLevel={RouteAccessLevelType.PROTECTED_USER}
-      component={GdmnContainer}
-    />
+    <ProtectedRouteContainer path="/gdmn" accessLevel={RouteAccessLevelType.PROTECTED_USER} component={GdmnContainer} />
     <Route path="*" component={NotFoundView} />
   </Switch>
 );

@@ -30,7 +30,7 @@ const getDemosContainer = (apiService: GdmnApi) => <any>compose(
     ),
     withProps({
       renderHome: withProps<IHomeProps, IHomeProps>({ renderNlpDialogScrollContainer: NLPDialogScrollContainer })(Home),
-      renderSemanticsBoxContainer: getSemanticsBoxContainer(apiService),
+      renderSemanticsBoxContainer: getSemanticsBoxContainer(apiService)
     })
   )(DemosView);
 

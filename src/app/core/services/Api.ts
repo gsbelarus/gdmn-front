@@ -41,7 +41,7 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
     if (!options.headers.has('Accept')) options.headers.set('Accept', 'application/json');
     if (!options.headers.has('Content-Type')) options.headers.set('Content-Type', 'application/json');
     if (!options.headers.has('Authorization') && (await this.authService.isAuthenticated())) {
-      if (!await this.authService.isFreshAuth()) {
+      if (!(await this.authService.isFreshAuth())) {
         // TODO extract to middleware
         const { refresh_token, access_token, token_type } = await this.fetchAuthTokens();
         await this.authService.storeTokens(access_token, refresh_token);

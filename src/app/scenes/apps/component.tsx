@@ -9,7 +9,14 @@ import {
   Paper,
   TextField,
   Button,
-  Grid, Card, CardActions, Icon, CardContent, Typography, Avatar, CardHeader
+  Grid,
+  Card,
+  CardActions,
+  Icon,
+  CardContent,
+  Typography,
+  Avatar,
+  CardHeader
 } from '@material-ui/core';
 
 interface IAppsViewState {
@@ -60,33 +67,34 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
     const { apps } = this.props;
 
     return (
-      <div style={{flexGrow: 1, textAlign: 'initial'}}>
+      <div style={{ flexGrow: 1, textAlign: 'initial' }}>
         <Grid container={true} spacing={24}>
-          {apps && apps.map(app => (
-            <Grid item={true} xs={12} sm={6}>
-              <Card>
-                <CardHeader
-                  avatar={
-                    <Avatar aria-label="Application">
-                      <Icon>storage</Icon>
-                    </Avatar>
-                  }
-                  action={
-                    <Fragment>
-                      <IconButton>
-                        <Icon>play_circle_filled</Icon>
-                      </IconButton>
-                      <IconButton onClick={() => this.props.deleteApp(app.uid)}>
-                        <Icon>delete</Icon>
-                      </IconButton>
-                    </Fragment>
-                  }
-                  title={app.alias}
-                  subheader={app.uid}
-                />
-              </Card>
-            </Grid>
-          ))}
+          {apps &&
+            apps.map(app => (
+              <Grid item={true} xs={12} sm={6}>
+                <Card>
+                  <CardHeader
+                    avatar={
+                      <Avatar aria-label="Application">
+                        <Icon>storage</Icon>
+                      </Avatar>
+                    }
+                    action={
+                      <Fragment>
+                        <IconButton>
+                          <Icon>play_circle_filled</Icon>
+                        </IconButton>
+                        <IconButton onClick={() => this.props.deleteApp(app.uid)}>
+                          <Icon>delete</Icon>
+                        </IconButton>
+                      </Fragment>
+                    }
+                    title={app.alias}
+                    subheader={app.uid}
+                  />
+                </Card>
+              </Grid>
+            ))}
         </Grid>
       </div>
 

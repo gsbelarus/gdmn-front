@@ -46,7 +46,9 @@ interface IProtectedRouteProps extends RouteProps, IProtectedRouteStateProps {
 }
 
 const ProtectedRoute: SFC<IProtectedRouteProps> = ({
-  accessLevel, defaultAnonymPath, defaultUserPath,
+  accessLevel,
+  defaultAnonymPath,
+  defaultUserPath,
   userRole,
   authenticated,
   // onNotAuthorizedAccess,

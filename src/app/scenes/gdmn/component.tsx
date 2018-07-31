@@ -22,19 +22,43 @@ const GdmnView: SFC<IGdmnViewProps> = ({
 
 export { GdmnView, IGdmnViewProps };
 
+{
+  /*<NavLink styleName="nav-item" to={`${match.url}/ermodel`} activeClassName="nav-item-selected">*/
+}
+{
+  /*<Button color="inherit" component={'div'}>*/
+}
+{
+  /*ER-Model*/
+}
+{
+  /*</Button>*/
+}
+{
+  /*</NavLink>*/
+}
+{
+  /*<NavLink styleName="nav-item" to={`/account/apps`} activeClassName="nav-item-selected">*/
+}
+{
+  /*<Button color="inherit" component={'div'}>*/
+}
+{
+  /*Apps*/
+}
+{
+  /*</Button>*/
+}
+{
+  /*</NavLink>*/
+}
 
-{/*<NavLink styleName="nav-item" to={`${match.url}/ermodel`} activeClassName="nav-item-selected">*/}
-{/*<Button color="inherit" component={'div'}>*/}
-{/*ER-Model*/}
-{/*</Button>*/}
-{/*</NavLink>*/}
-{/*<NavLink styleName="nav-item" to={`/account/apps`} activeClassName="nav-item-selected">*/}
-{/*<Button color="inherit" component={'div'}>*/}
-{/*Apps*/}
-{/*</Button>*/}
-{/*</NavLink>*/}
-
-
-{/*<Button color="inherit" component={'div'} onClick={signOut}>*/}
-{/*Logout*/}
-{/*</Button>*/}
+{
+  /*<Button color="inherit" component={'div'} onClick={signOut}>*/
+}
+{
+  /*Logout*/
+}
+{
+  /*</Button>*/
+}

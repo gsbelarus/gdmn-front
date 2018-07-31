@@ -25,7 +25,7 @@ class DemosView extends Component<IDemosViewProps & InjectedCSSModuleProps> {
       location,
       match,
       renderHome: Home,
-      renderSemanticsBoxContainer: SemanticsBoxContainer,
+      renderSemanticsBoxContainer: SemanticsBoxContainer
       // signOut
     } = this.props;
 
