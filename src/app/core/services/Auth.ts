@@ -13,7 +13,7 @@ const enum UserRoleType {
 }
 
 class Auth {
-  public static ACCESS_TOKEN_MIN_EXPIRES_SECONDS = 3600; // 1 hour
+  public static ACCESS_TOKEN_MIN_EXPIRES_PT = 0.2;
   public static ACCESS_TOKEN_STORAGE_KEY = 'access_token';
   public static REFRESH_TOKEN_STORAGE_KEY = 'refresh_token';
 
@@ -59,6 +59,9 @@ class Auth {
 
   public async isFreshAuth(): Promise<boolean> {
     const accessToken = await this.getDecodedAccessToken(); // TODO from state
+    console.log(new Date(accessToken.iat*1000));
+    console.log(new Date(accessToken.exp*1000));
+    console.log('is fresh: ' + Auth.isFreshToken(accessToken));
     return Auth.isFreshToken(accessToken);
   }
 
@@ -76,12 +79,14 @@ class Auth {
   public static isFreshToken(token: IJwtToken): boolean {
     if (Auth.isExpiredToken(token)) return false; // session has expired - login in again
 
-    return Auth.getExpiredTokenTime(token) + Auth.ACCESS_TOKEN_MIN_EXPIRES_SECONDS < token.exp;
+    return Auth.getExpiredTokenTime(token)*(1+Auth.ACCESS_TOKEN_MIN_EXPIRES_PT) < token.exp;
   }
 
   private static getExpiredTokenTime(token: IJwtToken): number {
-    const timeNow = +new Date() / 1000; // todo test
-    return timeNow - token.iat;
+    const timeNow = +new Date() / 1000; // now in seconds
+    // return timeNow - token.iat;
+
+    return timeNow;
   }
 }
 
