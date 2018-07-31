@@ -22,6 +22,8 @@ import {
   selectedEntitySelector,
   selectedFieldsSelector
 } from '@src/app/scenes/ermodel/selectors';
+import { compose } from 'recompose';
+import { withRouter } from 'react-router';
 
 interface IDispatchToProps extends IERModelBoxActionsProps {
   dispatch: any; // TODO
@@ -34,62 +36,65 @@ interface IStateToProps extends IERModelBoxStateProps, IERModelBoxSelectorProps 
 }
 
 const getERModelBoxContainer = (apiService: GdmnApi) =>
-  connect(
-    (state: IState, ownProps: TERModelBoxProps): IStateToProps => {
-      const { entitiesSelectedRowId, tableData, ...props } = selectErmodelState(state); // exclude, do not remove!
+  compose<any, any>(
+    connect(
+      (state: IState, ownProps: TERModelBoxProps): IStateToProps => {
+        const { entitiesSelectedRowId, tableData, ...props } = selectErmodelState(state); // exclude, do not remove!
 
-      return {
-        ...props,
-        ...dataTableMetaSelector(state, ownProps),
-        dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
-        entitiesTableBodyRows: entitiesTableBodyRowsSelector(state, ownProps),
-        //
-        fieldsTableBodyRows: fieldsTableBodyRowsSelector(state, ownProps),
-        selectedEntity: selectedEntitySelector(state, ownProps),
-        selectedFields: selectedFieldsSelector(state, ownProps)
-      };
-    },
-    (dispatch: Dispatch<TErModelActions>): IDispatchToProps => ({
-      loadErModel: async () => {
-        // TODO async action
-        dispatch(actions.loadERModelRequest());
-
-        try {
-          const erModel = await apiService.fetchEr();
-          dispatch(actions.loadERModelRequestOk(erModel));
-        } catch (err) {
-          dispatch(actions.loadERModelRequestError(err));
-        }
+        return {
+          ...props,
+          ...dataTableMetaSelector(state, ownProps),
+          dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
+          entitiesTableBodyRows: entitiesTableBodyRowsSelector(state, ownProps),
+          //
+          fieldsTableBodyRows: fieldsTableBodyRowsSelector(state, ownProps),
+          selectedEntity: selectedEntitySelector(state, ownProps),
+          selectedFields: selectedFieldsSelector(state, ownProps)
+        };
       },
-      dispatch
-    }),
-    (
-      { fieldsSelectedRowIds, selectedEntity, selectedFields, ...stateProps }, // exclude, do not remove!
-      { loadData, dispatch, ...dispatchProps },
-      ownProps: TERModelBoxProps
-    ): TERModelBoxProps => ({
-      ...stateProps,
-      ...dispatchProps,
-      loadData:
-        fieldsSelectedRowIds && fieldsSelectedRowIds.length > 0
-          ? async () => {
-              // TODO async action
-              if (!selectedEntity || !selectedFields) return;
+      (dispatch: Dispatch<TErModelActions>): IDispatchToProps => ({
+        loadErModel: async (appId: string) => {
+          // TODO async action
+          dispatch(actions.loadERModelRequest());
 
-              dispatch(actions.loadEntityDataRequest());
+          try {
+            const erModel = await apiService.fetchEr(appId);
+            dispatch(actions.loadERModelRequestOk(erModel));
+          } catch (err) {
+            dispatch(actions.loadERModelRequestError(err));
+          }
+        },
+        dispatch
+      }),
+      (
+        { fieldsSelectedRowIds, selectedEntity, selectedFields, ...stateProps }, // exclude, do not remove!
+        { loadData, dispatch, ...dispatchProps },
+        ownProps: TERModelBoxProps
+      ): TERModelBoxProps => ({
+        ...stateProps,
+        ...dispatchProps,
+        loadData:
+          fieldsSelectedRowIds && fieldsSelectedRowIds.length > 0
+            ? async (appId: string) => {
+                // TODO async action
+                if (!selectedEntity || !selectedFields) return;
 
-              const queryFields: EntityQueryField[] = selectedFields.map(item => new EntityQueryField(item));
-              const query = new EntityQuery(new EntityLink(selectedEntity, 'alias', queryFields));
+                dispatch(actions.loadEntityDataRequest());
 
-              try {
-                const res = await apiService.fetchEntityQuery(query);
-                dispatch(actions.loadEntityDataRequestOk(res));
-              } catch (err) {
-                dispatch(actions.loadEntityDataRequestError(err));
+                const queryFields: EntityQueryField[] = selectedFields.map(item => new EntityQueryField(item));
+                const query = new EntityQuery(new EntityLink(selectedEntity, 'alias', queryFields));
+
+                try {
+                  const res = await apiService.fetchEntityQuery(query, appId);
+                  dispatch(actions.loadEntityDataRequestOk(res));
+                } catch (err) {
+                  dispatch(actions.loadEntityDataRequestError(err));
+                }
               }
-            }
-          : undefined
-    })
+            : undefined
+      })
+    ),
+    withRouter
   )(ERModelBox);
 
 export { getERModelBoxContainer };

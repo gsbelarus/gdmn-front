@@ -9,17 +9,12 @@
       "port": 4000
     },
     "paths": {
-      "api": "/data",
-      "er": "/er",
+      "api": "/app/:uid/data",
+      "er": "/app/:uid/er",
       "signIn": "/account/login",
       "signUp": "/account",
+      "refreshAccessToken": "/account/refresh",
       "appRes": "/app"
-    },
-    "formFieldNames": {
-      "signIn": {
-        "username": "login",
-        "password": "password"
-      }
     },
     "authScheme": "Bearer"
   }

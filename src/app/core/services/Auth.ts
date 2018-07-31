@@ -79,7 +79,19 @@ class Auth {
   public static isFreshToken(token: IJwtToken): boolean {
     if (Auth.isExpiredToken(token)) return false; // session has expired - login in again
 
-    return Auth.getExpiredTokenTime(token) * (1 + Auth.ACCESS_TOKEN_MIN_EXPIRES_PT) < token.exp;
+    console.log(
+      new Date(
+        (Auth.getExpiredTokenTime(token) +
+          (Auth.getExpiredTokenTime(token) - token.iat) * Auth.ACCESS_TOKEN_MIN_EXPIRES_PT) *
+          1000
+      )
+    );
+
+    return (
+      Auth.getExpiredTokenTime(token) +
+        (Auth.getExpiredTokenTime(token) - token.iat) * Auth.ACCESS_TOKEN_MIN_EXPIRES_PT <
+      token.exp
+    );
   }
 
   private static getExpiredTokenTime(token: IJwtToken): number {

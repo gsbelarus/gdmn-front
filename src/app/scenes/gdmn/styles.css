@@ -1,0 +1,15 @@
+.main {
+  /*height: calc(100% - 64px);*/
+  overflow: auto;
+  text-align: center;
+
+  flex-grow: 1;
+}
+
+:global .nav-item-selected * {
+  color: var(--palette-primary-main) !important;
+}
+
+.main.scene-pad {
+  padding: calc(var(--spacing-unit) * 4);
+}

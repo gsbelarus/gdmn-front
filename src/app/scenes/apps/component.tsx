@@ -18,6 +18,7 @@ import {
   Avatar,
   CardHeader
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 interface IAppsViewState {
   aliasValue: string;
@@ -71,7 +72,7 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
         <Grid container={true} spacing={24}>
           {apps &&
             apps.map(app => (
-              <Grid item={true} xs={12} sm={6}>
+              <Grid item={true} xs={12} sm={6} key={app.uid}>
                 <Card>
                   <CardHeader
                     avatar={
@@ -81,9 +82,11 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
                     }
                     action={
                       <Fragment>
-                        <IconButton>
-                          <Icon>play_circle_filled</Icon>
-                        </IconButton>
+                        <Link to={`/gdmn/apps/${app.uid}/ermodel`}>
+                          <IconButton>
+                            <Icon>play_circle_filled</Icon>
+                          </IconButton>
+                        </Link>
                         <IconButton onClick={() => this.props.deleteApp(app.uid)}>
                           <Icon>delete</Icon>
                         </IconButton>

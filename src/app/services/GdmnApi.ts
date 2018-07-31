@@ -10,15 +10,16 @@ class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
     super(apiEndpoints, authService, authScheme);
   }
 
-  public async fetchEr(): Promise<ERModel> {
-    const responseBody = await this.fetch(this.apiEndpoints.er);
+  public async fetchEr(appId?: string): Promise<ERModel> {
+    const responseBody = await this.fetch(this.apiEndpoints.er.replace(/\/(:uid)/, appId ? `/${appId}` : ''));
     return deserializeERModel(<IERModel>JSON.parse(responseBody));
   }
 
-  public async fetchEntityQuery(query: EntityQuery): Promise<any> {
-    const responseBody = await this.fetch(this.apiEndpoints.data, {
+  public async fetchEntityQuery(query: EntityQuery, appId: string): Promise<any> {
+    console.log(this.apiEndpoints.data.replace(/\/(:uid)/, appId ? `/${appId}` : ''));
+    const responseBody = await this.fetch(this.apiEndpoints.data.replace(/\/(:uid)/, appId ? `/${appId}` : ''), {
       method: THttpMethod.POST,
-      body: query.serialize()
+      body: '{ "query": ' + query.serialize() + '}'
     });
     return JSON.parse(responseBody);
   }

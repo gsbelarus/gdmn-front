@@ -1,7 +1,8 @@
 import React, { Component, Fragment, ReactNode } from 'react';
-import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { Link, NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { AppBar, Button, Toolbar } from '@material-ui/core';
 import CSSModules, { InjectedCSSModuleProps } from 'react-css-modules';
+import NavigationIcon from '@material-ui/icons/Navigation';
 
 import { ErrorBoundary } from '@core/components/ErrorBoundary';
 import { MorphBoxContainer } from '@src/app/scenes/morphology/container';
@@ -9,11 +10,7 @@ import { WebContainer } from '@src/app/scenes/web/container';
 
 import styles from './styles.css';
 
-interface IDemosViewActionsProps {
-  signOut: () => void;
-}
-
-interface IDemosViewProps extends RouteComponentProps<any>, IDemosViewActionsProps {
+interface IDemosViewProps extends RouteComponentProps<any> {
   renderHome?: React.ComponentType;
   renderSemanticsBoxContainer?: React.ComponentType;
 }
@@ -21,13 +18,7 @@ interface IDemosViewProps extends RouteComponentProps<any>, IDemosViewActionsPro
 @CSSModules(styles, { allowMultiple: true })
 class DemosView extends Component<IDemosViewProps & InjectedCSSModuleProps> {
   public render(): ReactNode {
-    const {
-      location,
-      match,
-      renderHome: Home,
-      renderSemanticsBoxContainer: SemanticsBoxContainer
-      // signOut
-    } = this.props;
+    const { location, match, renderHome: Home, renderSemanticsBoxContainer: SemanticsBoxContainer } = this.props;
 
     return (
       <Fragment>
@@ -52,12 +43,18 @@ class DemosView extends Component<IDemosViewProps & InjectedCSSModuleProps> {
               styleName="nav-item"
               to={`${match.url}/web`}
               activeClassName="nav-item-selected"
-              // style={{ flexGrow: 1 }}
+              style={{ flexGrow: 1 }}
             >
               <Button color="inherit" component={'div'}>
                 Web
               </Button>
             </NavLink>
+            <Link styleName="nav-item" to={`/gdmn`}>
+              <Button variant="extendedFab" aria-label="Delete" color="primary">
+                <NavigationIcon style={{ marginRight: 8 }} />
+                GDMN-app
+              </Button>
+            </Link>
           </Toolbar>
         </AppBar>
         <main styleName={location.pathname !== `${match.path}/nlp` ? 'main scene-pad' : 'main'}>
@@ -77,4 +74,4 @@ class DemosView extends Component<IDemosViewProps & InjectedCSSModuleProps> {
   }
 }
 
-export { DemosView, IDemosViewProps, IDemosViewActionsProps };
+export { DemosView, IDemosViewProps };

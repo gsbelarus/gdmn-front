@@ -16,6 +16,7 @@ import {
 } from '@core/components/data-grid-mui';
 import { actions } from '@src/app/scenes/ermodel/actions';
 import { entitiesSelectedRowSelector, fieldsSelectedRowSelector } from '@src/app/scenes/ermodel/selectors';
+import { RouteComponentProps } from 'react-router-dom';
 
 // const commonStyle = require('@src/styles/common.css');
 const styles = require('./styles.css');
@@ -40,15 +41,15 @@ interface IERModelBoxSelectorProps {
 }
 
 interface IERModelBoxActionsProps {
-  loadErModel: () => void;
-  loadData?: () => void;
+  loadErModel: (appId: string) => void;
+  loadData?: (appId: string) => void;
 }
 
 type TERModelBoxProps = IERModelBoxStateProps & IERModelBoxSelectorProps & IERModelBoxActionsProps;
 
 // @CSSModules(commonStyle) FIXME webpack modules in styles
 @CSSModules(styles)
-class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
+class ERModelBox extends PureComponent<TERModelBoxProps & RouteComponentProps<any>> {
   public render(): JSX.Element {
     console.log('render ERModelBox');
 
@@ -74,10 +75,14 @@ class ERModelBox extends PureComponent<TERModelBoxProps, {}> {
       <Fragment>
         <div>{`загружено сущностей: ${Object.entries(erModel.entities).length}`}</div>
 
-        <Button style={{ margin: 60 }} onClick={loadErModel}>
+        <Button style={{ margin: 60 }} onClick={() => loadErModel(this.props.match.params.appId)}>
           Load ER-Model
         </Button>
-        <Button style={{ margin: 60 }} onClick={!loadData ? () => ({}) : loadData} disabled={!loadData}>
+        <Button
+          style={{ margin: 60 }}
+          onClick={!loadData ? () => ({}) : () => loadData(this.props.match.params.appId)}
+          disabled={!loadData}
+        >
           Load Entity-Data
         </Button>
 

@@ -61,7 +61,7 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
         await Promise.all(
           queries.map(async query => {
             try {
-              const res = await apiService.fetchEntityQuery(query);
+              const res = await apiService.fetchEntityQuery(query, ''); // TODO
               dispatch(actions.loadNlpDataRequestOk(res));
             } catch (err) {
               dispatch(actions.loadNlpDataRequestError(err));

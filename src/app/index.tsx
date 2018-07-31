@@ -24,7 +24,7 @@ const config = require('configFile'); // FIXME import config from 'configFile';
 // TODO server host/port from window
 const basePath = `${config.server.http.host}:${config.server.http.port}`;
 const apiEndpoints: IEndpoints = {
-  data: `${basePath}:${config.server.paths.api}`,
+  data: `${basePath}${config.server.paths.api}`,
   signIn: `${basePath}${config.server.paths.signIn}`,
   app: `${basePath}${config.server.paths.appRes}`,
   er: `${basePath}${config.server.paths.er}`,
