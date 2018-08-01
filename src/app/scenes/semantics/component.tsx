@@ -170,17 +170,17 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
         </div>
         <div styleName="SemanticsOutput">{wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}</div>
         <div styleName="CommandAndGraph">
-          <div>
-            {displayCommand()}
-            {!!sqlQuery && (
-              <textarea
-                styleName="command"
-                style={{ width: '100%', minHeight: 70, resize: 'vertical', marginTop: 2 }}
-                disabled={true}
-                value={sqlQuery}
-              />
-            )}
-          </div>
+          {/*<div>*/}
+            {/*{displayCommand()}*/}
+            {/*{!!sqlQuery && (*/}
+              {/*<textarea*/}
+                {/*styleName="command"*/}
+                {/*style={{ width: '100%', minHeight: 70, resize: 'vertical', marginTop: 2 }}*/}
+                {/*disabled={true}*/}
+                {/*value={sqlQuery}*/}
+              {/*/>*/}
+            {/*)}*/}
+          {/*</div>*/}
           <div>
             {g.graph() ? (
               <svg
@@ -213,28 +213,28 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
           </div>
         </div>
 
-        <div style={{ backgroundColor: 'lightgray', margin: '32px 0 0px' }}>
-          <div style={{ padding: 8 }}>
-            <button disabled={!phrase} onClick={loadErModel}>
-              BUILD COMMAND (load er-model)
-            </button>
-            <button disabled={!command} onClick={() => loadData(command)}>
-              RUN COMMAND (load data)
-            </button>
-          </div>
-          {dataLoading && <LinearProgress color="secondary" />}
-        </div>
-        <InfiniteTableLayout
-          bodyRows={dataTableBodyRows}
-          columns={dataTableColumns}
-          headRows={dataTableHeadRows}
-          heavyWeightRow={true}
-          renderBodyCell={ERModelBox.renderBodyCell}
-          renderHeadCell={ERModelBox.renderHeadCell}
-          tableHeight={'36vh'}
-          tableHeightPx={0}
-          tableMinWidthPx={0}
-        />
+        {/*<div style={{ backgroundColor: 'lightgray', margin: '32px 0 0px' }}>*/}
+          {/*<div style={{ padding: 8 }}>*/}
+            {/*<button disabled={!phrase} onClick={loadErModel}>*/}
+              {/*BUILD COMMAND (load er-model)*/}
+            {/*</button>*/}
+            {/*<button disabled={!command} onClick={() => loadData(command)}>*/}
+              {/*RUN COMMAND (load data)*/}
+            {/*</button>*/}
+          {/*</div>*/}
+          {/*{dataLoading && <LinearProgress color="secondary" />}*/}
+        {/*</div>*/}
+        {/*<InfiniteTableLayout*/}
+          {/*bodyRows={dataTableBodyRows}*/}
+          {/*columns={dataTableColumns}*/}
+          {/*headRows={dataTableHeadRows}*/}
+          {/*heavyWeightRow={true}*/}
+          {/*renderBodyCell={ERModelBox.renderBodyCell}*/}
+          {/*renderHeadCell={ERModelBox.renderHeadCell}*/}
+          {/*tableHeight={'36vh'}*/}
+          {/*tableHeightPx={0}*/}
+          {/*tableMinWidthPx={0}*/}
+        {/*/>*/}
       </Fragment>
     );
   }
