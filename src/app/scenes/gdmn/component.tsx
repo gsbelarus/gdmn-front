@@ -66,20 +66,47 @@ class GdmnView extends Component<IGdmnViewProps & InjectedCSSModuleProps> {
           <div style={{ minHeight: 64 }} />
           <Divider />
           <List style={{ width: 240 }}>
-            <NavLink to={`${match.path}/apps`} activeClassName={'nav-item-selected'}>
+            <NavLink to={`${match.path}/apps`} activeClassName={'gdmn-nav-item-selected'}>
               <ListItem button={true}>
                 <ListItemIcon>
-                  <Icon>storage</Icon>
+                  <Icon>dns</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Applications" />
               </ListItem>
             </NavLink>
           </List>
+          {/*<Divider/>*/}
+          {/*<List style={{ width: 240 }}>*/}
+          {/*<NavLink to={`${match.path}/profile`} activeClassName={'nav-item-selected'}>*/}
+          {/*<ListItem button={true}>*/}
+          {/*<ListItemIcon>*/}
+          {/*<Icon>account_circle</Icon>*/}
+          {/*</ListItemIcon>*/}
+          {/*<ListItemText primary="Profile" />*/}
+          {/*</ListItem>*/}
+          {/*</NavLink>*/}
+          {/*<NavLink to={`${match.path}/account`} activeClassName={'nav-item-selected'}>*/}
+          {/*<ListItem button={true}>*/}
+          {/*<ListItemIcon>*/}
+          {/*<Icon>alternate_email</Icon>*/}
+          {/*</ListItemIcon>*/}
+          {/*<ListItemText primary="Account" />*/}
+          {/*</ListItem>*/}
+          {/*</NavLink>*/}
+          {/*<NavLink to={`${match.path}/orgs`} activeClassName={'nav-item-selected'}>*/}
+          {/*<ListItem button={true}>*/}
+          {/*<ListItemIcon>*/}
+          {/*<Icon>supervised_user_circle</Icon>*/}
+          {/*</ListItemIcon>*/}
+          {/*<ListItemText primary="Organizations" />*/}
+          {/*</ListItem>*/}
+          {/*</NavLink>*/}
+          {/*</List>*/}
           <Divider />
           <List style={{ width: 240 }}>
             <ListItem button={true} onClick={signOut}>
               <ListItemIcon>
-                <Icon>input</Icon>
+                <Icon>exit_to_app</Icon>
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>

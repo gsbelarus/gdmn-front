@@ -4,9 +4,10 @@
   text-align: center;
 
   flex-grow: 1;
+  /*display: flex;*/
 }
 
-:global .nav-item-selected * {
+:global .gdmn-nav-item-selected * {
   color: var(--palette-primary-main) !important;
 }
 

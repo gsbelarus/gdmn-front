@@ -16,12 +16,17 @@ import {
   CardContent,
   Typography,
   Avatar,
-  CardHeader
+  CardHeader,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 interface IAppsViewState {
-  aliasValue: string;
+  createDlgOpen: boolean;
 }
 
 interface IAppsViewStateProps {
@@ -38,14 +43,16 @@ type TAppsViewProps = IAppsViewStateProps & IAppsViewActionsProps;
 
 class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
   public state: IAppsViewState = {
-    aliasValue: ''
+    createDlgOpen: false
   };
+
+  private createDlgAliasInputRef: HTMLInputElement | null = null;
 
   constructor(props: TAppsViewProps) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
-    this.createApp = this.createApp.bind(this);
+    this.createDlgToggle = this.createDlgToggle.bind(this);
+    this.handleCreateApp = this.handleCreateApp.bind(this);
   }
 
   public componentDidMount() {
@@ -53,22 +60,21 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
     this.props.loadApps();
   }
 
-  private handleChange(evt: any) {
-    this.setState({
-      aliasValue: evt.target.value
-    });
+  private handleCreateApp() {
+    const alias = this.createDlgAliasInputRef!.value;
+    this.createDlgToggle();
+    this.props.createApp(alias);
   }
 
-  private createApp() {
-    this.props.createApp(this.state.aliasValue);
-    this.setState({ aliasValue: '' });
+  private createDlgToggle() {
+    this.setState({ createDlgOpen: !this.state.createDlgOpen });
   }
 
   public render(): JSX.Element {
     const { apps } = this.props;
 
     return (
-      <div style={{ flexGrow: 1, textAlign: 'initial' }}>
+      <div style={{ textAlign: 'initial' }}>
         <Grid container={true} spacing={24}>
           {apps &&
             apps.map(app => (
@@ -99,48 +105,40 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
               </Grid>
             ))}
         </Grid>
+        <Button
+          onClick={this.createDlgToggle}
+          variant="fab"
+          style={{ position: 'absolute', bottom: 16, right: 16 }}
+          color="secondary"
+        >
+          <Icon>add</Icon>
+        </Button>
+        <Dialog open={this.state.createDlgOpen} onClose={this.createDlgToggle} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Create application</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Fill out the form to create a new application:</DialogContentText>
+            <TextField
+              inputRef={(ref: HTMLInputElement) => {
+                this.createDlgAliasInputRef = ref;
+              }}
+              autoFocus={true}
+              margin="dense"
+              id="alias"
+              label="Application Name"
+              type="text"
+              fullWidth={true}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.createDlgToggle} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleCreateApp} color="primary">
+              Create
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
-
-      //   <form noValidate={true} autoComplete="off">
-      //     <TextField
-      //       id="alias"
-      //       label="Alias"
-      //       value={this.state.aliasValue}
-      //       onChange={this.handleChange}
-      //       margin="normal"
-      //     />
-      //     <Button variant="fab" mini={true} color="secondary" aria-label="Add" onClick={this.createApp}>
-      //       <AddIcon />
-      //     </Button>
-      //   </form>
-      //   <Paper>
-      //     <Table>
-      //       <TableHead>
-      //         <TableRow>
-      //           <TableCell>Alias</TableCell>
-      //           <TableCell>Uid</TableCell>
-      //           <TableCell />
-      //         </TableRow>
-      //       </TableHead>
-      //       <TableBody>
-      //         {apps &&
-      //           apps.map(demos => (
-      //             <TableRow key={demos.uid}>
-      //               <TableCell component="th" scope="row">
-      //                 {demos.alias}
-      //               </TableCell>
-      //               <TableCell>{demos.uid}</TableCell>
-      //               <TableCell>
-      //                 <IconButton aria-label="Delete" onClick={() => this.props.deleteApp(demos.uid)}>
-      //                   <DeleteIcon />
-      //                 </IconButton>
-      //               </TableCell>
-      //             </TableRow>
-      //           ))}
-      //       </TableBody>
-      //     </Table>
-      //   </Paper>
-      // </Grid>
     );
   }
 }
