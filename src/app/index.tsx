@@ -41,14 +41,15 @@ const DemosContainer = getDemosContainer(apiService);
 const NotFoundView = () => <h2>404!</h2>;
 const rootRoutes = (
   <Switch>
-    <Route exact={true} path="/" component={HomeView} />
-    <ProtectedRouteContainer path="/demos" accessLevel={RouteAccessLevelType.PUBLIC} component={DemosContainer} />
+    <Redirect exact={true} from={'/'} to={'spa'} />
+    <Route exact={true} path="/spa" component={HomeView} />
+    <ProtectedRouteContainer path="/spa/demos" accessLevel={RouteAccessLevelType.PUBLIC} component={DemosContainer} />
     <ProtectedRouteContainer
-      path="/gdmn/auth/signIn"
+      path="/spa/gdmn/auth/signIn"
       accessLevel={RouteAccessLevelType.PRIVATE_ANONYM}
       component={AuthContainer}
     />
-    <ProtectedRouteContainer path="/gdmn" accessLevel={RouteAccessLevelType.PROTECTED_USER} component={GdmnContainer} />
+    <ProtectedRouteContainer path="/spa/gdmn" accessLevel={RouteAccessLevelType.PROTECTED_USER} component={GdmnContainer} />
     <Route path="*" component={NotFoundView} />
   </Switch>
 );

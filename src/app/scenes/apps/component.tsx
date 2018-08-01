@@ -88,7 +88,7 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
                     }
                     action={
                       <Fragment>
-                        <Link to={`/gdmn/apps/${app.uid}/ermodel`}>
+                        <Link to={`/spa/gdmn/apps/${app.uid}/ermodel`}>
                           <IconButton>
                             <Icon>play_circle_filled</Icon>
                           </IconButton>

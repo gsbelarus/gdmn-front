@@ -9,6 +9,7 @@
       "port": 4000
     },
     "paths": {
+      "clientRoot": "/spa",
       "api": "/app/:uid/data",
       "er": "/app/:uid/er",
       "signIn": "/account/login",

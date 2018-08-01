@@ -49,7 +49,7 @@ class DemosView extends Component<IDemosViewProps & InjectedCSSModuleProps> {
                 Web
               </Button>
             </NavLink>
-            <Link styleName="nav-item" to={`/gdmn`}>
+            <Link styleName="nav-item" to={`/spa/gdmn`}>
               <Button variant="extendedFab" aria-label="Delete" color="primary">
                 <NavigationIcon style={{ marginRight: 8 }} />
                 GDMN-app

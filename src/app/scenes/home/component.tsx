@@ -8,7 +8,7 @@ const HomeView: SFC<RouteComponentProps<any>> = ({
   <Grid style={{ height: '100%' }} container={true} spacing={24} alignItems="center" justify="center">
     <Grid item={true}>
       <Card style={{ height: '30vh', width: '30vh' }}>
-        <Link to="/gdmn">
+        <Link to="/spa/gdmn">
           <ButtonBase
             focusRipple={true}
             style={{
@@ -26,7 +26,7 @@ const HomeView: SFC<RouteComponentProps<any>> = ({
 
     <Grid item={true}>
       <Card style={{ height: '30vh', width: '30vh' }}>
-        <Link to="/demos">
+        <Link to="/spa/demos">
           <ButtonBase
             focusRipple={true}
             style={{
