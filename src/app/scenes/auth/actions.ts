@@ -3,6 +3,15 @@ import { ActionType, createAction } from 'typesafe-actions';
 import { UserRoleType } from '@core/services/Auth';
 
 const actions = {
+  signUpRequest: createAction('auth/SIGN_UP_REQUEST', resolve => {
+    return () => resolve();
+  }),
+  signUpRequestOk: createAction('auth/SIGN_UP_REQUEST_OK', resolve => {
+    return () => resolve();
+  }),
+  signUpRequestError: createAction('auth/SIGN_UP_REQUEST_ERROR', resolve => {
+    return (error: Error) => resolve(error);
+  }),
   signInRequest: createAction('auth/SIGN_IN_REQUEST', resolve => {
     return () => resolve();
   }),

@@ -25,6 +25,7 @@ const config = require('configFile'); // FIXME import config from 'configFile';
 const basePath = `${config.server.http.host}:${config.server.http.port}`;
 const apiEndpoints: IEndpoints = {
   data: `${basePath}${config.server.paths.api}`,
+  signUp: `${basePath}${config.server.paths.signUp}`,
   signIn: `${basePath}${config.server.paths.signIn}`,
   app: `${basePath}${config.server.paths.appRes}`,
   er: `${basePath}${config.server.paths.er}`,
@@ -45,11 +46,15 @@ const rootRoutes = (
     <Route exact={true} path="/spa" component={HomeView} />
     <ProtectedRouteContainer path="/spa/demos" accessLevel={RouteAccessLevelType.PUBLIC} component={DemosContainer} />
     <ProtectedRouteContainer
-      path="/spa/gdmn/auth/signIn"
+      path="/spa/gdmn/auth"
       accessLevel={RouteAccessLevelType.PRIVATE_ANONYM}
       component={AuthContainer}
     />
-    <ProtectedRouteContainer path="/spa/gdmn" accessLevel={RouteAccessLevelType.PROTECTED_USER} component={GdmnContainer} />
+    <ProtectedRouteContainer
+      path="/spa/gdmn"
+      accessLevel={RouteAccessLevelType.PROTECTED_USER}
+      component={GdmnContainer}
+    />
     <Route path="*" component={NotFoundView} />
   </Switch>
 );

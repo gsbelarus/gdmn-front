@@ -5,6 +5,7 @@ import { IResponseError } from '@core/gdmn-api/IResponseError';
 import { HttpStatusError } from '@core/errors/HttpStatusError';
 import { TAccountRefreshTokenResponse } from '@core/gdmn-api/account/TAccountRefreshTokenResponse';
 import { IAccountLoginResponse } from '@core/gdmn-api/account/IAccountLoginResponse';
+import { TAccountCreateResponse } from '@core/gdmn-api/account/TAccountCreateResponse';
 
 const enum THttpMethod {
   POST = 'POST',
@@ -21,6 +22,7 @@ const enum TAuthScheme {
 }
 
 interface IApiEndpoints {
+  signUp: string;
   signIn: string;
   refreshAccessToken: string;
 }
@@ -105,18 +107,26 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
   }
 
   // TODO extract
-  public async fetchSignIn(request: TSignInRequestFormData): Promise<IAccountLoginResponse> {
+  public async fetchSignIn(
+    request: TSignInRequestFormData,
+    uri = this.apiEndpoints.signIn
+  ): Promise<IAccountLoginResponse> {
     const formData = new URLSearchParams();
     Reflect.ownKeys(request).forEach((keyValue: PropertyKey) =>
       formData.set(keyValue.toString(), (<any>request)[keyValue])
     );
 
-    const responseBody = await this.fetchForm(this.apiEndpoints.signIn, formData);
+    const responseBody = await this.fetchForm(uri, formData);
     // console.log('[GDMN] fetchSignIn DONE.');
     const res = <IAccountLoginResponse>JSON.parse(responseBody);
     await this.authService.storeTokens(res.access_token, res.refresh_token); // TODO extract
 
     return res;
+  }
+
+  // TODO extract
+  public async fetchSignUp(request: TSignInRequestFormData): Promise<TAccountCreateResponse> {
+    return <TAccountCreateResponse>await this.fetchSignIn(request, this.apiEndpoints.signUp);
   }
 
   protected static checkStatus(response: Response): void | never {

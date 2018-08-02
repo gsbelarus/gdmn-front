@@ -35,6 +35,9 @@ Builds the app for production.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.<br>
 The build is minified and the filenames include the hashes.
 
+## Related projects
+
+- [`gdmn-back`][gdmn-back-url] - Server
 
 ## Contributing
 
@@ -70,3 +73,4 @@ This project is released with a [Contributor Code of Conduct][code-of-conduct-ur
 [code-of-conduct-url]: .github/CODE_OF_CONDUCT.md
 [prettier-badge]: https://img.shields.io/badge/styled_with-prettier-ff69b4.svg
 [prettier-url]: https://github.com/prettier/prettier
+[gdmn-back-url]: https://github.com/gsbelarus/gdmn-back

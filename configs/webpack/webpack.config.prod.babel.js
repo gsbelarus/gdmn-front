@@ -39,7 +39,9 @@ export default merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME
         include: STYLES_PATH,
         use: [
           // 'style-loader',
-          MiniCssExtractPlugin.loader, cssLoader]
+          MiniCssExtractPlugin.loader,
+          cssLoader
+        ]
       },
       {
         test: /\.css$/,
@@ -47,7 +49,9 @@ export default merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME
         exclude: STYLES_PATH,
         use: [
           // 'style-loader',
-          MiniCssExtractPlugin.loader, cssModulesLoader]
+          MiniCssExtractPlugin.loader,
+          cssModulesLoader
+        ]
       }
     ]
   },

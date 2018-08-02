@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
 import { Auth, UserRoleType } from '@core/services/Auth';
-import { Api } from '@core/services/Api';
 import { IState } from '@src/app/store/reducer';
 import { actions } from '@src/app/scenes/auth/actions';
 import { ISignInFormData, ISignInFormProps, SignInForm } from '@src/app/scenes/auth/components/SignInForm';
 import { AuthView, IAuthViewProps, IAuthViewStateProps } from '@src/app/scenes/auth/component';
-import { IAccountLoginRequest } from '@core/gdmn-api/account/IAccountLoginRequest';
 import { IAccountLoginResponse } from '@core/gdmn-api/account/IAccountLoginResponse';
-import { IEndpoints } from '@core/gdmn-api/IEndpoints';
 import { GdmnApi } from '@src/app/services/GdmnApi';
+import { ISignUpFormData, ISignUpFormProps, SignUpForm } from '@src/app/scenes/auth/components/SignUpForm';
+import { TAccountCreateResponse } from '@core/gdmn-api/account/TAccountCreateResponse';
 
 const parseSignInResponse = (payload: any) => {
   payload.userRole = UserRoleType.USER; // decodeToken(payload.token).role // TODO tmp
@@ -27,12 +26,12 @@ const parseSignInResponse = (payload: any) => {
   return payload;
 };
 
-const initialValues: ISignInFormData = { username: 'Administrator', password: 'Administrator' };
+const signInFormInitialValues: ISignInFormData = { username: 'Administrator', password: 'Administrator' };
 const getSignInFormContainer = (apiService: GdmnApi) =>
   compose<ISignInFormProps, ISignInFormProps>(
     connect(
       state => ({
-        initialValues
+        signInFormInitialValues
       }),
       (dispatch, ownProps) => ({
         onSubmit: async (formData: Partial<ISignInFormData>) => {
@@ -62,15 +61,51 @@ const getSignInFormContainer = (apiService: GdmnApi) =>
     })
   )(SignInForm);
 
+const getSignUpFormContainer = (apiService: GdmnApi) =>
+  compose<ISignUpFormProps, ISignUpFormProps>(
+    connect(
+      null,
+      (dispatch, ownProps) => ({
+        onSubmit: async (formData: Partial<ISignUpFormData>) => {
+          // TODO async action
+
+          dispatch(actions.signUpRequest());
+
+          try {
+            const responseBody = <TAccountCreateResponse>(
+              await apiService.fetchSignUp({ login: formData.username || '', password: formData.password || '' })
+            );
+
+            dispatch(actions.signUpRequestOk());
+
+            const payload = parseSignInResponse(responseBody);
+            dispatch(actions.signInRequestOk(payload.userRole));
+
+            console.log(payload);
+          } catch (error) {
+            console.log('[GDMN] ', error);
+
+            dispatch(actions.signUpRequestError(error));
+          }
+        }
+      })
+    ),
+    reduxForm<ISignUpFormData>({
+      form: 'SignUpForm'
+    })
+  )(SignUpForm);
+
 const getAuthContainer = (apiService: GdmnApi) =>
   compose<IAuthViewProps, IAuthViewProps>(
     connect(
       (state: IState, ownProps: IAuthViewProps): IAuthViewStateProps => ({
-        isSubmitting: state.form && state.form.SignInForm ? state.form.SignInForm.submitting : false
+        signInFormSubmitting: state.form && state.form.SignInForm ? state.form.SignInForm.submitting : false,
+        signUpFormSubmitting: state.form && state.form.SignUpForm ? state.form.SignUpForm.submitting : false
       })
     ),
     withProps({
-      renderSignInFormContainer: getSignInFormContainer(apiService)
+      renderSignInFormContainer: getSignInFormContainer(apiService),
+      renderSignUpFormContainer: getSignUpFormContainer(apiService)
     })
   )(AuthView);
 
