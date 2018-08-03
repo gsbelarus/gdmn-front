@@ -1,7 +1,10 @@
-import webpack from 'webpack';
-import merge from 'webpack-merge';
-import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-import noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddleware';
+// tslint:disable no-submodule-imports
+import { Configuration, EnvironmentPlugin, HotModuleReplacementPlugin, NamedModulesPlugin } from 'webpack';
+import * as merge from 'webpack-merge';
+// @ts-ignore
+import * as errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
+// @ts-ignore
+import * as noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddleware';
 
 import { getRootRelativePath } from './utils';
 import { getWebpackConfigBase, cssLoader, cssModulesLoader } from './webpackConfigBase';
@@ -10,23 +13,24 @@ const OUTPUT_FILENAME = 'scripts/[name].bundle.js';
 const OUTPUT_CHUNK_FILENAME = 'scripts/[name].chunk.js';
 const STYLES_PATH = getRootRelativePath('src/styles');
 
-export default merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
+const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
   devtool: 'cheap-module-source-map',
   mode: 'development',
   devServer: {
     host: 'localhost',
     port: 9090,
     historyApiFallback: true,
-    hot: true, //HMR
-    inline: true, //HMR
+    hot: true, // HMR
+    inline: true, // HMR
     open: true,
     publicPath: '/',
-    stats: {
-      assets: false,
-      children: false,
-      colors: true,
-      modules: false
-    },
+    // FIXME type
+    // stats: {
+    // assets: false,
+    // children: false,
+    // colors: true,
+    // modules: false
+    // },
     overlay: {
       warnings: true,
       errors: true
@@ -77,11 +81,14 @@ export default merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME
     ]
   },
   plugins: [
-    new webpack.EnvironmentPlugin({
+    new EnvironmentPlugin({
       NODE_ENV: 'development'
     }),
-    new webpack.HotModuleReplacementPlugin(), // TODO test hot: true
+    new HotModuleReplacementPlugin(), // TODO test hot: true
     // prints more readable module names in the browser console on HMR updates
-    new webpack.NamedModulesPlugin()
+    new NamedModulesPlugin()
   ]
 });
+
+// tslint:disable-next-line no-default-export
+export default config;

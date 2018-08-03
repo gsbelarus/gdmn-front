@@ -1,8 +1,8 @@
-import webpack from 'webpack';
-import merge from 'webpack-merge';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+import { Configuration, EnvironmentPlugin } from 'webpack';
+import * as merge from 'webpack-merge';
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import * as CleanWebpackPlugin from 'clean-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 import { getWebpackConfigBase, cssLoader, cssModulesLoader } from './webpackConfigBase';
@@ -13,7 +13,7 @@ const OUTPUT_CHUNK_FILENAME = 'scripts/[name].[chunkhash].chunk.js';
 const EXTRACT_CSS_FILENAME = 'styles/[name].[chunkhash].css';
 const STYLES_PATH = getRootRelativePath('src/styles');
 
-export default merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
+const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME), {
   devtool: 'source-map',
   mode: 'production',
   module: {
@@ -83,12 +83,15 @@ export default merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT_CHUNK_FILENAME
   // },
   plugins: [
     new CleanWebpackPlugin(['dist'], {
-      root: getRootRelativePath()
+      root: getRootRelativePath('')
     }),
     new MiniCssExtractPlugin({ filename: EXTRACT_CSS_FILENAME }),
     new BundleAnalyzerPlugin(),
-    new webpack.EnvironmentPlugin({
+    new EnvironmentPlugin({
       NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production')
     })
   ]
 });
+
+// tslint:disable-next-line no-default-export
+export default config;

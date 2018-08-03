@@ -1,12 +1,13 @@
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { Configuration, NoEmitOnErrorsPlugin, RuleSetLoader } from 'webpack';
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 
-import config from '../config.json';
-import pkg from '../../package.json';
+// FIXME typings
+const config = require('../config.json');
+const pkg = require('../../package.json');
 import { getRootRelativePath } from './utils';
 // import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
-function getWebpackConfigBase(outputFilename, outputChunkFilename) {
+function getWebpackConfigBase(outputFilename: string, outputChunkFilename: string): Configuration {
   return {
     entry: {
       app: [
@@ -32,7 +33,7 @@ function getWebpackConfigBase(outputFilename, outputChunkFilename) {
         description: pkg.description,
         mobile: true
       }),
-      new webpack.NoEmitOnErrorsPlugin()
+      new NoEmitOnErrorsPlugin()
     ],
     resolve: {
       alias: {
@@ -45,14 +46,14 @@ function getWebpackConfigBase(outputFilename, outputChunkFilename) {
   };
 }
 
-const cssLoader = {
+const cssLoader: RuleSetLoader = {
   loader: 'css-loader',
   options: {
     sourceMap: true
   }
 };
 
-const cssModulesLoader = {
+const cssModulesLoader: RuleSetLoader = {
   loader: 'css-loader',
   options: {
     modules: true,
