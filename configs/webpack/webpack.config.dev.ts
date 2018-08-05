@@ -1,10 +1,10 @@
 // tslint:disable no-submodule-imports
 import { Configuration, EnvironmentPlugin, HotModuleReplacementPlugin, NamedModulesPlugin } from 'webpack';
-import * as merge from 'webpack-merge';
+import merge from 'webpack-merge';
 // @ts-ignore
-import * as errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
+import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
 // @ts-ignore
-import * as noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddleware';
+import noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddleware';
 
 import { getRootRelativePath } from './utils';
 import { getWebpackConfigBase, cssLoader, cssModulesLoader } from './webpackConfigBase';

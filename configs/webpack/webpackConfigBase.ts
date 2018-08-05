@@ -1,8 +1,9 @@
 import { Configuration, NoEmitOnErrorsPlugin, RuleSetLoader } from 'webpack';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 // FIXME typings
 const config = require('../config.json');
+// import config from '../config.json';
 const pkg = require('../../package.json');
 import { getRootRelativePath } from './utils';
 // import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';

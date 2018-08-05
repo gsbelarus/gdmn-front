@@ -4,6 +4,7 @@
     "module": "commonjs",
     "allowSyntheticDefaultImports": true,
     "allowJs": false,
-    "checkJs": false
+    "checkJs": false,
+    "esModuleInterop": true
   }
 }

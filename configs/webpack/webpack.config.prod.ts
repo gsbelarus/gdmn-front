@@ -1,8 +1,8 @@
 import { Configuration, EnvironmentPlugin } from 'webpack';
-import * as merge from 'webpack-merge';
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
-import * as CleanWebpackPlugin from 'clean-webpack-plugin';
+import merge from 'webpack-merge';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 import { getWebpackConfigBase, cssLoader, cssModulesLoader } from './webpackConfigBase';
@@ -38,7 +38,6 @@ const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT
         test: /\.css$/,
         include: STYLES_PATH,
         use: [
-          // 'style-loader',
           MiniCssExtractPlugin.loader,
           cssLoader
         ]
@@ -48,7 +47,6 @@ const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT
         include: getRootRelativePath('src'),
         exclude: STYLES_PATH,
         use: [
-          // 'style-loader',
           MiniCssExtractPlugin.loader,
           cssModulesLoader
         ]
