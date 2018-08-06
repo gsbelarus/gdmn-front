@@ -8,8 +8,8 @@ const ProtectedRouteContainer = connect(
   (state: IState, ownProps: IProtectedRouteProps): IProtectedRouteStateProps => ({
     userRole: selectAuthState(state).userRole,
     authenticated: selectAuthState(state).authenticated,
-    defaultAnonymPath: '/spa/gdmn/auth/signIn',
-    defaultUserPath: '/spa/gdmn'
+    defaultAnonymPath: '/spa/gdmn/auth/signIn', // TODO
+    defaultUserPath: '/spa/gdmn' // TODO
   })
 )(ProtectedRoute);
 

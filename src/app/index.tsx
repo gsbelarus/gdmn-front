@@ -19,9 +19,10 @@ import { getGdmnContainer } from '@src/app/scenes/gdmn/container';
 import { getDemosContainer } from '@src/app/scenes/demos/container';
 import { HomeView } from '@src/app/scenes/home/component';
 
-const config = require('configFile'); // FIXME import config from 'configFile';
+import config from 'config.json';
 
 // TODO server host/port from window
+const clientRootPath = config.server.paths.clientRoot;
 const basePath = `${config.server.http.host}:${config.server.http.port}`;
 const apiEndpoints: IEndpoints = {
   data: `${basePath}${config.server.paths.api}`,
@@ -42,16 +43,20 @@ const DemosContainer = getDemosContainer(apiService);
 const NotFoundView = () => <h2>404!</h2>;
 const rootRoutes = (
   <Switch>
-    <Redirect exact={true} from={'/'} to={'spa'} />
-    <Route exact={true} path="/spa" component={HomeView} />
-    <ProtectedRouteContainer path="/spa/demos" accessLevel={RouteAccessLevelType.PUBLIC} component={DemosContainer} />
+    <Redirect exact={true} from={'/'} to={clientRootPath} />
+    <Route exact={true} path={clientRootPath} component={HomeView} />
     <ProtectedRouteContainer
-      path="/spa/gdmn/auth"
+      path={`${clientRootPath}/demos`}
+      accessLevel={RouteAccessLevelType.PUBLIC}
+      component={DemosContainer}
+    />
+    <ProtectedRouteContainer
+      path={`${clientRootPath}/gdmn/auth`}
       accessLevel={RouteAccessLevelType.PRIVATE_ANONYM}
       component={AuthContainer}
     />
     <ProtectedRouteContainer
-      path="/spa/gdmn"
+      path={`${clientRootPath}/gdmn`}
       accessLevel={RouteAccessLevelType.PROTECTED_USER}
       component={GdmnContainer}
     />

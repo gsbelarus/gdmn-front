@@ -23,32 +23,32 @@ import {
   DialogContentText,
   DialogActions
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
-interface IAppsViewState {
+interface IDataStoresViewState {
   createDlgOpen: boolean;
 }
 
-interface IAppsViewStateProps {
-  readonly apps?: Array<{ uid: string; alias: string }>;
+interface IDataStoresViewStateProps {
+  readonly dataStores?: Array<{ uid: string; alias: string }>;
 }
 
-interface IAppsViewActionsProps {
-  loadApps: () => void;
-  deleteApp: (uid: string) => void;
-  createApp: (alias: string) => void;
+interface IDataStoresViewActionsProps {
+  loadDataStores: () => void;
+  deleteDataStore: (uid: string) => void;
+  createDataStore: (alias: string) => void;
 }
 
-type TAppsViewProps = IAppsViewStateProps & IAppsViewActionsProps;
+type TDataStoresViewProps = IDataStoresViewStateProps & IDataStoresViewActionsProps & RouteComponentProps<any>;
 
-class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
-  public state: IAppsViewState = {
+class DataStoresView extends PureComponent<TDataStoresViewProps, IDataStoresViewState> {
+  public state: IDataStoresViewState = {
     createDlgOpen: false
   };
 
   private createDlgAliasInputRef: HTMLInputElement | null = null;
 
-  constructor(props: TAppsViewProps) {
+  constructor(props: TDataStoresViewProps) {
     super(props);
 
     this.createDlgToggle = this.createDlgToggle.bind(this);
@@ -57,13 +57,13 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
 
   public componentDidMount() {
     // TODO extract
-    this.props.loadApps();
+    this.props.loadDataStores();
   }
 
   private handleCreateApp() {
     const alias = this.createDlgAliasInputRef!.value;
     this.createDlgToggle();
-    this.props.createApp(alias);
+    this.props.createDataStore(alias);
   }
 
   private createDlgToggle() {
@@ -71,29 +71,29 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
   }
 
   public render(): JSX.Element {
-    const { apps } = this.props;
+    const { dataStores, match } = this.props;
 
     return (
       <div style={{ textAlign: 'initial' }}>
         <Grid container={true} spacing={24}>
-          {apps &&
-            apps.map(app => (
+          {dataStores &&
+            dataStores.map(app => (
               <Grid item={true} xs={12} sm={6} key={app.uid}>
                 <Card>
                   <CardHeader
                     avatar={
-                      <Avatar aria-label="Application">
+                      <Avatar aria-label="Datastore">
                         <Icon>storage</Icon>
                       </Avatar>
                     }
                     action={
                       <Fragment>
-                        <Link to={`/spa/gdmn/apps/${app.uid}/ermodel`}>
+                        <Link to={`${match.url}/${app.uid}/ermodel`}>
                           <IconButton>
                             <Icon>play_circle_filled</Icon>
                           </IconButton>
                         </Link>
-                        <IconButton onClick={() => this.props.deleteApp(app.uid)}>
+                        <IconButton onClick={() => this.props.deleteDataStore(app.uid)}>
                           <Icon>delete</Icon>
                         </IconButton>
                       </Fragment>
@@ -114,9 +114,9 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
           <Icon>add</Icon>
         </Button>
         <Dialog open={this.state.createDlgOpen} onClose={this.createDlgToggle} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Create application</DialogTitle>
+          <DialogTitle id="form-dialog-title">Create datastore</DialogTitle>
           <DialogContent>
-            <DialogContentText>Fill out the form to create a new application:</DialogContentText>
+            <DialogContentText>Fill out the form to create a new datastore:</DialogContentText>
             <TextField
               inputRef={(ref: HTMLInputElement) => {
                 this.createDlgAliasInputRef = ref;
@@ -124,7 +124,7 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
               autoFocus={true}
               margin="dense"
               id="alias"
-              label="Application Name"
+              label="Datastore Name"
               type="text"
               fullWidth={true}
             />
@@ -143,4 +143,4 @@ class AppsView extends PureComponent<TAppsViewProps, IAppsViewState> {
   }
 }
 
-export { AppsView, TAppsViewProps, IAppsViewStateProps, IAppsViewActionsProps };
+export { DataStoresView, TDataStoresViewProps, IDataStoresViewStateProps, IDataStoresViewActionsProps };

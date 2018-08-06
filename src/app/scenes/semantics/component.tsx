@@ -168,7 +168,11 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
             </div>
           </div>
         </div>
-        <div styleName="SemanticsOutput">{wordsSignatures.map((p, idx) => <div key={idx}>{p}</div>)}</div>
+        <div styleName="SemanticsOutput">
+          {wordsSignatures.map((p, idx) => (
+            <div key={idx}>{p}</div>
+          ))}
+        </div>
         <div styleName="CommandAndGraph">
           {/*<div>*/}
           {/*{displayCommand()}*/}

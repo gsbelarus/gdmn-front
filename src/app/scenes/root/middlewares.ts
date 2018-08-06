@@ -35,7 +35,7 @@ const middlewares: Middleware[] = [errorMiddleware];
 export { middlewares };
 
 // const redirectMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
-//     if (action.type === getType(actions.redirect)) {
+//     if (action.type === getType(ermodelActions.redirect)) {
 //       const path = action.payload || '/';
 //       browserHistory.push(action.payload);
 //     }
@@ -46,9 +46,9 @@ export { middlewares };
 // }
 
 // const notAuthorizedAccessMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
-//   if (action.type === getType(actions.notAuthorizedAccess)) {
+//   if (action.type === getType(ermodelActions.notAuthorizedAccess)) {
 //     next(action);
-//     dispatch(actions.redirect('/auth/signIn'));
+//     dispatch(ermodelActions.redirect('/auth/signIn'));
 //     return;
 //   }
 //
@@ -56,8 +56,8 @@ export { middlewares };
 // };
 //
 // const getAccessDeniedMiddleware = (authStore: Auth): Middleware => ({ dispatch, getState }) => next => action => {
-//   if (action.type === getType(actions.accessDenied)) {
-//     dispatch(actions.redirect('/')); // dispatch({ type:'ON_ERROR', payload: new Error('Нет прав доступа'), error: true });
+//   if (action.type === getType(ermodelActions.accessDenied)) {
+//     dispatch(ermodelActions.redirect('/')); // dispatch({ type:'ON_ERROR', payload: new Error('Нет прав доступа'), error: true });
 //     return next(action);
 //   } else if (action.type === getType(authActions.signOut)) {
 //     authStore.removeAccessToken().then(() => next(action));

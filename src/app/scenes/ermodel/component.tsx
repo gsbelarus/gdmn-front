@@ -14,7 +14,7 @@ import {
   TableSelectorCell,
   TTableRowProps
 } from '@core/components/data-grid-mui';
-import { actions } from '@src/app/scenes/ermodel/actions';
+import { ermodelActions } from '@src/app/scenes/ermodel/actions';
 import { entitiesSelectedRowSelector, fieldsSelectedRowSelector } from '@src/app/scenes/ermodel/selectors';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -47,7 +47,7 @@ interface IERModelBoxActionsProps {
 
 type TERModelBoxProps = IERModelBoxStateProps & IERModelBoxSelectorProps & IERModelBoxActionsProps;
 
-// @CSSModules(commonStyle) FIXME webpack modules in styles
+// @CSSModules(commonStyle)
 @CSSModules(styles)
 class ERModelBox extends PureComponent<TERModelBoxProps & RouteComponentProps<any>> {
   public render(): JSX.Element {
@@ -184,7 +184,9 @@ class ERModelBox extends PureComponent<TERModelBoxProps & RouteComponentProps<an
           'aria-checked': entitiesSelectedRowSelector(state, props)
         };
       },
-      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.singleselectToggleEntitiesRow, dispatch) })
+      (dispatch, props) => ({
+        onSelectionToggle: bindActionCreators(ermodelActions.singleselectToggleEntitiesRow, dispatch)
+      })
     )(ERModelBox.SelectableRow)
   );
 
@@ -196,7 +198,9 @@ class ERModelBox extends PureComponent<TERModelBoxProps & RouteComponentProps<an
           'aria-checked': fieldsSelectedRowSelector(state, props)
         };
       },
-      (dispatch, props) => ({ onSelectionToggle: bindActionCreators(actions.multiselectToggleFieldsRow, dispatch) })
+      (dispatch, props) => ({
+        onSelectionToggle: bindActionCreators(ermodelActions.multiselectToggleFieldsRow, dispatch)
+      })
     )(ERModelBox.SelectableRow)
   );
 

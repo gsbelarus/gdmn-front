@@ -98,7 +98,9 @@ class TableLayout extends PureComponent<ITableLayoutProps, any> {
         <Table style={{ minWidth: `${minWidth}px` }}>
           {ColGroup && (
             <ColGroup>
-              {columns.map(column => <Col key={column.id} style={{ width: column.widthPx }} column={column} />)}
+              {columns.map(column => (
+                <Col key={column.id} style={{ width: column.widthPx }} column={column} />
+              ))}
             </ColGroup>
           )}
           {Head && (
@@ -115,7 +117,9 @@ class TableLayout extends PureComponent<ITableLayoutProps, any> {
             {!!bodyRows &&
               bodyRows.map(row => (
                 <Row key={row.id} uid={row.id}>
-                  {columns.map(column => <BodyCell key={column.id} column={column} rowData={row} />)}
+                  {columns.map(column => (
+                    <BodyCell key={column.id} column={column} rowData={row} />
+                  ))}
                 </Row>
               ))}
           </Body>

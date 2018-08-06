@@ -2,7 +2,7 @@ import { getType } from 'typesafe-actions';
 import { ERTranslatorRU } from 'gdmn-nlp-agent';
 
 import { TActions } from '@src/app/store/TActions';
-import { actions as ermodelActions } from '@src/app/scenes/ermodel/actions';
+import { ermodelActions } from '@src/app/scenes/ermodel/actions';
 import { ISemanticsBoxStateProps } from '@src/app/scenes/semantics/component';
 import { actions } from '@src/app/scenes/semantics/actions';
 

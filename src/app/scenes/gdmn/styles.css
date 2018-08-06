@@ -14,3 +14,7 @@
 .main.scene-pad {
   padding: calc(var(--spacing-unit) * 4);
 }
+
+:global .gdmn-nav-item-nested {
+  padding-left: calc(var(--spacing-unit) * 4) !important;
+}

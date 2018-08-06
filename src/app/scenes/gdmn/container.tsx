@@ -1,24 +1,43 @@
-import { withProps, compose } from 'recompose';
+import { withProps, compose, lifecycle } from 'recompose';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { getAppsContainer } from '@src/app/scenes/apps/container';
+import { getDataStoresContainer } from '@src/app/scenes/datastores/container';
 import { GdmnApi } from '@src/app/services/GdmnApi';
-import { GdmnView, IGdmnViewProps } from '@src/app/scenes/gdmn/component';
-import { getERModelBoxContainer } from '@src/app/scenes/ermodel/container';
+import { GdmnView, IGdmnViewProps, TGdmnViewStateProps } from '@src/app/scenes/gdmn/component';
 import { actions as authActions } from '@src/app/scenes/auth/actions';
+import { IState } from '@src/app/store/reducer';
+import { selectDataStoresState } from '@src/app/store/selectors';
+import { getDatastoreContainer } from '@src/app/scenes/datastore/container';
+import { dataStoresActions } from '@src/app/scenes/datastores/actions';
 
 const getGdmnContainer = (apiService: GdmnApi) =>
   compose<IGdmnViewProps, IGdmnViewProps>(
     connect(
-      null,
+      (state: IState, ownProps: IGdmnViewProps): TGdmnViewStateProps => ({
+        ...selectDataStoresState(state)
+      }),
       dispatch => ({
-        signOut: bindActionCreators(authActions.signOut, dispatch)
+        signOut: bindActionCreators(authActions.signOut, dispatch),
+        async loadDataStores() {
+          dispatch(dataStoresActions.loadDataStoresRequest());
+          try {
+            const res = await apiService.loadDataStores();
+            dispatch(dataStoresActions.loadDataStoresRequestOk(res));
+          } catch (err) {
+            dispatch(dataStoresActions.loadDataStoresRequestError(err));
+          }
+        }
       })
     ),
     withProps<any, IGdmnViewProps>({
-      renderAppsViewContainer: getAppsContainer(apiService),
-      renderERModelBoxContainer: getERModelBoxContainer(apiService)
+      renderDataStoresViewContainer: getDataStoresContainer(apiService),
+      renderDatastoreViewContainer: getDatastoreContainer(apiService)
+    }),
+    lifecycle<IGdmnViewProps, any>({
+      async componentDidMount() {
+        await this.props.loadDataStores();
+      }
     })
   )(GdmnView);
 

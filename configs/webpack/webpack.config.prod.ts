@@ -37,19 +37,13 @@ const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT
       {
         test: /\.css$/,
         include: STYLES_PATH,
-        use: [
-          MiniCssExtractPlugin.loader,
-          cssLoader
-        ]
+        use: [MiniCssExtractPlugin.loader, cssLoader]
       },
       {
         test: /\.css$/,
         include: getRootRelativePath('src'),
         exclude: STYLES_PATH,
-        use: [
-          MiniCssExtractPlugin.loader,
-          cssModulesLoader
-        ]
+        use: [MiniCssExtractPlugin.loader, cssModulesLoader]
       }
     ]
   },

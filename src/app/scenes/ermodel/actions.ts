@@ -2,7 +2,7 @@ import { ERModel } from 'gdmn-orm';
 import { Key } from 'react';
 import { ActionType, createAction } from 'typesafe-actions';
 
-const actions = {
+const ermodelActions = {
   // load er-model
   loadERModelRequest: createAction('demos/ermodel/LOAD_ERMODEL_REQUEST', resolve => {
     return () => resolve();
@@ -32,18 +32,18 @@ const actions = {
   })
 };
 
-type TErModelActions = ActionType<typeof actions>;
+type TErModelActions = ActionType<typeof ermodelActions>;
 
 // FIXME
-actions.loadERModelRequestError = (error: Error) => ({
+ermodelActions.loadERModelRequestError = (error: Error) => ({
   type: 'demos/ermodel/LOAD_ERMODEL_REQUEST_ERROR',
   payload: error,
   error: true
 });
-actions.loadEntityDataRequestError = (error: Error) => ({
+ermodelActions.loadEntityDataRequestError = (error: Error) => ({
   type: 'demos/ermodel/LOAD_ENTITY_DATA_REQUEST_ERROR',
   payload: error,
   error: true
 });
 
-export { actions, TErModelActions };
+export { ermodelActions, TErModelActions };

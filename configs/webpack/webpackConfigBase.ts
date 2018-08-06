@@ -3,7 +3,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 // FIXME typings
 const config = require('../config.json');
-// import config from '../config.json';
 const pkg = require('../../package.json');
 import { getRootRelativePath } from './utils';
 // import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
@@ -40,7 +39,7 @@ function getWebpackConfigBase(outputFilename: string, outputChunkFilename: strin
       alias: {
         '@core': getRootRelativePath('src/app/core'),
         '@src': getRootRelativePath('src'),
-        configFile: getRootRelativePath('configs/config.json')
+        'config.json': getRootRelativePath('configs/config.json')
       },
       extensions: ['.tsx', '.ts', '.js', '.jsx', '.json']
     }

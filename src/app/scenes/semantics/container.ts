@@ -7,7 +7,7 @@ import { GdmnApi } from '@src/app/services/GdmnApi';
 import { IState } from '@src/app/store/reducer';
 import { selectSemanticsState } from '@src/app/store/selectors';
 import { TActions } from '@src/app/store/TActions';
-import { actions as erModelActions } from '@src/app/scenes/ermodel/actions';
+import { ermodelActions } from '@src/app/scenes/ermodel/actions';
 import { ermodelSelector } from '@src/app/scenes/ermodel/selectors';
 import { actions } from '@src/app/scenes/semantics/actions';
 import {
@@ -44,12 +44,12 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
       onParse: (text: string) => dispatch(actions.setParsedText(parsePhrase(text))),
       loadErModel: async () => {
         // TODO async action
-        dispatch(erModelActions.loadERModelRequest());
+        dispatch(ermodelActions.loadERModelRequest());
         try {
           const erModel = await apiService.fetchEr();
-          dispatch(erModelActions.loadERModelRequestOk(erModel));
+          dispatch(ermodelActions.loadERModelRequestOk(erModel));
         } catch (err) {
-          dispatch(erModelActions.loadERModelRequestError(err));
+          dispatch(ermodelActions.loadERModelRequestError(err));
         }
       },
       loadData: async (command: any) => {

@@ -6,7 +6,7 @@ import { Dispatch } from 'redux';
 import { GdmnApi } from '@src/app/services/GdmnApi';
 import { IState } from '@src/app/store/reducer';
 import { selectErmodelState } from '@src/app/store/selectors';
-import { actions, TErModelActions } from '@src/app/scenes/ermodel/actions';
+import { ermodelActions, TErModelActions } from '@src/app/scenes/ermodel/actions';
 import {
   ERModelBox,
   IERModelBoxActionsProps,
@@ -22,7 +22,7 @@ import {
   selectedEntitySelector,
   selectedFieldsSelector
 } from '@src/app/scenes/ermodel/selectors';
-import { compose } from 'recompose';
+import { compose, lifecycle } from 'recompose';
 import { withRouter } from 'react-router';
 
 interface IDispatchToProps extends IERModelBoxActionsProps {
@@ -55,13 +55,13 @@ const getERModelBoxContainer = (apiService: GdmnApi) =>
       (dispatch: Dispatch<TErModelActions>): IDispatchToProps => ({
         loadErModel: async (appId: string) => {
           // TODO async action
-          dispatch(actions.loadERModelRequest());
+          dispatch(ermodelActions.loadERModelRequest());
 
           try {
             const erModel = await apiService.fetchEr(appId);
-            dispatch(actions.loadERModelRequestOk(erModel));
+            dispatch(ermodelActions.loadERModelRequestOk(erModel));
           } catch (err) {
-            dispatch(actions.loadERModelRequestError(err));
+            dispatch(ermodelActions.loadERModelRequestError(err));
           }
         },
         dispatch
@@ -79,16 +79,16 @@ const getERModelBoxContainer = (apiService: GdmnApi) =>
                 // TODO async action
                 if (!selectedEntity || !selectedFields) return;
 
-                dispatch(actions.loadEntityDataRequest());
+                dispatch(ermodelActions.loadEntityDataRequest());
 
                 const queryFields: EntityQueryField[] = selectedFields.map(item => new EntityQueryField(item));
                 const query = new EntityQuery(new EntityLink(selectedEntity, 'alias', queryFields));
 
                 try {
                   const res = await apiService.fetchEntityQuery(query, appId);
-                  dispatch(actions.loadEntityDataRequestOk(res));
+                  dispatch(ermodelActions.loadEntityDataRequestOk(res));
                 } catch (err) {
-                  dispatch(actions.loadEntityDataRequestError(err));
+                  dispatch(ermodelActions.loadEntityDataRequestError(err));
                 }
               }
             : undefined

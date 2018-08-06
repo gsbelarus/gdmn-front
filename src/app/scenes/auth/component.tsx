@@ -77,15 +77,15 @@ class AuthView extends React.Component<IAuthViewProps> {
       <Fragment>
         <Paper>
           <Tabs
-            value={location.pathname.indexOf(`${match.path}/signIn`) !== -1 ? 0 : 1}
+            value={location.pathname.indexOf(`${match.path}/signIn`) !== -1 ? 0 : 1 /* TODO tmp*/}
             indicatorColor="primary"
             textColor="primary"
             centered={true}
           >
-            <Link to={`${match.path}/signIn`}>
+            <Link to={`${match.url}/signIn`}>
               <Tab label="Вход" />
             </Link>
-            <Link to={`${match.path}/signUp`}>
+            <Link to={`${match.url}/signUp`}>
               <Tab label="Регистрация" />
             </Link>
           </Tabs>

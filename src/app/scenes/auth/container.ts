@@ -31,7 +31,7 @@ const getSignInFormContainer = (apiService: GdmnApi) =>
   compose<ISignInFormProps, ISignInFormProps>(
     connect(
       state => ({
-        signInFormInitialValues
+        initialValues: signInFormInitialValues
       }),
       (dispatch, ownProps) => ({
         onSubmit: async (formData: Partial<ISignInFormData>) => {

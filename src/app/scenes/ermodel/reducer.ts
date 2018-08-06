@@ -4,7 +4,7 @@ import { getType } from 'typesafe-actions';
 
 import { ITableColumn } from '@core/components/data-grid-core';
 import { IERModelBoxStateProps } from '@src/app/scenes/ermodel/component';
-import { actions, TErModelActions } from '@src/app/scenes/ermodel/actions';
+import { ermodelActions, TErModelActions } from '@src/app/scenes/ermodel/actions';
 
 interface IErmodelState extends IERModelBoxStateProps {
   readonly entitiesSelectedRowId?: Key;
@@ -28,19 +28,19 @@ const initialState: IErmodelState = {
 
 function reducer(state: IErmodelState = initialState, action: TErModelActions): IErmodelState {
   switch (action.type) {
-    case getType(actions.loadERModelRequestOk): {
+    case getType(ermodelActions.loadERModelRequestOk): {
       return {
         ...state,
         erModel: action.payload
       };
     }
-    case getType(actions.loadEntityDataRequestOk): {
+    case getType(ermodelActions.loadEntityDataRequestOk): {
       return {
         ...state,
         tableData: action.payload
       };
     }
-    case getType(actions.singleselectToggleEntitiesRow): {
+    case getType(ermodelActions.singleselectToggleEntitiesRow): {
       if (action.payload === undefined) return state;
 
       // single selection
@@ -56,7 +56,7 @@ function reducer(state: IErmodelState = initialState, action: TErModelActions): 
         tableData: undefined
       };
     }
-    case getType(actions.multiselectToggleFieldsRow): {
+    case getType(ermodelActions.multiselectToggleFieldsRow): {
       if (action.payload === undefined) return state;
 
       // multiple selection

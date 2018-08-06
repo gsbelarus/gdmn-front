@@ -5,7 +5,7 @@ module.exports = {
     alias: {
       '@core': path.join(__dirname, '../../src/app/core'),
       '@src': path.join(__dirname, '../../src'),
-      configFile: path.join(__dirname, '../config.json')
+      'config.json': path.join(__dirname, '../config.json')
     }
   }
 };

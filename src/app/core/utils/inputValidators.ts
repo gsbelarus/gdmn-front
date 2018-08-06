@@ -6,7 +6,7 @@ const emailValidate = (value: string) =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid email address' : undefined;
 
 // TODO
-const passwordValidate = (value: string) => (value && value.length > 5 ? 'Invalid password address' : undefined);
+const passwordValidate = (value: string) => (value && value.length > 5 ? 'Invalid password' : undefined);
 
 const maxLengthValidate = (max: number) => (value: string) =>
   value && value.length > max ? `Must be ${max} characters or less` : undefined;

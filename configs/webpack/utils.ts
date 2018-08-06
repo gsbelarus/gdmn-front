@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 
 function getRelativePath(rootPath: string) {
   return function fn(args: any) {

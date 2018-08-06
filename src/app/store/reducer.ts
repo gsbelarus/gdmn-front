@@ -9,7 +9,7 @@ import { IMorphologyState, reducer as morphologyReducer } from '@src/app/scenes/
 import { ISemanticsState, reducer as semanticsReducer } from '@src/app/scenes/semantics/reducer';
 import { IAuthState, getReducer as getAuthReducer } from '@src/app/scenes/auth/reducer';
 import { IRootState, reducer as rootReducer } from '@src/app/scenes/root/reducer';
-import { TAppsState, appsReducer } from '@src/app/scenes/apps/reducer';
+import { TDataStoresState, dataStoresReducer } from '@src/app/scenes/datastores/reducer';
 import { actions as authActions } from '@src/app/scenes/auth/actions';
 
 interface IState {
@@ -20,7 +20,7 @@ interface IState {
   readonly nlpDialogState: TNLPDialogState;
   readonly authState: IAuthState;
   readonly form: any;
-  readonly appsState: TAppsState;
+  readonly dataStoresState: TDataStoresState;
 }
 
 const getReducer = (authInitialState: IAuthState) => {
@@ -31,8 +31,8 @@ const getReducer = (authInitialState: IAuthState) => {
     ermodelState: ermodelReducer,
     nlpDialogState: nlpDialogReducer,
     authState: getAuthReducer(authInitialState),
-    form: formReducer, // TODO move to auth
-    appsState: appsReducer
+    form: formReducer, // TODO move to auth // TODO rename forms
+    dataStoresState: dataStoresReducer
   });
 
   // reset state to initial

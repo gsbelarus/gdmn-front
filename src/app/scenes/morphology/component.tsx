@@ -272,7 +272,11 @@ class MorphBox extends PureComponent<IMorphBoxProps, {}> {
                 </tr>
                 <tr>
                   <th>
-                    Он<br />Она<br />Оно
+                    Он
+                    <br />
+                    Она
+                    <br />
+                    Оно
                   </th>
                   <td>{f({ tense: RusTense.Futr, singular: true, person: 3, mood: RusMood.Indc })}</td>
                   <td>
@@ -342,7 +346,11 @@ class MorphBox extends PureComponent<IMorphBoxProps, {}> {
               </tr>
               <tr>
                 <th>
-                  Он<br />Она<br />Оно
+                  Он
+                  <br />
+                  Она
+                  <br />
+                  Оно
                 </th>
                 <td>{f({ tense: RusTense.Pres, singular: true, person: 3, mood: RusMood.Indc })}</td>
                 <td>

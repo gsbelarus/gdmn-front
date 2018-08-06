@@ -264,7 +264,9 @@ class InfiniteTableLayout extends PureComponent<IInfiniteTableLayoutProps, IInfi
                     return (
                       <RefWrapper key={row.id} ref={(ref: any) => this.setRowRef(row, ref)}>
                         <Row key={row.id} uid={row.id}>
-                          {visibleBodyColumns.map(column => <BodyCell key={column.id} column={column} rowData={row} />)}
+                          {visibleBodyColumns.map(column => (
+                            <BodyCell key={column.id} column={column} rowData={row} />
+                          ))}
                           {!!cells &&
                             cells.map((cell: any) => {
                               const { column } = cell;

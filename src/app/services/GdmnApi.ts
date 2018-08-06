@@ -24,15 +24,15 @@ class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
     return JSON.parse(responseBody);
   }
 
-  public async loadApps(): Promise<any> {
+  public async loadDataStores(): Promise<any> {
     return this.fetchRestQuery(THttpMethod.GET, this.apiEndpoints.app);
   }
 
-  public async deleteApp(uid: string): Promise<any> {
+  public async deleteDataStore(uid: string): Promise<any> {
     return this.fetchRestQuery(THttpMethod.DELETE, this.apiEndpoints.app, `/${uid}`);
   }
 
-  public async createApp(alias: string): Promise<any> {
+  public async createDataStore(alias: string): Promise<any> {
     return this.fetchRestQuery(THttpMethod.POST, this.apiEndpoints.app, { alias });
   }
 }

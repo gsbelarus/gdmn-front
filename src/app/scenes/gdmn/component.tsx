@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import {
   AppBar,
+  Collapse,
   Divider,
   Drawer,
   Icon,
@@ -15,14 +16,19 @@ import {
 import CSSModules, { InjectedCSSModuleProps } from 'react-css-modules';
 
 import styles from './styles.css';
-
-interface IGdmnViewProps extends RouteComponentProps<any>, IDemosViewActionsProps {
-  renderAppsViewContainer?: React.ComponentType;
-  renderERModelBoxContainer?: React.ComponentType;
-}
+import { TDataStoresState } from '@src/app/scenes/datastores/reducer';
 
 interface IDemosViewActionsProps {
   signOut: () => void;
+}
+
+type TGdmnViewStateProps = TDataStoresState;
+
+interface IGdmnViewProps extends RouteComponentProps<any>, IDemosViewActionsProps, TGdmnViewStateProps {
+  renderDataStoresViewContainer?: React.ComponentType;
+  renderDatastoreViewContainer?: React.ComponentType;
+
+  loadDataStores: () => void; // TODO extract to container
 }
 
 const NotFoundView = () => <h2>GDMN: 404!</h2>;
@@ -32,9 +38,10 @@ class GdmnView extends Component<IGdmnViewProps & InjectedCSSModuleProps> {
   public render() {
     const {
       match,
-      renderAppsViewContainer: AppsViewContainer,
-      renderERModelBoxContainer: ERModelBoxContainer,
-      signOut
+      renderDataStoresViewContainer: DataStoresViewContainer,
+      renderDatastoreViewContainer: DatastoreViewContainer,
+      signOut,
+      dataStores
     } = this.props;
     return (
       <div
@@ -66,14 +73,33 @@ class GdmnView extends Component<IGdmnViewProps & InjectedCSSModuleProps> {
           <div style={{ minHeight: 64 }} />
           <Divider />
           <List style={{ width: 240 }}>
-            <NavLink to={`${match.path}/apps`} activeClassName={'gdmn-nav-item-selected'}>
+            <NavLink to={`${match.url}/datastores`} activeClassName={'gdmn-nav-item-selected'}>
               <ListItem button={true}>
                 <ListItemIcon>
                   <Icon>dns</Icon>
                 </ListItemIcon>
-                <ListItemText primary="Applications" />
+                <ListItemText primary="Datastores" />
+                {/*{true ? <Icon>expand_less</Icon> : <Icon>expand_more</Icon>}*/}
               </ListItem>
             </NavLink>
+            <Collapse in={true} timeout="auto" unmountOnExit={true}>
+              <List component="div" disablePadding={true}>
+                {dataStores &&
+                  dataStores.map(app => (
+                    <NavLink
+                      to={`${match.url}/datastores/${app.uid}/ermodel`}
+                      activeClassName={'gdmn-nav-item-selected'}
+                    >
+                      <ListItem button={true} className="gdmn-nav-item-nested" dense={true}>
+                        <ListItemIcon>
+                          <Icon>storage</Icon>
+                        </ListItemIcon>
+                        <ListItemText inset={true} primary={app.alias} />
+                      </ListItem>
+                    </NavLink>
+                  ))}
+              </List>
+            </Collapse>
           </List>
           {/*<Divider/>*/}
           {/*<List style={{ width: 240 }}>*/}
@@ -114,9 +140,9 @@ class GdmnView extends Component<IGdmnViewProps & InjectedCSSModuleProps> {
         </Drawer>
         <main styleName="main scene-pad">
           <Switch>
-            <Redirect exact={true} from={`${match.path}/`} to={`${match.path}/apps`} />
-            <Route exact={true} path={`${match.path}/apps`} component={AppsViewContainer} />
-            <Route path={`${match.path}/apps/:appId/ermodel`} component={ERModelBoxContainer} />
+            <Redirect exact={true} from={`${match.path}/`} to={`${match.path}/datastores`} />
+            <Route exact={true} path={`${match.path}/datastores`} component={DataStoresViewContainer} />
+            <Route path={`${match.path}/datastores/:appId`} component={DatastoreViewContainer} />
             <Route path={`${match.path}/*`} component={NotFoundView} />
           </Switch>
         </main>
@@ -125,4 +151,4 @@ class GdmnView extends Component<IGdmnViewProps & InjectedCSSModuleProps> {
   }
 }
 
-export { GdmnView, IGdmnViewProps };
+export { GdmnView, IGdmnViewProps, TGdmnViewStateProps };

@@ -6,7 +6,7 @@ const selectMorphologyState = ({ morphologyState }: IState) => morphologyState;
 const selectSemanticsState = ({ semanticsState }: IState) => semanticsState;
 const selectErmodelState = ({ ermodelState }: IState) => ermodelState;
 const selectNLPDialogState = ({ nlpDialogState }: IState) => nlpDialogState;
-const selectAppsState = ({ appsState }: IState) => appsState;
+const selectDataStoresState = ({ dataStoresState }: IState) => dataStoresState;
 const selectAuthState = ({ authState }: IState) => authState;
 
 export {
@@ -16,5 +16,5 @@ export {
   selectSemanticsState,
   selectErmodelState,
   selectNLPDialogState,
-  selectAppsState
+  selectDataStoresState
 };
