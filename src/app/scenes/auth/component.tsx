@@ -77,7 +77,7 @@ class AuthView extends React.Component<IAuthViewProps> {
       <Fragment>
         <Paper>
           <Tabs
-            value={location.pathname.indexOf(`${match.path}/signIn`) !== -1 ? 0 : 1 /* TODO tmp*/}
+            value={location.pathname.indexOf(`${match.url}/signIn`) !== -1 ? 0 : 1 /* TODO tmp*/}
             indicatorColor="primary"
             textColor="primary"
             centered={true}

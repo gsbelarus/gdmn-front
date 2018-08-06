@@ -10,6 +10,8 @@ import { IState } from '@src/app/store/reducer';
 import { selectDataStoresState } from '@src/app/store/selectors';
 import { getDatastoreContainer } from '@src/app/scenes/datastore/container';
 import { dataStoresActions } from '@src/app/scenes/datastores/actions';
+import { RefObject } from 'react';
+import { IDatastoreViewProps } from '@src/app/scenes/datastore/component';
 
 const getGdmnContainer = (apiService: GdmnApi) =>
   compose<IGdmnViewProps, IGdmnViewProps>(
@@ -32,7 +34,9 @@ const getGdmnContainer = (apiService: GdmnApi) =>
     ),
     withProps<any, IGdmnViewProps>({
       renderDataStoresViewContainer: getDataStoresContainer(apiService),
-      renderDatastoreViewContainer: getDatastoreContainer(apiService)
+      renderDatastoreViewContainer: getDatastoreContainer(apiService),
+      getDatastoreViewContainer: (appBarPortalTargetRef: RefObject<HTMLDivElement>) =>
+        withProps<any, IDatastoreViewProps>({ appBarPortalTargetRef })(getDatastoreContainer(apiService))
     }),
     lifecycle<IGdmnViewProps, any>({
       async componentDidMount() {

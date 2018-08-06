@@ -57,7 +57,7 @@ class DemosView extends Component<IDemosViewProps & InjectedCSSModuleProps> {
             </Link>
           </Toolbar>
         </AppBar>
-        <main styleName={location.pathname !== `${match.path}/nlp` ? 'main scene-pad' : 'main'}>
+        <main styleName={location.pathname !== `${match.url}/nlp` ? 'main scene-pad' : 'main'}>
           <ErrorBoundary>
             <Switch>
               <Redirect exact={true} from={`${match.path}/`} to={`${match.path}/nlp`} />

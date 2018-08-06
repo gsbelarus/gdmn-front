@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent, RefObject } from 'react';
 import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import {
   AppBar,
@@ -27,19 +27,22 @@ type TGdmnViewStateProps = TDataStoresState;
 interface IGdmnViewProps extends RouteComponentProps<any>, IDemosViewActionsProps, TGdmnViewStateProps {
   renderDataStoresViewContainer?: React.ComponentType;
   renderDatastoreViewContainer?: React.ComponentType;
-
+  getDatastoreViewContainer: (appBarPortalTargetRef: RefObject<HTMLDivElement>) => React.ComponentType;
   loadDataStores: () => void; // TODO extract to container
 }
 
 const NotFoundView = () => <h2>GDMN: 404!</h2>;
 
 @CSSModules(styles, { allowMultiple: true })
-class GdmnView extends Component<IGdmnViewProps & InjectedCSSModuleProps> {
+class GdmnView extends PureComponent<IGdmnViewProps & InjectedCSSModuleProps> {
+  private appBarPortalTargetRef: RefObject<HTMLDivElement> = React.createRef();
+
   public render() {
     const {
       match,
       renderDataStoresViewContainer: DataStoresViewContainer,
       renderDatastoreViewContainer: DatastoreViewContainer,
+      getDatastoreViewContainer,
       signOut,
       dataStores
     } = this.props;
@@ -61,6 +64,7 @@ class GdmnView extends Component<IGdmnViewProps & InjectedCSSModuleProps> {
               GDMN
             </Typography>
           </Toolbar>
+          <div id="portalTarget" ref={this.appBarPortalTargetRef} />
         </AppBar>
         <Drawer
           style={{
@@ -87,10 +91,11 @@ class GdmnView extends Component<IGdmnViewProps & InjectedCSSModuleProps> {
                 {dataStores &&
                   dataStores.map(app => (
                     <NavLink
-                      to={`${match.url}/datastores/${app.uid}/ermodel`}
+                      key={app.uid}
+                      to={`${match.url}/datastores/${app.uid}`}
                       activeClassName={'gdmn-nav-item-selected'}
                     >
-                      <ListItem button={true} className="gdmn-nav-item-nested" dense={true}>
+                      <ListItem button={true} dense={true} styleName={'gdmn-nav-item-nested'}>
                         <ListItemIcon>
                           <Icon>storage</Icon>
                         </ListItemIcon>
@@ -142,7 +147,11 @@ class GdmnView extends Component<IGdmnViewProps & InjectedCSSModuleProps> {
           <Switch>
             <Redirect exact={true} from={`${match.path}/`} to={`${match.path}/datastores`} />
             <Route exact={true} path={`${match.path}/datastores`} component={DataStoresViewContainer} />
-            <Route path={`${match.path}/datastores/:appId`} component={DatastoreViewContainer} />
+            <Route
+              path={`${match.path}/datastores/:appId`}
+              component={getDatastoreViewContainer(this.appBarPortalTargetRef)}
+            />
+            } />
             <Route path={`${match.path}/*`} component={NotFoundView} />
           </Switch>
         </main>
