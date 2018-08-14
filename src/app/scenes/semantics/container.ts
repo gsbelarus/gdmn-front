@@ -43,14 +43,14 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
       onClearText: () => dispatch(actions.setSemText('')),
       onParse: (text: string) => dispatch(actions.setParsedText(parsePhrase(text))),
       loadErModel: async () => {
-        // TODO async action
-        dispatch(ermodelActions.loadERModelRequest());
-        try {
-          const erModel = await apiService.fetchEr();
-          dispatch(ermodelActions.loadERModelRequestOk(erModel));
-        } catch (err) {
-          dispatch(ermodelActions.loadERModelRequestError(err));
-        }
+        // // TODO async action
+        // dispatch(ermodelActions.loadERModelRequest());
+        // try {
+        //   const erModel = await apiService.fetchEr();
+        //   dispatch(ermodelActions.loadERModelRequestOk(erModel));
+        // } catch (err) {
+        //   dispatch(ermodelActions.loadERModelRequestError(err));
+        // }
       },
       loadData: async (command: any) => {
         // TODO async action

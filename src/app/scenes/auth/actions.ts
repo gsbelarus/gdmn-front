@@ -34,5 +34,10 @@ actions.signInRequestError = (error: Error) => ({
   payload: error,
   error: true
 });
+actions.signUpRequestError = (error: Error) => ({
+  type: 'auth/SIGN_UP_REQUEST_ERROR',
+  payload: error,
+  error: true
+});
 
 export { actions, TAuthActions };

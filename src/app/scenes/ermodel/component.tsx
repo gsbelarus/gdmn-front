@@ -50,6 +50,10 @@ type TERModelBoxProps = IERModelBoxStateProps & IERModelBoxSelectorProps & IERMo
 // @CSSModules(commonStyle)
 @CSSModules(styles)
 class ERModelBox extends PureComponent<TERModelBoxProps & RouteComponentProps<any>> {
+  public componentDidMount() {
+    this.props.loadErModel(this.props.match.params.appId);
+  }
+
   public render(): JSX.Element {
     console.log('render ERModelBox');
 
@@ -73,11 +77,9 @@ class ERModelBox extends PureComponent<TERModelBoxProps & RouteComponentProps<an
 
     return (
       <Fragment>
-        <div>{`загружено сущностей: ${Object.entries(erModel.entities).length}`}</div>
-
-        <Button style={{ margin: 60 }} onClick={() => loadErModel(this.props.match.params.appId)}>
-          Load ER-Model
-        </Button>
+        {/*<Button style={{ margin: 60 }} onClick={() => loadErModel(this.props.match.params.appId)}>*/}
+        {/*Load ER-Model*/}
+        {/*</Button>*/}
         <Button
           style={{ margin: 60 }}
           onClick={!loadData ? () => ({}) : () => loadData(this.props.match.params.appId)}
@@ -85,7 +87,6 @@ class ERModelBox extends PureComponent<TERModelBoxProps & RouteComponentProps<an
         >
           Load Entity-Data
         </Button>
-
         <div className="row-flex" style={{ display: 'flex' }}>
           <InfiniteTableLayout
             tableHeight={'60vh'}
@@ -204,7 +205,7 @@ class ERModelBox extends PureComponent<TERModelBoxProps & RouteComponentProps<an
     )(ERModelBox.SelectableRow)
   );
 
-  private static renderDataTableRow = pure(TableRow);
+  public static renderDataTableRow = pure(TableRow);
 }
 
 export { ERModelBox, TERModelBoxProps, IERModelBoxStateProps, IERModelBoxSelectorProps, IERModelBoxActionsProps };

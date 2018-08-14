@@ -28,7 +28,7 @@ interface IApiEndpoints {
 }
 
 class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpoints> {
-  protected readonly apiEndpoints: TApiEndpoints;
+  public readonly apiEndpoints: TApiEndpoints;
   protected readonly authService: Auth;
   protected readonly authScheme: TAuthScheme;
 
@@ -38,10 +38,56 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
     this.authService = authService;
   }
 
+  // TODO
+  public async getAccessToken() {
+    if (!(await this.authService.isAuthenticated())) return null;
+
+    // TODO extract to middleware
+    if (!(await this.authService.isFreshAuth())) {
+      const { refresh_token, access_token, token_type } = await this.fetchAuthTokens();
+      await this.authService.storeTokens(access_token, refresh_token);
+    }
+    // TODO from state
+    return this.authService.getAccessToken();
+  }
+
   public async fetch(uri: string, options: RequestInit = {}): Promise<string | never> {
     options.headers = new Headers(options.headers);
     if (!options.headers.has('Accept')) options.headers.set('Accept', 'application/json');
     if (!options.headers.has('Content-Type')) options.headers.set('Content-Type', 'application/json');
+    if (!options.headers.has('Authorization') && (await this.authService.isAuthenticated())) {
+      if (!(await this.authService.isFreshAuth())) {
+        // TODO extract to middleware
+        const { refresh_token, access_token, token_type } = await this.fetchAuthTokens();
+        await this.authService.storeTokens(access_token, refresh_token);
+      }
+      const accessToken = await this.authService.getAccessToken(); // TODO from state
+      options.headers.set('Authorization', `${this.authScheme} ${accessToken}`);
+    }
+    // options.headers.set('Access-Control-Allow-Origin', '*');
+    // options.credentials = 'same-origin';
+    // options.method = options.method || THttpMethod.GET;
+
+    let response: Response;
+    try {
+      response = await fetch(uri, options);
+    } catch (error) {
+      // console.log('[GDMN] Network request to server failed: ' + error.message);
+      throw new FetchError(error);
+    }
+
+    try {
+      Api.checkStatus(response);
+      return await response.text();
+    } catch (error) {
+      throw error instanceof HttpStatusError ? await Api.parseResponseError(error) : error;
+    }
+  }
+
+  public async fetchDownload(targetFile: string, uri: string, options: RequestInit = {}) {
+    options.headers = new Headers(options.headers);
+    //  // 'Content-Disposition': 'attachment; filename="testMy.fbk"'
+    if (!options.headers.has('Content-Type')) options.headers.set('Content-Type', 'application/octet-stream'); // application/force-download // application/octet-stream // application/x-download
     if (!options.headers.has('Authorization') && (await this.authService.isAuthenticated())) {
       if (!(await this.authService.isFreshAuth())) {
         // TODO extract to middleware
@@ -63,12 +109,46 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
       throw new FetchError(error);
     }
 
-    try {
-      Api.checkStatus(response);
-      return await response.text();
-    } catch (error) {
-      throw error instanceof HttpStatusError ? await Api.parseResponseError(error) : error;
+    // try { // todo
+    Api.checkStatus(response);
+    const body = await response.body;
+    if (body == null) {
+      throw Error('No response body');
     }
+
+    length = length || Number.parseInt(response.headers.get('Content-Length') || '0', undefined);
+    const reader = body.getReader();
+    // const writer = fs.createWriteStream(targetFile);
+    //
+    // await this.streamWithProgress(length, reader, writer);
+    // writer.end();
+  }
+
+  private async streamWithProgress(length: number, reader: ReadableStreamReader, writer: any): Promise<void> {
+    // let bytesDone = 0;
+
+    while (true) {
+      const result = await reader.read();
+      if (result.done) {
+        return;
+      }
+
+      const chunk = result.value;
+      if (chunk == null) {
+        throw new Error('Empty chunk received during download');
+      } else {
+        writer.write(Buffer.from(chunk));
+        // if (progressCallback != null) {
+        //   bytesDone += chunk.byteLength;
+        //   const percent: ?number = length === 0 ? null : Math.floor(bytesDone / length * 100);
+        //   progressCallback(bytesDone, percent);
+        // }
+      }
+    }
+
+    // if (progressCallback != null) {
+    //   progressCallback(length, 100);
+    // }
   }
 
   public async fetchAuthTokens(): Promise<TAccountRefreshTokenResponse> {
@@ -97,13 +177,15 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
     });
   }
 
-  public async fetchRestQuery(method: THttpMethod, resourseUri: string, query: object | string = ''): Promise<any> {
+  public async fetchRestQuery(method: THttpMethod, resourseUri: string, query?: object | string): Promise<any> {
     const responseBody = await this.fetch(resourseUri + (typeof query === 'string' ? query : ''), {
       method, // todo
-      body: method === THttpMethod.POST ? JSON.stringify(query) : undefined
+      body: method === THttpMethod.POST ? (!!query ? JSON.stringify(query) : undefined) : undefined
     });
 
-    return JSON.parse(responseBody);
+    // console.log('response: '+responseBody);
+
+    return JSON.parse(responseBody); // TODO handle syntax error
   }
 
   // TODO extract

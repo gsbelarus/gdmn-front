@@ -1,0 +1,18 @@
+.toolbar-title {
+  flex: 1 1 100%;
+}
+
+.toolbar-actions {
+  flex: 0 0 auto;
+  color: var(--palette-text-secondary);
+}
+
+
+:global .toolbar-root {
+  padding-right: 2px;
+}
+
+:global .toolbar-highlight {
+  color: var(--palette-secondary-700);
+  background-color: var(--palette-secondary-100)
+}

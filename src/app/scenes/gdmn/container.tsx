@@ -12,6 +12,7 @@ import { getDatastoreContainer } from '@src/app/scenes/datastore/container';
 import { dataStoresActions } from '@src/app/scenes/datastores/actions';
 import { RefObject } from 'react';
 import { IDatastoreViewProps } from '@src/app/scenes/datastore/component';
+import withBreadcrumbs from 'react-router-breadcrumbs-hoc';
 
 const getGdmnContainer = (apiService: GdmnApi) =>
   compose<IGdmnViewProps, IGdmnViewProps>(
@@ -42,7 +43,16 @@ const getGdmnContainer = (apiService: GdmnApi) =>
       async componentDidMount() {
         await this.props.loadDataStores();
       }
-    })
+    }),
+    // TODO tmp
+    withBreadcrumbs<IGdmnViewProps>(
+      [{ path: '/spa', breadcrumb: '❖' }, { path: '/spa/gdmn/datastores/:appId', breadcrumb: '✦' }],
+      {
+        excludePaths: [
+          '/' // '/spa/gdmn/datastores/:appId'
+        ]
+      }
+    )
   )(GdmnView);
 
 export { getGdmnContainer };

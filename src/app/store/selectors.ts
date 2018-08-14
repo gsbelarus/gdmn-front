@@ -8,6 +8,7 @@ const selectErmodelState = ({ ermodelState }: IState) => ermodelState;
 const selectNLPDialogState = ({ nlpDialogState }: IState) => nlpDialogState;
 const selectDataStoresState = ({ dataStoresState }: IState) => dataStoresState;
 const selectAuthState = ({ authState }: IState) => authState;
+const selectBackupsState = ({ backupsState }: IState) => backupsState;
 
 export {
   selectRootState,
@@ -16,5 +17,6 @@ export {
   selectSemanticsState,
   selectErmodelState,
   selectNLPDialogState,
-  selectDataStoresState
+  selectDataStoresState,
+  selectBackupsState
 };

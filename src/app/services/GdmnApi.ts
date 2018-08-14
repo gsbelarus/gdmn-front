@@ -4,6 +4,8 @@ import { Auth } from '@core/services/Auth';
 import { Api, TAuthScheme, THttpMethod } from '@core/services/Api';
 import { IEndpoints } from '@core/gdmn-api/IEndpoints';
 import { IAccountLoginRequest } from '@core/gdmn-api/account/IAccountLoginRequest';
+import { TBackupGetResponse } from '@core/gdmn-api/backup/TBackupGetResponse';
+import { IAppCreateResponse } from '@core/gdmn-api/app/IAppCreateResponse';
 
 class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
   constructor(apiEndpoints: IEndpoints, authService: Auth, authScheme: TAuthScheme) {
@@ -16,7 +18,6 @@ class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
   }
 
   public async fetchEntityQuery(query: EntityQuery, appId: string): Promise<any> {
-    console.log(this.apiEndpoints.data.replace(/\/(:uid)/, appId ? `/${appId}` : ''));
     const responseBody = await this.fetch(this.apiEndpoints.data.replace(/\/(:uid)/, appId ? `/${appId}` : ''), {
       method: THttpMethod.POST,
       body: '{ "query": ' + query.serialize() + '}'
@@ -32,8 +33,56 @@ class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
     return this.fetchRestQuery(THttpMethod.DELETE, this.apiEndpoints.app, `/${uid}`);
   }
 
-  public async createDataStore(alias: string): Promise<any> {
+  public async createDataStore(alias: string): Promise<IAppCreateResponse> {
     return this.fetchRestQuery(THttpMethod.POST, this.apiEndpoints.app, { alias });
+  }
+
+  public async loadBackups(appId: string): Promise<TBackupGetResponse> {
+    return this.fetchRestQuery(THttpMethod.GET, this.apiEndpoints.backup.replace(/\/(:uid)/, appId ? `/${appId}` : ''));
+  }
+
+  public async createBackup(appId: string, alias: string): Promise<void> {
+    return this.fetchRestQuery(
+      THttpMethod.POST,
+      this.apiEndpoints.backup.replace(/\/(:uid)/, appId ? `/${appId}` : ''),
+      { alias }
+    );
+  }
+
+  public async restoreBackup(appId: string, backupUid: string, alias: string): Promise<void> {
+    return this.fetchRestQuery(
+      THttpMethod.POST,
+      this.apiEndpoints.restoreBackup
+        .replace(/\/(:uid)/, appId ? `/${appId}` : '')
+        .replace(/\/(:backupUid)/, backupUid ? `/${backupUid}` : ''),
+      { alias }
+    );
+  }
+
+  public downloadBackup(appId: string, backupUid: string): Promise<string> {
+    return this.fetch(
+      this.apiEndpoints.downloadBackup
+        .replace(/\/(:uid)/, appId ? `/${appId}` : '')
+        .replace(/\/(:backupUid)/, backupUid ? `/${backupUid}` : ''),
+      {
+        method: THttpMethod.GET,
+        headers: {
+          'Content-Type': 'application/octet-stream'
+          // 'Content-Disposition': 'attachment; filename="testMy.fbk"'
+        } // application/force-download // application/octet-stream // application/x-download
+      }
+    );
+
+    // await this.fetchDownload(
+    //   'downloadTest.fbk',
+    //   this.apiEndpoints.downloadBackup
+    //     .replace(/\/(:uid)/, appId ? `/${appId}` : '')
+    //     .replace(/\/(:backupUid)/, backupUid ? `/${backupUid}` : '')
+    // );
+  }
+
+  public async deleteBackup(appId: string, backupUid: string): Promise<void> {
+    return; // TODO
   }
 }
 

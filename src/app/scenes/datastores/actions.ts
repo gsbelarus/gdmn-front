@@ -5,6 +5,10 @@ import { IAppDeleteResponse } from '@core/gdmn-api/app/IAppDeleteResponse';
 import { TAppGetResponse } from '@core/gdmn-api/app/TAppGetResponse';
 
 const dataStoresActions = {
+  // TODO tmp
+  selectDS: createAction('gdmn/selectDS', resolve => {
+    return () => resolve();
+  }),
   // load
   loadDataStoresRequest: createAction('gdmn/datastores/LOAD_DATA_STORES_REQUEST', resolve => {
     return () => resolve();

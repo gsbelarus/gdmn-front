@@ -11,6 +11,8 @@ import { IAuthState, getReducer as getAuthReducer } from '@src/app/scenes/auth/r
 import { IRootState, reducer as rootReducer } from '@src/app/scenes/root/reducer';
 import { TDataStoresState, dataStoresReducer } from '@src/app/scenes/datastores/reducer';
 import { actions as authActions } from '@src/app/scenes/auth/actions';
+import { backupsReducer, TBackupsState } from '@src/app/scenes/backups/reducer';
+import { dataStoresActions } from '@src/app/scenes/datastores/actions';
 
 interface IState {
   readonly rootState: IRootState;
@@ -21,6 +23,7 @@ interface IState {
   readonly authState: IAuthState;
   readonly form: any;
   readonly dataStoresState: TDataStoresState;
+  readonly backupsState: TBackupsState;
 }
 
 const getReducer = (authInitialState: IAuthState) => {
@@ -28,11 +31,12 @@ const getReducer = (authInitialState: IAuthState) => {
     rootState: rootReducer,
     morphologyState: morphologyReducer,
     semanticsState: semanticsReducer,
-    ermodelState: ermodelReducer,
     nlpDialogState: nlpDialogReducer,
     authState: getAuthReducer(authInitialState),
     form: formReducer, // TODO move to auth // TODO rename forms
-    dataStoresState: dataStoresReducer
+    dataStoresState: dataStoresReducer,
+    ermodelState: ermodelReducer,
+    backupsState: backupsReducer
   });
 
   // reset state to initial

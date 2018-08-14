@@ -15,7 +15,10 @@
       "signIn": "/account/login",
       "signUp": "/account",
       "refreshAccessToken": "/account/refresh",
-      "appRes": "/app"
+      "appRes": "/app",
+      "backupRes": "/app/:uid/backup",
+      "downloadBackup": "/app/:uid/backup/:backupUid/download",
+      "restoreBackup": "/app/:uid/backup/:backupUid/restore"
     },
     "authScheme": "Bearer"
   }

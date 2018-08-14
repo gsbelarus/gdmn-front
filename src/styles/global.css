@@ -53,3 +53,24 @@ body {
   flex-direction: column;
   font-family: Roboto, sans-serif;
 }
+
+i {
+  font-style: initial;
+}
+
+
+.dropzone {
+  width: 100%;
+  background-color: rgb(241, 243, 244);
+  cursor: pointer;
+}
+.dropzone:hover * {
+  /*color: var(--palette-text-secondary) !important;*/
+}
+.dropzone:hover {
+  background-color: var(--palette-action-hover);
+}
+
+.dropzone-active {
+  background-color: inherit;
+}

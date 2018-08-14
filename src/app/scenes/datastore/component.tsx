@@ -1,10 +1,15 @@
 import React, { Component, ComponentType, Fragment, PureComponent, RefObject } from 'react';
 import ReactDOM from 'react-dom';
-
+// @ts-ignore
+import { Breadcrumb } from 'react-breadcrumbs';
+import CSSModules from 'react-css-modules';
 import { Link, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { Tab, Tabs } from '@material-ui/core';
+import { Portal, Tab, Tabs } from '@material-ui/core';
+import { backupActions } from '@src/app/scenes/backups/actions';
+import { dataStoresActions } from '@src/app/scenes/datastores/actions';
 
 interface IDatastoreViewProps extends RouteComponentProps<any> {
+  renderBackupsContainer?: React.ComponentType;
   renderERModelBoxContainer?: React.ComponentType;
   appBarPortalTargetRef?: RefObject<HTMLDivElement>;
 }
@@ -26,7 +31,12 @@ class DatastoreView extends PureComponent<IDatastoreViewProps> {
   // }
 
   public render() {
-    const { match, renderERModelBoxContainer: ERModelBoxContainer, appBarPortalTargetRef } = this.props;
+    const {
+      match,
+      renderERModelBoxContainer: ERModelBoxContainer,
+      renderBackupsContainer: BackupsContainer,
+      appBarPortalTargetRef
+    } = this.props;
 
     // TODO tmp
     const tabValue =
@@ -38,28 +48,31 @@ class DatastoreView extends PureComponent<IDatastoreViewProps> {
 
     return (
       <div>
-        <div id="portal">
-          {!!appBarPortalTargetRef &&
-            !!appBarPortalTargetRef.current &&
-            ReactDOM.createPortal(
+        <Breadcrumb
+          data={{
+            title: 'appId',
+            pathname: match.url
+          }}
+        />
+        {!!appBarPortalTargetRef &&
+          !!appBarPortalTargetRef.current && (
+            <Portal container={appBarPortalTargetRef.current}>
               <Fragment>
-                <Tabs value={tabValue} textColor="primary" scrollable={true} scrollButtons="auto">
+                <Tabs value={tabValue} textColor="primary">
                   <Link to={`${this.props.match.url}/ermodel`}>
                     <Tab label="Data Viewer" />
                   </Link>
                   <Link to={`${this.props.match.url}/backups`}>
-                    <Tab label="Backups" />
+                    <Tab label="Backup Manager" />
                   </Link>
                 </Tabs>
-              </Fragment>,
-              appBarPortalTargetRef.current
-            )}
-        </div>
-
+              </Fragment>
+            </Portal>
+          )}
         <Switch>
-          <Redirect exact={true} from={`${match.path}/`} to={`${match.path}/ermodel`} />
+          <Redirect exact={true} from={`${match.path}/`} to={`${match.path}/backups`} />
           <Route path={`${match.path}/ermodel`} component={ERModelBoxContainer} />
-          <Route path={`${match.path}/backups`} component={() => <div>backups</div>} />
+          <Route path={`${match.path}/backups`} component={BackupsContainer} />
           {/*<Redirect from={`${match.path}/*`} to={`${match.path}/`} />*/}
         </Switch>
       </div>

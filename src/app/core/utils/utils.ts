@@ -20,4 +20,19 @@ function isDevMode() {
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 type Subtract<T, K> = Omit<T, keyof K>;
 
-export { promisify, isDevMode, Subtract };
+const round = (value: number) => Math.round(value * Math.pow(10, 2)) / Math.pow(10, 2);
+const bytesToMb = (value: number) => (value > 0 ? round(value / 1024 / 1024) : 0);
+
+// todo tmp
+function formatDateToLocalLong(date: Date) {
+  if (!date) return date;
+  return date.toLocaleDateString('ru-RU', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+  });
+}
+
+export { promisify, isDevMode, Subtract, bytesToMb, formatDateToLocalLong };

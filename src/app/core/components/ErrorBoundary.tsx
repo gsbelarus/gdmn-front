@@ -24,7 +24,7 @@ class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryS
       <br />
       <br />
       <h2>
-        ERORR
+        ERROR
         <br />
         {error.toString()}
         <br />

@@ -7,6 +7,8 @@ import { TextField } from '@core/components/form/TextField';
 import { emailValidate, passwordValidate, requiredValidate } from '@core/utils/inputValidators';
 
 import styles from './SignInForm.css';
+import { PasswordField } from '@core/components/form/PasswordField';
+import { ISignInFormData } from '@src/app/scenes/auth/components/SignInForm';
 
 interface ISignUpFormData {
   username: string;
@@ -25,12 +27,13 @@ class SignUpForm extends React.Component<ISignUpFormProps> {
     return (
       <Form onSubmit={handleSubmit((values: Partial<ISignUpFormData>) => onSubmit(values))}>
         <Field name="username" component={TextField as any} label="Пользователь" validate={requiredValidate} />
-        <Field name="email" component={TextField as any} label="Email" validate={[requiredValidate, emailValidate]} />
+        {/*<Field name="email" component={TextField as any} label="Email" validate={[requiredValidate, emailValidate]} />*/}
         <Field
           name="password"
-          component={TextField as any}
+          component={PasswordField as any}
           label="Пароль"
-          validate={[requiredValidate, passwordValidate]}
+          type="password"
+          validate={[requiredValidate]}
         />
         <div styleName="form-actions">
           <Button variant="raised" color="secondary" disabled={(!initialized && pristine) || submitting} type="submit">

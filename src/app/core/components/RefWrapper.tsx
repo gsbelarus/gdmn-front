@@ -7,6 +7,7 @@ import React, { Children, PureComponent, ReactChild } from 'react';
 
 interface IRefWrapperProps {
   children: ReactChild | ReactChild[];
+  [t: string]: any;
 }
 
 class RefWrapper extends PureComponent<IRefWrapperProps, any> {

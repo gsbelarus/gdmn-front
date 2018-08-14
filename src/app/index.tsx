@@ -2,6 +2,7 @@ import React, { ReactType } from 'react';
 import ReactDOM from 'react-dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Store } from 'react-redux';
+import openSocket from 'socket.io-client';
 
 import { RouteAccessLevelType } from '@core/components/ProtectedRoute';
 import { I18n } from '@core/services/I18n';
@@ -30,7 +31,10 @@ const apiEndpoints: IEndpoints = {
   signIn: `${basePath}${config.server.paths.signIn}`,
   app: `${basePath}${config.server.paths.appRes}`,
   er: `${basePath}${config.server.paths.er}`,
-  refreshAccessToken: `${basePath}${config.server.paths.refreshAccessToken}`
+  refreshAccessToken: `${basePath}${config.server.paths.refreshAccessToken}`,
+  backup: `${basePath}${config.server.paths.backupRes}`,
+  downloadBackup: `${basePath}${config.server.paths.downloadBackup}`,
+  restoreBackup: `${basePath}${config.server.paths.restoreBackup}`
 };
 const webStorageService = new WebStorage(WebStorageType.local, { namespace: 'gdmn::' });
 const authService = new Auth(webStorageService);
@@ -104,6 +108,35 @@ async function storeInit() {
   // }
 
   store = getStore(authInitialState, authService);
+
+  // TODO
+
+  const socket = openSocket(basePath, {
+    query: {
+      token: await apiService.getAccessToken() // TODO refresh
+    }
+  });
+
+  const connectSocket = () => {
+    socket.on('connect', () => {
+      console.log('ws: connected as ' + socket.id);
+    });
+    socket.on('disconnect', (reason: String) => {
+      console.log('ws: disconnected. Reason: ' + reason);
+    });
+    socket.on('backupFinished', (data: any) => {
+      console.log('ws: backup finish');
+    });
+
+    socket.on('restoreFinished', (data: any) => {
+      console.log('ws: restore finish');
+    });
+  };
+
+  const disconnectSocket = () => socket.close();
+
+  connectSocket();
+  // TODO disconnect
 }
 
 async function start() {

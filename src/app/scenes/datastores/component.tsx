@@ -24,13 +24,14 @@ import {
   DialogActions
 } from '@material-ui/core';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import { formatDateToLocalLong } from '@core/utils/utils';
 
 interface IDataStoresViewState {
   createDlgOpen: boolean;
 }
 
 interface IDataStoresViewStateProps {
-  readonly dataStores?: Array<{ uid: string; alias: string }>;
+  readonly dataStores?: Array<{ uid: string; alias: string; creationDate: Date }>;
 }
 
 interface IDataStoresViewActionsProps {
@@ -88,7 +89,7 @@ class DataStoresView extends PureComponent<TDataStoresViewProps, IDataStoresView
                     }
                     action={
                       <Fragment>
-                        <Link to={`${match.url}/${app.uid}/ermodel`}>
+                        <Link to={`${match.url}/${app.uid}`}>
                           <IconButton>
                             <Icon>play_circle_filled</Icon>
                           </IconButton>
@@ -99,7 +100,7 @@ class DataStoresView extends PureComponent<TDataStoresViewProps, IDataStoresView
                       </Fragment>
                     }
                     title={app.alias}
-                    subheader={app.uid}
+                    subheader={formatDateToLocalLong(new Date(app.creationDate))}
                   />
                 </Card>
               </Grid>
@@ -127,6 +128,7 @@ class DataStoresView extends PureComponent<TDataStoresViewProps, IDataStoresView
               label="Datastore Name"
               type="text"
               fullWidth={true}
+              required={true}
             />
           </DialogContent>
           <DialogActions>

@@ -1,7 +1,5 @@
 import { Storage } from '@material-ui/icons';
-
-const round = (value: number) => Math.round(value * Math.pow(10, 2)) / Math.pow(10, 2);
-const bytesToMb = (value: number) => (value > 0 ? round(value / 1024 / 1024) : 0);
+import { bytesToMb } from '@core/utils/utils';
 
 interface IWebStorage {
   get(key: string): Promise<any>;

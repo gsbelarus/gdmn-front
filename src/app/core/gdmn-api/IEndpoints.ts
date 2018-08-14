@@ -4,4 +4,9 @@ export interface IEndpoints extends IApiEndpoints {
   data: string;
   er: string;
   app: string;
+  backup: string;
+  downloadBackup: string;
+  restoreBackup: string;
+
+  [t: string]: any; // todo
 }

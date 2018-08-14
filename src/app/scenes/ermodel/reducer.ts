@@ -28,6 +28,11 @@ const initialState: IErmodelState = {
 
 function reducer(state: IErmodelState = initialState, action: TErModelActions): IErmodelState {
   switch (action.type) {
+    case ermodelActions.loadERModelRequestError(new Error()).type: {
+      return {
+        ...initialState
+      };
+    }
     case getType(ermodelActions.loadERModelRequestOk): {
       return {
         ...state,
