@@ -84,6 +84,17 @@ class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
   public async deleteBackup(appId: string, backupUid: string): Promise<void> {
     return; // TODO
   }
+
+  public async uploadBackup(appId: string, alias: string, file: File): Promise<void> {
+    const formData = new FormData();
+    formData.append('alias', alias);
+    formData.append('bkpFile', file);
+
+    await this.fetchMultipartForm(
+      this.apiEndpoints.uploadBackup.replace(/\/(:uid)/, appId ? `/${appId}` : ''),
+      formData
+    );
+  }
 }
 
 export { GdmnApi, IEndpoints };

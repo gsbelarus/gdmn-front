@@ -34,7 +34,8 @@ const apiEndpoints: IEndpoints = {
   refreshAccessToken: `${basePath}${config.server.paths.refreshAccessToken}`,
   backup: `${basePath}${config.server.paths.backupRes}`,
   downloadBackup: `${basePath}${config.server.paths.downloadBackup}`,
-  restoreBackup: `${basePath}${config.server.paths.restoreBackup}`
+  restoreBackup: `${basePath}${config.server.paths.restoreBackup}`,
+  uploadBackup: `${basePath}${config.server.paths.uploadBackup}`
 };
 const webStorageService = new WebStorage(WebStorageType.local, { namespace: 'gdmn::' });
 const authService = new Auth(webStorageService);

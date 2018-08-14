@@ -73,7 +73,7 @@ interface IBackupsViewActionsProps {
   getAccessToken: () => void;
   loadBackups: () => void;
   createBackup: (alias: string) => void;
-  uploadBackup: (alias: string) => void;
+  uploadBackup: (alias: string, uploadFile: File) => void;
   restoreBackup: (uid: string, alias: string) => void;
   deleteBackup: (uid: string) => void;
 }
@@ -86,7 +86,7 @@ interface IBackupsViewState {
   restoreDlgOpen: boolean;
   restoreBackupUid: string | null;
 
-  uploadFile: any;
+  uploadFile?: File;
 }
 
 const EmptyTable = withEmpty<TableProps>(Table);
@@ -96,8 +96,8 @@ class BackupsView extends PureComponent<TBackupsViewProps, IBackupsViewState> {
     uploadDlgOpen: false,
     createDlgOpen: false,
     restoreDlgOpen: false,
-    restoreBackupUid: null,
-    uploadFile: null
+    restoreBackupUid: null
+    // uploadFile: null
   };
 
   public static defaultProps: Partial<TBackupsViewProps> = {
@@ -120,13 +120,15 @@ class BackupsView extends PureComponent<TBackupsViewProps, IBackupsViewState> {
   }
 
   private handleUpload() {
+    if (!this.state.uploadFile) return;
+
     const alias = this.uploadDlgAliasInputRef!.value;
     this.uploadDlgToggle();
-    this.props.uploadBackup(alias);
+    this.props.uploadBackup(alias, this.state.uploadFile);
   }
 
   private uploadDlgToggle() {
-    this.setState({ uploadDlgOpen: !this.state.uploadDlgOpen });
+    this.setState({ uploadDlgOpen: !this.state.uploadDlgOpen, uploadFile: undefined });
   }
 
   private handleCreateBackup() {
@@ -156,6 +158,7 @@ class BackupsView extends PureComponent<TBackupsViewProps, IBackupsViewState> {
 
   public render() {
     const { accessToken, backups, getDownloadBackupUri, deleteBackup } = this.props;
+    const { uploadFile } = this.state;
 
     const backupsTableColumns = [
       createTableColumn('alias', 'Name', ({ rowIndex }) => <span>{backups[rowIndex].alias}</span>),
@@ -304,7 +307,11 @@ class BackupsView extends PureComponent<TBackupsViewProps, IBackupsViewState> {
             />
 
             <Dropzone
-              onDrop={files => this.setState({ uploadFile: files[0] })}
+              accept={'.fbk'}
+              // onDropAccepted={}
+              onDrop={files => {
+                this.setState({ uploadFile: files[0] });
+              }}
               className="dropzone"
               activeClassName="dropzone-active"
               multiple={false}
@@ -323,7 +330,7 @@ class BackupsView extends PureComponent<TBackupsViewProps, IBackupsViewState> {
                       muiIconName="cloud_upload"
                       subtitle="Drag and drop file here or click"
                     />
-                    {!!acceptedFiles.length && (
+                    {!!uploadFile && (
                       <Chip
                         style={{ margin: 8 }}
                         avatar={
@@ -331,23 +338,16 @@ class BackupsView extends PureComponent<TBackupsViewProps, IBackupsViewState> {
                             <Icon>cloud_done</Icon>
                           </Avatar>
                         }
-                        label="selected file"
+                        label={`${uploadFile.name}  (${uploadFile.size} bytes)`}
                         color="primary"
                         onDelete={() => {
                           // window.URL.revokeObjectURL(file.preview);
-                          this.setState({ uploadFile: null });
-                          // if (file.path) {
-                          //   this.props.deleteFile(file);
-                          // }
+                          this.setState({ uploadFile: undefined });
                         }}
                       />
                     )}
                   </Fragment>
                 );
-
-                // acceptedFiles.length || rejectedFiles.length
-                //   ? `Accepted ${acceptedFiles.length}, rejected ${rejectedFiles.length} files`
-                //   : "Try dropping some files.";
               }}
             </Dropzone>
           </DialogContent>
@@ -355,7 +355,11 @@ class BackupsView extends PureComponent<TBackupsViewProps, IBackupsViewState> {
             <Button onClick={this.uploadDlgToggle} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleUpload} color="primary">
+            <Button
+              onClick={this.handleUpload}
+              color="primary"
+              disabled={!this.state.uploadFile || !this.uploadDlgAliasInputRef || !this.uploadDlgAliasInputRef.value}
+            >
               Upload
             </Button>
           </DialogActions>

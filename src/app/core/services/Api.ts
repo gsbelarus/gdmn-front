@@ -51,10 +51,15 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
     return this.authService.getAccessToken();
   }
 
-  public async fetch(uri: string, options: RequestInit = {}): Promise<string | never> {
+  public async fetch(
+    uri: string,
+    options: RequestInit = {},
+    autoContentType: boolean = false
+  ): Promise<string | never> {
     options.headers = new Headers(options.headers);
     if (!options.headers.has('Accept')) options.headers.set('Accept', 'application/json');
-    if (!options.headers.has('Content-Type')) options.headers.set('Content-Type', 'application/json');
+    if (!options.headers.has('Content-Type') && !autoContentType)
+      options.headers.set('Content-Type', 'application/json');
     if (!options.headers.has('Authorization') && (await this.authService.isAuthenticated())) {
       if (!(await this.authService.isFreshAuth())) {
         // TODO extract to middleware
@@ -161,18 +166,21 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
     return JSON.parse(responseBody);
   }
 
-  public async fetchMultipartForm(uri: string, formData: FormData): Promise<string | never> {
-    return this.fetch(uri, {
-      method: THttpMethod.POST,
-      headers: { 'Content-Type': 'multipart/form-data' },
-      body: formData
-    });
+  public async fetchMultipartForm(uri: string, formData: FormData, headers: any = {}): Promise<string | never> {
+    return this.fetch(
+      uri,
+      {
+        method: THttpMethod.POST,
+        headers,
+        body: formData
+      },
+      true
+    );
   }
 
   public async fetchForm(uri: string, formData: URLSearchParams): Promise<string | never> {
     return this.fetch(uri, {
       method: THttpMethod.POST, // todo test
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData
     });
   }

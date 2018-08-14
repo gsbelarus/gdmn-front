@@ -60,8 +60,14 @@ const getBackupsContainer = (apiService: GdmnApi) =>
             // reload
             await this.loadBackups();
           },
-          async uploadBackup(alias) {
-            //
+          async uploadBackup(alias: string, file: File) {
+            dispatch(backupActions.uploadBackupRequest());
+            try {
+              await apiService.uploadBackup(ownProps.match.params.appId, alias, file);
+              dispatch(backupActions.uploadBackupRequestOk());
+            } catch (err) {
+              dispatch(backupActions.uploadBackupRequestError(err));
+            }
           },
           async restoreBackup(uid: string, alias: string) {
             dispatch(backupActions.restoreBackupRequest());
