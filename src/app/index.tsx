@@ -35,7 +35,8 @@ const apiEndpoints: IEndpoints = {
   backup: `${basePath}${config.server.paths.backupRes}`,
   downloadBackup: `${basePath}${config.server.paths.downloadBackup}`,
   restoreBackup: `${basePath}${config.server.paths.restoreBackup}`,
-  uploadBackup: `${basePath}${config.server.paths.uploadBackup}`
+  uploadBackup: `${basePath}${config.server.paths.uploadBackup}`,
+  deleteBackup: `${basePath}${config.server.paths.deleteBackup}`
 };
 const webStorageService = new WebStorage(WebStorageType.local, { namespace: 'gdmn::' });
 const authService = new Auth(webStorageService);
@@ -128,7 +129,6 @@ async function storeInit() {
     socket.on('backupFinished', (data: any) => {
       console.log('ws: backup finish');
     });
-
     socket.on('restoreFinished', (data: any) => {
       console.log('ws: restore finish');
     });

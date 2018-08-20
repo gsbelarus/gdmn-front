@@ -19,7 +19,8 @@
       "backupRes": "/app/:uid/backup",
       "downloadBackup": "/app/:uid/backup/:backupUid/download",
       "restoreBackup": "/app/:uid/backup/:backupUid/restore",
-      "uploadBackup": "/app/:uid/backup/upload"
+      "uploadBackup": "/app/:uid/backup/upload",
+      "deleteBackup": "/app/:uid/backup/:backupUid"
     },
     "authScheme": "Bearer"
   }

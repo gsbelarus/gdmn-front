@@ -89,73 +89,6 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
     }
   }
 
-  public async fetchDownload(targetFile: string, uri: string, options: RequestInit = {}) {
-    options.headers = new Headers(options.headers);
-    //  // 'Content-Disposition': 'attachment; filename="testMy.fbk"'
-    if (!options.headers.has('Content-Type')) options.headers.set('Content-Type', 'application/octet-stream'); // application/force-download // application/octet-stream // application/x-download
-    if (!options.headers.has('Authorization') && (await this.authService.isAuthenticated())) {
-      if (!(await this.authService.isFreshAuth())) {
-        // TODO extract to middleware
-        const { refresh_token, access_token, token_type } = await this.fetchAuthTokens();
-        await this.authService.storeTokens(access_token, refresh_token);
-      }
-      const accessToken = await this.authService.getAccessToken(); // TODO from state
-      options.headers.set('Authorization', `${this.authScheme} ${accessToken}`);
-    }
-    // options.headers['Access-Control-Allow-Origin'] = '*';
-    // options.credentials = 'same-origin';
-    // options.method = options.method || THttpMethod.GET;
-
-    let response: Response;
-    try {
-      response = await fetch(uri, options);
-    } catch (error) {
-      // console.log('[GDMN] Network request to server failed: ' + error.message);
-      throw new FetchError(error);
-    }
-
-    // try { // todo
-    Api.checkStatus(response);
-    const body = await response.body;
-    if (body == null) {
-      throw Error('No response body');
-    }
-
-    length = length || Number.parseInt(response.headers.get('Content-Length') || '0', undefined);
-    const reader = body.getReader();
-    // const writer = fs.createWriteStream(targetFile);
-    //
-    // await this.streamWithProgress(length, reader, writer);
-    // writer.end();
-  }
-
-  private async streamWithProgress(length: number, reader: ReadableStreamReader, writer: any): Promise<void> {
-    // let bytesDone = 0;
-
-    while (true) {
-      const result = await reader.read();
-      if (result.done) {
-        return;
-      }
-
-      const chunk = result.value;
-      if (chunk == null) {
-        throw new Error('Empty chunk received during download');
-      } else {
-        writer.write(Buffer.from(chunk));
-        // if (progressCallback != null) {
-        //   bytesDone += chunk.byteLength;
-        //   const percent: ?number = length === 0 ? null : Math.floor(bytesDone / length * 100);
-        //   progressCallback(bytesDone, percent);
-        // }
-      }
-    }
-
-    // if (progressCallback != null) {
-    //   progressCallback(length, 100);
-    // }
-  }
-
   public async fetchAuthTokens(): Promise<TAccountRefreshTokenResponse> {
     const refreshToken = await this.authService.getRefreshToken(); // TODO from state
     const responseBody = await this.fetch(this.apiEndpoints.refreshAccessToken, {
@@ -180,7 +113,8 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
 
   public async fetchForm(uri: string, formData: URLSearchParams): Promise<string | never> {
     return this.fetch(uri, {
-      method: THttpMethod.POST, // todo test
+      method: THttpMethod.POST,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData
     });
   }

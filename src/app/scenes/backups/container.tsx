@@ -60,6 +60,17 @@ const getBackupsContainer = (apiService: GdmnApi) =>
             // reload
             await this.loadBackups();
           },
+          async deleteBackup(uid: string) {
+            dispatch(backupActions.deleteBackupRequest());
+            try {
+              await apiService.deleteBackup(ownProps.match.params.appId, uid);
+              dispatch(backupActions.deleteBackupRequestOk());
+            } catch (err) {
+              dispatch(backupActions.deleteBackupRequestError(err));
+            }
+            // reload
+            await this.loadBackups();
+          },
           async uploadBackup(alias: string, file: File) {
             dispatch(backupActions.uploadBackupRequest());
             try {
@@ -77,17 +88,6 @@ const getBackupsContainer = (apiService: GdmnApi) =>
             } catch (err) {
               dispatch(backupActions.restoreBackupRequestError(err));
             }
-          },
-          async deleteBackup(uid: string) {
-            dispatch(backupActions.deleteBackupRequest());
-            try {
-              await apiService.deleteBackup(ownProps.match.params.appId, uid);
-              dispatch(backupActions.deleteBackupRequestOk());
-            } catch (err) {
-              dispatch(backupActions.deleteBackupRequestError(err));
-            }
-            // reload
-            await this.loadBackups();
           },
           dispatch
         };

@@ -59,7 +59,7 @@ class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
     );
   }
 
-  public downloadBackup(appId: string, backupUid: string): Promise<string> {
+  public async downloadBackup(appId: string, backupUid: string): Promise<string> {
     return this.fetch(
       this.apiEndpoints.downloadBackup
         .replace(/\/(:uid)/, appId ? `/${appId}` : '')
@@ -68,21 +68,18 @@ class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
         method: THttpMethod.GET,
         headers: {
           'Content-Type': 'application/octet-stream'
-          // 'Content-Disposition': 'attachment; filename="testMy.fbk"'
-        } // application/force-download // application/octet-stream // application/x-download
+        }
       }
     );
-
-    // await this.fetchDownload(
-    //   'downloadTest.fbk',
-    //   this.apiEndpoints.downloadBackup
-    //     .replace(/\/(:uid)/, appId ? `/${appId}` : '')
-    //     .replace(/\/(:backupUid)/, backupUid ? `/${backupUid}` : '')
-    // );
   }
 
   public async deleteBackup(appId: string, backupUid: string): Promise<void> {
-    return; // TODO
+    return this.fetchRestQuery(
+      THttpMethod.DELETE,
+      this.apiEndpoints.deleteBackup
+        .replace(/\/(:uid)/, appId ? `/${appId}` : '')
+        .replace(/\/(:backupUid)/, backupUid ? `/${backupUid}` : '')
+    );
   }
 
   public async uploadBackup(appId: string, alias: string, file: File): Promise<void> {

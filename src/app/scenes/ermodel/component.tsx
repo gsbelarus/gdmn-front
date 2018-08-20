@@ -77,9 +77,9 @@ class ERModelBox extends PureComponent<TERModelBoxProps & RouteComponentProps<an
 
     return (
       <Fragment>
-        {/*<Button style={{ margin: 60 }} onClick={() => loadErModel(this.props.match.params.appId)}>*/}
-        {/*Load ER-Model*/}
-        {/*</Button>*/}
+        <Button style={{ margin: 60 }} onClick={() => loadErModel(this.props.match.params.appId)}>
+          Reload ER-Model
+        </Button>
         <Button
           style={{ margin: 60 }}
           onClick={!loadData ? () => ({}) : () => loadData(this.props.match.params.appId)}

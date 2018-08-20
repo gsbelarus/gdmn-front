@@ -156,6 +156,10 @@ class BackupsView extends PureComponent<TBackupsViewProps, IBackupsViewState> {
     });
   }
 
+  private onDelete = (uid: string) => () => {
+    return this.props.deleteBackup(uid);
+  };
+
   public render() {
     const { accessToken, backups, getDownloadBackupUri, deleteBackup } = this.props;
     const { uploadFile } = this.state;
@@ -192,7 +196,7 @@ class BackupsView extends PureComponent<TBackupsViewProps, IBackupsViewState> {
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
-              <IconButton onClick={() => deleteBackup(backups[rowIndex].uid)} disabled={true}>
+              <IconButton onClick={this.onDelete(backups[rowIndex].uid)}>
                 <Icon>delete_forever</Icon>
               </IconButton>
             </Tooltip>
