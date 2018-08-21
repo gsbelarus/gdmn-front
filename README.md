@@ -59,7 +59,7 @@ This project is released with a [Contributor Code of Conduct][code-of-conduct-ur
 [MPL][license-url] © 2018 [Golden Software of Belarus, Ltd.][gs-url]
 
 
-[travis-badge]: https://travis-ci.org/gsbelarus/gdmn-front.svg?branch=develop
+[travis-badge]: https://travis-ci.org/gsbelarus/gdmn-front.svg
 [travis-url]: https://travis-ci.org/gsbelarus/gdmn-front
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-lightgrey.svg
 [coc-url]: .github/CODE_OF_CONDUCT.md

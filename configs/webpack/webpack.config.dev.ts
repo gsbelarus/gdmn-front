@@ -1,6 +1,8 @@
 // tslint:disable no-submodule-imports
 import { Configuration, EnvironmentPlugin, HotModuleReplacementPlugin, NamedModulesPlugin } from 'webpack';
 import merge from 'webpack-merge';
+// import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import { CheckerPlugin } from 'awesome-typescript-loader';
 // @ts-ignore
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
 // @ts-ignore
@@ -8,6 +10,7 @@ import noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddle
 
 import { getRootRelativePath } from './utils';
 import { getWebpackConfigBase, cssLoader, cssModulesLoader } from './webpackConfigBase';
+import path from 'path';
 
 const OUTPUT_FILENAME = 'scripts/[name].bundle.js';
 const OUTPUT_CHUNK_FILENAME = 'scripts/[name].chunk.js';
@@ -51,17 +54,33 @@ const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT
     rules: [
       {
         test: /\.(ts|tsx)$/,
+        include: getRootRelativePath('src'),
         use: [
+          // { loader: 'cache-loader' },
+          // {
+          //   loader: 'thread-loader',
+          //   options: {
+          //     // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+          //     // workers: require('os').cpus().length - 1,
+          //
+          //     workers: 4,
+          //     poolTimeout: Number.POSITIVE_INFINITY
+          //   }
+          // },
           {
-            loader: 'babel-loader',
+            loader: 'awesome-typescript-loader', // 'ts-loader',
             options: {
-              babelrc: false,
-              // cacheDirectory: true,
-              plugins: ['react-hot-loader/babel', '@babel/plugin-syntax-dynamic-import']
+              useCache: true,
+              useBabel: true,
+              babelOptions: {
+                babelrc: false,
+                plugins: ['react-hot-loader/babel', '@babel/plugin-syntax-dynamic-import']
+              },
+              babelCore: '@babel/core',
+              forceIsolatedModules: true, // todo
+              transpileOnly: false
+              // transpileOnly: true // disable type checker - we will use it in fork plugin
             }
-          },
-          {
-            loader: 'ts-loader'
           }
         ]
       },
@@ -81,13 +100,19 @@ const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT
     ]
   },
   plugins: [
+    // TODO
+    new CheckerPlugin(),
+    // new ForkTsCheckerWebpackPlugin({
+    //   checkSyntacticErrors: true, // HappyPack
+    // }),
     new EnvironmentPlugin({
       NODE_ENV: 'development'
     }),
     new HotModuleReplacementPlugin(), // TODO test hot: true
     // prints more readable module names in the browser console on HMR updates
     new NamedModulesPlugin()
-  ]
+  ],
+  context: path.resolve(__dirname, '../../') // to auto find tsconfig.json
 });
 
 // tslint:disable-next-line no-default-export
