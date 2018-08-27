@@ -22,8 +22,9 @@ const getBackupsContainer = (apiService: GdmnApi) =>
   compose<TBackupsViewProps, TBackupsViewProps>(
     connect(
       (state: IState, ownProps: TBackupsViewProps): IBackupsViewStateProps => {
+        const { appId, ...props } = selectBackupsState(state); // !! exclude do not remove
         return {
-          ...selectBackupsState(state)
+          ...props
         };
       },
       (dispatch: Dispatch<TBackupActions>, ownProps): IDispatchToProps => {
@@ -39,15 +40,8 @@ const getBackupsContainer = (apiService: GdmnApi) =>
             const accessToken = await apiService.getAccessToken();
             if (!!accessToken) dispatch(backupActions.setAccessToken(accessToken));
           },
-          async loadBackups() {
-            dispatch(backupActions.loadBackupsRequest());
-            try {
-              const res = await apiService.loadBackups(ownProps.match.params.appId);
-
-              dispatch(backupActions.loadBackupsRequestOk(res));
-            } catch (err) {
-              dispatch(backupActions.loadBackupsRequestError(err));
-            }
+          loadBackups() {
+            dispatch(backupActions.loadBackups(ownProps.match.params.appId));
           },
           async createBackup(alias) {
             dispatch(backupActions.createBackupRequest());
@@ -58,7 +52,7 @@ const getBackupsContainer = (apiService: GdmnApi) =>
               dispatch(backupActions.createBackupRequestError(err));
             }
             // reload
-            await this.loadBackups();
+            this.loadBackups();
           },
           async deleteBackup(uid: string) {
             dispatch(backupActions.deleteBackupRequest());
@@ -69,7 +63,7 @@ const getBackupsContainer = (apiService: GdmnApi) =>
               dispatch(backupActions.deleteBackupRequestError(err));
             }
             // reload
-            await this.loadBackups();
+            this.loadBackups();
           },
           async uploadBackup(alias: string, file: File) {
             dispatch(backupActions.uploadBackupRequest());
@@ -79,6 +73,8 @@ const getBackupsContainer = (apiService: GdmnApi) =>
             } catch (err) {
               dispatch(backupActions.uploadBackupRequestError(err));
             }
+            // reload // todo test
+            this.loadBackups();
           },
           async restoreBackup(uid: string, alias: string) {
             dispatch(backupActions.restoreBackupRequest());

@@ -3,14 +3,17 @@ import { getType } from 'typesafe-actions';
 import { IBackupsViewStateProps } from '@src/app/scenes/backups/component';
 import { backupActions, TBackupActions } from '@src/app/scenes/backups/actions';
 
-type TBackupsState = IBackupsViewStateProps;
+interface IBackupsState extends IBackupsViewStateProps {
+  appId: string | null;
+}
 
-const initialState: TBackupsState = {
+const initialState: IBackupsState = {
+  appId: null,
   backups: [],
-  accessToken: null
+  accessToken: null // todo remove
 };
 
-function backupsReducer(state: TBackupsState = initialState, action: TBackupActions): TBackupsState {
+function backupsReducer(state: IBackupsState = initialState, action: TBackupActions): IBackupsState {
   switch (action.type) {
     case getType(backupActions.setAccessToken): {
       return {
@@ -21,13 +24,15 @@ function backupsReducer(state: TBackupsState = initialState, action: TBackupActi
     case backupActions.loadBackupsRequestError(new Error()).type: {
       return {
         ...state,
+        appId: null,
         backups: []
       };
     }
     case getType(backupActions.loadBackupsRequestOk): {
       return {
         ...state,
-        backups: action.payload
+        appId: action.payload.appId,
+        backups: action.payload.backups
       };
     }
     default:
@@ -35,4 +40,4 @@ function backupsReducer(state: TBackupsState = initialState, action: TBackupActi
   }
 }
 
-export { backupsReducer, TBackupsState };
+export { backupsReducer, IBackupsState };

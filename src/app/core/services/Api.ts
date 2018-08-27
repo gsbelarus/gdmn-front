@@ -58,8 +58,9 @@ class Api<TSignInRequestFormData extends object, TApiEndpoints extends IApiEndpo
   ): Promise<string | never> {
     options.headers = new Headers(options.headers);
     if (!options.headers.has('Accept')) options.headers.set('Accept', 'application/json');
-    if (!options.headers.has('Content-Type') && !autoContentType)
+    if (!options.headers.has('Content-Type') && !autoContentType) {
       options.headers.set('Content-Type', 'application/json');
+    }
     if (!options.headers.has('Authorization') && (await this.authService.isAuthenticated())) {
       if (!(await this.authService.isFreshAuth())) {
         // TODO extract to middleware

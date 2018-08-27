@@ -2,7 +2,7 @@ import React, { ReactType } from 'react';
 import ReactDOM from 'react-dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Store } from 'react-redux';
-import openSocket from 'socket.io-client';
+import socketIo from 'socket.io-client';
 
 import { RouteAccessLevelType } from '@core/components/ProtectedRoute';
 import { I18n } from '@core/services/I18n';
@@ -36,12 +36,21 @@ const apiEndpoints: IEndpoints = {
   downloadBackup: `${basePath}${config.server.paths.downloadBackup}`,
   restoreBackup: `${basePath}${config.server.paths.restoreBackup}`,
   uploadBackup: `${basePath}${config.server.paths.uploadBackup}`,
-  deleteBackup: `${basePath}${config.server.paths.deleteBackup}`
+  deleteBackup: `${basePath}${config.server.paths.deleteBackup}`,
+  ws: basePath
 };
 const webStorageService = new WebStorage(WebStorageType.local, { namespace: 'gdmn::' });
 const authService = new Auth(webStorageService);
 const apiService = new GdmnApi(apiEndpoints, authService, config.server.authScheme);
 const i18nService = I18n.getInstance();
+// todo service
+const socket = socketIo(apiService.apiEndpoints.ws, {
+  // reconnection: true,
+  // reconnectionDelay: 1000,
+  // reconnectionDelayMax : 5000,
+  // reconnectionAttempts: Infinity,
+  path: ''
+});
 
 const AuthContainer = getAuthContainer(apiService);
 const GdmnContainer = getGdmnContainer(apiService);
@@ -109,40 +118,19 @@ async function storeInit() {
   //   authInitialState.userId = tokenPayload.id;
   // }
 
-  store = getStore(authInitialState, authService);
+  store = getStore(authInitialState, authService, socket, apiService);
+}
 
-  // TODO
-
-  const socket = openSocket(basePath, {
-    query: {
-      token: await apiService.getAccessToken() // TODO refresh
-    }
-  });
-
-  const connectSocket = () => {
-    socket.on('connect', () => {
-      console.log('ws: connected as ' + socket.id);
-    });
-    socket.on('disconnect', (reason: String) => {
-      console.log('ws: disconnected. Reason: ' + reason);
-    });
-    socket.on('backupFinished', (data: any) => {
-      console.log('ws: backup finish');
-    });
-    socket.on('restoreFinished', (data: any) => {
-      console.log('ws: restore finish');
-    });
+async function wsInit() {
+  // todo refresh
+  socket.io.opts.query = {
+    token: await apiService.getAccessToken()
   };
-
-  const disconnectSocket = () => socket.close();
-
-  connectSocket();
-  // TODO disconnect
 }
 
 async function start() {
   console.log('[GDMN] start');
-  return Promise.all([storeInit(), i18nInit()]);
+  return Promise.all([storeInit(), i18nInit(), wsInit()]);
 }
 
 function render(Root: ReactType) {

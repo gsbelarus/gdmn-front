@@ -25,15 +25,6 @@ const getDataStoresContainer = (apiService: GdmnApi) =>
     },
     (dispatch: Dispatch<TDataStoresActions>): IDispatchToProps => {
       return {
-        async loadDataStores() {
-          dispatch(dataStoresActions.loadDataStoresRequest());
-          try {
-            const res = await apiService.loadDataStores();
-            dispatch(dataStoresActions.loadDataStoresRequestOk(res));
-          } catch (err) {
-            dispatch(dataStoresActions.loadDataStoresRequestError(err));
-          }
-        },
         async deleteDataStore(uid: string) {
           dispatch(dataStoresActions.deleteDataStoreRequest());
           try {
@@ -43,7 +34,7 @@ const getDataStoresContainer = (apiService: GdmnApi) =>
             dispatch(dataStoresActions.deleteDataStoreRequestError(err));
           }
           // reload
-          await this.loadDataStores();
+          this.loadDataStores();
         },
         async createDataStore(alias: string) {
           dispatch(dataStoresActions.createDataStoreRequest());
@@ -54,7 +45,10 @@ const getDataStoresContainer = (apiService: GdmnApi) =>
             dispatch(dataStoresActions.createDataStoreRequestError(err));
           }
           // reload
-          await this.loadDataStores();
+          this.loadDataStores();
+        },
+        loadDataStores() {
+          dispatch(dataStoresActions.loadDataStores());
         },
         dispatch
       };

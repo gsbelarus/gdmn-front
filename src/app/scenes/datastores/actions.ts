@@ -9,6 +9,10 @@ const dataStoresActions = {
   selectDS: createAction('gdmn/selectDS', resolve => {
     return () => resolve();
   }),
+  loadDataStores: createAction('gdmn/datastores/LOAD_DATA_STORES', resolve => {
+    // todo async
+    return () => resolve();
+  }),
   // load
   loadDataStoresRequest: createAction('gdmn/datastores/LOAD_DATA_STORES_REQUEST', resolve => {
     return () => resolve();

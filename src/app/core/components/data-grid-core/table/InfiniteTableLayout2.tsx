@@ -8,12 +8,14 @@ import {
   TableLayout as CoreTableLayout
 } from '@core/components/data-grid-core';
 
-class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps & { heavyWeightRow?: boolean }, any> {
+type IInfiniteTableLayoutProps2 = IInfiniteTableLayoutProps & { heavyWeightRow?: boolean };
+
+class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps2, any> {
   public static defaultProps = {
     ...InfiniteTableLayout.defaultProps
   };
 
-  constructor(props: IInfiniteTableLayoutProps) {
+  constructor(props: IInfiniteTableLayoutProps2) {
     super(props);
 
     this.getMinWidth = this.getMinWidth.bind(this);
@@ -179,4 +181,4 @@ class InfiniteTableLayout2 extends Component<IInfiniteTableLayoutProps & { heavy
   }
 }
 
-export { InfiniteTableLayout2, IInfiniteTableLayoutProps as IInfiniteTableLayoutProps2 };
+export { InfiniteTableLayout2, IInfiniteTableLayoutProps2 };

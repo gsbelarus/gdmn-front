@@ -1,6 +1,8 @@
 import { withProps, compose, lifecycle } from 'recompose';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { RefObject } from 'react';
+import withBreadcrumbs from 'react-router-breadcrumbs-hoc';
 
 import { getDataStoresContainer } from '@src/app/scenes/datastores/container';
 import { GdmnApi } from '@src/app/services/GdmnApi';
@@ -10,9 +12,8 @@ import { IState } from '@src/app/store/reducer';
 import { selectDataStoresState } from '@src/app/store/selectors';
 import { getDatastoreContainer } from '@src/app/scenes/datastore/container';
 import { dataStoresActions } from '@src/app/scenes/datastores/actions';
-import { RefObject } from 'react';
 import { IDatastoreViewProps } from '@src/app/scenes/datastore/component';
-import withBreadcrumbs from 'react-router-breadcrumbs-hoc';
+import { gdmnWsActions } from '@src/app/scenes/gdmn/actions';
 
 const getGdmnContainer = (apiService: GdmnApi) =>
   compose<IGdmnViewProps, IGdmnViewProps>(
@@ -22,14 +23,14 @@ const getGdmnContainer = (apiService: GdmnApi) =>
       }),
       dispatch => ({
         signOut: bindActionCreators(authActions.signOut, dispatch),
-        async loadDataStores() {
-          dispatch(dataStoresActions.loadDataStoresRequest());
-          try {
-            const res = await apiService.loadDataStores();
-            dispatch(dataStoresActions.loadDataStoresRequestOk(res));
-          } catch (err) {
-            dispatch(dataStoresActions.loadDataStoresRequestError(err));
-          }
+        webSocketConnect() {
+          dispatch(gdmnWsActions.wsConnect());
+        },
+        webSocketDisconnect() {
+          dispatch(gdmnWsActions.wsConnect());
+        },
+        loadDataStores() {
+          dispatch(dataStoresActions.loadDataStores());
         }
       })
     ),
@@ -40,8 +41,14 @@ const getGdmnContainer = (apiService: GdmnApi) =>
         withProps<any, IDatastoreViewProps>({ appBarPortalTargetRef })(getDatastoreContainer(apiService))
     }),
     lifecycle<IGdmnViewProps, any>({
-      async componentDidMount() {
-        await this.props.loadDataStores();
+      componentWillMount() {
+        this.props.webSocketConnect();
+      },
+      componentDidMount() {
+        this.props.loadDataStores();
+      },
+      componentWillUnmount() {
+        this.props.webSocketDisconnect();
       }
     }),
     // TODO tmp

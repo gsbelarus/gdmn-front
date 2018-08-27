@@ -9,6 +9,7 @@ export interface IEndpoints extends IApiEndpoints {
   restoreBackup: string;
   uploadBackup: string;
   deleteBackup: string;
+  ws: string;
 
   [t: string]: any; // todo
 }

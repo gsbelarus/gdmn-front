@@ -1,4 +1,5 @@
 import { IState } from '@src/app/store/reducer';
+import { IBackupsState } from '@src/app/scenes/backups/reducer';
 
 // TODO reselect
 const selectRootState = ({ rootState }: IState) => rootState;
@@ -8,7 +9,7 @@ const selectErmodelState = ({ ermodelState }: IState) => ermodelState;
 const selectNLPDialogState = ({ nlpDialogState }: IState) => nlpDialogState;
 const selectDataStoresState = ({ dataStoresState }: IState) => dataStoresState;
 const selectAuthState = ({ authState }: IState) => authState;
-const selectBackupsState = ({ backupsState }: IState) => backupsState;
+const selectBackupsState = ({ backupsState }: IState): IBackupsState => backupsState;
 
 export {
   selectRootState,

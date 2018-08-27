@@ -6,12 +6,15 @@ const backupActions = {
   setAccessToken: createAction('gdmn/datastores/backups/SET_ACCESS_TOKEN', resolve => {
     return (accessToken: string) => resolve(accessToken);
   }),
+  loadBackups: createAction('gdmn/datastores/backups/LOAD_BACKUPS', resolve => {
+    return (appId: string) => resolve(appId);
+  }),
   // load
   loadBackupsRequest: createAction('gdmn/datastores/backups/LOAD_BACKUPS_REQUEST', resolve => {
     return () => resolve();
   }),
   loadBackupsRequestOk: createAction('gdmn/datastores/backups/LOAD_BACKUPS_REQUEST_OK', resolve => {
-    return (data: TBackupGetResponse) => resolve(data);
+    return (backups: TBackupGetResponse, appId) => resolve({ appId, backups });
   }),
   loadBackupsRequestError: createAction('gdmn/datastores/backups/LOAD_BACKUPS_REQUEST_ERROR', resolve => {
     return (error: Error) => resolve(error);

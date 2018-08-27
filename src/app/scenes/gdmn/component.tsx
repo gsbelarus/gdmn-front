@@ -24,6 +24,8 @@ import { BreadcrumbsProps, InjectedProps } from 'react-router-breadcrumbs-hoc';
 
 interface IDemosViewActionsProps {
   signOut: () => void;
+  webSocketConnect: () => void;
+  webSocketDisconnect: () => void;
 }
 
 type TGdmnViewStateProps = TDataStoresState;

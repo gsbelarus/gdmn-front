@@ -1,7 +1,6 @@
 # Build
 /build
 /dist
-packages/*/dist*
 
 # Logs
 logs
@@ -43,3 +42,4 @@ ehthumbs.db
 coverage
 
 mock-data.json
+.awcache/

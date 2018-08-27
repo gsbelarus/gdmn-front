@@ -30,9 +30,9 @@ const errorMiddleware: Middleware = ({ dispatch, getState }) => next => action =
   return next(action);
 };
 
-const middlewares: Middleware[] = [errorMiddleware];
+const rootMiddlewares: Middleware[] = [errorMiddleware];
 
-export { middlewares };
+export { rootMiddlewares };
 
 // const redirectMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
 //     if (action.type === getType(ermodelActions.redirect)) {
@@ -54,7 +54,7 @@ export { middlewares };
 //
 //   return next(action);
 // };
-//
+
 // const getAccessDeniedMiddleware = (authStore: Auth): Middleware => ({ dispatch, getState }) => next => action => {
 //   if (action.type === getType(ermodelActions.accessDenied)) {
 //     dispatch(ermodelActions.redirect('/')); // dispatch({ type:'ON_ERROR', payload: new Error('Нет прав доступа'), error: true });
