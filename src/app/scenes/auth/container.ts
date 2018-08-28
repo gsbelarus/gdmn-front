@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 
 import { Auth, UserRoleType } from '@core/services/Auth';
 import { IState } from '@src/app/store/reducer';
-import { actions } from '@src/app/scenes/auth/actions';
+import { authActions } from '@src/app/scenes/auth/actions';
 import { ISignInFormData, ISignInFormProps, SignInForm } from '@src/app/scenes/auth/components/SignInForm';
 import { AuthView, IAuthViewProps, IAuthViewStateProps } from '@src/app/scenes/auth/component';
 import { IAccountLoginResponse } from '@core/gdmn-api/account/IAccountLoginResponse';
@@ -37,7 +37,7 @@ const getSignInFormContainer = (apiService: GdmnApi) =>
         onSubmit: async (formData: Partial<ISignInFormData>) => {
           // TODO async action
 
-          dispatch(actions.signInRequest());
+          dispatch(authActions.signInAsync.request());
 
           try {
             const responseBody = <IAccountLoginResponse>(
@@ -46,12 +46,12 @@ const getSignInFormContainer = (apiService: GdmnApi) =>
 
             const payload = parseSignInResponse(responseBody);
 
-            dispatch(actions.signInRequestOk(payload.userRole));
+            dispatch(authActions.signInAsync.success(payload.userRole));
             console.log(payload);
           } catch (error) {
             console.log('[GDMN] ', error);
 
-            dispatch(actions.signInRequestError(error));
+            dispatch(authActions.signInAsync.failure(error));
           }
         }
       })
@@ -69,23 +69,23 @@ const getSignUpFormContainer = (apiService: GdmnApi) =>
         onSubmit: async (formData: Partial<ISignUpFormData>) => {
           // TODO async action
 
-          dispatch(actions.signUpRequest());
+          dispatch(authActions.signUpAsync.request());
 
           try {
             const responseBody = <TAccountCreateResponse>(
               await apiService.fetchSignUp({ login: formData.username || '', password: formData.password || '' })
             );
 
-            dispatch(actions.signUpRequestOk());
+            dispatch(authActions.signUpAsync.success());
 
             const payload = parseSignInResponse(responseBody);
-            dispatch(actions.signInRequestOk(payload.userRole));
+            dispatch(authActions.signInAsync.success(payload.userRole));
 
             console.log(payload);
           } catch (error) {
             console.log('[GDMN] ', error);
 
-            dispatch(actions.signUpRequestError(error));
+            dispatch(authActions.signUpAsync.failure(error));
           }
         }
       })

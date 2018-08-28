@@ -4,21 +4,21 @@ import { startSubmit, stopSubmit } from 'redux-form';
 
 import { Auth, UserRoleType } from '@core/services/Auth';
 import { UnauthorizedError } from '@core/errors/httpErrors';
-import { actions } from '@src/app/scenes/auth/actions';
+import { authActions } from '@src/app/scenes/auth/actions';
 
 const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getState }) => next => action => {
   switch (action.type) {
-    case getType(actions.signInRequest):
+    case getType(authActions.signInAsync.request):
       dispatch(startSubmit('SignInForm'));
       break;
-    case getType(actions.signInRequestOk):
+    case getType(authActions.signInAsync.success):
       console.log('actions.signInRequestOk');
       // dispatch(reset('SignInForm'));
       dispatch(stopSubmit('SignInForm'));
 
-      if (!(action.payload && action.payload.userRole)) break;
+      if (!action.payload) break;
 
-      if (action.payload.userRole === UserRoleType.USER) {
+      if (action.payload === UserRoleType.USER) {
         // todo save userrole
         // authStore.storeTokens(action.payload.acc, action.payload.refresh_token).then(() => {
         next(action);
@@ -30,7 +30,7 @@ const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getSta
         next(action);
       }
       return;
-    case actions.signInRequestError(new Error()).type: // getType(ermodelActions.signInRequestError):
+    case authActions.signInAsync.failure(new Error()).type: // getType(ermodelActions.signInRequestError):
       // dispatch(reset('SignInForm'));
       dispatch(stopSubmit('SignInForm'));
       if (action.payload && action.payload.fields) {
@@ -49,7 +49,7 @@ const getSignInMiddleware = (authStore: Auth): Middleware => ({ dispatch, getSta
 };
 
 const getSignOutMiddleware = (authStore: Auth): Middleware => ({ dispatch, getState }) => next => action => {
-  if (action.type === getType(actions.signOut)) {
+  if (action.type === getType(authActions.signOut)) {
     // todo remove userrole
     authStore.removeTokens().then(() => {
       next(action);

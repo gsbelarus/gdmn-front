@@ -4,7 +4,7 @@ import { ERTranslatorRU } from 'gdmn-nlp-agent';
 import { TActions } from '@src/app/store/TActions';
 import { ermodelActions } from '@src/app/scenes/ermodel/actions';
 import { ISemanticsBoxStateProps } from '@src/app/scenes/semantics/component';
-import { actions } from '@src/app/scenes/semantics/actions';
+import { semanticsActions } from '@src/app/scenes/semantics/actions';
 
 interface ISemanticsState extends ISemanticsBoxStateProps {
   readonly erTranslatorRU?: ERTranslatorRU;
@@ -19,35 +19,35 @@ const initialState: ISemanticsState = {
 
 function reducer(state: ISemanticsState = initialState, action: TActions): ISemanticsState {
   switch (action.type) {
-    case getType(ermodelActions.loadERModelRequest):
-    case getType(actions.loadNlpDataRequest): {
+    case getType(ermodelActions.loadErModelAsync.request):
+    case getType(semanticsActions.loadNlpDataAsync.request): {
       return {
         ...state,
         dataLoading: true
       };
     }
-    case getType(ermodelActions.loadERModelRequestOk): {
+    case getType(ermodelActions.loadErModelAsync.success): {
       return {
         ...state,
         erTranslatorRU: new ERTranslatorRU(action.payload),
         dataLoading: false
       };
     }
-    case getType(actions.loadNlpDataRequestOk): {
+    case getType(semanticsActions.loadNlpDataAsync.success): {
       return {
         ...state,
         tableData: action.payload,
         dataLoading: false
       };
     }
-    case ermodelActions.loadERModelRequestError(new Error()).type: {
+    case ermodelActions.loadErModelAsync.failure(new Error()).type: {
       // TODO tmp
       return {
         ...state,
         dataLoading: false
       };
     }
-    case actions.loadNlpDataRequestError(new Error()).type: {
+    case semanticsActions.loadNlpDataAsync.failure(new Error()).type: {
       // TODO tmp
       return {
         ...state,
@@ -56,13 +56,13 @@ function reducer(state: ISemanticsState = initialState, action: TActions): ISema
         dataLoading: false
       };
     }
-    case getType(actions.setSemText): {
+    case getType(semanticsActions.setSemText): {
       return {
         ...state,
         text: action.payload
       };
     }
-    case getType(actions.setParsedText): {
+    case getType(semanticsActions.setParsedText): {
       return {
         ...state,
         wordsSignatures: action.payload.wordsSignatures,

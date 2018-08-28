@@ -1,7 +1,7 @@
 import { ParsedText } from 'gdmn-nlp';
-import { ActionType, createAction } from 'typesafe-actions';
+import { ActionType, createAction, createAsyncAction } from 'typesafe-actions';
 
-const actions = {
+const semanticsActions = {
   setSemText: createAction('demos/semantics/SET_SEM_TEXT', resolve => {
     return (text: string) => resolve(text);
   }),
@@ -9,17 +9,13 @@ const actions = {
     return (parsedText: ParsedText) => resolve(parsedText);
   }),
   // load nlp-query data
-  loadNlpDataRequest: createAction('demos/semantics/LOAD_NLP_DATA_REQUEST', resolve => {
-    return () => resolve();
-  }),
-  loadNlpDataRequestOk: createAction('demos/semantics/LOAD_NLP_DATA_REQUEST_OK', resolve => {
-    return (tableData: object) => resolve(tableData);
-  }),
-  loadNlpDataRequestError: createAction('demos/semantics/LOAD_NLP_DATA_REQUEST_ERROR', resolve => {
-    return (error: Error) => resolve(error);
-  })
+  loadNlpDataAsync: createAsyncAction(
+    'demos/semantics/LOAD_NLP_DATA_REQUEST',
+    'demos/semantics/LOAD_NLP_DATA_REQUEST_OK',
+    'demos/semantics/LOAD_NLP_DATA_REQUEST_ERROR'
+  )<void, object, Error>()
 };
 
-type TSemanticsActions = ActionType<typeof actions>;
+type TSemanticsActions = ActionType<typeof semanticsActions>;
 
-export { actions, TSemanticsActions };
+export { semanticsActions, TSemanticsActions };

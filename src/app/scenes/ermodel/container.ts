@@ -55,13 +55,13 @@ const getERModelBoxContainer = (apiService: GdmnApi) =>
       (dispatch: Dispatch<TErModelActions>): IDispatchToProps => ({
         loadErModel: async (appId: string) => {
           // TODO async action
-          dispatch(ermodelActions.loadERModelRequest());
+          dispatch(ermodelActions.loadErModelAsync.request());
 
           try {
             const erModel = await apiService.fetchEr(appId);
-            dispatch(ermodelActions.loadERModelRequestOk(erModel));
+            dispatch(ermodelActions.loadErModelAsync.success(erModel));
           } catch (err) {
-            dispatch(ermodelActions.loadERModelRequestError(err));
+            dispatch(ermodelActions.loadErModelAsync.failure(err));
           }
         },
         dispatch
@@ -79,16 +79,16 @@ const getERModelBoxContainer = (apiService: GdmnApi) =>
                 // TODO async action
                 if (!selectedEntity || !selectedFields) return;
 
-                dispatch(ermodelActions.loadEntityDataRequest());
+                dispatch(ermodelActions.loadEntityDataAsync.request());
 
                 const queryFields: EntityQueryField[] = selectedFields.map(item => new EntityQueryField(item));
                 const query = new EntityQuery(new EntityLink(selectedEntity, 'alias', queryFields));
 
                 try {
                   const res = await apiService.fetchEntityQuery(query, appId);
-                  dispatch(ermodelActions.loadEntityDataRequestOk(res));
+                  dispatch(ermodelActions.loadEntityDataAsync.success(res));
                 } catch (err) {
-                  dispatch(ermodelActions.loadEntityDataRequestError(err));
+                  dispatch(ermodelActions.loadEntityDataAsync.failure(err));
                 }
               }
             : undefined

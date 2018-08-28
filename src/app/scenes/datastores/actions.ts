@@ -1,4 +1,4 @@
-import { ActionType, createAction } from 'typesafe-actions';
+import { ActionType, createAction, createAsyncAction } from 'typesafe-actions';
 
 import { IAppCreateResponse } from '@core/gdmn-api/app/IAppCreateResponse';
 import { IAppDeleteResponse } from '@core/gdmn-api/app/IAppDeleteResponse';
@@ -13,55 +13,40 @@ const dataStoresActions = {
     // todo async
     return () => resolve();
   }),
-  // load
-  loadDataStoresRequest: createAction('gdmn/datastores/LOAD_DATA_STORES_REQUEST', resolve => {
-    return () => resolve();
-  }),
-  loadDataStoresRequestOk: createAction('gdmn/datastores/LOAD_DATA_STORES_REQUEST_OK', resolve => {
-    return (data: TAppGetResponse) => resolve(data);
-  }),
-  loadDataStoresRequestError: createAction('gdmn/datastores/LOAD_DATA_STORES_REQUEST_ERROR', resolve => {
-    return (error: Error) => resolve(error);
-  }),
-  // delete
-  deleteDataStoreRequest: createAction('gdmn/datastores/DELETE_DATA_STORE_REQUEST', resolve => {
-    return () => resolve();
-  }),
-  deleteDataStoreRequestOk: createAction('gdmn/datastores/DELETE_DATA_STORE_REQUEST_OK', resolve => {
-    return (data: IAppDeleteResponse) => resolve(data);
-  }),
-  deleteDataStoreRequestError: createAction('gdmn/datastores/DELETE_DATA_STORE_REQUEST_ERROR', resolve => {
-    return (error: Error) => resolve(error);
-  }),
-  // create
-  createDataStoreRequest: createAction('gdmn/datastores/CREATE_DATA_STORE_REQUEST', resolve => {
-    return () => resolve();
-  }),
-  createDataStoreRequestOk: createAction('gdmn/datastores/CREATE_DATA_STORE_REQUEST_OK', resolve => {
-    return (data: IAppCreateResponse) => resolve();
-  }),
-  createDataStoreRequestError: createAction('gdmn/datastores/CREATE_DATA_STORE_REQUEST_ERROR', resolve => {
-    return (error: Error) => resolve(error);
-  })
+  loadDataStoresAsync: createAsyncAction(
+    'gdmn/datastores/LOAD_DATA_STORES_REQUEST',
+    'gdmn/datastores/LOAD_DATA_STORES_REQUEST_OK',
+    'gdmn/datastores/LOAD_DATA_STORES_REQUEST_ERROR'
+  )<void, TAppGetResponse, Error>(),
+  deleteDataStoreAsync: createAsyncAction(
+    'gdmn/datastores/DELETE_DATA_STORE_REQUEST',
+    'gdmn/datastores/DELETE_DATA_STORE_REQUEST_OK',
+    'gdmn/datastores/DELETE_DATA_STORE_REQUEST_ERROR'
+  )<void, IAppDeleteResponse, Error>(),
+  createDataStoreAsync: createAsyncAction(
+    'gdmn/datastores/CREATE_DATA_STORE_REQUEST',
+    'gdmn/datastores/CREATE_DATA_STORE_REQUEST_OK',
+    'gdmn/datastores/CREATE_DATA_STORE_REQUEST_ERROR'
+  )<void, IAppCreateResponse, Error>()
 };
 
 type TDataStoresActions = ActionType<typeof dataStoresActions>;
 
 // FIXME
-dataStoresActions.loadDataStoresRequestError = (error: Error) => ({
-  type: 'gdmn/datastores/LOAD_DATA_STORES_REQUEST_ERROR',
-  payload: error,
-  error: true
-});
-dataStoresActions.deleteDataStoreRequestError = (error: Error) => ({
-  type: 'gdmn/datastores/DELETE_DATA_STORE_REQUEST_ERROR',
-  payload: error,
-  error: true
-});
-dataStoresActions.createDataStoreRequestError = (error: Error) => ({
-  type: 'gdmn/datastores/CREATE_DATA_STORE_REQUEST_ERROR',
-  payload: error,
-  error: true
-});
+// dataStoresActions.loadDataStoresRequestError = (error: Error) => ({
+//   type: 'gdmn/datastores/LOAD_DATA_STORES_REQUEST_ERROR',
+//   payload: error,
+//   error: true
+// });
+// dataStoresActions.deleteDataStoreRequestError = (error: Error) => ({
+//   type: 'gdmn/datastores/DELETE_DATA_STORE_REQUEST_ERROR',
+//   payload: error,
+//   error: true
+// });
+// dataStoresActions.createDataStoreRequestError = (error: Error) => ({
+//   type: 'gdmn/datastores/CREATE_DATA_STORE_REQUEST_ERROR',
+//   payload: error,
+//   error: true
+// });
 
 export { dataStoresActions, TDataStoresActions };

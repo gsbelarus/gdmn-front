@@ -24,12 +24,12 @@ const getLoadDataMiddleware = (apiService: GdmnApi): Middleware => ({ dispatch, 
   action: any
 ) => {
   if (action.type === getType(dataStoresActions.loadDataStores)) {
-    dispatch(dataStoresActions.loadDataStoresRequest());
+    dispatch(dataStoresActions.loadDataStoresAsync.request());
     try {
       const res = await apiService.loadDataStores();
-      dispatch(dataStoresActions.loadDataStoresRequestOk(res));
+      dispatch(dataStoresActions.loadDataStoresAsync.success(res));
     } catch (err) {
-      dispatch(dataStoresActions.loadDataStoresRequestError(err));
+      dispatch(dataStoresActions.loadDataStoresAsync.failure(err));
     }
   }
 

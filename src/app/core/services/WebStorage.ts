@@ -1,4 +1,3 @@
-import { Storage } from '@material-ui/icons';
 import { bytesToMb } from '@core/utils/utils';
 
 interface IWebStorage {

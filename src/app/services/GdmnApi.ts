@@ -59,19 +59,19 @@ class GdmnApi extends Api<IAccountLoginRequest, IEndpoints> {
     );
   }
 
-  public async downloadBackup(appId: string, backupUid: string): Promise<string> {
-    return this.fetch(
-      this.apiEndpoints.downloadBackup
-        .replace(/\/(:uid)/, appId ? `/${appId}` : '')
-        .replace(/\/(:backupUid)/, backupUid ? `/${backupUid}` : ''),
-      {
-        method: THttpMethod.GET,
-        headers: {
-          'Content-Type': 'application/octet-stream'
-        }
-      }
-    );
-  }
+  // public async downloadBackup(appId: string, backupUid: string): Promise<string> {
+  //   return this.fetch(
+  //     this.apiEndpoints.downloadBackup
+  //       .replace(/\/(:uid)/, appId ? `/${appId}` : '')
+  //       .replace(/\/(:backupUid)/, backupUid ? `/${backupUid}` : ''),
+  //     {
+  //       method: THttpMethod.GET,
+  //       headers: {
+  //         'Content-Type': 'application/octet-stream'
+  //       }
+  //     }
+  //   );
+  // }
 
   public async deleteBackup(appId: string, backupUid: string): Promise<void> {
     return this.fetchRestQuery(

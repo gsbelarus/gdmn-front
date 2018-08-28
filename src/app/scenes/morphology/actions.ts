@@ -1,6 +1,6 @@
 import { ActionType, createAction } from 'typesafe-actions';
 
-const actions = {
+const morphologyActions = {
   setMorphText: createAction('demos/morphology/SET_MORPH_TEXT', resolve => {
     return (text: string) => resolve(text);
   }),
@@ -9,6 +9,6 @@ const actions = {
   })
 };
 
-type TMorphologyActions = ActionType<typeof actions>;
+type TMorphologyActions = ActionType<typeof morphologyActions>;
 
-export { actions, TMorphologyActions };
+export { morphologyActions, TMorphologyActions };

@@ -21,14 +21,14 @@ function backupsReducer(state: IBackupsState = initialState, action: TBackupActi
         accessToken: action.payload
       };
     }
-    case backupActions.loadBackupsRequestError(new Error()).type: {
+    case backupActions.loadBackupsAsync.failure(new Error()).type: {
       return {
         ...state,
         appId: null,
         backups: []
       };
     }
-    case getType(backupActions.loadBackupsRequestOk): {
+    case getType(backupActions.loadBackupsAsync.success): {
       return {
         ...state,
         appId: action.payload.appId,

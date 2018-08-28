@@ -44,45 +44,45 @@ const getBackupsContainer = (apiService: GdmnApi) =>
             dispatch(backupActions.loadBackups(ownProps.match.params.appId));
           },
           async createBackup(alias) {
-            dispatch(backupActions.createBackupRequest());
+            dispatch(backupActions.createBackupAsync.request());
             try {
               await apiService.createBackup(ownProps.match.params.appId, alias);
-              dispatch(backupActions.createBackupRequestOk());
+              dispatch(backupActions.createBackupAsync.success());
             } catch (err) {
-              dispatch(backupActions.createBackupRequestError(err));
+              dispatch(backupActions.createBackupAsync.failure(err));
             }
             // reload
             this.loadBackups();
           },
           async deleteBackup(uid: string) {
-            dispatch(backupActions.deleteBackupRequest());
+            dispatch(backupActions.deleteBackupAsync.request());
             try {
               await apiService.deleteBackup(ownProps.match.params.appId, uid);
-              dispatch(backupActions.deleteBackupRequestOk());
+              dispatch(backupActions.deleteBackupAsync.success());
             } catch (err) {
-              dispatch(backupActions.deleteBackupRequestError(err));
+              dispatch(backupActions.deleteBackupAsync.failure(err));
             }
             // reload
             this.loadBackups();
           },
           async uploadBackup(alias: string, file: File) {
-            dispatch(backupActions.uploadBackupRequest());
+            dispatch(backupActions.uploadBackupAsync.request());
             try {
               await apiService.uploadBackup(ownProps.match.params.appId, alias, file);
-              dispatch(backupActions.uploadBackupRequestOk());
+              dispatch(backupActions.uploadBackupAsync.success());
             } catch (err) {
-              dispatch(backupActions.uploadBackupRequestError(err));
+              dispatch(backupActions.uploadBackupAsync.failure(err));
             }
             // reload // todo test
             this.loadBackups();
           },
           async restoreBackup(uid: string, alias: string) {
-            dispatch(backupActions.restoreBackupRequest());
+            dispatch(backupActions.restoreBackupAsync.request());
             try {
               await apiService.restoreBackup(ownProps.match.params.appId, uid, alias);
-              dispatch(backupActions.restoreBackupRequestOk());
+              dispatch(backupActions.restoreBackupAsync.success());
             } catch (err) {
-              dispatch(backupActions.restoreBackupRequestError(err));
+              dispatch(backupActions.restoreBackupAsync.failure(err));
             }
           },
           dispatch

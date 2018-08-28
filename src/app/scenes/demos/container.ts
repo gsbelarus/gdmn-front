@@ -5,7 +5,7 @@ import { withProps } from 'recompose';
 import { GdmnApi } from '@src/app/services/GdmnApi';
 import { selectNLPDialogState } from '@src/app/store/selectors';
 import { IState } from '@src/app/store/reducer';
-import { actions as authActions } from '@src/app/scenes/auth/actions';
+import { authActions } from '@src/app/scenes/auth/actions';
 import { getSemanticsBoxContainer } from '@src/app/scenes/semantics/container';
 import { Home, IHomeProps } from '@src/app/scenes/demos/components/Home';
 import { INLPDialogScrollActionsProps, NLPDialogScroll } from '@src/app/scenes/demos/components/NLPDialogScroll';

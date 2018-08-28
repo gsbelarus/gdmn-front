@@ -2,7 +2,7 @@ import { IToken } from 'chevrotain';
 import { morphAnalyzer, tokenize } from 'gdmn-nlp';
 import { getType } from 'typesafe-actions';
 
-import { actions, TMorphologyActions } from '@src/app/scenes/morphology/actions';
+import { morphologyActions, TMorphologyActions } from '@src/app/scenes/morphology/actions';
 
 interface IMorphologyState {
   readonly text: string;
@@ -22,7 +22,7 @@ const initialState: IMorphologyState = {
 
 function reducer(state: IMorphologyState = initialState, action: TMorphologyActions): IMorphologyState {
   switch (action.type) {
-    case getType(actions.setMorphText): {
+    case getType(morphologyActions.setMorphText): {
       const tokens = tokenize(action.payload);
       let selectedToken = state.selectedToken;
       if (selectedToken === -1 && tokens.length) {
@@ -45,7 +45,7 @@ function reducer(state: IMorphologyState = initialState, action: TMorphologyActi
       };
     }
 
-    case getType(actions.setSelectedToken): {
+    case getType(morphologyActions.setSelectedToken): {
       let selectedToken = action.payload;
       if (selectedToken >= state.tokens.length) selectedToken = state.tokens.length - 1;
       let words: any = []; // FIXME Words = [];

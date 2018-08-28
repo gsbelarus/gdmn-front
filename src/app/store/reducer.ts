@@ -10,7 +10,7 @@ import { ISemanticsState, reducer as semanticsReducer } from '@src/app/scenes/se
 import { IAuthState, getReducer as getAuthReducer } from '@src/app/scenes/auth/reducer';
 import { IRootState, reducer as rootReducer } from '@src/app/scenes/root/reducer';
 import { TDataStoresState, dataStoresReducer } from '@src/app/scenes/datastores/reducer';
-import { actions as authActions } from '@src/app/scenes/auth/actions';
+import { authActions } from '@src/app/scenes/auth/actions';
 import { backupsReducer, IBackupsState } from '@src/app/scenes/backups/reducer';
 
 interface IState {

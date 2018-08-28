@@ -1,7 +1,7 @@
 import { getType } from 'typesafe-actions';
 
 import { UserRoleType } from '@core/services/Auth';
-import { actions, TAuthActions } from '@src/app/scenes/auth/actions';
+import { authActions, TAuthActions } from '@src/app/scenes/auth/actions';
 
 interface IAuthState {
   authenticated: boolean;
@@ -14,16 +14,16 @@ interface IAuthState {
 
 const getReducer = (authInitialState: IAuthState) => (state: IAuthState = authInitialState, action: TAuthActions) => {
   switch (action.type) {
-    case getType(actions.signInRequestOk): {
+    case getType(authActions.signInAsync.success): {
       return {
         ...state,
         // accessToken: action.payload.accessToken,
-        userRole: action.payload.userRole,
+        userRole: action.payload,
         authenticated: true
       };
     }
     // TODO case error
-    case getType(actions.signOut): {
+    case getType(authActions.signOut): {
       return {
         ...state,
         // accessToken: undefined,

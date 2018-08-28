@@ -28,18 +28,18 @@ const initialState: IErmodelState = {
 
 function reducer(state: IErmodelState = initialState, action: TErModelActions): IErmodelState {
   switch (action.type) {
-    case ermodelActions.loadERModelRequestError(new Error()).type: {
+    case ermodelActions.loadErModelAsync.failure(new Error()).type: {
       return {
         ...initialState
       };
     }
-    case getType(ermodelActions.loadERModelRequestOk): {
+    case getType(ermodelActions.loadErModelAsync.success): {
       return {
         ...state,
         erModel: action.payload
       };
     }
-    case getType(ermodelActions.loadEntityDataRequestOk): {
+    case getType(ermodelActions.loadEntityDataAsync.success): {
       return {
         ...state,
         tableData: action.payload

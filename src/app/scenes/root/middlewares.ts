@@ -4,7 +4,10 @@ import { selectRootState } from '@src/app/store/selectors';
 import { rootActions } from '@src/app/scenes/root/actions';
 
 const errorMiddleware: Middleware = ({ dispatch, getState }) => next => action => {
-  if (action.error && action.payload) {
+  if (
+    (action.error || action.payload instanceof Error) && // todo instanceof Error tmp
+    action.payload
+  ) {
     let errorMsg = action.payload.toString();
     if (action.payload instanceof SyntaxError) {
       errorMsg = '[client internal error]';

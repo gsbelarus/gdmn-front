@@ -26,13 +26,13 @@ const getLoadDataMiddleware = (apiService: GdmnApi): Middleware => ({ dispatch, 
   action: any
 ) => {
   if (action.type === getType(backupActions.loadBackups)) {
-    dispatch(backupActions.loadBackupsRequest());
+    dispatch(backupActions.loadBackupsAsync.request());
     try {
       const res = await apiService.loadBackups(action.payload);
 
-      dispatch(backupActions.loadBackupsRequestOk(res, action.payload));
+      dispatch(backupActions.loadBackupsAsync.success({ backups: res, appId: action.payload }));
     } catch (err) {
-      dispatch(backupActions.loadBackupsRequestError(err));
+      dispatch(backupActions.loadBackupsAsync.failure(err));
     }
   }
 

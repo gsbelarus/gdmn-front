@@ -11,7 +11,7 @@ const initialState: TDataStoresState = {
 
 function dataStoresReducer(state: TDataStoresState = initialState, action: TDataStoresActions): TDataStoresState {
   switch (action.type) {
-    case getType(dataStoresActions.loadDataStoresRequestOk): {
+    case getType(dataStoresActions.loadDataStoresAsync.success): {
       return {
         ...state,
         dataStores: action.payload

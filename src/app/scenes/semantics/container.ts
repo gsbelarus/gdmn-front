@@ -9,7 +9,7 @@ import { selectSemanticsState } from '@src/app/store/selectors';
 import { TActions } from '@src/app/store/TActions';
 import { ermodelActions } from '@src/app/scenes/ermodel/actions';
 import { ermodelSelector } from '@src/app/scenes/ermodel/selectors';
-import { actions } from '@src/app/scenes/semantics/actions';
+import { semanticsActions } from '@src/app/scenes/semantics/actions';
 import {
   ISemanticsBoxActionsProps,
   ISemanticsBoxSelectorProps,
@@ -39,9 +39,9 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
       };
     },
     (dispatch: Dispatch<TActions>): ISemanticsBoxActionsProps => ({
-      onSetText: bindActionCreators(actions.setSemText, dispatch),
-      onClearText: () => dispatch(actions.setSemText('')),
-      onParse: (text: string) => dispatch(actions.setParsedText(parsePhrase(text))),
+      onSetText: bindActionCreators(semanticsActions.setSemText, dispatch),
+      onClearText: () => dispatch(semanticsActions.setSemText('')),
+      onParse: (text: string) => dispatch(semanticsActions.setParsedText(parsePhrase(text))),
       loadErModel: async () => {
         // // TODO async action
         // dispatch(ermodelActions.loadERModelRequest());
@@ -54,7 +54,7 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
       },
       loadData: async (command: any) => {
         // TODO async action
-        dispatch(actions.loadNlpDataRequest());
+        dispatch(semanticsActions.loadNlpDataAsync.request());
 
         const queries = EQueryTranslator.process(command);
 
@@ -62,9 +62,9 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
           queries.map(async query => {
             try {
               const res = await apiService.fetchEntityQuery(query, ''); // TODO
-              dispatch(actions.loadNlpDataRequestOk(res));
+              dispatch(semanticsActions.loadNlpDataAsync.success(res));
             } catch (err) {
-              dispatch(actions.loadNlpDataRequestError(err));
+              dispatch(semanticsActions.loadNlpDataAsync.failure(err));
             }
           })
         );

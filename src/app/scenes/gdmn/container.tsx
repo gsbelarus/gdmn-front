@@ -7,7 +7,7 @@ import withBreadcrumbs from 'react-router-breadcrumbs-hoc';
 import { getDataStoresContainer } from '@src/app/scenes/datastores/container';
 import { GdmnApi } from '@src/app/services/GdmnApi';
 import { GdmnView, IGdmnViewProps, TGdmnViewStateProps } from '@src/app/scenes/gdmn/component';
-import { actions as authActions } from '@src/app/scenes/auth/actions';
+import { authActions } from '@src/app/scenes/auth/actions';
 import { IState } from '@src/app/store/reducer';
 import { selectDataStoresState } from '@src/app/store/selectors';
 import { getDatastoreContainer } from '@src/app/scenes/datastore/container';
