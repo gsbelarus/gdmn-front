@@ -42,15 +42,13 @@
 }
 
 
-.breadcrumbs {
-  padding: 0 24px 8px;
-}
 .breadcrumbs > * {
   display: inline-block !important;
 }
 .breadcrumbs .btn {
   padding: 8px;
   min-width: auto;
+  font-size: inherit;
 }
 
 .breadcrumbs i {

@@ -4,13 +4,14 @@ import { Phrase } from 'gdmn-nlp';
 import { ERModel } from 'gdmn-orm';
 import { ICommand } from 'gdmn-nlp-agent';
 import CSSModules from 'react-css-modules';
-import { LinearProgress } from '@material-ui/core';
+import { InputLabel, LinearProgress, Select } from '@material-ui/core';
 
 import { InfiniteTableLayout } from '@core/components/data-grid-mui';
 import { ITableColumn, ITableRow } from '@core/components/data-grid-core';
 import { ERModelBox } from '@src/app/scenes/ermodel/component';
 import { Edge } from '@src/app/scenes/semantics/components/Edge';
 import { Rect } from '@src/app/scenes/semantics/components/Rect';
+import { TDataStoresState } from '@src/app/scenes/datastores/reducer';
 
 const styles = require('./styles.css');
 
@@ -21,7 +22,7 @@ interface ISemanticsBoxStateProps {
   readonly dataLoading?: boolean;
 }
 
-interface ISemanticsBoxSelectorProps {
+interface ISemanticsBoxSelectorProps extends TDataStoresState {
   command?: ICommand;
   sqlQuery?: string;
   erModel?: ERModel;
@@ -32,8 +33,8 @@ interface ISemanticsBoxSelectorProps {
 }
 
 interface ISemanticsBoxActionsProps {
-  loadErModel: () => void;
-  loadData: (command: any) => void;
+  loadErModel: (appId: string) => void;
+  loadData: (command: any, appId: string) => void;
   onSetText: (text: string) => void;
   onClearText: () => void;
   onParse: (text: string) => void;
@@ -43,6 +44,8 @@ type TSemanticsBoxProps = ISemanticsBoxStateProps & ISemanticsBoxSelectorProps &
 
 @CSSModules(styles)
 class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
+  private datastoreSelectRef: HTMLSelectElement | null = null;
+
   public render() {
     // console.log('render SemanticsBox');
 
@@ -60,7 +63,8 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
       loadErModel,
       loadData,
       dataLoading,
-      sqlQuery
+      sqlQuery,
+      dataStores
     } = this.props;
 
     // Create a new directed graph
@@ -157,13 +161,13 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onSetText(e.currentTarget.value)}
             />
             <div styleName="SemanticsTextButtons">
-              <button onClick={onClearText}>Clear</button>
+              <button onClick={onClearText}>clear</button>
               <button
                 onClick={() => {
                   onParse(text);
                 }}
               >
-                Parse
+                1. ANALYZE EXPRESSION
               </button>
             </div>
           </div>
@@ -174,17 +178,17 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
           ))}
         </div>
         <div styleName="CommandAndGraph">
-          {/*<div>*/}
-          {/*{displayCommand()}*/}
-          {/*{!!sqlQuery && (*/}
-          {/*<textarea*/}
-          {/*styleName="command"*/}
-          {/*style={{ width: '100%', minHeight: 70, resize: 'vertical', marginTop: 2 }}*/}
-          {/*disabled={true}*/}
-          {/*value={sqlQuery}*/}
-          {/*/>*/}
-          {/*)}*/}
-          {/*</div>*/}
+          <div>
+            {displayCommand()}
+            {!!sqlQuery && (
+              <textarea
+                styleName="command"
+                style={{ width: '100%', minHeight: 70, resize: 'vertical', marginTop: 2 }}
+                disabled={true}
+                value={sqlQuery}
+              />
+            )}
+          </div>
           <div>
             {g.graph() ? (
               <svg
@@ -217,28 +221,51 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
           </div>
         </div>
 
-        {/*<div style={{ backgroundColor: 'lightgray', margin: '32px 0 0px' }}>*/}
-        {/*<div style={{ padding: 8 }}>*/}
-        {/*<button disabled={!phrase} onClick={loadErModel}>*/}
-        {/*BUILD COMMAND (load er-model)*/}
-        {/*</button>*/}
-        {/*<button disabled={!command} onClick={() => loadData(command)}>*/}
-        {/*RUN COMMAND (load data)*/}
-        {/*</button>*/}
-        {/*</div>*/}
-        {/*{dataLoading && <LinearProgress color="secondary" />}*/}
-        {/*</div>*/}
-        {/*<InfiniteTableLayout*/}
-        {/*bodyRows={dataTableBodyRows}*/}
-        {/*columns={dataTableColumns}*/}
-        {/*headRows={dataTableHeadRows}*/}
-        {/*heavyWeightRow={true}*/}
-        {/*renderBodyCell={ERModelBox.renderBodyCell}*/}
-        {/*renderHeadCell={ERModelBox.renderHeadCell}*/}
-        {/*tableHeight={'36vh'}*/}
-        {/*tableHeightPx={0}*/}
-        {/*tableMinWidthPx={0}*/}
-        {/*/>*/}
+        <div style={{ backgroundColor: 'lightgray', margin: '32px 0 0px' }}>
+          <div style={{ padding: 8 }}>
+            <label htmlFor="age-native-simple" style={{ fontSize: 11, color: 'black' }}>
+              2. SELECT DATASTORE:{' '}
+            </label>
+            <select
+              ref={select => (this.datastoreSelectRef = select)}
+              style={{ marginRight: 8 }}
+              name="age"
+              id="age-native-simple"
+            >
+              {!!dataStores && dataStores.length > 0 ? (
+                dataStores.map(dataStore => (
+                  <option key={dataStore.uid} value={dataStore.uid}>
+                    {dataStore.alias}
+                  </option>
+                ))
+              ) : (
+                <option value="" />
+              )}
+            </select>
+            <button
+              style={{ marginRight: 8 }}
+              disabled={!phrase || !this.datastoreSelectRef || !this.datastoreSelectRef.value}
+              onClick={() => loadErModel(this.datastoreSelectRef!.value)}
+            >
+              3. BUILD COMMAND (load er-model)
+            </button>
+            <button disabled={!command} onClick={() => loadData(command, this.datastoreSelectRef!.value)}>
+              4. RUN COMMAND (load data)
+            </button>
+          </div>
+          {dataLoading && <LinearProgress color="secondary" />}
+        </div>
+        <InfiniteTableLayout
+          bodyRows={dataTableBodyRows}
+          columns={dataTableColumns}
+          headRows={dataTableHeadRows}
+          heavyWeightRow={true}
+          renderBodyCell={ERModelBox.renderBodyCell}
+          renderHeadCell={ERModelBox.renderHeadCell}
+          tableHeight={'36vh'}
+          tableHeightPx={0}
+          tableMinWidthPx={0}
+        />
       </Fragment>
     );
   }

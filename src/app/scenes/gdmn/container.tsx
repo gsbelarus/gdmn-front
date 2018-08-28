@@ -14,6 +14,8 @@ import { getDatastoreContainer } from '@src/app/scenes/datastore/container';
 import { dataStoresActions } from '@src/app/scenes/datastores/actions';
 import { IDatastoreViewProps } from '@src/app/scenes/datastore/component';
 import { gdmnWsActions } from '@src/app/scenes/gdmn/actions';
+import { getDemosContainer } from '@src/app/scenes/demos/container';
+import { IDemosViewProps } from '@src/app/scenes/demos/component';
 
 const getGdmnContainer = (apiService: GdmnApi) =>
   compose<IGdmnViewProps, IGdmnViewProps>(
@@ -37,6 +39,8 @@ const getGdmnContainer = (apiService: GdmnApi) =>
     withProps<any, IGdmnViewProps>({
       renderDataStoresViewContainer: getDataStoresContainer(apiService),
       renderDatastoreViewContainer: getDatastoreContainer(apiService),
+      getDemosContainer: (appBarPortalTargetRef: RefObject<HTMLDivElement>) =>
+        withProps<any, IDemosViewProps>({ appBarPortalTargetRef })(getDemosContainer(apiService)),
       getDatastoreViewContainer: (appBarPortalTargetRef: RefObject<HTMLDivElement>) =>
         withProps<any, IDatastoreViewProps>({ appBarPortalTargetRef })(getDatastoreContainer(apiService))
     }),
@@ -53,10 +57,10 @@ const getGdmnContainer = (apiService: GdmnApi) =>
     }),
     // TODO tmp
     withBreadcrumbs<IGdmnViewProps>(
-      [{ path: '/spa', breadcrumb: '❖' }, { path: '/spa/gdmn/datastores/:appId', breadcrumb: '✦' }],
+      [{ path: '/spa/gdmn/datastores/:appId', breadcrumb: '❖' }],
       {
         excludePaths: [
-          '/' // '/spa/gdmn/datastores/:appId'
+          '/', '/spa'
         ]
       }
     )

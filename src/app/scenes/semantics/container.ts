@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { EQueryTranslator } from '@core/EQueryTranslator';
 import { GdmnApi } from '@src/app/services/GdmnApi';
 import { IState } from '@src/app/store/reducer';
-import { selectSemanticsState } from '@src/app/store/selectors';
+import { selectDataStoresState, selectSemanticsState } from '@src/app/store/selectors';
 import { TActions } from '@src/app/store/TActions';
 import { ermodelActions } from '@src/app/scenes/ermodel/actions';
 import { ermodelSelector } from '@src/app/scenes/ermodel/selectors';
@@ -35,24 +35,26 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
         dataTableBodyRows: dataTableBodyRowsSelector(state, ownProps),
         erModel: ermodelSelector(state, ownProps),
         command: commandSelector(state, ownProps),
-        sqlQuery: sqlQuerySelector(state, ownProps)
+        sqlQuery: sqlQuerySelector(state, ownProps),
+        dataStores: selectDataStoresState(state).dataStores
       };
     },
     (dispatch: Dispatch<TActions>): ISemanticsBoxActionsProps => ({
       onSetText: bindActionCreators(semanticsActions.setSemText, dispatch),
       onClearText: () => dispatch(semanticsActions.setSemText('')),
       onParse: (text: string) => dispatch(semanticsActions.setParsedText(parsePhrase(text))),
-      loadErModel: async () => {
-        // // TODO async action
-        // dispatch(ermodelActions.loadERModelRequest());
-        // try {
-        //   const erModel = await apiService.fetchEr();
-        //   dispatch(ermodelActions.loadERModelRequestOk(erModel));
-        // } catch (err) {
-        //   dispatch(ermodelActions.loadERModelRequestError(err));
-        // }
+      loadErModel: async (appId: string) => {
+        // TODO async action
+        dispatch(ermodelActions.loadErModelAsync.request());
+
+        try {
+          const erModel = await apiService.fetchEr(appId);
+          dispatch(ermodelActions.loadErModelAsync.success(erModel));
+        } catch (err) {
+          dispatch(ermodelActions.loadErModelAsync.failure(err));
+        }
       },
-      loadData: async (command: any) => {
+      loadData: async (command: any, appId: string) => {
         // TODO async action
         dispatch(semanticsActions.loadNlpDataAsync.request());
 
@@ -61,7 +63,7 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
         await Promise.all(
           queries.map(async query => {
             try {
-              const res = await apiService.fetchEntityQuery(query, ''); // TODO
+              const res = await apiService.fetchEntityQuery(query, appId);
               dispatch(semanticsActions.loadNlpDataAsync.success(res));
             } catch (err) {
               dispatch(semanticsActions.loadNlpDataAsync.failure(err));

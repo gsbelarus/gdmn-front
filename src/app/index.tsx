@@ -17,8 +17,6 @@ import { IAuthState } from '@src/app/scenes/auth/reducer';
 import { getAuthContainer } from '@src/app/scenes/auth/container';
 import { RootContainer } from '@src/app/scenes/root/container';
 import { getGdmnContainer } from '@src/app/scenes/gdmn/container';
-import { getDemosContainer } from '@src/app/scenes/demos/container';
-import { HomeView } from '@src/app/scenes/home/component';
 
 import config from 'config.json';
 
@@ -54,17 +52,10 @@ const socket = socketIo(apiService.apiEndpoints.ws, {
 
 const AuthContainer = getAuthContainer(apiService);
 const GdmnContainer = getGdmnContainer(apiService);
-const DemosContainer = getDemosContainer(apiService);
 const NotFoundView = () => <h2>404!</h2>;
 const rootRoutes = (
   <Switch>
-    <Redirect exact={true} from={'/'} to={clientRootPath} />
-    <Route exact={true} path={clientRootPath} component={HomeView} />
-    <ProtectedRouteContainer
-      path={`${clientRootPath}/demos`}
-      accessLevel={RouteAccessLevelType.PUBLIC}
-      component={DemosContainer}
-    />
+    <Redirect exact={true} from={'/'} to={`${clientRootPath}/gdmn`} />
     <ProtectedRouteContainer
       path={`${clientRootPath}/gdmn/auth`}
       accessLevel={RouteAccessLevelType.PRIVATE_ANONYM}
