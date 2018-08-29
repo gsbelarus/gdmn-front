@@ -70,7 +70,8 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
             }
           })
         );
-      }
+      },
+      onSelectDatastore: bindActionCreators(semanticsActions.onSelectDatastore, dispatch),
     })
   )(SemanticsBox);
 

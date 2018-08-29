@@ -5,6 +5,7 @@ import { getType } from 'typesafe-actions';
 import { ITableColumn } from '@core/components/data-grid-core';
 import { IERModelBoxStateProps } from '@src/app/scenes/ermodel/component';
 import { ermodelActions, TErModelActions } from '@src/app/scenes/ermodel/actions';
+import { semanticsActions, TSemanticsActions } from '@src/app/scenes/semantics/actions';
 
 interface IErmodelState extends IERModelBoxStateProps {
   readonly entitiesSelectedRowId?: Key;
@@ -26,8 +27,9 @@ const initialState: IErmodelState = {
 
 // todo combineReducers<IState, RootAction>
 
-function reducer(state: IErmodelState = initialState, action: TErModelActions): IErmodelState {
+function reducer(state: IErmodelState = initialState, action: TErModelActions | TSemanticsActions): IErmodelState {
   switch (action.type) {
+    case getType(semanticsActions.onSelectDatastore):
     case ermodelActions.loadErModelAsync.failure(new Error()).type: {
       return {
         ...initialState

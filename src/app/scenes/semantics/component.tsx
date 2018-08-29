@@ -33,6 +33,7 @@ interface ISemanticsBoxSelectorProps extends TDataStoresState {
 }
 
 interface ISemanticsBoxActionsProps {
+  onSelectDatastore: (appId: string) => void;
   loadErModel: (appId: string) => void;
   loadData: (command: any, appId: string) => void;
   onSetText: (text: string) => void;
@@ -64,7 +65,8 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
       loadData,
       dataLoading,
       sqlQuery,
-      dataStores
+      dataStores,
+      onSelectDatastore
     } = this.props;
 
     // Create a new directed graph
@@ -227,6 +229,7 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
               2. SELECT DATASTORE:{' '}
             </label>
             <select
+              onChange={(e)=>( onSelectDatastore(e.target.value))}
               ref={select => (this.datastoreSelectRef = select)}
               style={{ marginRight: 8 }}
               name="age"

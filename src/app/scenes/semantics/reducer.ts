@@ -69,6 +69,14 @@ function reducer(state: ISemanticsState = initialState, action: TActions): ISema
         phrase: action.payload.phrase
       };
     }
+    case getType(semanticsActions.onSelectDatastore): {
+      return {
+        ...state,
+        erTranslatorRU: undefined,
+        tableData: [],
+        dataLoading: false
+      };
+    }
     default:
       return state;
   }

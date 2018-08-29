@@ -2,6 +2,9 @@ import { ParsedText } from 'gdmn-nlp';
 import { ActionType, createAction, createAsyncAction } from 'typesafe-actions';
 
 const semanticsActions = {
+  onSelectDatastore: createAction('demos/semantics/ON_SELECT_DATASTORE', resolve => {
+    return (appId: string) => resolve(appId);
+  }),
   setSemText: createAction('demos/semantics/SET_SEM_TEXT', resolve => {
     return (text: string) => resolve(text);
   }),

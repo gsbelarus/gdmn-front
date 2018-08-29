@@ -5,10 +5,6 @@ import { IAppDeleteResponse } from '@core/gdmn-api/app/IAppDeleteResponse';
 import { TAppGetResponse } from '@core/gdmn-api/app/TAppGetResponse';
 
 const dataStoresActions = {
-  // TODO tmp
-  selectDS: createAction('gdmn/selectDS', resolve => {
-    return () => resolve();
-  }),
   loadDataStores: createAction('gdmn/datastores/LOAD_DATA_STORES', resolve => {
     // todo async
     return () => resolve();
