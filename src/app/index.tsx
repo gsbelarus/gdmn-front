@@ -19,6 +19,7 @@ import { RootContainer } from '@src/app/scenes/root/container';
 import { getGdmnContainer } from '@src/app/scenes/gdmn/container';
 
 import config from 'config.json';
+import { gdmnWsActions } from '@src/app/scenes/gdmn/actions';
 
 // TODO server host/port from window
 const clientRootPath = config.server.paths.clientRoot;
@@ -43,12 +44,13 @@ const apiService = new GdmnApi(apiEndpoints, authService, config.server.authSche
 const i18nService = I18n.getInstance();
 // todo service
 const socket = socketIo(apiService.apiEndpoints.ws, {
-  // reconnection: true,
-  // reconnectionDelay: 1000,
-  // reconnectionDelayMax : 5000,
-  // reconnectionAttempts: Infinity,
-  path: ''
-});
+  autoConnect: false
+    // reconnection: true,
+    // reconnectionDelay: 1000,
+    // reconnectionDelayMax : 5000,
+    // reconnectionAttempts: Infinity,
+    // path: ''
+  });
 
 const AuthContainer = getAuthContainer(apiService);
 const GdmnContainer = getGdmnContainer(apiService);

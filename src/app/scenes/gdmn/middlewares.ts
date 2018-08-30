@@ -4,7 +4,6 @@ import Socket = SocketIOClient.Socket;
 
 import { gdmnWsActions } from '@src/app/scenes/gdmn/actions';
 import { TWsMessageEventDataTypeEnum } from '@core/gdmn-api/ws/wsMessageEventDataType';
-import { GdmnApi } from '@src/app/services/GdmnApi';
 
 const getWsMiddleware = (socket: Socket): Middleware => {
   return ({ dispatch, getState }) => next => async (action: any) => {
@@ -49,8 +48,6 @@ const getWsMiddleware = (socket: Socket): Middleware => {
         // })
 
         socket.connect();
-
-        console.log('token: ' + (<any>socket.io.opts.query).token);
         break;
       case getType(gdmnWsActions.wsDisconnect):
         socket.disconnect(); // todo test reconnect
