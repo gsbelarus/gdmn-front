@@ -49,6 +49,18 @@ type TSemanticsBoxProps = ISemanticsBoxStateProps & ISemanticsBoxSelectorProps &
 class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
   private datastoreSelectRef: HTMLSelectElement | null = null;
 
+  public componentWillReceiveProps(nextProps: TSemanticsBoxProps) {
+    const {
+      command: commandOrError,
+      onError
+    } = this.props;
+
+    // TODO REMOVE !!!
+    if (nextProps.command instanceof Error && nextProps.command !== commandOrError) {
+      onError(nextProps.command); // todo tmp
+    }
+  }
+
   public render() {
     // console.log('render SemanticsBox');
 
@@ -76,7 +88,6 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
     // TODO REMOVE !!!
     let command: ICommand | undefined;
     if (commandOrError instanceof Error) {
-      onError(commandOrError); // todo tmp
       command = undefined;
     } else {
       command = commandOrError;
