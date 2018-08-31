@@ -23,7 +23,7 @@ interface ISemanticsBoxStateProps {
 }
 
 interface ISemanticsBoxSelectorProps extends TDataStoresState {
-  command?: ICommand;
+  command?: ICommand | Error;
   sqlQuery?: string;
   erModel?: ERModel;
   dataTableColumns?: ITableColumn[];
@@ -39,6 +39,8 @@ interface ISemanticsBoxActionsProps {
   onSetText: (text: string) => void;
   onClearText: () => void;
   onParse: (text: string) => void;
+
+  onError: (error: Error) => void;
 }
 
 type TSemanticsBoxProps = ISemanticsBoxStateProps & ISemanticsBoxSelectorProps & ISemanticsBoxActionsProps;
@@ -57,7 +59,7 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
       onClearText,
       onParse,
       phrase,
-      command,
+      command: commandOrError,
       dataTableColumns,
       dataTableHeadRows,
       dataTableBodyRows,
@@ -66,8 +68,19 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
       dataLoading,
       sqlQuery,
       dataStores,
-      onSelectDatastore
+      onSelectDatastore,
+
+      onError
     } = this.props;
+
+    // TODO REMOVE !!!
+    let command: ICommand | undefined;
+    if (commandOrError instanceof Error) {
+      onError(commandOrError); // todo tmp
+      command = undefined;
+    } else {
+      command = commandOrError;
+    }
 
     // Create a new directed graph
     const g = new graphlib.Graph();
@@ -229,7 +242,7 @@ class SemanticsBox extends PureComponent<TSemanticsBoxProps, {}> {
               2. SELECT DATASTORE:{' '}
             </label>
             <select
-              onChange={(e)=>( onSelectDatastore(e.target.value))}
+              onChange={e => onSelectDatastore(e.target.value)}
               ref={select => (this.datastoreSelectRef = select)}
               style={{ marginRight: 8 }}
               name="age"

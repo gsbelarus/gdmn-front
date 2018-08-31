@@ -20,7 +20,7 @@ interface IDefaultErrorBoundaryComponentProps {
 class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryState> {
   private static renderDefaultErrorBoundary: SFC<IDefaultErrorBoundaryComponentProps> = ({ error, stack }) => (
     <Fragment>
-      <h1>Something went wrong!</h1>
+      <h1>Something went wrong! PLEASE, RELOAD THIS PAGE.</h1>
       <br />
       <br />
       <h2>

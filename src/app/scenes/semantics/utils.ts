@@ -1,19 +1,13 @@
-function createCommand(erTranslatorRU: any, parsedTextPhrase: any) {
+import { ICommand } from 'gdmn-nlp-agent';
+
+function createCommand(erTranslatorRU: any, parsedTextPhrase: any): ICommand | undefined | Error {
   if (!erTranslatorRU || !parsedTextPhrase) return;
 
-  // try {
-  const command = erTranslatorRU.process(<
-    any // FIXME
-  >parsedTextPhrase);
-
-  return command;
-
-  // TODO
-  // } catch (err) {
-  //   if (err instanceof Error) {
-  //     dispatch(actions.setError(err.message));
-  //   }
-  // }
+  try {
+    return erTranslatorRU.process(parsedTextPhrase);
+  } catch (e) {
+    return e;
+  }
 }
 
 export { createCommand };

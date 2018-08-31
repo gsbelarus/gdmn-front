@@ -4,7 +4,10 @@ import merge from 'webpack-merge';
 // import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { CheckerPlugin } from 'awesome-typescript-loader';
 // @ts-ignore
-import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
+// import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
+// @ts-ignore
+import ErrorOverlayPlugin from 'error-overlay-webpack-plugin';
+
 // @ts-ignore
 import noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddleware';
 
@@ -27,28 +30,28 @@ const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT
     inline: true, // HMR
     open: true,
     publicPath: '/',
-    // FIXME type
-    // stats: {
-    // assets: false,
-    // children: false,
-    // colors: true,
-    // modules: false
+    stats: {
+      assets: false,
+      children: false,
+      colors: true,
+      modules: false
+    } as any // FIXME type
+    // overlay: false,
+    // overlay: {
+    //   warnings: true,
+    //   errors: true
     // },
-    overlay: {
-      warnings: true,
-      errors: true
-    },
     // see https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/config/webpackDevServer.config.js
-    before(app) {
-      // This lets us open files from the runtime error overlay.
-      app.use(errorOverlayMiddleware());
-      // This service worker file is effectively a 'no-op' that will reset any
-      // previous service worker registered for the same host:port combination.
-      // We do this in development to avoid hitting the production cache if
-      // it used the same host and port.
-      // https://github.com/facebookincubator/create-react-app/issues/2272#issuecomment-302832432
-      app.use(noopServiceWorkerMiddleware());
-    }
+    // before(app) {
+    //   // This lets us open files from the runtime error overlay.
+    //   app.use(errorOverlayMiddleware());
+    //   // This service worker file is effectively a 'no-op' that will reset any
+    //   // previous service worker registered for the same host:port combination.
+    //   // We do this in development to avoid hitting the production cache if
+    //   // it used the same host and port.
+    //   // https://github.com/facebookincubator/create-react-app/issues/2272#issuecomment-302832432
+    //   app.use(noopServiceWorkerMiddleware());
+    // }
   },
   module: {
     rules: [
@@ -100,6 +103,7 @@ const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT
     ]
   },
   plugins: [
+    new ErrorOverlayPlugin(),
     // TODO
     new CheckerPlugin(),
     // new ForkTsCheckerWebpackPlugin({

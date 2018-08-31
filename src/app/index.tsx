@@ -45,12 +45,12 @@ const i18nService = I18n.getInstance();
 // todo service
 const socket = socketIo(apiService.apiEndpoints.ws, {
   autoConnect: false
-    // reconnection: true,
-    // reconnectionDelay: 1000,
-    // reconnectionDelayMax : 5000,
-    // reconnectionAttempts: Infinity,
-    // path: ''
-  });
+  // reconnection: true,
+  // reconnectionDelay: 1000,
+  // reconnectionDelayMax : 5000,
+  // reconnectionAttempts: Infinity,
+  // path: ''
+});
 
 const AuthContainer = getAuthContainer(apiService);
 const GdmnContainer = getGdmnContainer(apiService);

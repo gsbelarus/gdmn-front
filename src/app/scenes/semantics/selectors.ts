@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { selectSemanticsState } from '@src/app/store/selectors';
 import { createDataBodyRows, createTableMeta } from '@src/app/scenes/ermodel/utils';
 import { createCommand } from '@src/app/scenes/semantics/utils';
+import { rootActions } from '@src/app/scenes/root/actions';
 
 const parsedTextPhraseSelector = (state: any, props: any) => selectSemanticsState(state).phrase;
 

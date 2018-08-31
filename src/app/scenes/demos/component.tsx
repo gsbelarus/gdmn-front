@@ -71,7 +71,7 @@ class DemosView extends Component<IDemosViewProps & InjectedCSSModuleProps> {
               </Fragment>
             </Portal>
           )}
-        <div styleName="content" >
+        <div styleName="content">
           <Switch>
             <Redirect exact={true} from={`${match.path}/`} to={`${match.path}/nlp`} />
             <Route path={`${match.path}/nlp`} component={Home} />

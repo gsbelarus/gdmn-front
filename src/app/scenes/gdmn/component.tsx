@@ -1,4 +1,4 @@
-import React, { Component, PureComponent, RefObject, SFC } from 'react';
+import React, { Component, Fragment, PureComponent, RefObject, SFC } from 'react';
 import { NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import {
   AppBar,
@@ -21,6 +21,8 @@ import { Breadcrumbs } from 'react-breadcrumbs';
 import styles from './styles.css';
 import { TDataStoresState } from '@src/app/scenes/datastores/reducer';
 import { BreadcrumbsProps, InjectedProps } from 'react-router-breadcrumbs-hoc';
+import { ErrorBoundary } from '@core/components/ErrorBoundary';
+import { isDevMode } from '@core/utils/utils';
 
 interface IDemosViewActionsProps {
   signOut: () => void;
@@ -39,6 +41,7 @@ interface IGdmnViewProps extends IDemosViewActionsProps, TGdmnViewStateProps, In
 }
 
 const NotFoundView = () => <h2>GDMN: 404!</h2>;
+const ErrBoundary = !isDevMode() ? ErrorBoundary : Fragment;
 
 @CSSModules(styles, { allowMultiple: true })
 class GdmnView extends PureComponent<IGdmnViewProps & RouteComponentProps<any> & InjectedCSSModuleProps> {
@@ -133,16 +136,18 @@ class GdmnView extends PureComponent<IGdmnViewProps & RouteComponentProps<any> &
           </List>
         </Drawer>
         <main styleName={location.pathname.includes('/nlp') ? '' : 'scene-pad'}>
-          <Switch>
-            <Redirect exact={true} from={`${match.path}/`} to={`${match.path}/datastores`} />
-            <Route exact={true} path={`${match.path}/datastores`} component={DataStoresViewContainer} />
-            <Route
-              path={`${match.path}/datastores/:appId`}
-              component={getDatastoreViewContainer(this.appBarPortalTargetRef)}
-            />
-            <Route path={`${match.path}/demos`} component={getDemosContainer(this.appBarPortalTargetRef)} />
-            <Route path={`${match.path}/*`} component={NotFoundView} />
-          </Switch>
+          <ErrBoundary>
+            <Switch>
+              <Redirect exact={true} from={`${match.path}/`} to={`${match.path}/datastores`} />
+              <Route exact={true} path={`${match.path}/datastores`} component={DataStoresViewContainer} />
+              <Route
+                path={`${match.path}/datastores/:appId`}
+                component={getDatastoreViewContainer(this.appBarPortalTargetRef)}
+              />
+              <Route path={`${match.path}/demos`} component={getDemosContainer(this.appBarPortalTargetRef)} />
+              <Route path={`${match.path}/*`} component={NotFoundView} />
+            </Switch>
+          </ErrBoundary>
         </main>
         <footer />
       </div>

@@ -8,6 +8,7 @@ import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import { ErrorBoundary } from '@core/components/ErrorBoundary';
+import { isDevMode } from '@core/utils/utils';
 
 interface IRootProps {
   readonly theme: Theme;
@@ -18,8 +19,10 @@ interface IRootProps {
 
 // TODO const history = browserHistory; // syncHistoryWithStore(browserHistory, store)
 
+const ErrBoundary = !isDevMode() ? ErrorBoundary : Fragment;
+
 const Root: SFC<IRootProps> = ({ store, routes, theme, renderSnackbarContainer: SnackbarContainer }) => (
-  <ErrorBoundary>
+  <ErrBoundary>
     <Provider store={store}>
       <Fragment>
         <BrowserRouter>
@@ -31,7 +34,7 @@ const Root: SFC<IRootProps> = ({ store, routes, theme, renderSnackbarContainer: 
         <SnackbarContainer />
       </Fragment>
     </Provider>
-  </ErrorBoundary>
+  </ErrBoundary>
 );
 
 export { Root, IRootProps };

@@ -80,7 +80,7 @@ const config: Configuration = merge(getWebpackConfigBase(OUTPUT_FILENAME, OUTPUT
     new MiniCssExtractPlugin({ filename: EXTRACT_CSS_FILENAME }),
     new BundleAnalyzerPlugin(),
     new EnvironmentPlugin({
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production')
+      NODE_ENV: process.env.NODE_ENV || 'production'
     })
   ]
 });

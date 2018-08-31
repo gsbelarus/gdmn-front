@@ -56,14 +56,9 @@ const getGdmnContainer = (apiService: GdmnApi) =>
       }
     }),
     // TODO tmp
-    withBreadcrumbs<IGdmnViewProps>(
-      [{ path: '/spa/gdmn/datastores/:appId', breadcrumb: '❖' }],
-      {
-        excludePaths: [
-          '/', '/spa'
-        ]
-      }
-    )
+    withBreadcrumbs<IGdmnViewProps>([{ path: '/spa/gdmn/datastores/:appId', breadcrumb: '❖' }], {
+      excludePaths: ['/', '/spa']
+    })
   )(GdmnView);
 
 export { getGdmnContainer };

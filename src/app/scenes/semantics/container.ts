@@ -23,6 +23,7 @@ import {
   dataTableMetaSelector,
   sqlQuerySelector
 } from '@src/app/scenes/semantics/selectors';
+import { rootActions } from '@src/app/scenes/root/actions';
 
 const getSemanticsBoxContainer = (apiService: GdmnApi) =>
   connect(
@@ -40,6 +41,7 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
       };
     },
     (dispatch: Dispatch<TActions>): ISemanticsBoxActionsProps => ({
+      onError: bindActionCreators(rootActions.onError, dispatch),
       onSetText: bindActionCreators(semanticsActions.setSemText, dispatch),
       onClearText: () => dispatch(semanticsActions.setSemText('')),
       onParse: (text: string) => dispatch(semanticsActions.setParsedText(parsePhrase(text))),
@@ -71,7 +73,7 @@ const getSemanticsBoxContainer = (apiService: GdmnApi) =>
           })
         );
       },
-      onSelectDatastore: bindActionCreators(semanticsActions.onSelectDatastore, dispatch),
+      onSelectDatastore: bindActionCreators(semanticsActions.onSelectDatastore, dispatch)
     })
   )(SemanticsBox);
 
