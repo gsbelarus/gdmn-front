@@ -34,12 +34,12 @@ const client = new Client({
     access_token: ''
   },
   // disconnectHeaders
-  // debug(str) {
-  //   // console.log(str);
-  // },
-  reconnectDelay: 5000,
-  heartbeatIncoming: 4000,
-  heartbeatOutgoing: 4000
+  debug(str) {
+    console.log(str);
+  },
+  reconnectDelay: 100000000,
+  // heartbeatIncoming: 100000000,
+  // heartbeatOutgoing: 100000000
   // webSocketFactory
 });
 client.onUnhandledMessage = (message: Message) => {
@@ -81,7 +81,7 @@ class StompDemoView extends PureComponent<IStompDemoViewProps, IStompDemoViewSta
     log: '',
     sendBody: JSON.stringify({ uid: 'test' }),
     sendAction: 'INIT_APP',
-    destination: '/task/main'
+    destination: '/task'
   };
 
   public componentDidMount() {
@@ -139,7 +139,7 @@ class StompDemoView extends PureComponent<IStompDemoViewProps, IStompDemoViewSta
             margin="normal"
           />
           <textarea
-            style={{ width: '100%', minHeight: 70, resize: 'vertical', marginTop: 2 }}
+            style={{ width: '100%', minHeight: 300, resize: 'vertical', marginTop: 20, marginBottom: 20 }}
             disabled={true}
             value={this.state.log}
           />
@@ -177,7 +177,7 @@ class StompDemoView extends PureComponent<IStompDemoViewProps, IStompDemoViewSta
 
     client.publish({
       destination: this.state.destination,
-      headers: { receipt: genId(), action: this.state.sendAction },
+      headers: { receipt: genId(), action: this.state.sendAction, 'content-type': 'application/json;charset=utf-8' },
       body: this.state.sendBody
     });
   };
@@ -185,12 +185,15 @@ class StompDemoView extends PureComponent<IStompDemoViewProps, IStompDemoViewSta
   private handleConnect = () => {
     console.log('Connect...');
 
-    client.activate();
+    client.debug = (msg: string) => this.setState({ log: this.state.log + '\n---\n' + msg });
 
-    client.debug = (msg: string) => this.setState({ log: this.state.log + '\n' + msg });
     client.onDisconnect = (receipt: Frame) => {
+      console.log('onDisconnect()');
+
       this.setState({ log: '' });
     };
+
+    client.activate();
   };
 
   private handleSubscribe = () => {
