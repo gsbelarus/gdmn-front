@@ -42,7 +42,9 @@
     "redux-form": "7.4.2",
     "reselect": "3.0.1",
     "socket.io-client": "2.1.1",
-    "typesafe-actions": "2.0.4"
+    "typesafe-actions": "2.0.4",
+    "@stomp/stompjs": "git+https://github.com/stomp-js/stompjs.git",
+    "text-encoding": "0.6.4"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.56",

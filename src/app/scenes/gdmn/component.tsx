@@ -23,6 +23,7 @@ import { TDataStoresState } from '@src/app/scenes/datastores/reducer';
 import { BreadcrumbsProps, InjectedProps } from 'react-router-breadcrumbs-hoc';
 import { ErrorBoundary } from '@core/components/ErrorBoundary';
 import { isDevMode } from '@core/utils/utils';
+import { StompDemoView } from '@src/app/scenes/gdmn/StompDemoView';
 
 interface IDemosViewActionsProps {
   signOut: () => void;
@@ -124,6 +125,14 @@ class GdmnView extends PureComponent<IGdmnViewProps & RouteComponentProps<any> &
                 <ListItemText inset={true} primary="NLP demos" />
               </ListItem>
             </NavLink>
+            <NavLink to={`${match.url}/stomp`} activeClassName={'gdmn-nav-item-selected'}>
+              <ListItem button={true}>
+                <ListItemIcon>
+                  <Icon>settings_ethernet</Icon>
+                </ListItemIcon>
+                <ListItemText inset={true} primary="Web-STOMP" />
+              </ListItem>
+            </NavLink>
           </List>
           <Divider />
           <List style={{ width: 240 }}>
@@ -145,6 +154,7 @@ class GdmnView extends PureComponent<IGdmnViewProps & RouteComponentProps<any> &
                 component={getDatastoreViewContainer(this.appBarPortalTargetRef)}
               />
               <Route path={`${match.path}/demos`} component={getDemosContainer(this.appBarPortalTargetRef)} />
+              <Route path={`${match.path}/stomp`} component={StompDemoView} />
               <Route path={`${match.path}/*`} component={NotFoundView} />
             </Switch>
           </ErrBoundary>
